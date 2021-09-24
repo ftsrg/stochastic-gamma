@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="www.mit.bme.hu/gamma/fmeda/Model" nsPrefix="hu.bme.mit.gamma.fmeda">
+  <eClassifiers xsi:type="ecore:EClass" name="FMEDAComponent" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="failuremodes" upperBound="-1"
+        eType="#//FailureMode" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subcomponents" upperBound="-1"
+        eType="#//FMEDAComponentInstance" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="failurepropagations" upperBound="-1"
+        eType="#//FailurePropagation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channels" upperBound="-1"
+        eType="#//Channel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+        eType="#//Port" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FMEDAComponentInstance" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//FMEDAComponent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FailureMode" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagnostics" eType="#//DiagnosticsReference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HardwarePartFailureModeReference" eSuperTypes="#//FailureModeReference #//ComponentReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FailurePropagation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cause" lowerBound="1" eType="#//FailureModeReference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effect" lowerBound="1"
+        upperBound="-1" eType="#//FailureModeReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//FMEDAComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagnostics" upperBound="-1"
+        eType="#//FMEDADiagnostics" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" upperBound="-1"
+        eType="#//Interface" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FailureModeReference" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="failuremode" lowerBound="1"
+        eType="#//FailureMode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThisPartFailureModeReference" eSuperTypes="#//FailureModeReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FMEDADiagnostics" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagnosticsReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coverage" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fmedadiagnostics" upperBound="-1"
+        eType="#//FMEDADiagnostics"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortFailureModeReference" eSuperTypes="#//FailureModeReference #//PortReference #//ComponentReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="failuremodes" lowerBound="1"
+        upperBound="-1" eType="#//FailureMode" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThisPortFailureModeReference" eSuperTypes="#//FailureModeReference #//PortReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortReference" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="port" lowerBound="1" eType="#//Port"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentReference" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part" lowerBound="1" eType="#//FMEDAComponentInstance"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThisPortReference" eSuperTypes="#//ChannelPortReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HardwarePartPortReference" eSuperTypes="#//ComponentReference #//ChannelPortReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Channel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="from" lowerBound="1" eType="#//ChannelPortReference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="to" lowerBound="1" upperBound="-1"
+        eType="#//ChannelPortReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChannelPortReference" abstract="true"
+      eSuperTypes="#//PortReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Interface"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PartFailureMode" eSuperTypes="#//FailureMode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="failureRate" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+</ecore:EPackage>
