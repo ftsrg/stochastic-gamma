@@ -18,6 +18,7 @@ import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.expression.model.ExpressionModelPackage;
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration;
 import hu.bme.mit.gamma.expression.model.VariableDeclaration;
+import hu.bme.mit.gamma.expression.util.ExpressionModelValidator.ReferenceInfo;
 import hu.bme.mit.gamma.statechart.composite.AbstractSynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.AsynchronousAdapter;
 import hu.bme.mit.gamma.statechart.composite.BroadcastChannel;
@@ -78,6 +79,9 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 		super.expressionModelValidator = statechartModelValidator;
 		super.actionModelValidator = statechartModelValidator;
 	}
+	
+	//Elementary Environmental Components
+	
 	
 	
 	@Check

@@ -397,7 +397,7 @@ class ClassGenerator {
 					«FOR event : port.interfaceRealization.interface.events.map[e|e.event]»
 						def call«port.name.toFirstUpper»«event.name.toFirstUpper»(«generateFuncParams(event)»):
 							«FOR outCall : connection.outCalls.get(port)»
-								callEvent=lambda:self.detmodel.«connection.componentCall»«outCall».raise«event.name.toFirstUpper»(«generateFuncParams(event)»)
+								callEvent=lambda:self.detmodel«connection.componentCall»«outCall».raise«event.name.toFirstUpper»(«generateFuncParams(event)»)
 								self.events.append(Event(self,actualTime,callEvent))
 							«ENDFOR»
 					«ENDFOR»
@@ -417,17 +417,19 @@ class ClassGenerator {
 					#init input ports
 					self.inports=[
 					«FOR inport : connection.component.inports SEPARATOR ", "»
-						InPort«inport.interfaceRealization.interface.name.toFirstUpper»(
-							portname="«inport.name.toFirstUpper»",
-							portcall=detmodel«connection.componentCall»«connection.inCalls.get(inport).get(0)»
-						)
-						
+						«IF connection.inCalls.get(inport).size>0»
+							InPort«inport.interfaceRealization.interface.name.toFirstUpper»(
+								portname="«inport.name.toFirstUpper»",
+								portcall=detmodel«connection.componentCall»«connection.inCalls.get(inport).get(0)»
+							)
+						«ENDIF»
 					«ENDFOR»
 					]
 					self.inevents=dict()
 					self.outevents=list()
 					#TODO: init simulation
 					#...
+					pass
 								
 				def collectInEvents(self):
 					self.inevents.clear()
@@ -445,6 +447,7 @@ class ClassGenerator {
 								parameters=self.inevents["«port.name.toFirstUpper»_«event.name.toFirstUpper»"]
 								#TODO: handle the event
 								#...
+								pass
 						«ENDFOR»
 					«ENDFOR»
 					
@@ -452,10 +455,12 @@ class ClassGenerator {
 				def updateSimulation(self):
 					#TODO: update the simulation
 					#...
+					pass
 					
 				def release(self):
 					#TODO: release all allocated resources
 					#...
+					pass
 					
 				
 		«ENDFOR»

@@ -6,10 +6,10 @@ package hu.mit.gamma.environment.language.generator;
 import hu.bme.mit.gamma.analysis.transformation.ClassGenerator;
 import hu.bme.mit.gamma.analysis.transformation.ElementaryComponentCollector;
 import hu.bme.mit.gamma.analysis.transformation.EnvironmentConnections;
+import hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent;
 import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironmentExternSimulation;
-import hu.bme.mit.gamma.statechart.composite.SynchronousComponentInstance;
 import hu.bme.mit.gamma.statechart.interface_.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +37,16 @@ public class EnvironmentLanguageGenerator extends AbstractGenerator {
     final Function1<Component, Boolean> _function = (Component comp) -> {
       return Boolean.valueOf((comp instanceof EnvironmentCompositeComponent));
     };
-    final Function1<Component, EList<SynchronousComponentInstance>> _function_1 = (Component comp) -> {
-      return ((EnvironmentCompositeComponent) comp).getComponents();
+    final Function1<Component, EList<EnvironmentComponentInstance>> _function_1 = (Component comp) -> {
+      return ((EnvironmentCompositeComponent) comp).getEnvironmentComponents();
     };
-    final Function1<SynchronousComponentInstance, Boolean> _function_2 = (SynchronousComponentInstance comp) -> {
+    final Function1<EnvironmentComponentInstance, Boolean> _function_2 = (EnvironmentComponentInstance comp) -> {
       return Boolean.valueOf((comp instanceof EnvironmentExternSimulation));
     };
-    final Function1<SynchronousComponentInstance, EnvironmentExternSimulation> _function_3 = (SynchronousComponentInstance comp) -> {
+    final Function1<EnvironmentComponentInstance, EnvironmentExternSimulation> _function_3 = (EnvironmentComponentInstance comp) -> {
       return ((EnvironmentExternSimulation) comp);
     };
-    final List<EnvironmentExternSimulation> simulations = IterableExtensions.<EnvironmentExternSimulation>toList(IterableExtensions.<SynchronousComponentInstance, EnvironmentExternSimulation>map(IterableExtensions.<SynchronousComponentInstance>filter(IterableExtensions.<Component, SynchronousComponentInstance>flatMap(IterableExtensions.<Component>filter(p.getComponents(), _function), _function_1), _function_2), _function_3));
+    final List<EnvironmentExternSimulation> simulations = IterableExtensions.<EnvironmentExternSimulation>toList(IterableExtensions.<EnvironmentComponentInstance, EnvironmentExternSimulation>map(IterableExtensions.<EnvironmentComponentInstance>filter(IterableExtensions.<Component, EnvironmentComponentInstance>flatMap(IterableExtensions.<Component>filter(p.getComponents(), _function), _function_1), _function_2), _function_3));
     String _name = p.getName();
     ClassGenerator generator = new ClassGenerator(_name);
     for (final EnvironmentExternSimulation simulation : simulations) {

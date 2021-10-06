@@ -40,4 +40,5 @@ public class EnvironmentLanguageLinker extends GammaLanguageLinker {
 	public Map<Class<? extends EObject>, Collection<EReference>> getContext() {
 		return Collections.singletonMap(Package.class, Collections.singletonList(InterfaceModelPackage.eINSTANCE.getPackage_Imports()));
 	}
+	
 }

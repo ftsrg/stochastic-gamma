@@ -1136,7 +1136,7 @@ public class ClassGenerator {
                   for(final String outCall : _get_1) {
                     _builder.append("\t");
                     _builder.append("\t");
-                    _builder.append("callEvent=lambda:self.detmodel.");
+                    _builder.append("callEvent=lambda:self.detmodel");
                     _builder.append(connection.componentCall, "\t\t");
                     _builder.append(outCall, "\t\t");
                     _builder.append(".raise");
@@ -1204,31 +1204,35 @@ public class ClassGenerator {
             } else {
               _builder.appendImmediate(", ", "\t\t");
             }
-            _builder.append("\t\t");
-            _builder.append("InPort");
-            String _firstUpper_7 = StringExtensions.toFirstUpper(inport.getInterfaceRealization().getInterface().getName());
-            _builder.append(_firstUpper_7, "\t\t");
-            _builder.append("(");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
-            _builder.append("\t");
-            _builder.append("portname=\"");
-            String _firstUpper_8 = StringExtensions.toFirstUpper(inport.getName());
-            _builder.append(_firstUpper_8, "\t\t\t");
-            _builder.append("\",");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
-            _builder.append("\t");
-            _builder.append("portcall=detmodel");
-            _builder.append(connection.componentCall, "\t\t\t");
-            String _get_2 = ((String[])Conversions.unwrapArray(connection.inCalls.get(inport), String.class))[0];
-            _builder.append(_get_2, "\t\t\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
-            _builder.append(")");
-            _builder.newLine();
-            _builder.append("\t\t");
-            _builder.newLine();
+            {
+              int _size = connection.inCalls.get(inport).size();
+              boolean _greaterThan = (_size > 0);
+              if (_greaterThan) {
+                _builder.append("\t\t");
+                _builder.append("InPort");
+                String _firstUpper_7 = StringExtensions.toFirstUpper(inport.getInterfaceRealization().getInterface().getName());
+                _builder.append(_firstUpper_7, "\t\t");
+                _builder.append("(");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("\t");
+                _builder.append("portname=\"");
+                String _firstUpper_8 = StringExtensions.toFirstUpper(inport.getName());
+                _builder.append(_firstUpper_8, "\t\t\t");
+                _builder.append("\",");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append("\t");
+                _builder.append("portcall=detmodel");
+                _builder.append(connection.componentCall, "\t\t\t");
+                String _get_2 = ((String[])Conversions.unwrapArray(connection.inCalls.get(inport), String.class))[0];
+                _builder.append(_get_2, "\t\t\t");
+                _builder.newLineIfNotEmpty();
+                _builder.append("\t\t");
+                _builder.append(")");
+                _builder.newLine();
+              }
+            }
           }
         }
         _builder.append("\t\t");
@@ -1245,6 +1249,9 @@ public class ClassGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("#...");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("pass");
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
         _builder.newLine();
@@ -1315,6 +1322,10 @@ public class ClassGenerator {
                 _builder.append("\t");
                 _builder.append("#...");
                 _builder.newLine();
+                _builder.append("\t\t");
+                _builder.append("\t");
+                _builder.append("pass");
+                _builder.newLine();
               }
             }
           }
@@ -1333,6 +1344,9 @@ public class ClassGenerator {
         _builder.append("#...");
         _builder.newLine();
         _builder.append("\t\t");
+        _builder.append("pass");
+        _builder.newLine();
+        _builder.append("\t\t");
         _builder.newLine();
         _builder.append("\t");
         _builder.append("def release(self):");
@@ -1342,6 +1356,9 @@ public class ClassGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("#...");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("pass");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.newLine();
