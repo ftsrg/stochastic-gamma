@@ -22,7 +22,7 @@ import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance
 class EnvironmentLanguageGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		val p=resource.contents.get(0) as Package 
+		/*val p=resource.contents.get(0) as Package 
 		val simulations=p.components.filter[comp | comp instanceof EnvironmentCompositeComponent]
 					.flatMap[comp | (comp as EnvironmentCompositeComponent).environmentComponents]
 					.filter[comp | comp instanceof EnvironmentExternSimulation]
@@ -35,6 +35,6 @@ class EnvironmentLanguageGenerator extends AbstractGenerator {
 				simulation.name+'_temp.py', 
 				generator.generateExternSimulationTemplateClasses(connections)
 			)
-		}
+		}*/
 	}
 }
