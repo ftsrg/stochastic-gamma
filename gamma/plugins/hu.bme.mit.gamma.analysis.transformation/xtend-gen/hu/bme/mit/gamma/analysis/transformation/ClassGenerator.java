@@ -96,7 +96,8 @@ public class ClassGenerator {
               };
               final Function1<Filter, Boolean> _function_2 = (Filter f) -> {
                 Event _event = ((EventFilter) f).getEvent().getEvent();
-                return Boolean.valueOf(Objects.equal(_event, event));
+                Event _event_1 = event.getEvent();
+                return Boolean.valueOf(Objects.equal(_event, _event_1));
               };
               boolean _isEmpty = IterableExtensions.isEmpty(IterableExtensions.<Filter>filter(IterableExtensions.<Filter>filter(r.getFilter(), _function_1), _function_2));
               return Boolean.valueOf((!_isEmpty));
@@ -137,25 +138,31 @@ public class ClassGenerator {
             }
             _builder.append(_xifexpression_1);
             _builder.newLineIfNotEmpty();
-            EnvironmentRule rule = rules.get(0);
-            _builder.newLineIfNotEmpty();
-            _builder.append("\"");
-            String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
-            _builder.append(_firstUpper_1);
-            _builder.append("\" : ");
-            _builder.newLineIfNotEmpty();
             {
-              if ((rule instanceof SimulationRule)) {
-                String _simulationClassName = ((SimulationRule)rule).getSimulation().getSimulationClassName();
-                _builder.append(_simulationClassName);
-                _builder.append("Instance");
+              boolean _isEmpty_2 = rules.isEmpty();
+              boolean _not = (!_isEmpty_2);
+              if (_not) {
+                EnvironmentRule rule = rules.get(0);
                 _builder.newLineIfNotEmpty();
-              } else {
-                if ((rule instanceof StochasticRule)) {
-                  CharSequence _generateStochasticModel = this.generateStochasticModel(
-                    ((StochasticRule)rule).getStochasticModel(), connection.component.getName());
-                  _builder.append(_generateStochasticModel);
-                  _builder.newLineIfNotEmpty();
+                _builder.append("\"");
+                String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
+                _builder.append(_firstUpper_1);
+                _builder.append("\" : ");
+                _builder.newLineIfNotEmpty();
+                {
+                  if ((rule instanceof SimulationRule)) {
+                    String _simulationClassName = ((SimulationRule)rule).getSimulation().getSimulationClassName();
+                    _builder.append(_simulationClassName);
+                    _builder.append("Instance");
+                    _builder.newLineIfNotEmpty();
+                  } else {
+                    if ((rule instanceof StochasticRule)) {
+                      CharSequence _generateStochasticModel = this.generateStochasticModel(
+                        ((StochasticRule)rule).getStochasticModel(), connection.component.getName());
+                      _builder.append(_generateStochasticModel);
+                      _builder.newLineIfNotEmpty();
+                    }
+                  }
                 }
               }
             }
@@ -464,7 +471,7 @@ public class ClassGenerator {
     _builder.append("#iterating through ports");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("for port in self.ports:");
+    _builder.append("for port in ports:");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("pevents=self.portevents[port]");
@@ -515,6 +522,9 @@ public class ClassGenerator {
     _builder.newLine();
     _builder.append("\t");
     _builder.append("def __init__(self,name,calls,rules,portevents,detmodel):");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.name=name");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("self.calls=calls");
@@ -612,47 +622,44 @@ public class ClassGenerator {
         _builder.append("def __init__(self,name,inport,calls,rules,detmodel):");
         _builder.newLine();
         _builder.append("\t\t");
-        _builder.append("def __init__(self,name,calls,rules,detmodel):");
-        _builder.newLine();
-        _builder.append("\t\t\t");
         _builder.append("self.name=name");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("callitem=calls.popitem()#only one out port");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("self.calls=callitem[1]");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("self.port=callitem[0]");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("self.rules=rules.popitem()[1]#only one out port");
         _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("self.detmodel");
+        _builder.append("\t\t");
+        _builder.append("self.detmodel=detmodel");
         _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.append("self.even_cntr=0");
+        _builder.append("\t\t");
+        _builder.append("self.event_cntr=0");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("self.events=[]");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("inport.registerListener(self)");
         _builder.newLine();
         _builder.append("\t\t\t");
         _builder.newLine();
-        _builder.append("\t\t");
+        _builder.append("\t");
         _builder.append("def getEvents(self):");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("eventcopy=self.events.copy()");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("self.events.clear()");
         _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t\t");
         _builder.append("return eventcopy");
         _builder.newLine();
         _builder.newLine();
@@ -668,51 +675,52 @@ public class ClassGenerator {
         {
           EList<EventDeclaration> _events = i.getEvents();
           for(final EventDeclaration event : _events) {
-            _builder.append("\t\t");
+            _builder.append("\t");
             _builder.append("def raise");
             String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
-            _builder.append(_firstUpper_1, "\t\t");
+            _builder.append(_firstUpper_1, "\t");
             _builder.append("(self,");
             CharSequence _generateFuncParams = this.generateFuncParams(event.getEvent());
-            _builder.append(_generateFuncParams, "\t\t");
+            _builder.append(_generateFuncParams, "\t");
             _builder.append("):");
             _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
+            _builder.append("\t");
             _builder.append("\t");
             String _firstLower = StringExtensions.toFirstLower(event.getEvent().getParameterDeclarations().get(0).getName());
-            _builder.append(_firstLower, "\t\t\t");
+            _builder.append(_firstLower, "\t\t");
             _builder.append("=self.rules[\"");
             String _firstUpper_2 = StringExtensions.toFirstUpper(event.getEvent().getName());
-            _builder.append(_firstUpper_2, "\t\t\t");
-            _builder.append("\"].calc(port+\".\"+\"");
+            _builder.append(_firstUpper_2, "\t\t");
+            _builder.append("\"].calc(self.port+\".\"+\"");
             String _firstUpper_3 = StringExtensions.toFirstUpper(event.getEvent().getName());
-            _builder.append(_firstUpper_3, "\t\t\t");
+            _builder.append(_firstUpper_3, "\t\t");
             _builder.append("\",actualTime)");
             _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
             _builder.append("\t");
+            _builder.append("\t");
+            _builder.append("#");
             Type _type = event.getEvent().getParameterDeclarations().get(0).getType();
-            _builder.append(_type, "\t\t\t");
+            _builder.append(_type, "\t\t");
             _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
+            _builder.append("\t");
             _builder.append("\t");
             _builder.append("self.event_cntr=self.event_cntr+1");
             _builder.newLine();
-            _builder.append("\t\t");
             _builder.append("\t");
-            _builder.append("for callitem in self.calls:");
+            _builder.append("\t");
+            _builder.append("for call in self.calls:");
             _builder.newLine();
-            _builder.append("\t\t");
+            _builder.append("\t");
             _builder.append("\t\t");
             _builder.append("callEvent=lambda:call.raise");
             String _firstUpper_4 = StringExtensions.toFirstUpper(event.getEvent().getName());
-            _builder.append(_firstUpper_4, "\t\t\t\t");
+            _builder.append(_firstUpper_4, "\t\t\t");
             _builder.append("(");
             CharSequence _generateFuncParams_1 = this.generateFuncParams(event.getEvent());
-            _builder.append(_generateFuncParams_1, "\t\t\t\t");
+            _builder.append(_generateFuncParams_1, "\t\t\t");
             _builder.append(");");
             _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
+            _builder.append("\t");
             _builder.append("\t\t");
             _builder.append("self.events.append(Event(self,actualTime,callEvent))");
             _builder.newLine();
@@ -945,14 +953,14 @@ public class ClassGenerator {
           _builder.newLineIfNotEmpty();
           _builder.append("\t");
           _builder.append("\t");
-          _builder.append("port=portarray[categorical.calc()]");
+          _builder.append("port=self.portarray[self.categorical.calc()]");
           _builder.newLine();
           _builder.append("\t");
           _builder.append("\t");
-          _builder.append("eventcalls=calls[port][");
+          _builder.append("eventcalls=self.calls[port]#[\"");
           String _firstUpper_2 = StringExtensions.toFirstUpper(event.getEvent().getName());
           _builder.append(_firstUpper_2, "\t\t");
-          _builder.append("]");
+          _builder.append("\"]");
           _builder.newLineIfNotEmpty();
           _builder.append("\t");
           _builder.append("\t");
@@ -1376,16 +1384,14 @@ public class ClassGenerator {
     };
     List<StochasticRule> rules = ListExtensions.<EnvironmentRule, StochasticRule>map(connection.component.getBehaviorRules(), _function);
     _builder.newLineIfNotEmpty();
-    _builder.append("RandomVariable(\"");
-    String _firstUpper = StringExtensions.toFirstUpper(connection.component.getName());
-    _builder.append(_firstUpper);
-    _builder.append("\",");
-    _builder.newLineIfNotEmpty();
+    _builder.append("RandomVariable(");
+    _builder.newLine();
     _builder.append("\t");
-    _builder.append("pyro.distributions.Categorical(");
+    _builder.append("dist=pyro.distributions.Categorical(");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("torch.tensor([");
+    _builder.newLine();
     {
       EList<Port> _outports = connection.component.getOutports();
       boolean _hasElements = false;
@@ -1395,24 +1401,32 @@ public class ClassGenerator {
         } else {
           _builder.appendImmediate(", ", "\t\t");
         }
-        _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         final Function1<StochasticRule, Boolean> _function_1 = (StochasticRule r) -> {
-          EList<Filter> _filter = r.getFilter();
-          Port _port = ((PortFilter) _filter).getPort();
-          return Boolean.valueOf(Objects.equal(_port, port));
+          final Function1<Filter, Port> _function_2 = (Filter f) -> {
+            return ((PortFilter) f).getPort();
+          };
+          return Boolean.valueOf(ListExtensions.<Filter, Port>map(r.getFilter(), _function_2).contains(port));
         };
         final Function1<StochasticRule, String> _function_2 = (StochasticRule r) -> {
           StochasticModel _stochasticModel = r.getStochasticModel();
           return Double.toString(((CategoricalProbabaility) _stochasticModel).getProbability());
         };
-        Iterable<String> _map = IterableExtensions.<StochasticRule, String>map(IterableExtensions.<StochasticRule>filter(rules, _function_1), _function_2);
-        _builder.append(_map, "\t\t");
+        String _get = ((String[])Conversions.unwrapArray(IterableExtensions.<StochasticRule, String>map(IterableExtensions.<StochasticRule>filter(rules, _function_1), _function_2), String.class))[0];
+        _builder.append(_get, "\t\t");
         _builder.newLineIfNotEmpty();
-        _builder.append("\t\t\t\t");
       }
     }
-    _builder.append("])))");
+    _builder.append("\t\t");
+    _builder.append("])),");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("name=\"");
+    String _firstUpper = StringExtensions.toFirstUpper(connection.component.getName());
+    _builder.append(_firstUpper, "\t");
+    String _string = (ClassGenerator.distcntr++).toString();
+    _builder.append(_string, "\t");
+    _builder.append("\")");
     _builder.newLineIfNotEmpty();
     return _builder;
   }

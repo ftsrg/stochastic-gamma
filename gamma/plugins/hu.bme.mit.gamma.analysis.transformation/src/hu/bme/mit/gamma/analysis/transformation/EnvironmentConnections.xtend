@@ -58,7 +58,7 @@ class EnvironmentConnections {
 		){
 			componentCall=""
 			for(comp:callStack){
-				componentCall=".get"+comp.name.toFirstUpper+"()"+componentCall
+				componentCall=componentCall+".get"+comp.name.toFirstUpper+"()"
 			}
 			component = _component
 			inCalls = HashMultimap.<Port,String>create()

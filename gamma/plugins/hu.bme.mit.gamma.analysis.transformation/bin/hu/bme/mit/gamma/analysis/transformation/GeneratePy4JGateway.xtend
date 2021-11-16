@@ -73,7 +73,7 @@ class GeneratePy4JGateway {
 		
 								
 						public void reset(){
-							state="stop";
+							state="run";
 							freq=0;
 						}
 												

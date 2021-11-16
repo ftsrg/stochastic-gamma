@@ -55,7 +55,7 @@ class ClassGenerator {
 			"«port.name.toFirstUpper»" : {
 			«FOR event : port.interfaceRealization.interface.events SEPARATOR ", "» 
 				«var rules=connection.component.behaviorRules
-						.filter[r|!r.filter.filter[f|f instanceof EventFilter].filter[f|(f as EventFilter).event.event==event].empty].toList»
+						.filter[r|!r.filter.filter[f|f instanceof EventFilter].filter[f|(f as EventFilter).event.event==event.event].empty].toList»
 				#«if(rules.isEmpty){
 					rules=connection.component.behaviorRules
 						.filter[r|!r.filter.filter[f|f instanceof PortFilter].filter[f|(f as PortFilter).port==port].empty]
@@ -66,13 +66,15 @@ class ClassGenerator {
 						.filter[r|!r.filter.filter[f|f instanceof ComponentFilter].empty]
 							.toList
 				}»
-				«var rule=rules.get(0)»
-				"«event.event.name.toFirstUpper»" : 
-				«IF rule instanceof SimulationRule»
-					«rule.simulation.simulationClassName»Instance
-				«ELSEIF rule instanceof StochasticRule»
-					«generateStochasticModel(rule
-						.stochasticModel,connection.component.name)»
+				«IF (!rules.empty)»
+					«var rule=rules.get(0)»
+					"«event.event.name.toFirstUpper»" : 
+					«IF rule instanceof SimulationRule»
+						«rule.simulation.simulationClassName»Instance
+					«ELSEIF rule instanceof StochasticRule»
+						«generateStochasticModel(rule
+							.stochasticModel,connection.component.name)»
+					«ENDIF»
 				«ENDIF»
 			«ENDFOR»
 			}
@@ -174,7 +176,7 @@ class ClassGenerator {
 				self.events=[]
 				ports=list(self.calls.keys())
 				#iterating through ports
-				for port in self.ports:
+				for port in ports:
 					pevents=self.portevents[port]
 					#iterating through events
 					for pevent in pevents:
@@ -196,6 +198,7 @@ class ClassGenerator {
 		'''
 		class PeriodicEventSource():
 			def __init__(self,name,calls,rules,portevents,detmodel):
+				self.name=name
 				self.calls=calls
 				self.rules=rules
 				self.portevents=portevents
@@ -231,34 +234,33 @@ class ClassGenerator {
 		«FOR i : interfaces»
 			class Sample«i.name.toFirstUpper»():
 				def __init__(self,name,inport,calls,rules,detmodel):
-					def __init__(self,name,calls,rules,detmodel):
-						self.name=name
-						callitem=calls.popitem()#only one out port
-						self.calls=callitem[1]
-						self.port=callitem[0]
-						self.rules=rules.popitem()[1]#only one out port
-						self.detmodel
-						self.even_cntr=0
-						self.events=[]
-						inport.registerListener(self)
+					self.name=name
+					callitem=calls.popitem()#only one out port
+					self.calls=callitem[1]
+					self.port=callitem[0]
+					self.rules=rules.popitem()[1]#only one out port
+					self.detmodel=detmodel
+					self.event_cntr=0
+					self.events=[]
+					inport.registerListener(self)
 						
-					def getEvents(self):
-						eventcopy=self.events.copy()
-						self.events.clear()
-						return eventcopy
+				def getEvents(self):
+					eventcopy=self.events.copy()
+					self.events.clear()
+					return eventcopy
 
 				def generateEvents(self):
 					self.events=[]
 					#definition of the interface functions
-					«FOR event : i.events»
-						def raise«event.event.name.toFirstUpper»(self,«generateFuncParams(event.event)»):
-							«event.event.parameterDeclarations.get(0).name.toFirstLower»=self.rules["«event.event.name.toFirstUpper»"].calc(port+"."+"«event.event.name.toFirstUpper»",actualTime)
-							«event.event.parameterDeclarations.get(0).type»
-							self.event_cntr=self.event_cntr+1
-							for callitem in self.calls:
-								callEvent=lambda:call.raise«event.event.name.toFirstUpper»(«generateFuncParams(event.event)»);
-								self.events.append(Event(self,actualTime,callEvent))
-					«ENDFOR»
+				«FOR event : i.events»
+					def raise«event.event.name.toFirstUpper»(self,«generateFuncParams(event.event)»):
+						«event.event.parameterDeclarations.get(0).name.toFirstLower»=self.rules["«event.event.name.toFirstUpper»"].calc(self.port+"."+"«event.event.name.toFirstUpper»",actualTime)
+						#«event.event.parameterDeclarations.get(0).type»
+						self.event_cntr=self.event_cntr+1
+						for call in self.calls:
+							callEvent=lambda:call.raise«event.event.name.toFirstUpper»(«generateFuncParams(event.event)»);
+							self.events.append(Event(self,actualTime,callEvent))
+				«ENDFOR»
 			
 			«generateInterfaceSubClass(i)»
 		«ENDFOR»									
@@ -340,8 +342,8 @@ class ClassGenerator {
 					#definition of the interface functions
 					«FOR event : i.events»
 						def raise«event.event.name.toFirstUpper»(self,«generateFuncParams(event.event)»):
-							port=portarray[categorical.calc()]
-							eventcalls=calls[port][«event.event.name.toFirstUpper»]
+							port=self.portarray[self.categorical.calc()]
+							eventcalls=self.calls[port]#["«event.event.name.toFirstUpper»"]
 							self.event_cntr=self.event_cntr+1
 							for call in eventcalls:
 								callEvent=lambda:call.raise«event.event.name.toFirstUpper»(«generateFuncParams(event.event)»);
@@ -472,12 +474,15 @@ class ClassGenerator {
 		'''
 		«var rules=connection.component.behaviorRules
 			.map[r|r as StochasticRule]»
-		RandomVariable("«connection.component.name.toFirstUpper»",
-			pyro.distributions.Categorical(
-				torch.tensor([«FOR port : connection.component.outports SEPARATOR ", "»
-					«rules.filter[r|(r.filter as PortFilter).port==port]
-						.map[r|Double.toString((r.stochasticModel as CategoricalProbabaility).probability)]»
-				«ENDFOR»])))
+		RandomVariable(
+			dist=pyro.distributions.Categorical(
+				torch.tensor([
+				«FOR port : connection.component.outports SEPARATOR ", "»
+					«rules.filter[r|r.filter.map[f|(f as PortFilter).port].contains(port)]
+						.map[r|Double.toString((r.stochasticModel as CategoricalProbabaility).probability)].get(0)»
+				«ENDFOR»
+				])),
+			name="«connection.component.name.toFirstUpper»«(distcntr++).toString»")
 		'''
 	}
 	

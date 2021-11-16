@@ -104,7 +104,8 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkUnusedDeclarations(Component component) {
-		if (component instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (component instanceof EnvironmentCompositeComponent) 
+			return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkUnusedDeclarations(component));
 	}
 	
@@ -138,8 +139,10 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkComponentInstances(ComponentInstance instance) {
-		if (instance instanceof EnvironmentComponentInstance) return; //todo: add validation
-		handleValidationResultMessage(statechartModelValidator.checkComponentInstances(instance));
+		return;
+		//if (instance instanceof EnvironmentComponentInstance) 
+		//	return; //todo: add validation
+		//handleValidationResultMessage(statechartModelValidator.checkComponentInstances(instance));
 	}
 	
 	@Check

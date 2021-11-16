@@ -211,7 +211,7 @@ public class GeneratePy4JGateway {
       _builder.append("public void reset(){");
       _builder.newLine();
       _builder.append("\t\t\t\t\t");
-      _builder.append("state=\"stop\";");
+      _builder.append("state=\"run\";");
       _builder.newLine();
       _builder.append("\t\t\t\t\t");
       _builder.append("freq=0;");

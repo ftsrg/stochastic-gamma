@@ -58,10 +58,9 @@ public class EnvironmentConnections {
       EnvironmentConnections.Builder.componentCall = "";
       for (final EnvironmentCompositeComponentInstance comp : callStack) {
         String _firstUpper = StringExtensions.toFirstUpper(comp.getName());
-        String _plus = (".get" + _firstUpper);
+        String _plus = ((EnvironmentConnections.Builder.componentCall + ".get") + _firstUpper);
         String _plus_1 = (_plus + "()");
-        String _plus_2 = (_plus_1 + EnvironmentConnections.Builder.componentCall);
-        EnvironmentConnections.Builder.componentCall = _plus_2;
+        EnvironmentConnections.Builder.componentCall = _plus_1;
       }
       EnvironmentConnections.Builder.component = _component;
       EnvironmentConnections.Builder.inCalls = HashMultimap.<Port, String>create();

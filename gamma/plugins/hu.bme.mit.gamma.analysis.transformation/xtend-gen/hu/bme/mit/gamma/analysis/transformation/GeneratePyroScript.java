@@ -68,6 +68,8 @@ public class GeneratePyroScript {
       _builder.newLine();
       _builder.append("import datetime");
       _builder.newLine();
+      _builder.append("import traceback");
+      _builder.newLine();
       _builder.newLine();
       _builder.append("print(\"python script is called\")");
       _builder.newLine();
@@ -275,6 +277,9 @@ public class GeneratePyroScript {
       _builder.append("print(err)");
       _builder.newLine();
       _builder.append("\t");
+      _builder.append("traceback.print_exc()");
+      _builder.newLine();
+      _builder.append("\t");
       _builder.append("print(\"shuting down the Py4J gateway\")");
       _builder.newLine();
       _builder.append("\t");
@@ -382,7 +387,7 @@ public class GeneratePyroScript {
       _builder.append("\t\t\t\t");
       _builder.newLine();
       _builder.append("\t\t");
-      _builder.append("if gateway.entry_point.getEntryPoint() != \"run\":");
+      _builder.append("if gateway.entry_point.getEntryPoint().getState() != \"run\":");
       _builder.newLine();
       _builder.append("\t\t\t");
       _builder.append("break");
@@ -545,6 +550,9 @@ public class GeneratePyroScript {
       _builder.newLine();
       _builder.append("\t");
       _builder.append("print(err)");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("traceback.print_exc()");
       _builder.newLine();
       _builder.append("finally:");
       _builder.newLine();

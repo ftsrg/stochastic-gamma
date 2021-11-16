@@ -75,6 +75,7 @@ from influxdb import InfluxDBClient
 import pyro.contrib.gp as gp
 
 import datetime
+import traceback
 
 print("python script is called")
 
@@ -183,6 +184,7 @@ try:
 except Exception as err:
 	print("Exception occured during testing the simulation: ")
 	print(err)
+	traceback.print_exc()
 	print("shuting down the Py4J gateway")
 	gateway.shutdown()
 	print("exit")
@@ -223,7 +225,7 @@ def simulateUntilStop():
 		for i in range(10):
 				sctmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().runCycle()
 				
-		if gateway.entry_point.getEntryPoint() != "run":
+		if gateway.entry_point.getEntryPoint().getState() != "run":
 			break
 		
 		
@@ -286,6 +288,7 @@ try:
 except Exception as err:
 	print("Exception occured during testing the simulation: ")
 	print(err)
+	traceback.print_exc()
 finally:
 	print("shuting down the Py4J gateway")
 	gateway.shutdown()
