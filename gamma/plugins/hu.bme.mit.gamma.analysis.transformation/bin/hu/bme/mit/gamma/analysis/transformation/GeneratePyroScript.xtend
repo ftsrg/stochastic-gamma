@@ -74,12 +74,21 @@ from influxdb import InfluxDBClient
 
 import pyro.contrib.gp as gp
 
+import time
+import os
 import datetime
 import traceback
 
 print("python script is called")
 
-print("creating Py4J gateway")
+print("creating java Py4J gateway")
+
+os.system("""javac $(find . -name "*.java") -cp /usr/share/java/py4j0.10.8.1.jar""")
+os.system("""cd ./bin && java -cp /usr/share/java/py4j0.10.8.1.jar:lib/*:. javaenv.AnalyzerGateway &""")
+time.sleep(3)
+
+
+print("creating python Py4J gateway")
 
 gateway = JavaGateway(callback_server_parameters=CallbackServerParameters())
 sctmodel = gateway.entry_point.getEntryPoint()#.getDetModel()
@@ -150,10 +159,8 @@ events=list()
 
 # environment instances
 
-try:
-	
+def generateComponents():	
 	components=list()
-	
 	
 	«generator.generatePeriodicEventSourceInstances(
 		connections.filter[c|c.component instanceof EnvironmentPeriodicEventSource].toList
@@ -180,40 +187,44 @@ try:
 	«generator.generateEventSourceInstances(
 		connections.filter[c|c.component instanceof EnvironmentExternSimulation].toList
 	)»
+	return components
 
-except Exception as err:
-	print("Exception occured during testing the simulation: ")
-	print(err)
-	traceback.print_exc()
-	print("shuting down the Py4J gateway")
-	gateway.shutdown()
-	print("exit")
+#test component generation
+if DEBUG:
+	components=list()
+	try:
+		components=generateComponents()
+	except Exception as err:
+		print("Exception occured during testing the simulation: ")
+		print(err)
+		traceback.print_exc()
+		print("shuting down the Py4J gateway")
+		gateway.shutdown()
+		print("exit")
 
 
-def collectEvents():
-	global events,components
+def collectEvents(events,components):
 	for component in components:
 		events.extend(component.getEvents())
 	filter(lambda f: f.eventTime>=0.0,events)
 	events.sort(key=lambda f: f.eventTime)
 	
 	
-def generateEvents():
-	global events,components
+def generateEvents(events,components):
 	for component in components:
 		component.generateEvents()
 	
 
 
 def simulateUntilStop():
-	global actualTime, events
+	components=generateComponents()
 	events=list()
 	actualTime=0
 	gateway.entry_point.getEntryPoint().reset()
-	generateEvents()
-	collectEvents()
+	generateEvents(events,components)
+	collectEvents(events,components)
 	while len(events)>0 and actualTime<simTime:
-		collectEvents()
+		collectEvents(events,components)
 		filter(lambda f: f.eventTime>=0.0,events)
 		events.sort(key=lambda f: f.eventTime)
 		event=events.pop(0)
@@ -228,19 +239,19 @@ def simulateUntilStop():
 		if gateway.entry_point.getEntryPoint().getState() != "run":
 			break
 		
-		
+	components.clear()
 	return actualTime
 
 
 def simulateUntilTime():
-	global actualTime, events
+	components=generateComponents()
 	events=list()
 	actualTime=0
 	gateway.entry_point.getEntryPoint().reset()
-	generateEvents()
-	collectEvents()
+	generateEvents(events,components)
+	collectEvents(events,components)
 	while len(events)>0 and actualTime<simTime:
-		collectEvents()
+		collectEvents(events,components)
 		filter(lambda f: f.eventTime>=0.0,events)
 		events.sort(key=lambda f: f.eventTime)
 		event=events.pop(0)
@@ -251,7 +262,8 @@ def simulateUntilTime():
 		event.eventCall()
 		for i in range(10):
 				sctmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().runCycle()
-		
+	
+	components.clear()
 	return gateway.entry_point.getEntryPoint().getFreq()
 
 
@@ -264,40 +276,41 @@ def simulate():
 
 print("testing the simulator")
 
-try:
-	for i in range(1):
-		print(simulate())
-	
-	print("start simulator")
-	
-	prior_data=list()
-	for i in range(simNumber):
-		if i % 5 == 0:
-			print("Simulation step: ", i)
-		prior_data.append(simulate())
-	
-	print("visualize histogram")
-	fig, a = plt.subplots()
-	a.set_title("simulation results")
-	a.hist(prior_data)
-	plt.show()
+if DEBUG:
+	try:
+		for i in range(1):
+			print(simulate())
+		
+		print("start simulator")
+		
+		prior_data=list()
+		for i in range(simNumber):
+			if i % 5 == 0:
+				print("Simulation step: ", i)
+			prior_data.append(simulate())
+		
+		print("visualize histogram")
+		fig, a = plt.subplots()
+		a.set_title("simulation results")
+		a.hist(prior_data)
+		plt.show()
+		
+		print("simulation has been finished")
+		
+		
+	except Exception as err:
+		print("Exception occured during testing the simulation: ")
+		print(err)
+		traceback.print_exc()
+	finally:
+		print("shuting down the Py4J gateway")
+		gateway.shutdown()
+		print("exit")
 	
 	print("simulation has been finished")
-	
-	
-except Exception as err:
-	print("Exception occured during testing the simulation: ")
-	print(err)
-	traceback.print_exc()
-finally:
 	print("shuting down the Py4J gateway")
 	gateway.shutdown()
 	print("exit")
-
-print("simulation has been finished")
-print("shuting down the Py4J gateway")
-gateway.shutdown()
-print("exit")
 
 '''
 	}

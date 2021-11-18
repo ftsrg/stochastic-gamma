@@ -598,6 +598,30 @@ class ClassGenerator {
 	def generateRandomVariableClass(){
 		'''
 		class RandomVariable():
+			def __init__(self,dist,name,N=1000):
+				self.dist=dist
+				self.name=name
+				self.event_cntr=N-1
+				self.meta_cntr=-1
+				self.N=N
+			def calc(self,event=0,time=0):
+				self.event_cntr=self.event_cntr+1
+				if self.N>0:
+					if self.event_cntr==self.N:
+						self.event_cntr=0
+						self.meta_cntr=self.meta_cntr+1
+						
+						self.samples=pyro.sample(self.name+"_sample_"+str(self.meta_cntr),self.dist.expand([self.N]))
+					return self.samples[self.event_cntr].item()
+				else:
+					return pyro.sample(self.name+"_sample_"+str(self.event_cntr),self.dist).item()
+
+		'''
+	}
+	
+	def generateRandomVariableClass_old(){
+		'''
+		class RandomVariable():
 			def __init__(self,dist,name):
 				self.dist=dist
 				self.name=name
@@ -609,6 +633,28 @@ class ClassGenerator {
 	}
 	
 	def generateContinuousRandomVariableClass(){
+		'''
+		class ContinuousRandomVariable():
+			def __init__(self,dist,name,N=1000):
+				self.dist=dist
+				self.name=name
+				self.event_cntr=N-1
+				self.meta_cntr=-1
+				self.N=N
+			def calc(self,event=0,time=0):
+				self.event_cntr=self.event_cntr+1
+				if self.N>0:
+					if self.event_cntr==self.N:
+						self.event_cntr=0
+						self.meta_cntr=self.meta_cntr+1
+						self.samples=pyro.sample(self.name+"_sample_"+str(self.meta_cntr),self.dist.expand([self.N]))
+					return self.samples[self.event_cntr].item()
+				else:
+					return pyro.sample(self.name+"_sample_"+str(self.event_cntr),self.dist).item()
+		'''
+	}
+	
+	def generateContinuousRandomVariableClass_old(){
 		'''
 		class ContinuousRandomVariable():
 			def __init__(self,dist,name):
