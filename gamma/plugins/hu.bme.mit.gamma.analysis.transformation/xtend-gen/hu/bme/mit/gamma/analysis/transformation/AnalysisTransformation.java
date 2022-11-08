@@ -24,9 +24,9 @@ public class AnalysisTransformation {
   
   public void transformandrun(final Resource resource, final URI uri, final String packageName, final List<String> uriList, final String BasePackage) {
     String pyGenURI = ((((BasePackage + File.separator) + "simulator-gen") + File.separator) + "simulator.py");
-    String gatewayGenURI = ((((((BasePackage + File.separator) + "gateway-gen") + File.separator) + "javaenv") + File.separator) + "AnalyzerGateway.java");
-    GeneratePyroScript pythonGenerator = new GeneratePyroScript();
-    GeneratePy4JGateway javaGenerator = new GeneratePy4JGateway();
+    String gatewayGenURI = ((((((BasePackage + File.separator) + "gateway-gen") + File.separator) + "javaenv") + File.separator) + "DetModelEntryPoint.java");
+    PyroSimulatorGenerator pythonGenerator = new PyroSimulatorGenerator();
+    Py4JGatewayGenerator javaGenerator = new Py4JGatewayGenerator();
     EObject _get = resource.getContents().get(0);
     hu.bme.mit.gamma.statechart.interface_.Package pck = ((hu.bme.mit.gamma.statechart.interface_.Package) _get);
     final Function1<Component, Boolean> _function = (Component e) -> {
@@ -45,8 +45,8 @@ public class AnalysisTransformation {
     try {
       String pyGenURI = ((((BasePackage + File.separator) + "simulator-gen") + File.separator) + "simulator.py");
       String gatewayGenURI = ((((((BasePackage + File.separator) + "gateway-gen") + File.separator) + "epasenv") + File.separator) + "AnalyzerGateway.java");
-      GeneratePyroScript pythonGenerator = new GeneratePyroScript();
-      GeneratePy4JGateway javaGenerator = new GeneratePy4JGateway();
+      PyroSimulatorGenerator pythonGenerator = new PyroSimulatorGenerator();
+      Py4JGatewayGenerator javaGenerator = new Py4JGatewayGenerator();
       EObject _get = resource.getContents().get(0);
       hu.bme.mit.gamma.statechart.interface_.Package pck = ((hu.bme.mit.gamma.statechart.interface_.Package) _get);
       final Function1<Component, Boolean> _function = (Component e) -> {

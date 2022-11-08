@@ -25,7 +25,7 @@ class AnalysisCommandHandler extends CommandHandler {
 	var BasePackageURI=""
 	
 	override Object execute(ExecutionEvent event) throws ExecutionException{
-		
+		var t0=System.currentTimeMillis()
 		var sel = HandlerUtil.getActiveMenuSelection(event);
 		println("Run analysis...--------------------------------------------")
 		try {
@@ -115,7 +115,10 @@ class AnalysisCommandHandler extends CommandHandler {
 		}
 		
 		
+		var t1=System.currentTimeMillis()
 		println("Analysis has been finnished--------------------------------------------------------------");
+		print("Elapsed time: ")
+		println((t1-t0)/1000.0)
 		return null;
 	}
 	

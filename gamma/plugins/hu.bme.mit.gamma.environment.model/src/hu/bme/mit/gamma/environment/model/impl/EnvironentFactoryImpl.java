@@ -57,8 +57,8 @@ public class EnvironentFactoryImpl extends EFactoryImpl implements EnvironentFac
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case EnvironentPackage.ENVIRONMENT_EVENT_SOURCE: return createEnvironmentEventSource();
-			case EnvironentPackage.ENVIRONMENT_COMPOSITE_COMPONENT: return createEnvironmentCompositeComponent();
-			case EnvironentPackage.ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE: return createEnvironmentCompositeComponentInstance();
+			case EnvironentPackage.ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT: return createEnvironmentCascadeCompositeComponent();
+			case EnvironentPackage.ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE: return createEnvironmentCascadeCompositeComponentInstance();
 			case EnvironentPackage.ENVIRONMENT_DELAY: return createEnvironmentDelay();
 			case EnvironentPackage.ENVIRONMENT_SWITCH: return createEnvironmentSwitch();
 			case EnvironentPackage.EVENT_FILTER: return createEventFilter();
@@ -71,6 +71,11 @@ public class EnvironentFactoryImpl extends EFactoryImpl implements EnvironentFac
 			case EnvironentPackage.SIMULATION: return createSimulation();
 			case EnvironentPackage.ENVIRONMENT_PERIODIC_EVENT_SOURCE: return createEnvironmentPeriodicEventSource();
 			case EnvironentPackage.PERIODIC_SIMULATION: return createPeriodicSimulation();
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT: return createEnvironmentSynchronousCompositeComponent();
+			case EnvironentPackage.ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT: return createEnvironmentAsynchronousCompositeComponent();
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE: return createEnvironmentSynchronousCompositeComponentInstance();
+			case EnvironentPackage.ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE: return createEnvironmentAsynchronousCompositeComponentInstance();
+			case EnvironentPackage.PARAMETER_FILTER: return createParameterFilter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -91,9 +96,9 @@ public class EnvironentFactoryImpl extends EFactoryImpl implements EnvironentFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EnvironmentCompositeComponent createEnvironmentCompositeComponent() {
-		EnvironmentCompositeComponentImpl environmentCompositeComponent = new EnvironmentCompositeComponentImpl();
-		return environmentCompositeComponent;
+	public EnvironmentCascadeCompositeComponent createEnvironmentCascadeCompositeComponent() {
+		EnvironmentCascadeCompositeComponentImpl environmentCascadeCompositeComponent = new EnvironmentCascadeCompositeComponentImpl();
+		return environmentCascadeCompositeComponent;
 	}
 
 	/**
@@ -101,9 +106,9 @@ public class EnvironentFactoryImpl extends EFactoryImpl implements EnvironentFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EnvironmentCompositeComponentInstance createEnvironmentCompositeComponentInstance() {
-		EnvironmentCompositeComponentInstanceImpl environmentCompositeComponentInstance = new EnvironmentCompositeComponentInstanceImpl();
-		return environmentCompositeComponentInstance;
+	public EnvironmentCascadeCompositeComponentInstance createEnvironmentCascadeCompositeComponentInstance() {
+		EnvironmentCascadeCompositeComponentInstanceImpl environmentCascadeCompositeComponentInstance = new EnvironmentCascadeCompositeComponentInstanceImpl();
+		return environmentCascadeCompositeComponentInstance;
 	}
 
 	/**
@@ -224,6 +229,56 @@ public class EnvironentFactoryImpl extends EFactoryImpl implements EnvironentFac
 	public PeriodicSimulation createPeriodicSimulation() {
 		PeriodicSimulationImpl periodicSimulation = new PeriodicSimulationImpl();
 		return periodicSimulation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EnvironmentSynchronousCompositeComponent createEnvironmentSynchronousCompositeComponent() {
+		EnvironmentSynchronousCompositeComponentImpl environmentSynchronousCompositeComponent = new EnvironmentSynchronousCompositeComponentImpl();
+		return environmentSynchronousCompositeComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EnvironmentAsynchronousCompositeComponent createEnvironmentAsynchronousCompositeComponent() {
+		EnvironmentAsynchronousCompositeComponentImpl environmentAsynchronousCompositeComponent = new EnvironmentAsynchronousCompositeComponentImpl();
+		return environmentAsynchronousCompositeComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EnvironmentSynchronousCompositeComponentInstance createEnvironmentSynchronousCompositeComponentInstance() {
+		EnvironmentSynchronousCompositeComponentInstanceImpl environmentSynchronousCompositeComponentInstance = new EnvironmentSynchronousCompositeComponentInstanceImpl();
+		return environmentSynchronousCompositeComponentInstance;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EnvironmentAsynchronousCompositeComponentInstance createEnvironmentAsynchronousCompositeComponentInstance() {
+		EnvironmentAsynchronousCompositeComponentInstanceImpl environmentAsynchronousCompositeComponentInstance = new EnvironmentAsynchronousCompositeComponentInstanceImpl();
+		return environmentAsynchronousCompositeComponentInstance;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParameterFilter createParameterFilter() {
+		ParameterFilterImpl parameterFilter = new ParameterFilterImpl();
+		return parameterFilter;
 	}
 
 	/**

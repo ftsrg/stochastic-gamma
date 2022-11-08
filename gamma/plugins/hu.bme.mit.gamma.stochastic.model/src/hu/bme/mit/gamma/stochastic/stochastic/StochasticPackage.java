@@ -2,6 +2,7 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic;
 
+import hu.bme.mit.gamma.expression.model.ExpressionModelPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -234,7 +235,7 @@ public interface StochasticPackage extends EPackage {
 	int NORMAL_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
 
 	/**
-	 * The feature id for the '<em><b>Mean</b></em>' attribute.
+	 * The feature id for the '<em><b>Mean</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -243,7 +244,7 @@ public interface StochasticPackage extends EPackage {
 	int NORMAL_RANDOM_VARIABLE__MEAN = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Scale</b></em>' attribute.
+	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -289,7 +290,7 @@ public interface StochasticPackage extends EPackage {
 	int EXPONENTIAL_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
 
 	/**
-	 * The feature id for the '<em><b>Rate</b></em>' attribute.
+	 * The feature id for the '<em><b>Rate</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -372,7 +373,7 @@ public interface StochasticPackage extends EPackage {
 	int BERNOULLI_RANDOM_VARIABLE__DIMENSION = DISCRETE_RANDOM_VARIABLE__DIMENSION;
 
 	/**
-	 * The feature id for the '<em><b>Probability</b></em>' attribute.
+	 * The feature id for the '<em><b>Probability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -844,7 +845,7 @@ public interface StochasticPackage extends EPackage {
 	int CATEGORICAL_PROBABAILITY = 21;
 
 	/**
-	 * The feature id for the '<em><b>Probability</b></em>' attribute.
+	 * The feature id for the '<em><b>Probability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -946,7 +947,7 @@ public interface StochasticPackage extends EPackage {
 	int WEIBULL_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
 
 	/**
-	 * The feature id for the '<em><b>Scale</b></em>' attribute.
+	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -955,7 +956,7 @@ public interface StochasticPackage extends EPackage {
 	int WEIBULL_RANDOM_VARIABLE__SCALE = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Shape</b></em>' attribute.
+	 * The feature id for the '<em><b>Shape</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1036,7 +1037,6 @@ public interface StochasticPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROBABILISTIC_PROGRAM_OPERATION_COUNT = STOCHASTIC_MODEL_OPERATION_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.FittedModelImpl <em>Fitted Model</em>}' class.
@@ -1324,7 +1324,7 @@ public interface StochasticPackage extends EPackage {
 	int GAMMA_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
 
 	/**
-	 * The feature id for the '<em><b>Scale</b></em>' attribute.
+	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1333,7 +1333,7 @@ public interface StochasticPackage extends EPackage {
 	int GAMMA_RANDOM_VARIABLE__SCALE = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Shape</b></em>' attribute.
+	 * The feature id for the '<em><b>Shape</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1358,6 +1358,310 @@ public interface StochasticPackage extends EPackage {
 	 * @ordered
 	 */
 	int GAMMA_RANDOM_VARIABLE_OPERATION_COUNT = CONTINOUOS_RANDOM_VARIABLE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.CustomRandomVariableImpl <em>Custom Random Variable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.CustomRandomVariableImpl
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getCustomRandomVariable()
+	 * @generated
+	 */
+	int CUSTOM_RANDOM_VARIABLE = 33;
+
+	/**
+	 * The feature id for the '<em><b>Dimension</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
+
+	/**
+	 * The feature id for the '<em><b>Inverse cdf</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_RANDOM_VARIABLE__INVERSE_CDF = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Custom Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_RANDOM_VARIABLE_FEATURE_COUNT = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Custom Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_RANDOM_VARIABLE_OPERATION_COUNT = CONTINOUOS_RANDOM_VARIABLE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticExpressionImpl <em>Expression</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticExpressionImpl
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getStochasticExpression()
+	 * @generated
+	 */
+	int STOCHASTIC_EXPRESSION = 34;
+
+	/**
+	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOCHASTIC_EXPRESSION__RANDOMVARIABLE = ExpressionModelPackage.EXPRESSION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Expression</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOCHASTIC_EXPRESSION_FEATURE_COUNT = ExpressionModelPackage.EXPRESSION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Expression</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOCHASTIC_EXPRESSION_OPERATION_COUNT = ExpressionModelPackage.EXPRESSION_OPERATION_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.UniformRandomVariableImpl <em>Uniform Random Variable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.UniformRandomVariableImpl
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getUniformRandomVariable()
+	 * @generated
+	 */
+	int UNIFORM_RANDOM_VARIABLE = 35;
+
+	/**
+	 * The feature id for the '<em><b>Dimension</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFORM_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
+
+	/**
+	 * The feature id for the '<em><b>Lower Bound</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFORM_RANDOM_VARIABLE__LOWER_BOUND = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Upper Bound</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFORM_RANDOM_VARIABLE__UPPER_BOUND = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Uniform Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFORM_RANDOM_VARIABLE_FEATURE_COUNT = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Uniform Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIFORM_RANDOM_VARIABLE_OPERATION_COUNT = CONTINOUOS_RANDOM_VARIABLE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.BetaRandomVariableImpl <em>Beta Random Variable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.BetaRandomVariableImpl
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getBetaRandomVariable()
+	 * @generated
+	 */
+	int BETA_RANDOM_VARIABLE = 36;
+
+	/**
+	 * The feature id for the '<em><b>Dimension</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BETA_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
+
+	/**
+	 * The feature id for the '<em><b>Apha</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BETA_RANDOM_VARIABLE__APHA = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Beta</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BETA_RANDOM_VARIABLE__BETA = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Beta Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BETA_RANDOM_VARIABLE_FEATURE_COUNT = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Beta Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BETA_RANDOM_VARIABLE_OPERATION_COUNT = CONTINOUOS_RANDOM_VARIABLE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.LogNormalRandomVariableImpl <em>Log Normal Random Variable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.LogNormalRandomVariableImpl
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getLogNormalRandomVariable()
+	 * @generated
+	 */
+	int LOG_NORMAL_RANDOM_VARIABLE = 37;
+
+	/**
+	 * The feature id for the '<em><b>Dimension</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOG_NORMAL_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
+
+	/**
+	 * The feature id for the '<em><b>Mean</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOG_NORMAL_RANDOM_VARIABLE__MEAN = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOG_NORMAL_RANDOM_VARIABLE__SCALE = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Log Normal Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOG_NORMAL_RANDOM_VARIABLE_FEATURE_COUNT = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Log Normal Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOG_NORMAL_RANDOM_VARIABLE_OPERATION_COUNT = CONTINOUOS_RANDOM_VARIABLE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.ParetoRandomVariableImpl <em>Pareto Random Variable</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.ParetoRandomVariableImpl
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getParetoRandomVariable()
+	 * @generated
+	 */
+	int PARETO_RANDOM_VARIABLE = 38;
+
+	/**
+	 * The feature id for the '<em><b>Dimension</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARETO_RANDOM_VARIABLE__DIMENSION = CONTINOUOS_RANDOM_VARIABLE__DIMENSION;
+
+	/**
+	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARETO_RANDOM_VARIABLE__SCALE = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Alpha</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARETO_RANDOM_VARIABLE__ALPHA = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Pareto Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARETO_RANDOM_VARIABLE_FEATURE_COUNT = CONTINOUOS_RANDOM_VARIABLE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Pareto Random Variable</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARETO_RANDOM_VARIABLE_OPERATION_COUNT = CONTINOUOS_RANDOM_VARIABLE_OPERATION_COUNT + 0;
 
 
 	/**
@@ -1432,26 +1736,26 @@ public interface StochasticPackage extends EPackage {
 	EClass getNormalRandomVariable();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.NormalRandomVariable#getMean <em>Mean</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.NormalRandomVariable#getMean <em>Mean</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Mean</em>'.
+	 * @return the meta object for the containment reference '<em>Mean</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.NormalRandomVariable#getMean()
 	 * @see #getNormalRandomVariable()
 	 * @generated
 	 */
-	EAttribute getNormalRandomVariable_Mean();
+	EReference getNormalRandomVariable_Mean();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.NormalRandomVariable#getScale <em>Scale</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.NormalRandomVariable#getScale <em>Scale</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Scale</em>'.
+	 * @return the meta object for the containment reference '<em>Scale</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.NormalRandomVariable#getScale()
 	 * @see #getNormalRandomVariable()
 	 * @generated
 	 */
-	EAttribute getNormalRandomVariable_Scale();
+	EReference getNormalRandomVariable_Scale();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.ExponentialRandomVariable <em>Exponential Random Variable</em>}'.
@@ -1464,15 +1768,15 @@ public interface StochasticPackage extends EPackage {
 	EClass getExponentialRandomVariable();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.ExponentialRandomVariable#getRate <em>Rate</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.ExponentialRandomVariable#getRate <em>Rate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Rate</em>'.
+	 * @return the meta object for the containment reference '<em>Rate</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.ExponentialRandomVariable#getRate()
 	 * @see #getExponentialRandomVariable()
 	 * @generated
 	 */
-	EAttribute getExponentialRandomVariable_Rate();
+	EReference getExponentialRandomVariable_Rate();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.DiscreteRandomVariable <em>Discrete Random Variable</em>}'.
@@ -1495,15 +1799,15 @@ public interface StochasticPackage extends EPackage {
 	EClass getBernoulliRandomVariable();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.BernoulliRandomVariable#getProbability <em>Probability</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.BernoulliRandomVariable#getProbability <em>Probability</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Probability</em>'.
+	 * @return the meta object for the containment reference '<em>Probability</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.BernoulliRandomVariable#getProbability()
 	 * @see #getBernoulliRandomVariable()
 	 * @generated
 	 */
-	EAttribute getBernoulliRandomVariable_Probability();
+	EReference getBernoulliRandomVariable_Probability();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.GaussianProcess <em>Gaussian Process</em>}'.
@@ -1724,15 +2028,15 @@ public interface StochasticPackage extends EPackage {
 	EClass getCategoricalProbabaility();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.CategoricalProbabaility#getProbability <em>Probability</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.CategoricalProbabaility#getProbability <em>Probability</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Probability</em>'.
+	 * @return the meta object for the containment reference '<em>Probability</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.CategoricalProbabaility#getProbability()
 	 * @see #getCategoricalProbabaility()
 	 * @generated
 	 */
-	EAttribute getCategoricalProbabaility_Probability();
+	EReference getCategoricalProbabaility_Probability();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.HomogeneousPoissonProcess <em>Homogeneous Poisson Process</em>}'.
@@ -1765,26 +2069,26 @@ public interface StochasticPackage extends EPackage {
 	EClass getWeibullRandomVariable();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.WeibullRandomVariable#getScale <em>Scale</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.WeibullRandomVariable#getScale <em>Scale</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Scale</em>'.
+	 * @return the meta object for the containment reference '<em>Scale</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.WeibullRandomVariable#getScale()
 	 * @see #getWeibullRandomVariable()
 	 * @generated
 	 */
-	EAttribute getWeibullRandomVariable_Scale();
+	EReference getWeibullRandomVariable_Scale();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.WeibullRandomVariable#getShape <em>Shape</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.WeibullRandomVariable#getShape <em>Shape</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Shape</em>'.
+	 * @return the meta object for the containment reference '<em>Shape</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.WeibullRandomVariable#getShape()
 	 * @see #getWeibullRandomVariable()
 	 * @generated
 	 */
-	EAttribute getWeibullRandomVariable_Shape();
+	EReference getWeibullRandomVariable_Shape();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.MarkovProcess <em>Markov Process</em>}'.
@@ -1879,26 +2183,26 @@ public interface StochasticPackage extends EPackage {
 	EClass getGammaRandomVariable();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getScale <em>Scale</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getScale <em>Scale</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Scale</em>'.
+	 * @return the meta object for the containment reference '<em>Scale</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getScale()
 	 * @see #getGammaRandomVariable()
 	 * @generated
 	 */
-	EAttribute getGammaRandomVariable_Scale();
+	EReference getGammaRandomVariable_Scale();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getShape <em>Shape</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getShape <em>Shape</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Shape</em>'.
+	 * @return the meta object for the containment reference '<em>Shape</em>'.
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getShape()
 	 * @see #getGammaRandomVariable()
 	 * @generated
 	 */
-	EAttribute getGammaRandomVariable_Shape();
+	EReference getGammaRandomVariable_Shape();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.FittedContinuousRandomVariable <em>Fitted Continuous Random Variable</em>}'.
@@ -1909,6 +2213,176 @@ public interface StochasticPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getFittedContinuousRandomVariable();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.CustomRandomVariable <em>Custom Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Custom Random Variable</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.CustomRandomVariable
+	 * @generated
+	 */
+	EClass getCustomRandomVariable();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.stochastic.stochastic.CustomRandomVariable#getInverse_cdf <em>Inverse cdf</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Inverse cdf</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.CustomRandomVariable#getInverse_cdf()
+	 * @see #getCustomRandomVariable()
+	 * @generated
+	 */
+	EReference getCustomRandomVariable_Inverse_cdf();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.StochasticExpression <em>Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Expression</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.StochasticExpression
+	 * @generated
+	 */
+	EClass getStochasticExpression();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.StochasticExpression#getRandomvariable <em>Randomvariable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Randomvariable</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.StochasticExpression#getRandomvariable()
+	 * @see #getStochasticExpression()
+	 * @generated
+	 */
+	EReference getStochasticExpression_Randomvariable();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable <em>Uniform Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uniform Random Variable</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable
+	 * @generated
+	 */
+	EClass getUniformRandomVariable();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable#getLowerBound <em>Lower Bound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Lower Bound</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable#getLowerBound()
+	 * @see #getUniformRandomVariable()
+	 * @generated
+	 */
+	EReference getUniformRandomVariable_LowerBound();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable#getUpperBound <em>Upper Bound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Upper Bound</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable#getUpperBound()
+	 * @see #getUniformRandomVariable()
+	 * @generated
+	 */
+	EReference getUniformRandomVariable_UpperBound();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable <em>Beta Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Beta Random Variable</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable
+	 * @generated
+	 */
+	EClass getBetaRandomVariable();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable#getApha <em>Apha</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Apha</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable#getApha()
+	 * @see #getBetaRandomVariable()
+	 * @generated
+	 */
+	EReference getBetaRandomVariable_Apha();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable#getBeta <em>Beta</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Beta</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable#getBeta()
+	 * @see #getBetaRandomVariable()
+	 * @generated
+	 */
+	EReference getBetaRandomVariable_Beta();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable <em>Log Normal Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Log Normal Random Variable</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable
+	 * @generated
+	 */
+	EClass getLogNormalRandomVariable();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable#getMean <em>Mean</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Mean</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable#getMean()
+	 * @see #getLogNormalRandomVariable()
+	 * @generated
+	 */
+	EReference getLogNormalRandomVariable_Mean();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable#getScale <em>Scale</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Scale</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable#getScale()
+	 * @see #getLogNormalRandomVariable()
+	 * @generated
+	 */
+	EReference getLogNormalRandomVariable_Scale();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable <em>Pareto Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Pareto Random Variable</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable
+	 * @generated
+	 */
+	EClass getParetoRandomVariable();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable#getScale <em>Scale</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Scale</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable#getScale()
+	 * @see #getParetoRandomVariable()
+	 * @generated
+	 */
+	EReference getParetoRandomVariable_Scale();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable#getAlpha <em>Alpha</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Alpha</em>'.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable#getAlpha()
+	 * @see #getParetoRandomVariable()
+	 * @generated
+	 */
+	EReference getParetoRandomVariable_Alpha();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2002,20 +2476,20 @@ public interface StochasticPackage extends EPackage {
 		EClass NORMAL_RANDOM_VARIABLE = eINSTANCE.getNormalRandomVariable();
 
 		/**
-		 * The meta object literal for the '<em><b>Mean</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Mean</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute NORMAL_RANDOM_VARIABLE__MEAN = eINSTANCE.getNormalRandomVariable_Mean();
+		EReference NORMAL_RANDOM_VARIABLE__MEAN = eINSTANCE.getNormalRandomVariable_Mean();
 
 		/**
-		 * The meta object literal for the '<em><b>Scale</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Scale</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute NORMAL_RANDOM_VARIABLE__SCALE = eINSTANCE.getNormalRandomVariable_Scale();
+		EReference NORMAL_RANDOM_VARIABLE__SCALE = eINSTANCE.getNormalRandomVariable_Scale();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.ExponentialRandomVariableImpl <em>Exponential Random Variable</em>}' class.
@@ -2028,12 +2502,12 @@ public interface StochasticPackage extends EPackage {
 		EClass EXPONENTIAL_RANDOM_VARIABLE = eINSTANCE.getExponentialRandomVariable();
 
 		/**
-		 * The meta object literal for the '<em><b>Rate</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Rate</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXPONENTIAL_RANDOM_VARIABLE__RATE = eINSTANCE.getExponentialRandomVariable_Rate();
+		EReference EXPONENTIAL_RANDOM_VARIABLE__RATE = eINSTANCE.getExponentialRandomVariable_Rate();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.DiscreteRandomVariableImpl <em>Discrete Random Variable</em>}' class.
@@ -2056,12 +2530,12 @@ public interface StochasticPackage extends EPackage {
 		EClass BERNOULLI_RANDOM_VARIABLE = eINSTANCE.getBernoulliRandomVariable();
 
 		/**
-		 * The meta object literal for the '<em><b>Probability</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Probability</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BERNOULLI_RANDOM_VARIABLE__PROBABILITY = eINSTANCE.getBernoulliRandomVariable_Probability();
+		EReference BERNOULLI_RANDOM_VARIABLE__PROBABILITY = eINSTANCE.getBernoulliRandomVariable_Probability();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.GaussianProcessImpl <em>Gaussian Process</em>}' class.
@@ -2258,12 +2732,12 @@ public interface StochasticPackage extends EPackage {
 		EClass CATEGORICAL_PROBABAILITY = eINSTANCE.getCategoricalProbabaility();
 
 		/**
-		 * The meta object literal for the '<em><b>Probability</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Probability</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CATEGORICAL_PROBABAILITY__PROBABILITY = eINSTANCE.getCategoricalProbabaility_Probability();
+		EReference CATEGORICAL_PROBABAILITY__PROBABILITY = eINSTANCE.getCategoricalProbabaility_Probability();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.HomogeneousPoissonProcessImpl <em>Homogeneous Poisson Process</em>}' class.
@@ -2296,20 +2770,20 @@ public interface StochasticPackage extends EPackage {
 		EClass WEIBULL_RANDOM_VARIABLE = eINSTANCE.getWeibullRandomVariable();
 
 		/**
-		 * The meta object literal for the '<em><b>Scale</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Scale</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute WEIBULL_RANDOM_VARIABLE__SCALE = eINSTANCE.getWeibullRandomVariable_Scale();
+		EReference WEIBULL_RANDOM_VARIABLE__SCALE = eINSTANCE.getWeibullRandomVariable_Scale();
 
 		/**
-		 * The meta object literal for the '<em><b>Shape</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Shape</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute WEIBULL_RANDOM_VARIABLE__SHAPE = eINSTANCE.getWeibullRandomVariable_Shape();
+		EReference WEIBULL_RANDOM_VARIABLE__SHAPE = eINSTANCE.getWeibullRandomVariable_Shape();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.MarkovProcessImpl <em>Markov Process</em>}' class.
@@ -2398,20 +2872,20 @@ public interface StochasticPackage extends EPackage {
 		EClass GAMMA_RANDOM_VARIABLE = eINSTANCE.getGammaRandomVariable();
 
 		/**
-		 * The meta object literal for the '<em><b>Scale</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Scale</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GAMMA_RANDOM_VARIABLE__SCALE = eINSTANCE.getGammaRandomVariable_Scale();
+		EReference GAMMA_RANDOM_VARIABLE__SCALE = eINSTANCE.getGammaRandomVariable_Scale();
 
 		/**
-		 * The meta object literal for the '<em><b>Shape</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Shape</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GAMMA_RANDOM_VARIABLE__SHAPE = eINSTANCE.getGammaRandomVariable_Shape();
+		EReference GAMMA_RANDOM_VARIABLE__SHAPE = eINSTANCE.getGammaRandomVariable_Shape();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.FittedContinuousRandomVariableImpl <em>Fitted Continuous Random Variable</em>}' class.
@@ -2422,6 +2896,146 @@ public interface StochasticPackage extends EPackage {
 		 * @generated
 		 */
 		EClass FITTED_CONTINUOUS_RANDOM_VARIABLE = eINSTANCE.getFittedContinuousRandomVariable();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.CustomRandomVariableImpl <em>Custom Random Variable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.CustomRandomVariableImpl
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getCustomRandomVariable()
+		 * @generated
+		 */
+		EClass CUSTOM_RANDOM_VARIABLE = eINSTANCE.getCustomRandomVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Inverse cdf</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUSTOM_RANDOM_VARIABLE__INVERSE_CDF = eINSTANCE.getCustomRandomVariable_Inverse_cdf();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticExpressionImpl <em>Expression</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticExpressionImpl
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getStochasticExpression()
+		 * @generated
+		 */
+		EClass STOCHASTIC_EXPRESSION = eINSTANCE.getStochasticExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Randomvariable</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STOCHASTIC_EXPRESSION__RANDOMVARIABLE = eINSTANCE.getStochasticExpression_Randomvariable();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.UniformRandomVariableImpl <em>Uniform Random Variable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.UniformRandomVariableImpl
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getUniformRandomVariable()
+		 * @generated
+		 */
+		EClass UNIFORM_RANDOM_VARIABLE = eINSTANCE.getUniformRandomVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Lower Bound</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIFORM_RANDOM_VARIABLE__LOWER_BOUND = eINSTANCE.getUniformRandomVariable_LowerBound();
+
+		/**
+		 * The meta object literal for the '<em><b>Upper Bound</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIFORM_RANDOM_VARIABLE__UPPER_BOUND = eINSTANCE.getUniformRandomVariable_UpperBound();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.BetaRandomVariableImpl <em>Beta Random Variable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.BetaRandomVariableImpl
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getBetaRandomVariable()
+		 * @generated
+		 */
+		EClass BETA_RANDOM_VARIABLE = eINSTANCE.getBetaRandomVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Apha</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BETA_RANDOM_VARIABLE__APHA = eINSTANCE.getBetaRandomVariable_Apha();
+
+		/**
+		 * The meta object literal for the '<em><b>Beta</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BETA_RANDOM_VARIABLE__BETA = eINSTANCE.getBetaRandomVariable_Beta();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.LogNormalRandomVariableImpl <em>Log Normal Random Variable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.LogNormalRandomVariableImpl
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getLogNormalRandomVariable()
+		 * @generated
+		 */
+		EClass LOG_NORMAL_RANDOM_VARIABLE = eINSTANCE.getLogNormalRandomVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Mean</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LOG_NORMAL_RANDOM_VARIABLE__MEAN = eINSTANCE.getLogNormalRandomVariable_Mean();
+
+		/**
+		 * The meta object literal for the '<em><b>Scale</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LOG_NORMAL_RANDOM_VARIABLE__SCALE = eINSTANCE.getLogNormalRandomVariable_Scale();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.stochastic.stochastic.impl.ParetoRandomVariableImpl <em>Pareto Random Variable</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.ParetoRandomVariableImpl
+		 * @see hu.bme.mit.gamma.stochastic.stochastic.impl.StochasticPackageImpl#getParetoRandomVariable()
+		 * @generated
+		 */
+		EClass PARETO_RANDOM_VARIABLE = eINSTANCE.getParetoRandomVariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Scale</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARETO_RANDOM_VARIABLE__SCALE = eINSTANCE.getParetoRandomVariable_Scale();
+
+		/**
+		 * The meta object literal for the '<em><b>Alpha</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARETO_RANDOM_VARIABLE__ALPHA = eINSTANCE.getParetoRandomVariable_Alpha();
 
 	}
 

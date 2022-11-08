@@ -1,6 +1,7 @@
 package hu.bme.mit.gamma.codegenerator.java;
 
 import hu.bme.mit.gamma.codegenerator.java.queries.AbstractSynchronousCompositeComponents;
+import hu.bme.mit.gamma.codegenerator.java.queries.AsynchronousCompositeComponents;
 import hu.bme.mit.gamma.codegenerator.java.queries.SynchronousComponentWrappers;
 import hu.bme.mit.gamma.codegenerator.java.util.Namings;
 import hu.bme.mit.gamma.statechart.composite.AsynchronousAdapter;
@@ -21,15 +22,23 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
     return (_firstLower + "Statechart");
   }
   
-  private EnvironmentCompositeComponentCodeGenerator environmentCompositeComponentCodeGenerator;
+  private EnvironmentSynchronousCompositeComponentCodeGenerator environmentSynchronousCompositeComponentCodeGenerator;
+  
+  private EnvironmentAsynchronousCompositeComponentCodeGenerator environmentAsynchronousCompositeComponentCodeGenerator;
+  
+  private EnvironmentAsynchronousAdapterCodeGenerator environmentAsynchronousAdapterCodeGenerator;
   
   private ArrayList<String> URIs = CollectionLiterals.<String>newArrayList();
   
   public EnvironmentGlueCodeGenerator(final ResourceSet resourceSet, final String basePackageName, final String srcGenFolderUri) {
     super(resourceSet, basePackageName, srcGenFolderUri);
     final Trace trace = new Trace(super.engine);
-    EnvironmentCompositeComponentCodeGenerator _environmentCompositeComponentCodeGenerator = new EnvironmentCompositeComponentCodeGenerator(super.BASE_PACKAGE_NAME, super.YAKINDU_PACKAGE_NAME, trace);
-    this.environmentCompositeComponentCodeGenerator = _environmentCompositeComponentCodeGenerator;
+    EnvironmentSynchronousCompositeComponentCodeGenerator _environmentSynchronousCompositeComponentCodeGenerator = new EnvironmentSynchronousCompositeComponentCodeGenerator(super.BASE_PACKAGE_NAME, super.YAKINDU_PACKAGE_NAME, trace);
+    this.environmentSynchronousCompositeComponentCodeGenerator = _environmentSynchronousCompositeComponentCodeGenerator;
+    EnvironmentAsynchronousCompositeComponentCodeGenerator _environmentAsynchronousCompositeComponentCodeGenerator = new EnvironmentAsynchronousCompositeComponentCodeGenerator(this.BASE_PACKAGE_NAME, trace);
+    this.environmentAsynchronousCompositeComponentCodeGenerator = _environmentAsynchronousCompositeComponentCodeGenerator;
+    EnvironmentAsynchronousAdapterCodeGenerator _environmentAsynchronousAdapterCodeGenerator = new EnvironmentAsynchronousAdapterCodeGenerator(this.BASE_PACKAGE_NAME, trace);
+    this.environmentAsynchronousAdapterCodeGenerator = _environmentAsynchronousAdapterCodeGenerator;
   }
   
   @Override
@@ -38,7 +47,7 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
       final Consumer<AbstractSynchronousCompositeComponents.Match> _function = (AbstractSynchronousCompositeComponents.Match it) -> {
         String _lowerCase = this.nameGenerator.getContainingPackage(it.getSynchronousCompositeComponent()).getName().toLowerCase();
         final String compositeSystemUri = ((this.BASE_PACKAGE_URI + File.separator) + _lowerCase);
-        final CharSequence code = this.environmentCompositeComponentCodeGenerator.createEnvironmentCompositeComponentClass(it.getSynchronousCompositeComponent());
+        final CharSequence code = this.environmentSynchronousCompositeComponentCodeGenerator.createEnvironmentCompositeComponentClass(it.getSynchronousCompositeComponent());
         String _generateComponentClassName = this.nameGenerator.generateComponentClassName(it.getSynchronousCompositeComponent());
         String _plus = ((compositeSystemUri + File.separator) + _generateComponentClassName);
         String _plus_1 = (_plus + ".java");
@@ -60,12 +69,34 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
   }
   
   @Override
+  protected BatchTransformationRule<? extends IPatternMatch, ? extends ViatraQueryMatcher<?>> getAsynchronousCompositeComponentsRule() {
+    if ((this.asynchronousCompositeComponentsRule == null)) {
+      final Consumer<AsynchronousCompositeComponents.Match> _function = (AsynchronousCompositeComponents.Match it) -> {
+        String _lowerCase = this.nameGenerator.getContainingPackage(it.getAsynchronousCompositeComponent()).getName().toLowerCase();
+        final String compositeSystemUri = ((this.BASE_PACKAGE_URI + File.separator) + _lowerCase);
+        final CharSequence code = this.environmentAsynchronousCompositeComponentCodeGenerator.createEnvironmentAsynchronousCompositeComponentClass(it.getAsynchronousCompositeComponent(), 0, 0);
+        String _generateComponentClassName = this.nameGenerator.generateComponentClassName(it.getAsynchronousCompositeComponent());
+        String _plus = ((compositeSystemUri + File.separator) + _generateComponentClassName);
+        String _plus_1 = (_plus + ".java");
+        this.saveCode(code, _plus_1);
+        final String interfaceCode = this.componentInterfaceGenerator.generateComponentInterface(it.getAsynchronousCompositeComponent());
+        String _generatePortOwnerInterfaceName = this.nameGenerator.generatePortOwnerInterfaceName(it.getAsynchronousCompositeComponent());
+        String _plus_2 = ((compositeSystemUri + File.separator) + _generatePortOwnerInterfaceName);
+        String _plus_3 = (_plus_2 + ".java");
+        this.saveCode(interfaceCode, _plus_3);
+      };
+      this.asynchronousCompositeComponentsRule = this._batchTransformationRuleFactory.<AsynchronousCompositeComponents.Match, AsynchronousCompositeComponents.Matcher>createRule(AsynchronousCompositeComponents.instance()).action(_function).build();
+    }
+    return this.asynchronousCompositeComponentsRule;
+  }
+  
+  @Override
   protected BatchTransformationRule<? extends IPatternMatch, ? extends ViatraQueryMatcher<?>> getAsynchronousAdapterRule() {
     if ((this.synchronousComponentWrapperRule == null)) {
       final Consumer<SynchronousComponentWrappers.Match> _function = (SynchronousComponentWrappers.Match it) -> {
         String _lowerCase = this.nameGenerator.getContainingPackage(it.getSynchronousComponentWrapper()).getName().toLowerCase();
         final String compositeSystemUri = ((this.BASE_PACKAGE_URI + File.separator) + _lowerCase);
-        final CharSequence code = this.synchronousComponentWrapperCodeGenerator.createAsynchronousAdapterClass(it.getSynchronousComponentWrapper());
+        final CharSequence code = this.environmentAsynchronousAdapterCodeGenerator.createAsynchronousAdapterClass(it.getSynchronousComponentWrapper());
         String _generateComponentClassName = this.nameGenerator.generateComponentClassName(it.getSynchronousComponentWrapper());
         String _plus = ((compositeSystemUri + File.separator) + _generateComponentClassName);
         String _plus_1 = (_plus + ".java");

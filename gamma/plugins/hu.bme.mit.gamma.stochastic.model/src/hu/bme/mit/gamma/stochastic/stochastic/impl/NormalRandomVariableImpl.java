@@ -2,12 +2,14 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic.impl;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.stochastic.stochastic.NormalRandomVariable;
 import hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage;
-
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -27,44 +29,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl implements NormalRandomVariable {
 	/**
-	 * The default value of the '{@link #getMean() <em>Mean</em>}' attribute.
+	 * The cached value of the '{@link #getMean() <em>Mean</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getMean()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double MEAN_EDEFAULT = 0.0;
+	protected Expression mean;
 
 	/**
-	 * The cached value of the '{@link #getMean() <em>Mean</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMean()
-	 * @generated
-	 * @ordered
-	 */
-	protected double mean = MEAN_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getScale() <em>Scale</em>}' attribute.
+	 * The cached value of the '{@link #getScale() <em>Scale</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getScale()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double SCALE_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getScale() <em>Scale</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getScale()
-	 * @generated
-	 * @ordered
-	 */
-	protected double scale = SCALE_EDEFAULT;
+	protected Expression scale;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -90,7 +72,7 @@ public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getMean() {
+	public Expression getMean() {
 		return mean;
 	}
 
@@ -99,11 +81,14 @@ public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMean(double newMean) {
-		double oldMean = mean;
+	public NotificationChain basicSetMean(Expression newMean, NotificationChain msgs) {
+		Expression oldMean = mean;
 		mean = newMean;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN, oldMean, mean));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN, oldMean, newMean);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -111,7 +96,26 @@ public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getScale() {
+	public void setMean(Expression newMean) {
+		if (newMean != mean) {
+			NotificationChain msgs = null;
+			if (mean != null)
+				msgs = ((InternalEObject)mean).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN, null, msgs);
+			if (newMean != null)
+				msgs = ((InternalEObject)newMean).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN, null, msgs);
+			msgs = basicSetMean(newMean, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN, newMean, newMean));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getScale() {
 		return scale;
 	}
 
@@ -120,11 +124,49 @@ public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setScale(double newScale) {
-		double oldScale = scale;
+	public NotificationChain basicSetScale(Expression newScale, NotificationChain msgs) {
+		Expression oldScale = scale;
 		scale = newScale;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE, oldScale, scale));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE, oldScale, newScale);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setScale(Expression newScale) {
+		if (newScale != scale) {
+			NotificationChain msgs = null;
+			if (scale != null)
+				msgs = ((InternalEObject)scale).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE, null, msgs);
+			if (newScale != null)
+				msgs = ((InternalEObject)newScale).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE, null, msgs);
+			msgs = basicSetScale(newScale, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE, newScale, newScale));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN:
+				return basicSetMean(null, msgs);
+			case StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE:
+				return basicSetScale(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -152,10 +194,10 @@ public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl imple
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN:
-				setMean((Double)newValue);
+				setMean((Expression)newValue);
 				return;
 			case StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE:
-				setScale((Double)newValue);
+				setScale((Expression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -170,10 +212,10 @@ public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl imple
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN:
-				setMean(MEAN_EDEFAULT);
+				setMean((Expression)null);
 				return;
 			case StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE:
-				setScale(SCALE_EDEFAULT);
+				setScale((Expression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -188,29 +230,11 @@ public class NormalRandomVariableImpl extends ContinouosRandomVariableImpl imple
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.NORMAL_RANDOM_VARIABLE__MEAN:
-				return mean != MEAN_EDEFAULT;
+				return mean != null;
 			case StochasticPackage.NORMAL_RANDOM_VARIABLE__SCALE:
-				return scale != SCALE_EDEFAULT;
+				return scale != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (mean: ");
-		result.append(mean);
-		result.append(", scale: ");
-		result.append(scale);
-		result.append(')');
-		return result.toString();
 	}
 
 } //NormalRandomVariableImpl

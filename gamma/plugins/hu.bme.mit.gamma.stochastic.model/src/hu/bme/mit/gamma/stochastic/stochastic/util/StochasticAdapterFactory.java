@@ -2,8 +2,8 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic.util;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.stochastic.stochastic.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
@@ -198,6 +198,34 @@ public class StochasticAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseFittedContinuousRandomVariable(FittedContinuousRandomVariable object) {
 				return createFittedContinuousRandomVariableAdapter();
+			}
+			@Override
+			public Adapter caseCustomRandomVariable(CustomRandomVariable object) {
+				return createCustomRandomVariableAdapter();
+			}
+			@Override
+			public Adapter caseStochasticExpression(StochasticExpression object) {
+				return createStochasticExpressionAdapter();
+			}
+			@Override
+			public Adapter caseUniformRandomVariable(UniformRandomVariable object) {
+				return createUniformRandomVariableAdapter();
+			}
+			@Override
+			public Adapter caseBetaRandomVariable(BetaRandomVariable object) {
+				return createBetaRandomVariableAdapter();
+			}
+			@Override
+			public Adapter caseLogNormalRandomVariable(LogNormalRandomVariable object) {
+				return createLogNormalRandomVariableAdapter();
+			}
+			@Override
+			public Adapter caseParetoRandomVariable(ParetoRandomVariable object) {
+				return createParetoRandomVariableAdapter();
+			}
+			@Override
+			public Adapter caseExpression(Expression object) {
+				return createExpressionAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -678,6 +706,104 @@ public class StochasticAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFittedContinuousRandomVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.stochastic.stochastic.CustomRandomVariable <em>Custom Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.CustomRandomVariable
+	 * @generated
+	 */
+	public Adapter createCustomRandomVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.stochastic.stochastic.StochasticExpression <em>Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.StochasticExpression
+	 * @generated
+	 */
+	public Adapter createStochasticExpressionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable <em>Uniform Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.UniformRandomVariable
+	 * @generated
+	 */
+	public Adapter createUniformRandomVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable <em>Beta Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.BetaRandomVariable
+	 * @generated
+	 */
+	public Adapter createBetaRandomVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable <em>Log Normal Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.LogNormalRandomVariable
+	 * @generated
+	 */
+	public Adapter createLogNormalRandomVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable <em>Pareto Random Variable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.stochastic.stochastic.ParetoRandomVariable
+	 * @generated
+	 */
+	public Adapter createParetoRandomVariableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.expression.model.Expression <em>Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.expression.model.Expression
+	 * @generated
+	 */
+	public Adapter createExpressionAdapter() {
 		return null;
 	}
 

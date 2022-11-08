@@ -2,8 +2,6 @@
  */
 package hu.bme.mit.gamma.analysis;
 
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance;
-
 import hu.bme.mit.gamma.statechart.interface_.Event;
 import hu.bme.mit.gamma.statechart.interface_.Port;
 
@@ -18,9 +16,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent <em>Component</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getPort <em>Port</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getEvent <em>Event</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent <em>Component</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.gamma.analysis.AnalysisPackage#getComponentPortEventReference()
@@ -28,28 +26,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface ComponentPortEventReference extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Component</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Component</em>' reference.
-	 * @see #setComponent(EnvironmentCompositeComponentInstance)
-	 * @see hu.bme.mit.gamma.analysis.AnalysisPackage#getComponentPortEventReference_Component()
-	 * @model required="true"
-	 * @generated
-	 */
-	EnvironmentCompositeComponentInstance getComponent();
-
-	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent <em>Component</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Component</em>' reference.
-	 * @see #getComponent()
-	 * @generated
-	 */
-	void setComponent(EnvironmentCompositeComponentInstance value);
-
 	/**
 	 * Returns the value of the '<em><b>Port</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -93,5 +69,27 @@ public interface ComponentPortEventReference extends EObject {
 	 * @generated
 	 */
 	void setEvent(Event value);
+
+	/**
+	 * Returns the value of the '<em><b>Component</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Component</em>' containment reference.
+	 * @see #setComponent(RecursiveComponentReference)
+	 * @see hu.bme.mit.gamma.analysis.AnalysisPackage#getComponentPortEventReference_Component()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	RecursiveComponentReference getComponent();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent <em>Component</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Component</em>' containment reference.
+	 * @see #getComponent()
+	 * @generated
+	 */
+	void setComponent(RecursiveComponentReference value);
 
 } // ComponentPortEventReference

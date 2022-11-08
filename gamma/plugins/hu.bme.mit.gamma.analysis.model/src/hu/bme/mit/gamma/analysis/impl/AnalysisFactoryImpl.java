@@ -71,6 +71,13 @@ public class AnalysisFactoryImpl extends EFactoryImpl implements AnalysisFactory
 			case AnalysisPackage.FREQUENCY: return createFrequency();
 			case AnalysisPackage.MEAN_PARAMETER: return createMeanParameter();
 			case AnalysisPackage.PARAMETER_DISTRIBUTION: return createParameterDistribution();
+			case AnalysisPackage.RECURSIVE_COMPONENT_REFERENCE: return createRecursiveComponentReference();
+			case AnalysisPackage.MEAN_TIME_BETWEEN_EVENTS: return createMeanTimeBetweenEvents();
+			case AnalysisPackage.EVENT_TIME_RATIO: return createEventTimeRatio();
+			case AnalysisPackage.OBSERVE_PARAMETER: return createObserveParameter();
+			case AnalysisPackage.PRIORY_DISTRIBUTION: return createPrioryDistribution();
+			case AnalysisPackage.OBSERVE_TIME: return createObserveTime();
+			case AnalysisPackage.END_CONDITION: return createEndCondition();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -224,6 +231,76 @@ public class AnalysisFactoryImpl extends EFactoryImpl implements AnalysisFactory
 	public ParameterDistribution createParameterDistribution() {
 		ParameterDistributionImpl parameterDistribution = new ParameterDistributionImpl();
 		return parameterDistribution;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RecursiveComponentReference createRecursiveComponentReference() {
+		RecursiveComponentReferenceImpl recursiveComponentReference = new RecursiveComponentReferenceImpl();
+		return recursiveComponentReference;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MeanTimeBetweenEvents createMeanTimeBetweenEvents() {
+		MeanTimeBetweenEventsImpl meanTimeBetweenEvents = new MeanTimeBetweenEventsImpl();
+		return meanTimeBetweenEvents;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EventTimeRatio createEventTimeRatio() {
+		EventTimeRatioImpl eventTimeRatio = new EventTimeRatioImpl();
+		return eventTimeRatio;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ObserveParameter createObserveParameter() {
+		ObserveParameterImpl observeParameter = new ObserveParameterImpl();
+		return observeParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PrioryDistribution createPrioryDistribution() {
+		PrioryDistributionImpl prioryDistribution = new PrioryDistributionImpl();
+		return prioryDistribution;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ObserveTime createObserveTime() {
+		ObserveTimeImpl observeTime = new ObserveTimeImpl();
+		return observeTime;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EndCondition createEndCondition() {
+		EndConditionImpl endCondition = new EndConditionImpl();
+		return endCondition;
 	}
 
 	/**

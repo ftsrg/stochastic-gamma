@@ -96,6 +96,15 @@ public interface AnalysisPackage extends EPackage {
 	int ANALYSIS_COMPONENT__PORTS = InterfaceModelPackage.COMPONENT__PORTS;
 
 	/**
+	 * The feature id for the '<em><b>Function Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_COMPONENT__FUNCTION_DECLARATIONS = InterfaceModelPackage.COMPONENT__FUNCTION_DECLARATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Analyzed Component</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -114,7 +123,7 @@ public interface AnalysisPackage extends EPackage {
 	int ANALYSIS_COMPONENT__CONDITIONS = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Aspect</b></em>' containment reference.
+	 * The feature id for the '<em><b>Aspect</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -141,13 +150,40 @@ public interface AnalysisPackage extends EPackage {
 	int ANALYSIS_COMPONENT__SIMULATION_NUMBER = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Priorydistribution</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_COMPONENT__PRIORYDISTRIBUTION = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_COMPONENT__ENDCONDITION = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_COMPONENT__WARMUP_TIME = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANALYSIS_COMPONENT_FEATURE_COUNT = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 5;
+	int ANALYSIS_COMPONENT_FEATURE_COUNT = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of operations of the '<em>Component</em>' class.
@@ -196,6 +232,43 @@ public interface AnalysisPackage extends EPackage {
 	int ANALYSIS_CONDITION_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.AssumeConditionImpl <em>Assume Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.AssumeConditionImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getAssumeCondition()
+	 * @generated
+	 */
+	int ASSUME_CONDITION = 24;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSUME_CONDITION__EVENT = ANALYSIS_CONDITION__EVENT;
+
+	/**
+	 * The number of structural features of the '<em>Assume Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSUME_CONDITION_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Assume Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSUME_CONDITION_OPERATION_COUNT = ANALYSIS_CONDITION_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.AssumeRaisedImpl <em>Assume Raised</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -212,7 +285,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSUME_RAISED__EVENT = ANALYSIS_CONDITION__EVENT;
+	int ASSUME_RAISED__EVENT = ASSUME_CONDITION__EVENT;
 
 	/**
 	 * The number of structural features of the '<em>Assume Raised</em>' class.
@@ -221,7 +294,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSUME_RAISED_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
+	int ASSUME_RAISED_FEATURE_COUNT = ASSUME_CONDITION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Assume Raised</em>' class.
@@ -230,7 +303,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSUME_RAISED_OPERATION_COUNT = ANALYSIS_CONDITION_OPERATION_COUNT + 0;
+	int ASSUME_RAISED_OPERATION_COUNT = ASSUME_CONDITION_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.AssumeNotRaisedImpl <em>Assume Not Raised</em>}' class.
@@ -249,7 +322,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSUME_NOT_RAISED__EVENT = ANALYSIS_CONDITION__EVENT;
+	int ASSUME_NOT_RAISED__EVENT = ASSUME_CONDITION__EVENT;
 
 	/**
 	 * The number of structural features of the '<em>Assume Not Raised</em>' class.
@@ -258,7 +331,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSUME_NOT_RAISED_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
+	int ASSUME_NOT_RAISED_FEATURE_COUNT = ASSUME_CONDITION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Assume Not Raised</em>' class.
@@ -267,7 +340,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSUME_NOT_RAISED_OPERATION_COUNT = ANALYSIS_CONDITION_OPERATION_COUNT + 0;
+	int ASSUME_NOT_RAISED_OPERATION_COUNT = ASSUME_CONDITION_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.AnalysisAspectImpl <em>Aspect</em>}' class.
@@ -519,6 +592,15 @@ public interface AnalysisPackage extends EPackage {
 	int REQUIREMENT_COMPONENT__PORTS = ANALYSIS_COMPONENT__PORTS;
 
 	/**
+	 * The feature id for the '<em><b>Function Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_COMPONENT__FUNCTION_DECLARATIONS = ANALYSIS_COMPONENT__FUNCTION_DECLARATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Analyzed Component</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -537,7 +619,7 @@ public interface AnalysisPackage extends EPackage {
 	int REQUIREMENT_COMPONENT__CONDITIONS = ANALYSIS_COMPONENT__CONDITIONS;
 
 	/**
-	 * The feature id for the '<em><b>Aspect</b></em>' containment reference.
+	 * The feature id for the '<em><b>Aspect</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -562,6 +644,33 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int REQUIREMENT_COMPONENT__SIMULATION_NUMBER = ANALYSIS_COMPONENT__SIMULATION_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Priorydistribution</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_COMPONENT__PRIORYDISTRIBUTION = ANALYSIS_COMPONENT__PRIORYDISTRIBUTION;
+
+	/**
+	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_COMPONENT__ENDCONDITION = ANALYSIS_COMPONENT__ENDCONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUIREMENT_COMPONENT__WARMUP_TIME = ANALYSIS_COMPONENT__WARMUP_TIME;
 
 	/**
 	 * The feature id for the '<em><b>Requirement</b></em>' containment reference list.
@@ -785,22 +894,13 @@ public interface AnalysisPackage extends EPackage {
 	int COMPONENT_PORT_EVENT_REFERENCE = 14;
 
 	/**
-	 * The feature id for the '<em><b>Component</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_PORT_EVENT_REFERENCE__COMPONENT = 0;
-
-	/**
 	 * The feature id for the '<em><b>Port</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_PORT_EVENT_REFERENCE__PORT = 1;
+	int COMPONENT_PORT_EVENT_REFERENCE__PORT = 0;
 
 	/**
 	 * The feature id for the '<em><b>Event</b></em>' reference.
@@ -809,7 +909,16 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_PORT_EVENT_REFERENCE__EVENT = 2;
+	int COMPONENT_PORT_EVENT_REFERENCE__EVENT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Component</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_PORT_EVENT_REFERENCE__COMPONENT = 2;
 
 	/**
 	 * The number of structural features of the '<em>Component Port Event Reference</em>' class.
@@ -866,7 +975,6 @@ public interface AnalysisPackage extends EPackage {
 	 */
 	int FREQUENCY_OPERATION_COUNT = ANALYSIS_ASPECT_OPERATION_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.MeanParameterImpl <em>Mean Parameter</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -887,13 +995,22 @@ public interface AnalysisPackage extends EPackage {
 	int MEAN_PARAMETER__EVENT = ANALYSIS_ASPECT__EVENT;
 
 	/**
+	 * The feature id for the '<em><b>Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEAN_PARAMETER__PARAMETER = ANALYSIS_ASPECT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Mean Parameter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEAN_PARAMETER_FEATURE_COUNT = ANALYSIS_ASPECT_FEATURE_COUNT + 0;
+	int MEAN_PARAMETER_FEATURE_COUNT = ANALYSIS_ASPECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Mean Parameter</em>' class.
@@ -924,13 +1041,22 @@ public interface AnalysisPackage extends EPackage {
 	int PARAMETER_DISTRIBUTION__EVENT = ANALYSIS_ASPECT__EVENT;
 
 	/**
+	 * The feature id for the '<em><b>Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_DISTRIBUTION__PARAMETER = ANALYSIS_ASPECT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Parameter Distribution</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_DISTRIBUTION_FEATURE_COUNT = ANALYSIS_ASPECT_FEATURE_COUNT + 0;
+	int PARAMETER_DISTRIBUTION_FEATURE_COUNT = ANALYSIS_ASPECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Parameter Distribution</em>' class.
@@ -940,6 +1066,401 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int PARAMETER_DISTRIBUTION_OPERATION_COUNT = ANALYSIS_ASPECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.RecursiveComponentReferenceImpl <em>Recursive Component Reference</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.RecursiveComponentReferenceImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getRecursiveComponentReference()
+	 * @generated
+	 */
+	int RECURSIVE_COMPONENT_REFERENCE = 18;
+
+	/**
+	 * The feature id for the '<em><b>Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECURSIVE_COMPONENT_REFERENCE__COMPONENT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Recursivecomponentreference</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECURSIVE_COMPONENT_REFERENCE__RECURSIVECOMPONENTREFERENCE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Recursive Component Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECURSIVE_COMPONENT_REFERENCE_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Recursive Component Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECURSIVE_COMPONENT_REFERENCE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.MeanTimeBetweenEventsImpl <em>Mean Time Between Events</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.MeanTimeBetweenEventsImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getMeanTimeBetweenEvents()
+	 * @generated
+	 */
+	int MEAN_TIME_BETWEEN_EVENTS = 19;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEAN_TIME_BETWEEN_EVENTS__EVENT = ANALYSIS_ASPECT__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Event2</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEAN_TIME_BETWEEN_EVENTS__EVENT2 = ANALYSIS_ASPECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Mean Time Between Events</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEAN_TIME_BETWEEN_EVENTS_FEATURE_COUNT = ANALYSIS_ASPECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Mean Time Between Events</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEAN_TIME_BETWEEN_EVENTS_OPERATION_COUNT = ANALYSIS_ASPECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.EventTimeRatioImpl <em>Event Time Ratio</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.EventTimeRatioImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getEventTimeRatio()
+	 * @generated
+	 */
+	int EVENT_TIME_RATIO = 20;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_TIME_RATIO__EVENT = ANALYSIS_ASPECT__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Event2</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_TIME_RATIO__EVENT2 = ANALYSIS_ASPECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Event Time Ratio</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_TIME_RATIO_FEATURE_COUNT = ANALYSIS_ASPECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Event Time Ratio</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_TIME_RATIO_OPERATION_COUNT = ANALYSIS_ASPECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.ObserveConditionImpl <em>Observe Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.ObserveConditionImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getObserveCondition()
+	 * @generated
+	 */
+	int OBSERVE_CONDITION = 23;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_CONDITION__EVENT = ANALYSIS_CONDITION__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_CONDITION__VALUE = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_CONDITION__RANDOMVARIABLE = ANALYSIS_CONDITION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Observe Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_CONDITION_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Observe Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_CONDITION_OPERATION_COUNT = ANALYSIS_CONDITION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.ObserveParameterImpl <em>Observe Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.ObserveParameterImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getObserveParameter()
+	 * @generated
+	 */
+	int OBSERVE_PARAMETER = 21;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_PARAMETER__EVENT = OBSERVE_CONDITION__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_PARAMETER__VALUE = OBSERVE_CONDITION__VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_PARAMETER__RANDOMVARIABLE = OBSERVE_CONDITION__RANDOMVARIABLE;
+
+	/**
+	 * The feature id for the '<em><b>Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_PARAMETER__PARAMETER = OBSERVE_CONDITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Observe Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_PARAMETER_FEATURE_COUNT = OBSERVE_CONDITION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Observe Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_PARAMETER_OPERATION_COUNT = OBSERVE_CONDITION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.PrioryDistributionImpl <em>Priory Distribution</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.PrioryDistributionImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getPrioryDistribution()
+	 * @generated
+	 */
+	int PRIORY_DISTRIBUTION = 22;
+
+	/**
+	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIORY_DISTRIBUTION__RANDOMVARIABLE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIORY_DISTRIBUTION__PARAMETER = 1;
+
+	/**
+	 * The number of structural features of the '<em>Priory Distribution</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIORY_DISTRIBUTION_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Priory Distribution</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIORY_DISTRIBUTION_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.ObserveTimeImpl <em>Observe Time</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.ObserveTimeImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getObserveTime()
+	 * @generated
+	 */
+	int OBSERVE_TIME = 25;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_TIME__EVENT = OBSERVE_CONDITION__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_TIME__VALUE = OBSERVE_CONDITION__VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_TIME__RANDOMVARIABLE = OBSERVE_CONDITION__RANDOMVARIABLE;
+
+	/**
+	 * The number of structural features of the '<em>Observe Time</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_TIME_FEATURE_COUNT = OBSERVE_CONDITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Observe Time</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBSERVE_TIME_OPERATION_COUNT = OBSERVE_CONDITION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.analysis.impl.EndConditionImpl <em>End Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.analysis.impl.EndConditionImpl
+	 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getEndCondition()
+	 * @generated
+	 */
+	int END_CONDITION = 26;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_CONDITION__EVENT = ANALYSIS_CONDITION__EVENT;
+
+	/**
+	 * The number of structural features of the '<em>End Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_CONDITION_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>End Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_CONDITION_OPERATION_COUNT = ANALYSIS_CONDITION_OPERATION_COUNT + 0;
 
 
 	/**
@@ -975,10 +1496,10 @@ public interface AnalysisPackage extends EPackage {
 	EReference getAnalysisComponent_Conditions();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.analysis.AnalysisComponent#getAspect <em>Aspect</em>}'.
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.analysis.AnalysisComponent#getAspect <em>Aspect</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Aspect</em>'.
+	 * @return the meta object for the containment reference list '<em>Aspect</em>'.
 	 * @see hu.bme.mit.gamma.analysis.AnalysisComponent#getAspect()
 	 * @see #getAnalysisComponent()
 	 * @generated
@@ -1006,6 +1527,39 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getAnalysisComponent_SimulationNumber();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.analysis.AnalysisComponent#getPriorydistribution <em>Priorydistribution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Priorydistribution</em>'.
+	 * @see hu.bme.mit.gamma.analysis.AnalysisComponent#getPriorydistribution()
+	 * @see #getAnalysisComponent()
+	 * @generated
+	 */
+	EReference getAnalysisComponent_Priorydistribution();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.analysis.AnalysisComponent#getEndcondition <em>Endcondition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Endcondition</em>'.
+	 * @see hu.bme.mit.gamma.analysis.AnalysisComponent#getEndcondition()
+	 * @see #getAnalysisComponent()
+	 * @generated
+	 */
+	EReference getAnalysisComponent_Endcondition();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.analysis.AnalysisComponent#getWarmupTime <em>Warmup Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Warmup Time</em>'.
+	 * @see hu.bme.mit.gamma.analysis.AnalysisComponent#getWarmupTime()
+	 * @see #getAnalysisComponent()
+	 * @generated
+	 */
+	EAttribute getAnalysisComponent_WarmupTime();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.AnalysisCondition <em>Condition</em>}'.
@@ -1269,17 +1823,6 @@ public interface AnalysisPackage extends EPackage {
 	EClass getComponentPortEventReference();
 
 	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent <em>Component</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Component</em>'.
-	 * @see hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent()
-	 * @see #getComponentPortEventReference()
-	 * @generated
-	 */
-	EReference getComponentPortEventReference_Component();
-
-	/**
 	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getPort <em>Port</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1302,6 +1845,17 @@ public interface AnalysisPackage extends EPackage {
 	EReference getComponentPortEventReference_Event();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent <em>Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Component</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ComponentPortEventReference#getComponent()
+	 * @see #getComponentPortEventReference()
+	 * @generated
+	 */
+	EReference getComponentPortEventReference_Component();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.Frequency <em>Frequency</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1322,6 +1876,17 @@ public interface AnalysisPackage extends EPackage {
 	EClass getMeanParameter();
 
 	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.analysis.MeanParameter#getParameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parameter</em>'.
+	 * @see hu.bme.mit.gamma.analysis.MeanParameter#getParameter()
+	 * @see #getMeanParameter()
+	 * @generated
+	 */
+	EReference getMeanParameter_Parameter();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.ParameterDistribution <em>Parameter Distribution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1330,6 +1895,206 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getParameterDistribution();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.analysis.ParameterDistribution#getParameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parameter</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ParameterDistribution#getParameter()
+	 * @see #getParameterDistribution()
+	 * @generated
+	 */
+	EReference getParameterDistribution_Parameter();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.RecursiveComponentReference <em>Recursive Component Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Recursive Component Reference</em>'.
+	 * @see hu.bme.mit.gamma.analysis.RecursiveComponentReference
+	 * @generated
+	 */
+	EClass getRecursiveComponentReference();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.analysis.RecursiveComponentReference#getComponent <em>Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Component</em>'.
+	 * @see hu.bme.mit.gamma.analysis.RecursiveComponentReference#getComponent()
+	 * @see #getRecursiveComponentReference()
+	 * @generated
+	 */
+	EReference getRecursiveComponentReference_Component();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.analysis.RecursiveComponentReference#getRecursivecomponentreference <em>Recursivecomponentreference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Recursivecomponentreference</em>'.
+	 * @see hu.bme.mit.gamma.analysis.RecursiveComponentReference#getRecursivecomponentreference()
+	 * @see #getRecursiveComponentReference()
+	 * @generated
+	 */
+	EReference getRecursiveComponentReference_Recursivecomponentreference();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.MeanTimeBetweenEvents <em>Mean Time Between Events</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Mean Time Between Events</em>'.
+	 * @see hu.bme.mit.gamma.analysis.MeanTimeBetweenEvents
+	 * @generated
+	 */
+	EClass getMeanTimeBetweenEvents();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.analysis.MeanTimeBetweenEvents#getEvent2 <em>Event2</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Event2</em>'.
+	 * @see hu.bme.mit.gamma.analysis.MeanTimeBetweenEvents#getEvent2()
+	 * @see #getMeanTimeBetweenEvents()
+	 * @generated
+	 */
+	EReference getMeanTimeBetweenEvents_Event2();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.EventTimeRatio <em>Event Time Ratio</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Event Time Ratio</em>'.
+	 * @see hu.bme.mit.gamma.analysis.EventTimeRatio
+	 * @generated
+	 */
+	EClass getEventTimeRatio();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.analysis.EventTimeRatio#getEvent2 <em>Event2</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Event2</em>'.
+	 * @see hu.bme.mit.gamma.analysis.EventTimeRatio#getEvent2()
+	 * @see #getEventTimeRatio()
+	 * @generated
+	 */
+	EReference getEventTimeRatio_Event2();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.ObserveParameter <em>Observe Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Observe Parameter</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ObserveParameter
+	 * @generated
+	 */
+	EClass getObserveParameter();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.analysis.ObserveParameter#getParameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parameter</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ObserveParameter#getParameter()
+	 * @see #getObserveParameter()
+	 * @generated
+	 */
+	EReference getObserveParameter_Parameter();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.PrioryDistribution <em>Priory Distribution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Priory Distribution</em>'.
+	 * @see hu.bme.mit.gamma.analysis.PrioryDistribution
+	 * @generated
+	 */
+	EClass getPrioryDistribution();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.analysis.PrioryDistribution#getRandomvariable <em>Randomvariable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Randomvariable</em>'.
+	 * @see hu.bme.mit.gamma.analysis.PrioryDistribution#getRandomvariable()
+	 * @see #getPrioryDistribution()
+	 * @generated
+	 */
+	EReference getPrioryDistribution_Randomvariable();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.analysis.PrioryDistribution#getParameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parameter</em>'.
+	 * @see hu.bme.mit.gamma.analysis.PrioryDistribution#getParameter()
+	 * @see #getPrioryDistribution()
+	 * @generated
+	 */
+	EReference getPrioryDistribution_Parameter();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.ObserveCondition <em>Observe Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Observe Condition</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ObserveCondition
+	 * @generated
+	 */
+	EClass getObserveCondition();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.analysis.ObserveCondition#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ObserveCondition#getValue()
+	 * @see #getObserveCondition()
+	 * @generated
+	 */
+	EAttribute getObserveCondition_Value();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.analysis.ObserveCondition#getRandomvariable <em>Randomvariable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Randomvariable</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ObserveCondition#getRandomvariable()
+	 * @see #getObserveCondition()
+	 * @generated
+	 */
+	EReference getObserveCondition_Randomvariable();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.AssumeCondition <em>Assume Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Assume Condition</em>'.
+	 * @see hu.bme.mit.gamma.analysis.AssumeCondition
+	 * @generated
+	 */
+	EClass getAssumeCondition();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.ObserveTime <em>Observe Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Observe Time</em>'.
+	 * @see hu.bme.mit.gamma.analysis.ObserveTime
+	 * @generated
+	 */
+	EClass getObserveTime();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.analysis.EndCondition <em>End Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>End Condition</em>'.
+	 * @see hu.bme.mit.gamma.analysis.EndCondition
+	 * @generated
+	 */
+	EClass getEndCondition();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1381,7 +2146,7 @@ public interface AnalysisPackage extends EPackage {
 		EReference ANALYSIS_COMPONENT__CONDITIONS = eINSTANCE.getAnalysisComponent_Conditions();
 
 		/**
-		 * The meta object literal for the '<em><b>Aspect</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Aspect</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1403,6 +2168,30 @@ public interface AnalysisPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ANALYSIS_COMPONENT__SIMULATION_NUMBER = eINSTANCE.getAnalysisComponent_SimulationNumber();
+
+		/**
+		 * The meta object literal for the '<em><b>Priorydistribution</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ANALYSIS_COMPONENT__PRIORYDISTRIBUTION = eINSTANCE.getAnalysisComponent_Priorydistribution();
+
+		/**
+		 * The meta object literal for the '<em><b>Endcondition</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ANALYSIS_COMPONENT__ENDCONDITION = eINSTANCE.getAnalysisComponent_Endcondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Warmup Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANALYSIS_COMPONENT__WARMUP_TIME = eINSTANCE.getAnalysisComponent_WarmupTime();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.AnalysisConditionImpl <em>Condition</em>}' class.
@@ -1633,14 +2422,6 @@ public interface AnalysisPackage extends EPackage {
 		EClass COMPONENT_PORT_EVENT_REFERENCE = eINSTANCE.getComponentPortEventReference();
 
 		/**
-		 * The meta object literal for the '<em><b>Component</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPONENT_PORT_EVENT_REFERENCE__COMPONENT = eINSTANCE.getComponentPortEventReference_Component();
-
-		/**
 		 * The meta object literal for the '<em><b>Port</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1655,6 +2436,14 @@ public interface AnalysisPackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMPONENT_PORT_EVENT_REFERENCE__EVENT = eINSTANCE.getComponentPortEventReference_Event();
+
+		/**
+		 * The meta object literal for the '<em><b>Component</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_PORT_EVENT_REFERENCE__COMPONENT = eINSTANCE.getComponentPortEventReference_Component();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.FrequencyImpl <em>Frequency</em>}' class.
@@ -1677,6 +2466,14 @@ public interface AnalysisPackage extends EPackage {
 		EClass MEAN_PARAMETER = eINSTANCE.getMeanParameter();
 
 		/**
+		 * The meta object literal for the '<em><b>Parameter</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MEAN_PARAMETER__PARAMETER = eINSTANCE.getMeanParameter_Parameter();
+
+		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.ParameterDistributionImpl <em>Parameter Distribution</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1685,6 +2482,176 @@ public interface AnalysisPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PARAMETER_DISTRIBUTION = eINSTANCE.getParameterDistribution();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARAMETER_DISTRIBUTION__PARAMETER = eINSTANCE.getParameterDistribution_Parameter();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.RecursiveComponentReferenceImpl <em>Recursive Component Reference</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.RecursiveComponentReferenceImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getRecursiveComponentReference()
+		 * @generated
+		 */
+		EClass RECURSIVE_COMPONENT_REFERENCE = eINSTANCE.getRecursiveComponentReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RECURSIVE_COMPONENT_REFERENCE__COMPONENT = eINSTANCE.getRecursiveComponentReference_Component();
+
+		/**
+		 * The meta object literal for the '<em><b>Recursivecomponentreference</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RECURSIVE_COMPONENT_REFERENCE__RECURSIVECOMPONENTREFERENCE = eINSTANCE.getRecursiveComponentReference_Recursivecomponentreference();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.MeanTimeBetweenEventsImpl <em>Mean Time Between Events</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.MeanTimeBetweenEventsImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getMeanTimeBetweenEvents()
+		 * @generated
+		 */
+		EClass MEAN_TIME_BETWEEN_EVENTS = eINSTANCE.getMeanTimeBetweenEvents();
+
+		/**
+		 * The meta object literal for the '<em><b>Event2</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MEAN_TIME_BETWEEN_EVENTS__EVENT2 = eINSTANCE.getMeanTimeBetweenEvents_Event2();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.EventTimeRatioImpl <em>Event Time Ratio</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.EventTimeRatioImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getEventTimeRatio()
+		 * @generated
+		 */
+		EClass EVENT_TIME_RATIO = eINSTANCE.getEventTimeRatio();
+
+		/**
+		 * The meta object literal for the '<em><b>Event2</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT_TIME_RATIO__EVENT2 = eINSTANCE.getEventTimeRatio_Event2();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.ObserveParameterImpl <em>Observe Parameter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.ObserveParameterImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getObserveParameter()
+		 * @generated
+		 */
+		EClass OBSERVE_PARAMETER = eINSTANCE.getObserveParameter();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBSERVE_PARAMETER__PARAMETER = eINSTANCE.getObserveParameter_Parameter();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.PrioryDistributionImpl <em>Priory Distribution</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.PrioryDistributionImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getPrioryDistribution()
+		 * @generated
+		 */
+		EClass PRIORY_DISTRIBUTION = eINSTANCE.getPrioryDistribution();
+
+		/**
+		 * The meta object literal for the '<em><b>Randomvariable</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PRIORY_DISTRIBUTION__RANDOMVARIABLE = eINSTANCE.getPrioryDistribution_Randomvariable();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PRIORY_DISTRIBUTION__PARAMETER = eINSTANCE.getPrioryDistribution_Parameter();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.ObserveConditionImpl <em>Observe Condition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.ObserveConditionImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getObserveCondition()
+		 * @generated
+		 */
+		EClass OBSERVE_CONDITION = eINSTANCE.getObserveCondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OBSERVE_CONDITION__VALUE = eINSTANCE.getObserveCondition_Value();
+
+		/**
+		 * The meta object literal for the '<em><b>Randomvariable</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OBSERVE_CONDITION__RANDOMVARIABLE = eINSTANCE.getObserveCondition_Randomvariable();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.AssumeConditionImpl <em>Assume Condition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.AssumeConditionImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getAssumeCondition()
+		 * @generated
+		 */
+		EClass ASSUME_CONDITION = eINSTANCE.getAssumeCondition();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.ObserveTimeImpl <em>Observe Time</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.ObserveTimeImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getObserveTime()
+		 * @generated
+		 */
+		EClass OBSERVE_TIME = eINSTANCE.getObserveTime();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.analysis.impl.EndConditionImpl <em>End Condition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.analysis.impl.EndConditionImpl
+		 * @see hu.bme.mit.gamma.analysis.impl.AnalysisPackageImpl#getEndCondition()
+		 * @generated
+		 */
+		EClass END_CONDITION = eINSTANCE.getEndCondition();
 
 	}
 

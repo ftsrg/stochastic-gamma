@@ -3,11 +3,12 @@ package hu.bme.mit.gamma.analysis.transformation
 import hu.bme.mit.gamma.statechart.composite.InstancePortReference
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance
 import java.util.List
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance
 import java.util.Map
 import hu.bme.mit.gamma.statechart.interface_.Port
 import com.google.common.collect.Multimap
 import com.google.common.collect.HashMultimap
+import hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponentInstance
+import hu.bme.mit.gamma.statechart.composite.ComponentInstance
 
 class EnvironmentConnections {
 	                                             
@@ -37,7 +38,9 @@ class EnvironmentConnections {
 		
 		
 		static def void addInCall(Port port,InstancePortReference listenerPort){
-			inCalls.put(port,".get"+listenerPort.instance.name.toFirstUpper+"().get"+listenerPort.port.name.toFirstUpper+"()")
+			if (! (listenerPort.instance instanceof ElementaryEnvironmentComponentInstance)){			
+				inCalls.put(port,".get"+listenerPort.instance.name.toFirstUpper+"().get"+listenerPort.port.name.toFirstUpper+"()")
+			}
 		}
 		
 		static def void addInCall(Port port,Port listenerPort){
@@ -45,7 +48,11 @@ class EnvironmentConnections {
 		}
 		
 		static def void addOutCall(Port port,InstancePortReference listenerPort){
-			outCalls.put(port,".get"+listenerPort.instance.name.toFirstUpper+"().get"+listenerPort.port.name.toFirstUpper+"()")
+			if (! (listenerPort.instance instanceof ElementaryEnvironmentComponentInstance)){	
+				outCalls.put(port,".get"+listenerPort.instance.name.toFirstUpper+"().get"+listenerPort.port.name.toFirstUpper+"()")
+			}else{
+				outCalls.put(port,"_self.components["+TransformationUtility.generateEnvCompName(componentCall,listenerPort.instance as ElementaryEnvironmentComponentInstance)+"]")
+			}
 		}
 		
 		static def void addOutCall(Port port,Port listenerPort){
@@ -54,7 +61,7 @@ class EnvironmentConnections {
 		
 		static def void init(
 			ElementaryEnvironmentComponentInstance _component,
-			List<EnvironmentCompositeComponentInstance> callStack
+			List<ComponentInstance> callStack
 		){
 			componentCall=""
 			for(comp:callStack){

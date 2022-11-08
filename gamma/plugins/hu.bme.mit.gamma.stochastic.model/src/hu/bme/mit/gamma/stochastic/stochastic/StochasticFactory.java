@@ -229,6 +229,60 @@ public interface StochasticFactory extends EFactory {
 	GammaRandomVariable createGammaRandomVariable();
 
 	/**
+	 * Returns a new object of class '<em>Custom Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Custom Random Variable</em>'.
+	 * @generated
+	 */
+	CustomRandomVariable createCustomRandomVariable();
+
+	/**
+	 * Returns a new object of class '<em>Expression</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Expression</em>'.
+	 * @generated
+	 */
+	StochasticExpression createStochasticExpression();
+
+	/**
+	 * Returns a new object of class '<em>Uniform Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uniform Random Variable</em>'.
+	 * @generated
+	 */
+	UniformRandomVariable createUniformRandomVariable();
+
+	/**
+	 * Returns a new object of class '<em>Beta Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Beta Random Variable</em>'.
+	 * @generated
+	 */
+	BetaRandomVariable createBetaRandomVariable();
+
+	/**
+	 * Returns a new object of class '<em>Log Normal Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Log Normal Random Variable</em>'.
+	 * @generated
+	 */
+	LogNormalRandomVariable createLogNormalRandomVariable();
+
+	/**
+	 * Returns a new object of class '<em>Pareto Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Pareto Random Variable</em>'.
+	 * @generated
+	 */
+	ParetoRandomVariable createParetoRandomVariable();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

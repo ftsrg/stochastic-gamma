@@ -25,7 +25,7 @@ Package returns InterfaceModel::Package: 'package' name=ID
 		functionDeclarations+=FunctionDeclaration |
 		typeDeclarations+=TypeDeclaration |
 		components+=Component |
-		interfaces+=Interface
+		interfaces+=Interface 	
 	)*
 ;
 
@@ -34,7 +34,9 @@ Package returns InterfaceModel::Package: 'package' name=ID
 @Override 
 Component returns InterfaceModel::Component:
 	SynchronousComponent |
-	EnvironmentCompositeComponent |
+	EnvironmentCascadeCompositeComponent |
+	EnvironmentSynchronousCompositeComponent |
+	EnvironmentAsynchronousCompositeComponent |
 	AnalysisComponent |
 	RequirementComponent
 ;
@@ -46,10 +48,10 @@ RequirementComponent returns AnalysisModel::RequirementComponent:
 	'requirement' name=ID
 	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
 	'{'
-		'in' analyzedComponent=EnvironmentCompositeComponentInstance
-		aspect=AnalysisAspect 
-		requirement+=RequirementAspect
-		(conditions+=AnalysisCondition)*
+		'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
+		(aspect+=AnalysisAspect |
+		requirement+=RequirementAspect |
+		conditions+=AnalysisCondition)*
 	'}'
 ;
 
@@ -80,70 +82,116 @@ AnalysisComponent returns AnalysisModel::AnalysisComponent:
 	'analysis' name=ID
 	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
 	'{'
-		'in' analyzedComponent=EnvironmentCompositeComponentInstance
-		aspect=AnalysisAspect
-		("simulation" "time" "=" simulationTime=DOUBLE)?
-		("simulation" "number" "=" simulationNumber=INTEGER)?
-		(conditions+=AnalysisCondition)*
+		'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
+		(aspect+=AnalysisAspect)+
+		('@' 'Conditions' '{'
+			((conditions+=AnalysisCondition)|
+			(priorydistribution+=PrioryDistribution))*
+		'}')?
+		('@' 'Configuration' '{'
+			((endcondition+=EndCondition)|
+			("simulation" "time" "=" simulationTime=DOUBLE)|
+			("simulation" "number" "=" simulationNumber=INTEGER)|
+			("warmup" "time" "=" warmupTime=DOUBLE))*
+		'}')?
 	'}'
 ;
 
-
-
-AnalysisAspect returns AnalysisModel::AnalysisAspect: 
-	Probability | TimedProbability | TimeBoundedProbability | MeanTime | Frequency
-;
-
-MeanParameter returns AnalysisModel::MeanParameter: 
-	'mean' 'parameter' 'of' event=ComponentPortEventReference  
-;
-
-ParameterDistribution returns AnalysisModel::ParameterDistribution: 
-	'parameter' 'distribution' 'of' event=ComponentPortEventReference 
-;
-
-Probability returns AnalysisModel::Probability: 
-	'probability' 'of' event=ComponentPortEventReference  
-;
-
-TimedProbability returns AnalysisModel::TimedProbability: 
-	'probability' 'of' event=ComponentPortEventReference  'until' timeLimit=DOUBLE 
-;
-
-TimeBoundedProbability returns AnalysisModel::TimeBoundedProbability: 
-	'probability' 'of' event=ComponentPortEventReference  'from' lowerBound=DOUBLE 'to'upperBound=DOUBLE
-;
-
-MeanTime returns AnalysisModel::MeanTime: 
-	'mean' 'time' 'of' event=ComponentPortEventReference
-;
-
-Frequency returns AnalysisModel::Frequency:
-	'frequency' 'of' event=ComponentPortEventReference
-;
-
-AssumeRaised returns AnalysisModel::AssumeRaised: 
-	'assume' event=ComponentPortEventReference  'raised'
-;
-
-AssumeNotRaised returns AnalysisModel::AssumeNotRaised: 
-	'assume' event=ComponentPortEventReference  'not' 'raised'
-;
-
-AnalysisCondition returns AnalysisModel::AnalysisCondition: 
-	AssumeRaised | AssumeNotRaised
+RecursiveComponentReference returns AnalysisModel::RecursiveComponentReference: 
+	"["component=[EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]('.'recursivecomponentreference=RecursiveComponentReference)?"]"
 ;
 
 
 ComponentPortEventReference returns AnalysisModel::ComponentPortEventReference: 
-	'event' '[' component=[EnvironmentModel::EnvironmentCompositeComponentInstance]'.'port=[InterfaceModel::Port]'.'event=[InterfaceModel::Event] ']'
+	'event'  component=RecursiveComponentReference ':'port=[InterfaceModel::Port]'->'event=[InterfaceModel::Event] 
 ;
+
+AnalysisAspect returns AnalysisModel::AnalysisAspect: 
+	Probability  | MeanTime | Frequency | MeanParameter | ParameterDistribution | MeanTimeBetweenEvents | EventTimeRatio //| TimedProbability | TimeBoundedProbability
+;
+
+
+// analysis aspects
+MeanParameter returns AnalysisModel::MeanParameter: 
+	'mean' 'parameter' 'of' event=ComponentPortEventReference  '.' parameter=[ParameterDeclaration] ';'
+;
+
+ParameterDistribution returns AnalysisModel::ParameterDistribution: 
+	'parameter' 'distribution' 'of' event=ComponentPortEventReference '.' parameter=[ParameterDeclaration] ';'
+;
+
+Probability returns AnalysisModel::Probability: 
+	'probability' 'of' event=ComponentPortEventReference  ';'
+;
+
+TimedProbability returns AnalysisModel::TimedProbability: 
+	'probability' 'of' event=ComponentPortEventReference  'until' timeLimit=DOUBLE ';'
+;
+
+TimeBoundedProbability returns AnalysisModel::TimeBoundedProbability: 
+	'probability' 'of' event=ComponentPortEventReference  'from' lowerBound=DOUBLE 'to'upperBound=DOUBLE ';'
+;
+
+MeanTime returns AnalysisModel::MeanTime: 
+	'mean' 'time' 'of' event=ComponentPortEventReference ';'
+;
+
+Frequency returns AnalysisModel::Frequency:
+	'frequency' 'of' event=ComponentPortEventReference ';'
+;
+
+EventTimeRatio returns AnalysisModel::EventTimeRatio: 
+	'time' 'ratio' 'between' event=ComponentPortEventReference 'and' event2=ComponentPortEventReference ';'
+;
+
+MeanTimeBetweenEvents returns AnalysisModel::MeanTimeBetweenEvents: 
+	'mean' 'time' 'between' event=ComponentPortEventReference 'and' event2=ComponentPortEventReference ';'
+;
+
+
+
+
+//conditions
+AssumeRaised returns AnalysisModel::AssumeRaised: 
+	'assume' 'raised' event=ComponentPortEventReference  
+;
+
+AssumeNotRaised returns AnalysisModel::AssumeNotRaised: 
+	'assume' 'not' 'raised' event=ComponentPortEventReference  
+;
+
+ObserveTime returns AnalysisModel::ObserveTime: 
+	'assume' 'time' '(' event=ComponentPortEventReference ')'  '=' value=DOUBLE '~' randomvariable=StochasticModel
+;
+
+
+ObserveParameter returns AnalysisModel::ObserveParameter: 
+	'assume' 'parameter' event=ComponentPortEventReference"."parameter=[ParameterDeclaration] "=" value=DOUBLE "~" randomvariable=StochasticModel
+;
+
+
+EndCondition returns AnalysisModel::EndCondition: 
+	'end' event=ComponentPortEventReference  'raised'
+;
+
+
+AnalysisCondition returns AnalysisModel::AnalysisCondition: 
+	AssumeRaised | AssumeNotRaised | ObserveParameter | ObserveTime
+;
+
+
+
+
+PrioryDistribution returns AnalysisModel::PrioryDistribution: 
+	'prior' parameter=[ParameterDeclaration] '~' randomvariable=RandomVariable
+;
+
 
 
 //defining Environment models
 
-EnvironmentCompositeComponent returns EnvironmentModel::EnvironmentCompositeComponent: 
-	'environment' name=ID 
+EnvironmentCascadeCompositeComponent returns EnvironmentModel::EnvironmentCascadeCompositeComponent: 
+	'stochastic' 'cascade' name=ID 
 	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
 		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
 		'{'
@@ -152,7 +200,38 @@ EnvironmentCompositeComponent returns EnvironmentModel::EnvironmentCompositeComp
 				environmentComponents+=EnvironmentComponentInstance |
 				portBindings+=PortBinding |
 				channels+=Channel |
-				'failure' 'propagation' executionList+=[CompositeModel::SynchronousComponentInstance] (',' executionList+=[CompositeModel::SynchronousComponentInstance])*
+				'execute' executionList+=[CompositeModel::SynchronousComponentInstance] (',' executionList+=[CompositeModel::SynchronousComponentInstance])*
+		)*
+		'}'
+;	
+
+
+EnvironmentSynchronousCompositeComponent returns EnvironmentModel::EnvironmentSynchronousCompositeComponent: 
+ 
+	'stochastic' 'sync' name=ID 
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
+		'{'
+			(
+				components+=SynchronousComponentInstance |
+				environmentComponents+=EnvironmentComponentInstance |
+				portBindings+=PortBinding |
+				channels+=Channel
+			)*
+		'}'
+;	
+
+EnvironmentAsynchronousCompositeComponent returns EnvironmentModel::EnvironmentAsynchronousCompositeComponent: 
+
+	'stochastic' 'async' name=ID 
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
+		'{'
+			(
+				components+=AsynchronousComponentInstance |
+				environmentComponents+=EnvironmentComponentInstance |
+				portBindings+=PortBinding |
+				channels+=Channel
 			)*
 		'}'
 ;	
@@ -165,10 +244,32 @@ Package returns StatechartModel::Package:
  
 
 // Composition language 
- 
+/* 
+EnvironmentCascadeCompositeComponentInstance returns EnvironmentModel::EnvironmentCascadeCompositeComponentInstance: 
+	'stoch' 'component' name=ID ':' type=[EnvironmentModel::EnvironmentCascadeCompositeComponent] ('(' arguments+=Expression (',' arguments+=Expression)* ')')?
+;*/
+
+/*EnvironmentSynchronousCompositeComponentInstance returns EnvironmentModel::EnvironmentSynchronousCompositeComponentInstance: 
+	'stoch1' 'component' name=ID ':' type=[EnvironmentModel::EnvironmentSynchronousCompositeComponent] ('(' arguments+=Expression (',' arguments+=Expression)* ')')?
+;*/
+
+
+
+
+EnvironmentAsynchronousCompositeComponentInstance returns EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance: 
+	'stochastic' 'component' name=ID ':' type=[EnvironmentModel::EnvironmentAsynchronousCompositeComponent] ('(' arguments+=MixedExpression (',' arguments+=MixedExpression)* ')')?
+;
+
+AbstractEnvironmentCompositeComponentInstance returns EnvironmentModel::AbstractEnvironmentCompositeComponentInstance: 
+	//EnvironmentCascadeCompositeComponentInstance |
+	//EnvironmentSynchronousCompositeComponentInstance |
+	EnvironmentAsynchronousCompositeComponentInstance
+;
+
+
 
 EnvironmentComponentInstance returns EnvironmentModel::EnvironmentComponentInstance: 
-	ElementaryEnvironmentComponentInstance | EnvironmentCompositeComponentInstance
+	ElementaryEnvironmentComponentInstance 
 ;
 
 
@@ -177,9 +278,7 @@ ElementaryEnvironmentComponentInstance returns EnvironmentModel::ElementaryEnvir
 ;
 
 
-EnvironmentCompositeComponentInstance returns EnvironmentModel::EnvironmentCompositeComponentInstance: 
-	'environment' 'component' name=ID ':' type=[EnvironmentModel::EnvironmentCompositeComponent] ('(' arguments+=Expression (',' arguments+=Expression)* ')')?
-;
+
 
 
 StochasticRule returns EnvironmentModel::StochasticRule: 
@@ -188,7 +287,7 @@ StochasticRule returns EnvironmentModel::StochasticRule:
 
 
 FilterSimulationRule returns EnvironmentModel::SimulationRule: 
-	(filter+=Filter ",")* filter+=Filter ":" simulation=Simulation
+	(filter+=ParameterFilter ",")* filter+=ParameterFilter ":" simulation=Simulation
 ;
 
 
@@ -202,6 +301,11 @@ DelayRule returns EnvironmentModel::StochasticRule:
 
 Filter returns EnvironmentModel::Filter: 
 	EventFilter | PortFilter | ComponentFilter
+;
+
+
+ParameterFilter returns EnvironmentModel::ParameterFilter: 
+	event=PortEventReference "." parameter=[ParameterDeclaration]
 ;
 
 
@@ -263,6 +367,14 @@ EnvironmentExternSimulation returns EnvironmentModel::EnvironmentExternSimulatio
 ;
 
 
+MixedExpression returns Expression:
+	StochasticExpression | Expression
+;
+
+StochasticExpression returns StochasticModel::StochasticExpression: 
+	'sample' '(' randomvariable=RandomVariable ')'
+;
+
 
 
 StochasticModel returns StochasticModel::StochasticModel: 
@@ -287,33 +399,54 @@ ContinouosRandomVariable returns StochasticModel::ContinouosRandomVariable:
 	GammaRandomVariable | 
 	FittedExponentialRandomVariable | 
 	FittedGammaRandomVariable |
-	FittedNormalRandomVariable
+	FittedNormalRandomVariable |
+	UniformRandomVariable |
+	BetaRandomVariable |
+	LogNormalRandomVariable |
+	ParetoRandomVariable
 ;
 
 DiscreteRandomVariable returns StochasticModel::DiscreteRandomVariable: 
 	BernoulliRandomVariable
 ;
 
+UniformRandomVariable returns StochasticModel::UniformRandomVariable: 
+	"uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression
+;
+
+LogNormalRandomVariable returns StochasticModel::LogNormalRandomVariable:
+	'lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression  
+;
+
+BetaRandomVariable returns StochasticModel::BetaRandomVariable: 
+	'beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression
+;
+
+ParetoRandomVariable returns StochasticModel::ParetoRandomVariable: 
+	('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression
+;
+
+
 
 NormalRandomVariable returns StochasticModel::NormalRandomVariable: 
-	'normal' 'mean' '=' mean=DOUBLE ',' 'scale' '=' scale=DOUBLE 
+	'normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression 
 ;
 
 WeibullRandomVariable returns StochasticModel::WeibullRandomVariable: 
-	('Weibull' | 'weibull') 'scale' '=' scale=DOUBLE ',' 'shape' '=' shape=DOUBLE
+	('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression
 ;
 
 GammaRandomVariable returns StochasticModel::GammaRandomVariable: 
-	'gamma' 'scale' '=' scale=DOUBLE ',' 'shape' '=' shape=DOUBLE
+	'gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression
 ;
 
 
 ExponentialRandomVariable returns StochasticModel::ExponentialRandomVariable: 
-	'exponential' 'rate=' rate=DOUBLE 
+	'exponential' 'rate' '=' rate=Expression 
 ;
 
 BernoulliRandomVariable returns StochasticModel::BernoulliRandomVariable: 
-	'bernoulli' 'prob=' probability=DOUBLE 
+	'bernoulli' 'prob' '=' probability=Expression 
 ;
 
 
@@ -330,8 +463,9 @@ FittedGammaRandomVariable returns StochasticModel::FittedGammaRandomVariable:
 ;
 
 
+
 CategoricalProbabaility returns StochasticModel::CategoricalProbabaility: 
-	probability=DOUBLE
+	probability=Expression
 ;
 
 
@@ -377,6 +511,13 @@ DataSource returns StochasticModel::DataSource:
 	InfluxDB | PythonSimulation
 ;
 
+
+AtomicExpression returns Expression:
+	  DirectReferenceExpression | 
+	  LiteralExpression | 
+	 '(' Expression ')'
+;
+
 InfluxDB returns StochasticModel::InfluxDB: 
 	"InfluxDB" "(" "db" ":" dbname=STRING "," "ip" ":" ip=STRING "," "port" ":"  port=STRING "," "query" ":" query=STRING ")"
 ;
@@ -387,7 +528,7 @@ PythonSimulation returns StochasticModel::PythonSimulation:
 
 
 terminal DOUBLE returns Ecore::EDouble:
-	('0'..'9')+ ('.' ('0'..'9')+)
+	'#' ('0'..'9')+ ('.' ('0'..'9')+)
 ;
 
 

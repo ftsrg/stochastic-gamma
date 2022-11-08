@@ -9,17 +9,26 @@ import hu.bme.mit.gamma.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.analysis.AnalysisCondition;
 import hu.bme.mit.gamma.analysis.AnalysisFactory;
 import hu.bme.mit.gamma.analysis.AnalysisPackage;
+import hu.bme.mit.gamma.analysis.AssumeCondition;
 import hu.bme.mit.gamma.analysis.AssumeNotRaised;
 import hu.bme.mit.gamma.analysis.AssumeRaised;
 import hu.bme.mit.gamma.analysis.ComponentPortEventReference;
+import hu.bme.mit.gamma.analysis.EndCondition;
+import hu.bme.mit.gamma.analysis.EventTimeRatio;
 import hu.bme.mit.gamma.analysis.Frequency;
 import hu.bme.mit.gamma.analysis.GreaterThan;
 import hu.bme.mit.gamma.analysis.IsBetween;
 import hu.bme.mit.gamma.analysis.LowerThan;
 import hu.bme.mit.gamma.analysis.MeanParameter;
 import hu.bme.mit.gamma.analysis.MeanTime;
+import hu.bme.mit.gamma.analysis.MeanTimeBetweenEvents;
+import hu.bme.mit.gamma.analysis.ObserveCondition;
+import hu.bme.mit.gamma.analysis.ObserveParameter;
+import hu.bme.mit.gamma.analysis.ObserveTime;
 import hu.bme.mit.gamma.analysis.ParameterDistribution;
+import hu.bme.mit.gamma.analysis.PrioryDistribution;
 import hu.bme.mit.gamma.analysis.Probability;
+import hu.bme.mit.gamma.analysis.RecursiveComponentReference;
 import hu.bme.mit.gamma.analysis.RequirementAspect;
 import hu.bme.mit.gamma.analysis.RequirementComponent;
 import hu.bme.mit.gamma.analysis.TimeBoundedProbability;
@@ -34,6 +43,9 @@ import hu.bme.mit.gamma.statechart.composite.CompositeModelPackage;
 import hu.bme.mit.gamma.statechart.interface_.InterfaceModelPackage;
 
 import hu.bme.mit.gamma.statechart.statechart.StatechartModelPackage;
+
+import hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -175,6 +187,69 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	private EClass parameterDistributionEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass recursiveComponentReferenceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass meanTimeBetweenEventsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass eventTimeRatioEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass observeParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass prioryDistributionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass observeConditionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass assumeConditionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass observeTimeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass endConditionEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -225,7 +300,7 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		ActionModelPackage.eINSTANCE.eClass();
 		EnvironentPackage.eINSTANCE.eClass();
 		ExpressionModelPackage.eINSTANCE.eClass();
-		hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage.eINSTANCE.eClass();
+		StochasticPackage.eINSTANCE.eClass();
 		InterfaceModelPackage.eINSTANCE.eClass();
 		CompositeModelPackage.eINSTANCE.eClass();
 		StatechartModelPackage.eINSTANCE.eClass();
@@ -296,6 +371,33 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 */
 	public EAttribute getAnalysisComponent_SimulationNumber() {
 		return (EAttribute)analysisComponentEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAnalysisComponent_Priorydistribution() {
+		return (EReference)analysisComponentEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAnalysisComponent_Endcondition() {
+		return (EReference)analysisComponentEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalysisComponent_WarmupTime() {
+		return (EAttribute)analysisComponentEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -528,7 +630,7 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentPortEventReference_Component() {
+	public EReference getComponentPortEventReference_Port() {
 		return (EReference)componentPortEventReferenceEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -537,7 +639,7 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentPortEventReference_Port() {
+	public EReference getComponentPortEventReference_Event() {
 		return (EReference)componentPortEventReferenceEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -546,7 +648,7 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentPortEventReference_Event() {
+	public EReference getComponentPortEventReference_Component() {
 		return (EReference)componentPortEventReferenceEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -573,8 +675,188 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getMeanParameter_Parameter() {
+		return (EReference)meanParameterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getParameterDistribution() {
 		return parameterDistributionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getParameterDistribution_Parameter() {
+		return (EReference)parameterDistributionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRecursiveComponentReference() {
+		return recursiveComponentReferenceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRecursiveComponentReference_Component() {
+		return (EReference)recursiveComponentReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRecursiveComponentReference_Recursivecomponentreference() {
+		return (EReference)recursiveComponentReferenceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMeanTimeBetweenEvents() {
+		return meanTimeBetweenEventsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMeanTimeBetweenEvents_Event2() {
+		return (EReference)meanTimeBetweenEventsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEventTimeRatio() {
+		return eventTimeRatioEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEventTimeRatio_Event2() {
+		return (EReference)eventTimeRatioEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getObserveParameter() {
+		return observeParameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObserveParameter_Parameter() {
+		return (EReference)observeParameterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPrioryDistribution() {
+		return prioryDistributionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPrioryDistribution_Randomvariable() {
+		return (EReference)prioryDistributionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPrioryDistribution_Parameter() {
+		return (EReference)prioryDistributionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getObserveCondition() {
+		return observeConditionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getObserveCondition_Value() {
+		return (EAttribute)observeConditionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getObserveCondition_Randomvariable() {
+		return (EReference)observeConditionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAssumeCondition() {
+		return assumeConditionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getObserveTime() {
+		return observeTimeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEndCondition() {
+		return endConditionEClass;
 	}
 
 	/**
@@ -611,6 +893,9 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__ASPECT);
 		createEAttribute(analysisComponentEClass, ANALYSIS_COMPONENT__SIMULATION_TIME);
 		createEAttribute(analysisComponentEClass, ANALYSIS_COMPONENT__SIMULATION_NUMBER);
+		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__PRIORYDISTRIBUTION);
+		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__ENDCONDITION);
+		createEAttribute(analysisComponentEClass, ANALYSIS_COMPONENT__WARMUP_TIME);
 
 		analysisConditionEClass = createEClass(ANALYSIS_CONDITION);
 		createEReference(analysisConditionEClass, ANALYSIS_CONDITION__EVENT);
@@ -650,15 +935,44 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		createEAttribute(isBetweenEClass, IS_BETWEEN__UPPER_BOUND);
 
 		componentPortEventReferenceEClass = createEClass(COMPONENT_PORT_EVENT_REFERENCE);
-		createEReference(componentPortEventReferenceEClass, COMPONENT_PORT_EVENT_REFERENCE__COMPONENT);
 		createEReference(componentPortEventReferenceEClass, COMPONENT_PORT_EVENT_REFERENCE__PORT);
 		createEReference(componentPortEventReferenceEClass, COMPONENT_PORT_EVENT_REFERENCE__EVENT);
+		createEReference(componentPortEventReferenceEClass, COMPONENT_PORT_EVENT_REFERENCE__COMPONENT);
 
 		frequencyEClass = createEClass(FREQUENCY);
 
 		meanParameterEClass = createEClass(MEAN_PARAMETER);
+		createEReference(meanParameterEClass, MEAN_PARAMETER__PARAMETER);
 
 		parameterDistributionEClass = createEClass(PARAMETER_DISTRIBUTION);
+		createEReference(parameterDistributionEClass, PARAMETER_DISTRIBUTION__PARAMETER);
+
+		recursiveComponentReferenceEClass = createEClass(RECURSIVE_COMPONENT_REFERENCE);
+		createEReference(recursiveComponentReferenceEClass, RECURSIVE_COMPONENT_REFERENCE__COMPONENT);
+		createEReference(recursiveComponentReferenceEClass, RECURSIVE_COMPONENT_REFERENCE__RECURSIVECOMPONENTREFERENCE);
+
+		meanTimeBetweenEventsEClass = createEClass(MEAN_TIME_BETWEEN_EVENTS);
+		createEReference(meanTimeBetweenEventsEClass, MEAN_TIME_BETWEEN_EVENTS__EVENT2);
+
+		eventTimeRatioEClass = createEClass(EVENT_TIME_RATIO);
+		createEReference(eventTimeRatioEClass, EVENT_TIME_RATIO__EVENT2);
+
+		observeParameterEClass = createEClass(OBSERVE_PARAMETER);
+		createEReference(observeParameterEClass, OBSERVE_PARAMETER__PARAMETER);
+
+		prioryDistributionEClass = createEClass(PRIORY_DISTRIBUTION);
+		createEReference(prioryDistributionEClass, PRIORY_DISTRIBUTION__RANDOMVARIABLE);
+		createEReference(prioryDistributionEClass, PRIORY_DISTRIBUTION__PARAMETER);
+
+		observeConditionEClass = createEClass(OBSERVE_CONDITION);
+		createEAttribute(observeConditionEClass, OBSERVE_CONDITION__VALUE);
+		createEReference(observeConditionEClass, OBSERVE_CONDITION__RANDOMVARIABLE);
+
+		assumeConditionEClass = createEClass(ASSUME_CONDITION);
+
+		observeTimeEClass = createEClass(OBSERVE_TIME);
+
+		endConditionEClass = createEClass(END_CONDITION);
 	}
 
 	/**
@@ -687,6 +1001,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		// Obtain other dependent packages
 		InterfaceModelPackage theInterfaceModelPackage = (InterfaceModelPackage)EPackage.Registry.INSTANCE.getEPackage(InterfaceModelPackage.eNS_URI);
 		EnvironentPackage theEnvironentPackage = (EnvironentPackage)EPackage.Registry.INSTANCE.getEPackage(EnvironentPackage.eNS_URI);
+		ExpressionModelPackage theExpressionModelPackage = (ExpressionModelPackage)EPackage.Registry.INSTANCE.getEPackage(ExpressionModelPackage.eNS_URI);
+		StochasticPackage theStochasticPackage = (StochasticPackage)EPackage.Registry.INSTANCE.getEPackage(StochasticPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -694,8 +1010,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 
 		// Add supertypes to classes
 		analysisComponentEClass.getESuperTypes().add(theInterfaceModelPackage.getComponent());
-		assumeRaisedEClass.getESuperTypes().add(this.getAnalysisCondition());
-		assumeNotRaisedEClass.getESuperTypes().add(this.getAnalysisCondition());
+		assumeRaisedEClass.getESuperTypes().add(this.getAssumeCondition());
+		assumeNotRaisedEClass.getESuperTypes().add(this.getAssumeCondition());
 		probabilityEClass.getESuperTypes().add(this.getAnalysisAspect());
 		timedProbabilityEClass.getESuperTypes().add(this.getAnalysisAspect());
 		meanTimeEClass.getESuperTypes().add(this.getAnalysisAspect());
@@ -707,14 +1023,24 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		frequencyEClass.getESuperTypes().add(this.getAnalysisAspect());
 		meanParameterEClass.getESuperTypes().add(this.getAnalysisAspect());
 		parameterDistributionEClass.getESuperTypes().add(this.getAnalysisAspect());
+		meanTimeBetweenEventsEClass.getESuperTypes().add(this.getAnalysisAspect());
+		eventTimeRatioEClass.getESuperTypes().add(this.getAnalysisAspect());
+		observeParameterEClass.getESuperTypes().add(this.getObserveCondition());
+		observeConditionEClass.getESuperTypes().add(this.getAnalysisCondition());
+		assumeConditionEClass.getESuperTypes().add(this.getAnalysisCondition());
+		observeTimeEClass.getESuperTypes().add(this.getObserveCondition());
+		endConditionEClass.getESuperTypes().add(this.getAnalysisCondition());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(analysisComponentEClass, AnalysisComponent.class, "AnalysisComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAnalysisComponent_AnalyzedComponent(), theEnvironentPackage.getEnvironmentCompositeComponentInstance(), null, "analyzedComponent", null, 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnalysisComponent_AnalyzedComponent(), theEnvironentPackage.getEnvironmentAsynchronousCompositeComponentInstance(), null, "analyzedComponent", null, 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAnalysisComponent_Conditions(), this.getAnalysisCondition(), null, "conditions", null, 0, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAnalysisComponent_Aspect(), this.getAnalysisAspect(), null, "aspect", null, 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnalysisComponent_Aspect(), this.getAnalysisAspect(), null, "aspect", null, 1, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnalysisComponent_SimulationTime(), ecorePackage.getEDouble(), "simulationTime", "1.0", 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnalysisComponent_SimulationNumber(), ecorePackage.getEBigInteger(), "simulationNumber", "100", 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnalysisComponent_Priorydistribution(), this.getPrioryDistribution(), null, "priorydistribution", null, 0, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnalysisComponent_Endcondition(), this.getEndCondition(), null, "endcondition", null, 0, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalysisComponent_WarmupTime(), ecorePackage.getEDouble(), "warmupTime", "0.0", 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(analysisConditionEClass, AnalysisCondition.class, "AnalysisCondition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAnalysisCondition_Event(), this.getComponentPortEventReference(), null, "event", null, 1, 1, AnalysisCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -754,15 +1080,44 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		initEAttribute(getIsBetween_UpperBound(), ecorePackage.getEDouble(), "upperBound", null, 1, 1, IsBetween.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentPortEventReferenceEClass, ComponentPortEventReference.class, "ComponentPortEventReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getComponentPortEventReference_Component(), theEnvironentPackage.getEnvironmentCompositeComponentInstance(), null, "component", null, 1, 1, ComponentPortEventReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentPortEventReference_Port(), theInterfaceModelPackage.getPort(), null, "port", null, 1, 1, ComponentPortEventReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentPortEventReference_Event(), theInterfaceModelPackage.getEvent(), null, "event", null, 1, 1, ComponentPortEventReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponentPortEventReference_Component(), this.getRecursiveComponentReference(), null, "component", null, 1, 1, ComponentPortEventReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(frequencyEClass, Frequency.class, "Frequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(meanParameterEClass, MeanParameter.class, "MeanParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMeanParameter_Parameter(), theExpressionModelPackage.getParameterDeclaration(), null, "parameter", null, 1, 1, MeanParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parameterDistributionEClass, ParameterDistribution.class, "ParameterDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getParameterDistribution_Parameter(), theExpressionModelPackage.getParameterDeclaration(), null, "parameter", null, 1, 1, ParameterDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(recursiveComponentReferenceEClass, RecursiveComponentReference.class, "RecursiveComponentReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRecursiveComponentReference_Component(), theEnvironentPackage.getEnvironmentAsynchronousCompositeComponentInstance(), null, "component", null, 1, 1, RecursiveComponentReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRecursiveComponentReference_Recursivecomponentreference(), this.getRecursiveComponentReference(), null, "recursivecomponentreference", null, 0, 1, RecursiveComponentReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(meanTimeBetweenEventsEClass, MeanTimeBetweenEvents.class, "MeanTimeBetweenEvents", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMeanTimeBetweenEvents_Event2(), this.getComponentPortEventReference(), null, "event2", null, 1, 1, MeanTimeBetweenEvents.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(eventTimeRatioEClass, EventTimeRatio.class, "EventTimeRatio", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEventTimeRatio_Event2(), this.getComponentPortEventReference(), null, "event2", null, 1, 1, EventTimeRatio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(observeParameterEClass, ObserveParameter.class, "ObserveParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getObserveParameter_Parameter(), theExpressionModelPackage.getParameterDeclaration(), null, "parameter", null, 1, 1, ObserveParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(prioryDistributionEClass, PrioryDistribution.class, "PrioryDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPrioryDistribution_Randomvariable(), theStochasticPackage.getRandomVariable(), null, "randomvariable", null, 1, 1, PrioryDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPrioryDistribution_Parameter(), theExpressionModelPackage.getParameterDeclaration(), null, "parameter", null, 1, 1, PrioryDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(observeConditionEClass, ObserveCondition.class, "ObserveCondition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getObserveCondition_Value(), ecorePackage.getEDouble(), "value", null, 1, 1, ObserveCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getObserveCondition_Randomvariable(), theStochasticPackage.getStochasticModel(), null, "randomvariable", null, 1, 1, ObserveCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(assumeConditionEClass, AssumeCondition.class, "AssumeCondition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(observeTimeEClass, ObserveTime.class, "ObserveTime", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(endConditionEClass, EndCondition.class, "EndCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

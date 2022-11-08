@@ -8,11 +8,9 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import hu.bme.mit.gamma.statechart.interface_.Package
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent
 import hu.bme.mit.gamma.environment.model.EnvironmentExternSimulation
-import hu.bme.mit.gamma.analysis.transformation.ClassGenerator
 import hu.bme.mit.gamma.analysis.transformation.ElementaryComponentCollector
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance
+import hu.bme.mit.gamma.analysis.transformation.PythonClassGenerator
 
 /**
  * Generates code from your model files on save.

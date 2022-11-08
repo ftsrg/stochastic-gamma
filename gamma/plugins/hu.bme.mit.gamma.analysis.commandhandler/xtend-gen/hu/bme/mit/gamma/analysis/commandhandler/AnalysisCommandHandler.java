@@ -36,6 +36,7 @@ public class AnalysisCommandHandler extends CommandHandler {
   
   @Override
   public Object execute(final ExecutionEvent event) throws ExecutionException {
+    long t0 = System.currentTimeMillis();
     ISelection sel = HandlerUtil.getActiveMenuSelection(event);
     InputOutput.<String>println("Run analysis...--------------------------------------------");
     try {
@@ -149,7 +150,10 @@ public class AnalysisCommandHandler extends CommandHandler {
         throw Exceptions.sneakyThrow(_t);
       }
     }
+    long t1 = System.currentTimeMillis();
     InputOutput.<String>println("Analysis has been finnished--------------------------------------------------------------");
+    InputOutput.<String>print("Elapsed time: ");
+    InputOutput.<Double>println(Double.valueOf(((t1 - t0) / 1000.0)));
     return null;
   }
 }

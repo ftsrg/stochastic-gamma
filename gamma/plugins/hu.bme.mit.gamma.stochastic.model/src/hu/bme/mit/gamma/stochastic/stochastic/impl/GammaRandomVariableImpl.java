@@ -2,12 +2,14 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic.impl;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable;
 import hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage;
-
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -27,44 +29,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implements GammaRandomVariable {
 	/**
-	 * The default value of the '{@link #getScale() <em>Scale</em>}' attribute.
+	 * The cached value of the '{@link #getScale() <em>Scale</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getScale()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double SCALE_EDEFAULT = 0.0;
+	protected Expression scale;
 
 	/**
-	 * The cached value of the '{@link #getScale() <em>Scale</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getScale()
-	 * @generated
-	 * @ordered
-	 */
-	protected double scale = SCALE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getShape() <em>Shape</em>}' attribute.
+	 * The cached value of the '{@link #getShape() <em>Shape</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getShape()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double SHAPE_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getShape() <em>Shape</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getShape()
-	 * @generated
-	 * @ordered
-	 */
-	protected double shape = SHAPE_EDEFAULT;
+	protected Expression shape;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -90,7 +72,7 @@ public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getScale() {
+	public Expression getScale() {
 		return scale;
 	}
 
@@ -99,11 +81,14 @@ public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setScale(double newScale) {
-		double oldScale = scale;
+	public NotificationChain basicSetScale(Expression newScale, NotificationChain msgs) {
+		Expression oldScale = scale;
 		scale = newScale;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE, oldScale, scale));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE, oldScale, newScale);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -111,7 +96,26 @@ public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getShape() {
+	public void setScale(Expression newScale) {
+		if (newScale != scale) {
+			NotificationChain msgs = null;
+			if (scale != null)
+				msgs = ((InternalEObject)scale).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE, null, msgs);
+			if (newScale != null)
+				msgs = ((InternalEObject)newScale).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE, null, msgs);
+			msgs = basicSetScale(newScale, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE, newScale, newScale));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getShape() {
 		return shape;
 	}
 
@@ -120,11 +124,49 @@ public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setShape(double newShape) {
-		double oldShape = shape;
+	public NotificationChain basicSetShape(Expression newShape, NotificationChain msgs) {
+		Expression oldShape = shape;
 		shape = newShape;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE, oldShape, shape));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE, oldShape, newShape);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setShape(Expression newShape) {
+		if (newShape != shape) {
+			NotificationChain msgs = null;
+			if (shape != null)
+				msgs = ((InternalEObject)shape).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE, null, msgs);
+			if (newShape != null)
+				msgs = ((InternalEObject)newShape).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE, null, msgs);
+			msgs = basicSetShape(newShape, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE, newShape, newShape));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE:
+				return basicSetScale(null, msgs);
+			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE:
+				return basicSetShape(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -152,10 +194,10 @@ public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implem
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE:
-				setScale((Double)newValue);
+				setScale((Expression)newValue);
 				return;
 			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE:
-				setShape((Double)newValue);
+				setShape((Expression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -170,10 +212,10 @@ public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implem
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE:
-				setScale(SCALE_EDEFAULT);
+				setScale((Expression)null);
 				return;
 			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE:
-				setShape(SHAPE_EDEFAULT);
+				setShape((Expression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -188,29 +230,11 @@ public class GammaRandomVariableImpl extends ContinouosRandomVariableImpl implem
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SCALE:
-				return scale != SCALE_EDEFAULT;
+				return scale != null;
 			case StochasticPackage.GAMMA_RANDOM_VARIABLE__SHAPE:
-				return shape != SHAPE_EDEFAULT;
+				return shape != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (scale: ");
-		result.append(scale);
-		result.append(", shape: ");
-		result.append(shape);
-		result.append(')');
-		return result.toString();
 	}
 
 } //GammaRandomVariableImpl

@@ -32,7 +32,7 @@ Workflow {
 		}
 		language = StandardLanguage {
 			name = "hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
-			fileExtensions = "egcd"
+			fileExtensions = "sgcd"
 
 			referencedResource = "platform:/resource/hu.bme.mit.gamma.stochastic.model/model/stochastic.genmodel"
 			referencedResource = "platform:/resource/hu.bme.mit.gamma.environment.model/model/environment.genmodel"

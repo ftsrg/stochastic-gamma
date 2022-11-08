@@ -7,7 +7,7 @@
 			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
 			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
 			default="true"
-			extensions="egcd"
+			extensions="sgcd"
 			icon="icons/stochastic_gamma16.png"
 			id="hu.mit.gamma.environment.language.EnvironmentLanguage"
 			name="EnvironmentLanguage Editor">
@@ -208,7 +208,7 @@
 	<extension point="org.eclipse.core.contenttype.contentTypes">
 		<content-type
 			base-type="org.eclipse.core.runtime.text"
-			file-extensions="egcd"
+			file-extensions="sgcd"
 			id="hu.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
 			name="EnvironmentLanguage File"
 			priority="normal">
@@ -219,13 +219,13 @@
 		point="org.eclipse.emf.ecore.extension_parser">
 		<parser
 			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
-			type="egcd">
+			type="sgcd">
 		</parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
 		<resourceServiceProvider
 			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
-			uriExtension="egcd">
+			uriExtension="sgcd">
 		</resourceServiceProvider>
 	</extension>
 	<!-- marker definitions for hu.mit.gamma.environment.language.EnvironmentLanguage -->
@@ -262,7 +262,7 @@
 	<extension point="org.eclipse.xtext.builder.participant">
 		<participant
 			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
-			fileExtensions="egcd"/>
+			fileExtensions="sgcd"/>
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
@@ -405,7 +405,7 @@
 	<extension point="org.eclipse.compare.contentViewers">
 		<viewer id="hu.mit.gamma.environment.language.EnvironmentLanguage.compare.contentViewers"
 			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-			extensions="egcd">
+			extensions="sgcd">
 		</viewer>
 		<contentTypeBinding
 			contentTypeId="hu.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
@@ -414,7 +414,7 @@
 	<extension point="org.eclipse.compare.contentMergeViewers">
 		<viewer id="hu.mit.gamma.environment.language.EnvironmentLanguage.compare.contentMergeViewers"
 			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-			extensions="egcd" label="EnvironmentLanguage Compare">
+			extensions="sgcd" label="EnvironmentLanguage Compare">
 		</viewer>
 		<contentTypeBinding
 			contentTypeId="hu.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
@@ -423,12 +423,12 @@
 	<extension point="org.eclipse.ui.editors.documentProviders">
 		<provider id="hu.mit.gamma.environment.language.EnvironmentLanguage.editors.documentProviders"
 			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
-			extensions="egcd">
+			extensions="sgcd">
 		</provider>
 	</extension>
 	<extension point="org.eclipse.team.core.fileTypes">
 		<fileTypes
-			extension="egcd"
+			extension="sgcd"
 			type="text">
 		</fileTypes>
 	</extension>

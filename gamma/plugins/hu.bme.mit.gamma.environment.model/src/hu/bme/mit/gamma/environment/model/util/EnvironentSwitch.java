@@ -8,11 +8,15 @@ import hu.bme.mit.gamma.expression.model.ArgumentedElement;
 import hu.bme.mit.gamma.expression.model.NamedElement;
 import hu.bme.mit.gamma.expression.model.ParametricElement;
 
+import hu.bme.mit.gamma.statechart.composite.AbstractAsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.AbstractSynchronousCompositeComponent;
+import hu.bme.mit.gamma.statechart.composite.AsynchronousComponent;
+import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponent;
+import hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent;
 
 import hu.bme.mit.gamma.statechart.interface_.Component;
 
@@ -89,16 +93,18 @@ public class EnvironentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EnvironentPackage.ENVIRONMENT_COMPOSITE_COMPONENT: {
-				EnvironmentCompositeComponent environmentCompositeComponent = (EnvironmentCompositeComponent)theEObject;
-				T result = caseEnvironmentCompositeComponent(environmentCompositeComponent);
-				if (result == null) result = caseCascadeCompositeComponent(environmentCompositeComponent);
-				if (result == null) result = caseAbstractSynchronousCompositeComponent(environmentCompositeComponent);
-				if (result == null) result = caseCompositeComponent(environmentCompositeComponent);
-				if (result == null) result = caseSynchronousComponent(environmentCompositeComponent);
-				if (result == null) result = caseComponent(environmentCompositeComponent);
-				if (result == null) result = caseNamedElement(environmentCompositeComponent);
-				if (result == null) result = caseParametricElement(environmentCompositeComponent);
+			case EnvironentPackage.ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT: {
+				EnvironmentCascadeCompositeComponent environmentCascadeCompositeComponent = (EnvironmentCascadeCompositeComponent)theEObject;
+				T result = caseEnvironmentCascadeCompositeComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseCascadeCompositeComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseAbstractEnvironmentCompositeComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseAbstractSynchronousCompositeComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseEnvironmentComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseCompositeComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseSynchronousComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseNamedElement(environmentCascadeCompositeComponent);
+				if (result == null) result = caseParametricElement(environmentCascadeCompositeComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -111,13 +117,14 @@ public class EnvironentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EnvironentPackage.ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE: {
-				EnvironmentCompositeComponentInstance environmentCompositeComponentInstance = (EnvironmentCompositeComponentInstance)theEObject;
-				T result = caseEnvironmentCompositeComponentInstance(environmentCompositeComponentInstance);
-				if (result == null) result = caseEnvironmentComponentInstance(environmentCompositeComponentInstance);
-				if (result == null) result = caseComponentInstance(environmentCompositeComponentInstance);
-				if (result == null) result = caseNamedElement(environmentCompositeComponentInstance);
-				if (result == null) result = caseArgumentedElement(environmentCompositeComponentInstance);
+			case EnvironentPackage.ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE: {
+				EnvironmentCascadeCompositeComponentInstance environmentCascadeCompositeComponentInstance = (EnvironmentCascadeCompositeComponentInstance)theEObject;
+				T result = caseEnvironmentCascadeCompositeComponentInstance(environmentCascadeCompositeComponentInstance);
+				if (result == null) result = caseAbstractEnvironmentCompositeComponentInstance(environmentCascadeCompositeComponentInstance);
+				if (result == null) result = caseEnvironmentComponentInstance(environmentCascadeCompositeComponentInstance);
+				if (result == null) result = caseComponentInstance(environmentCascadeCompositeComponentInstance);
+				if (result == null) result = caseNamedElement(environmentCascadeCompositeComponentInstance);
+				if (result == null) result = caseArgumentedElement(environmentCascadeCompositeComponentInstance);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -246,6 +253,89 @@ public class EnvironentSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT: {
+				EnvironmentSynchronousCompositeComponent environmentSynchronousCompositeComponent = (EnvironmentSynchronousCompositeComponent)theEObject;
+				T result = caseEnvironmentSynchronousCompositeComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseAbstractEnvironmentCompositeComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseSynchronousCompositeComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseEnvironmentComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseAbstractSynchronousCompositeComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseCompositeComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseSynchronousComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseComponent(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseNamedElement(environmentSynchronousCompositeComponent);
+				if (result == null) result = caseParametricElement(environmentSynchronousCompositeComponent);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EnvironentPackage.ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT: {
+				AbstractEnvironmentCompositeComponent abstractEnvironmentCompositeComponent = (AbstractEnvironmentCompositeComponent)theEObject;
+				T result = caseAbstractEnvironmentCompositeComponent(abstractEnvironmentCompositeComponent);
+				if (result == null) result = caseEnvironmentComponent(abstractEnvironmentCompositeComponent);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EnvironentPackage.ENVIRONMENT_COMPONENT: {
+				EnvironmentComponent environmentComponent = (EnvironmentComponent)theEObject;
+				T result = caseEnvironmentComponent(environmentComponent);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EnvironentPackage.ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT: {
+				EnvironmentAsynchronousCompositeComponent environmentAsynchronousCompositeComponent = (EnvironmentAsynchronousCompositeComponent)theEObject;
+				T result = caseEnvironmentAsynchronousCompositeComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseAbstractEnvironmentCompositeComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseAsynchronousCompositeComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseEnvironmentComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseAbstractAsynchronousCompositeComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseCompositeComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseAsynchronousComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseComponent(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseNamedElement(environmentAsynchronousCompositeComponent);
+				if (result == null) result = caseParametricElement(environmentAsynchronousCompositeComponent);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EnvironentPackage.ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE: {
+				AbstractEnvironmentCompositeComponentInstance abstractEnvironmentCompositeComponentInstance = (AbstractEnvironmentCompositeComponentInstance)theEObject;
+				T result = caseAbstractEnvironmentCompositeComponentInstance(abstractEnvironmentCompositeComponentInstance);
+				if (result == null) result = caseEnvironmentComponentInstance(abstractEnvironmentCompositeComponentInstance);
+				if (result == null) result = caseComponentInstance(abstractEnvironmentCompositeComponentInstance);
+				if (result == null) result = caseNamedElement(abstractEnvironmentCompositeComponentInstance);
+				if (result == null) result = caseArgumentedElement(abstractEnvironmentCompositeComponentInstance);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE: {
+				EnvironmentSynchronousCompositeComponentInstance environmentSynchronousCompositeComponentInstance = (EnvironmentSynchronousCompositeComponentInstance)theEObject;
+				T result = caseEnvironmentSynchronousCompositeComponentInstance(environmentSynchronousCompositeComponentInstance);
+				if (result == null) result = caseAbstractEnvironmentCompositeComponentInstance(environmentSynchronousCompositeComponentInstance);
+				if (result == null) result = caseEnvironmentComponentInstance(environmentSynchronousCompositeComponentInstance);
+				if (result == null) result = caseComponentInstance(environmentSynchronousCompositeComponentInstance);
+				if (result == null) result = caseNamedElement(environmentSynchronousCompositeComponentInstance);
+				if (result == null) result = caseArgumentedElement(environmentSynchronousCompositeComponentInstance);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EnvironentPackage.ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE: {
+				EnvironmentAsynchronousCompositeComponentInstance environmentAsynchronousCompositeComponentInstance = (EnvironmentAsynchronousCompositeComponentInstance)theEObject;
+				T result = caseEnvironmentAsynchronousCompositeComponentInstance(environmentAsynchronousCompositeComponentInstance);
+				if (result == null) result = caseAbstractEnvironmentCompositeComponentInstance(environmentAsynchronousCompositeComponentInstance);
+				if (result == null) result = caseEnvironmentComponentInstance(environmentAsynchronousCompositeComponentInstance);
+				if (result == null) result = caseComponentInstance(environmentAsynchronousCompositeComponentInstance);
+				if (result == null) result = caseNamedElement(environmentAsynchronousCompositeComponentInstance);
+				if (result == null) result = caseArgumentedElement(environmentAsynchronousCompositeComponentInstance);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case EnvironentPackage.PARAMETER_FILTER: {
+				ParameterFilter parameterFilter = (ParameterFilter)theEObject;
+				T result = caseParameterFilter(parameterFilter);
+				if (result == null) result = caseEventFilter(parameterFilter);
+				if (result == null) result = caseFilter(parameterFilter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -266,17 +356,17 @@ public class EnvironentSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Environment Composite Component</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Environment Cascade Composite Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Environment Composite Component</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Environment Cascade Composite Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEnvironmentCompositeComponent(EnvironmentCompositeComponent object) {
+	public T caseEnvironmentCascadeCompositeComponent(EnvironmentCascadeCompositeComponent object) {
 		return null;
 	}
 
@@ -296,17 +386,17 @@ public class EnvironentSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Environment Composite Component Instance</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Environment Cascade Composite Component Instance</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Environment Composite Component Instance</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Environment Cascade Composite Component Instance</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEnvironmentCompositeComponentInstance(EnvironmentCompositeComponentInstance object) {
+	public T caseEnvironmentCascadeCompositeComponentInstance(EnvironmentCascadeCompositeComponentInstance object) {
 		return null;
 	}
 
@@ -536,6 +626,126 @@ public class EnvironentSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Environment Synchronous Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Environment Synchronous Composite Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEnvironmentSynchronousCompositeComponent(EnvironmentSynchronousCompositeComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Environment Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Environment Composite Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractEnvironmentCompositeComponent(AbstractEnvironmentCompositeComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Environment Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Environment Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEnvironmentComponent(EnvironmentComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Environment Asynchronous Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Environment Asynchronous Composite Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEnvironmentAsynchronousCompositeComponent(EnvironmentAsynchronousCompositeComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Environment Composite Component Instance</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Environment Composite Component Instance</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractEnvironmentCompositeComponentInstance(AbstractEnvironmentCompositeComponentInstance object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Environment Synchronous Composite Component Instance</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Environment Synchronous Composite Component Instance</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEnvironmentSynchronousCompositeComponentInstance(EnvironmentSynchronousCompositeComponentInstance object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Environment Asynchronous Composite Component Instance</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Environment Asynchronous Composite Component Instance</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEnvironmentAsynchronousCompositeComponentInstance(EnvironmentAsynchronousCompositeComponentInstance object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Parameter Filter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Parameter Filter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseParameterFilter(ParameterFilter object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Named Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -667,6 +877,66 @@ public class EnvironentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCascadeCompositeComponent(CascadeCompositeComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Synchronous Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Synchronous Composite Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSynchronousCompositeComponent(SynchronousCompositeComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Asynchronous Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Asynchronous Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAsynchronousComponent(AsynchronousComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Asynchronous Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Asynchronous Composite Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractAsynchronousCompositeComponent(AbstractAsynchronousCompositeComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Asynchronous Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Asynchronous Composite Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAsynchronousCompositeComponent(AsynchronousCompositeComponent object) {
 		return null;
 	}
 

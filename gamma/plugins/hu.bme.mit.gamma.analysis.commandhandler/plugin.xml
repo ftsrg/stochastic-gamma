@@ -12,7 +12,7 @@
             	<iterate ifEmpty="false" operator="or">
 					<test
 				    	property="org.eclipse.core.resources.name"
-				        value="*.egcd">
+				        value="*.sgcd">
 				    </test>
     			</iterate>
             </visibleWhen>  
@@ -22,7 +22,7 @@
             	<iterate ifEmpty="false" operator="or">
 					<test
 				    	property="org.eclipse.core.resources.name"
-				        value="*.egcd">
+				        value="*.sgcd">
 				    </test>
     			</iterate>
             </visibleWhen>  
@@ -39,7 +39,7 @@
             	<iterate ifEmpty="false" operator="or">
 					<test
 				    	property="org.eclipse.core.resources.name"
-				        value="*.egcd">
+				        value="*.sgcd">
 				    </test>
     			</iterate>
             </visibleWhen>  
@@ -49,7 +49,7 @@
             	<iterate ifEmpty="false" operator="or">
 					<test
 				    	property="org.eclipse.core.resources.name"
-				        value="*.egcd">
+				        value="*.sgcd">
 				    </test>
     			</iterate>
             </visibleWhen>  

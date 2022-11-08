@@ -157,6 +157,69 @@ public interface AnalysisFactory extends EFactory {
 	ParameterDistribution createParameterDistribution();
 
 	/**
+	 * Returns a new object of class '<em>Recursive Component Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Recursive Component Reference</em>'.
+	 * @generated
+	 */
+	RecursiveComponentReference createRecursiveComponentReference();
+
+	/**
+	 * Returns a new object of class '<em>Mean Time Between Events</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Mean Time Between Events</em>'.
+	 * @generated
+	 */
+	MeanTimeBetweenEvents createMeanTimeBetweenEvents();
+
+	/**
+	 * Returns a new object of class '<em>Event Time Ratio</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Event Time Ratio</em>'.
+	 * @generated
+	 */
+	EventTimeRatio createEventTimeRatio();
+
+	/**
+	 * Returns a new object of class '<em>Observe Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Observe Parameter</em>'.
+	 * @generated
+	 */
+	ObserveParameter createObserveParameter();
+
+	/**
+	 * Returns a new object of class '<em>Priory Distribution</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Priory Distribution</em>'.
+	 * @generated
+	 */
+	PrioryDistribution createPrioryDistribution();
+
+	/**
+	 * Returns a new object of class '<em>Observe Time</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Observe Time</em>'.
+	 * @generated
+	 */
+	ObserveTime createObserveTime();
+
+	/**
+	 * Returns a new object of class '<em>End Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>End Condition</em>'.
+	 * @generated
+	 */
+	EndCondition createEndCondition();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

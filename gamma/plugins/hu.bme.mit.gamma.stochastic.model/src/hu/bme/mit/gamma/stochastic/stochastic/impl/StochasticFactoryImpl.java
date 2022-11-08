@@ -79,6 +79,12 @@ public class StochasticFactoryImpl extends EFactoryImpl implements StochasticFac
 			case StochasticPackage.FITTED_EXPONENTIAL_RANDOM_VARIABLE: return createFittedExponentialRandomVariable();
 			case StochasticPackage.FITTED_GAMMA_RANDOM_VARIABLE: return createFittedGammaRandomVariable();
 			case StochasticPackage.GAMMA_RANDOM_VARIABLE: return createGammaRandomVariable();
+			case StochasticPackage.CUSTOM_RANDOM_VARIABLE: return createCustomRandomVariable();
+			case StochasticPackage.STOCHASTIC_EXPRESSION: return createStochasticExpression();
+			case StochasticPackage.UNIFORM_RANDOM_VARIABLE: return createUniformRandomVariable();
+			case StochasticPackage.BETA_RANDOM_VARIABLE: return createBetaRandomVariable();
+			case StochasticPackage.LOG_NORMAL_RANDOM_VARIABLE: return createLogNormalRandomVariable();
+			case StochasticPackage.PARETO_RANDOM_VARIABLE: return createParetoRandomVariable();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -312,6 +318,66 @@ public class StochasticFactoryImpl extends EFactoryImpl implements StochasticFac
 	public GammaRandomVariable createGammaRandomVariable() {
 		GammaRandomVariableImpl gammaRandomVariable = new GammaRandomVariableImpl();
 		return gammaRandomVariable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CustomRandomVariable createCustomRandomVariable() {
+		CustomRandomVariableImpl customRandomVariable = new CustomRandomVariableImpl();
+		return customRandomVariable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StochasticExpression createStochasticExpression() {
+		StochasticExpressionImpl stochasticExpression = new StochasticExpressionImpl();
+		return stochasticExpression;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UniformRandomVariable createUniformRandomVariable() {
+		UniformRandomVariableImpl uniformRandomVariable = new UniformRandomVariableImpl();
+		return uniformRandomVariable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BetaRandomVariable createBetaRandomVariable() {
+		BetaRandomVariableImpl betaRandomVariable = new BetaRandomVariableImpl();
+		return betaRandomVariable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LogNormalRandomVariable createLogNormalRandomVariable() {
+		LogNormalRandomVariableImpl logNormalRandomVariable = new LogNormalRandomVariableImpl();
+		return logNormalRandomVariable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParetoRandomVariable createParetoRandomVariable() {
+		ParetoRandomVariableImpl paretoRandomVariable = new ParetoRandomVariableImpl();
+		return paretoRandomVariable;
 	}
 
 	/**

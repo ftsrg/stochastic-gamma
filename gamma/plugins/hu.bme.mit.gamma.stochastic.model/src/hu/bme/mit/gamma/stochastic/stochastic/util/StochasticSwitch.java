@@ -2,8 +2,8 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic.util;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.stochastic.stochastic.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -328,6 +328,58 @@ public class StochasticSwitch<T> extends Switch<T> {
 				if (result == null) result = caseFittedModel(fittedContinuousRandomVariable);
 				if (result == null) result = caseRandomVariable(fittedContinuousRandomVariable);
 				if (result == null) result = caseStochasticModel(fittedContinuousRandomVariable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case StochasticPackage.CUSTOM_RANDOM_VARIABLE: {
+				CustomRandomVariable customRandomVariable = (CustomRandomVariable)theEObject;
+				T result = caseCustomRandomVariable(customRandomVariable);
+				if (result == null) result = caseContinouosRandomVariable(customRandomVariable);
+				if (result == null) result = caseRandomVariable(customRandomVariable);
+				if (result == null) result = caseStochasticModel(customRandomVariable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case StochasticPackage.STOCHASTIC_EXPRESSION: {
+				StochasticExpression stochasticExpression = (StochasticExpression)theEObject;
+				T result = caseStochasticExpression(stochasticExpression);
+				if (result == null) result = caseExpression(stochasticExpression);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case StochasticPackage.UNIFORM_RANDOM_VARIABLE: {
+				UniformRandomVariable uniformRandomVariable = (UniformRandomVariable)theEObject;
+				T result = caseUniformRandomVariable(uniformRandomVariable);
+				if (result == null) result = caseContinouosRandomVariable(uniformRandomVariable);
+				if (result == null) result = caseRandomVariable(uniformRandomVariable);
+				if (result == null) result = caseStochasticModel(uniformRandomVariable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case StochasticPackage.BETA_RANDOM_VARIABLE: {
+				BetaRandomVariable betaRandomVariable = (BetaRandomVariable)theEObject;
+				T result = caseBetaRandomVariable(betaRandomVariable);
+				if (result == null) result = caseContinouosRandomVariable(betaRandomVariable);
+				if (result == null) result = caseRandomVariable(betaRandomVariable);
+				if (result == null) result = caseStochasticModel(betaRandomVariable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case StochasticPackage.LOG_NORMAL_RANDOM_VARIABLE: {
+				LogNormalRandomVariable logNormalRandomVariable = (LogNormalRandomVariable)theEObject;
+				T result = caseLogNormalRandomVariable(logNormalRandomVariable);
+				if (result == null) result = caseContinouosRandomVariable(logNormalRandomVariable);
+				if (result == null) result = caseRandomVariable(logNormalRandomVariable);
+				if (result == null) result = caseStochasticModel(logNormalRandomVariable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case StochasticPackage.PARETO_RANDOM_VARIABLE: {
+				ParetoRandomVariable paretoRandomVariable = (ParetoRandomVariable)theEObject;
+				T result = caseParetoRandomVariable(paretoRandomVariable);
+				if (result == null) result = caseContinouosRandomVariable(paretoRandomVariable);
+				if (result == null) result = caseRandomVariable(paretoRandomVariable);
+				if (result == null) result = caseStochasticModel(paretoRandomVariable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -827,6 +879,111 @@ public class StochasticSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFittedContinuousRandomVariable(FittedContinuousRandomVariable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Custom Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Custom Random Variable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCustomRandomVariable(CustomRandomVariable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Expression</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Expression</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStochasticExpression(StochasticExpression object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uniform Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uniform Random Variable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUniformRandomVariable(UniformRandomVariable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Beta Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Beta Random Variable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBetaRandomVariable(BetaRandomVariable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Log Normal Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Log Normal Random Variable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLogNormalRandomVariable(LogNormalRandomVariable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Pareto Random Variable</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Pareto Random Variable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseParetoRandomVariable(ParetoRandomVariable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Expression</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Expression</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExpression(Expression object) {
 		return null;
 	}
 

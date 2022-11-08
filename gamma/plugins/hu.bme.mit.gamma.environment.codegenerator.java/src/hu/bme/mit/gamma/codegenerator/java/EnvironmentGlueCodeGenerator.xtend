@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import static extension hu.bme.mit.gamma.codegenerator.java.util.Namings.*
 import hu.bme.mit.gamma.statechart.composite.AsynchronousAdapter
 import hu.bme.mit.gamma.codegenerator.java.queries.SynchronousComponentWrappers
+import hu.bme.mit.gamma.codegenerator.java.queries.AsynchronousCompositeComponents
 
 public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
 	
@@ -16,21 +17,25 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
 		return wrapper.wrappedComponent.name.toFirstLower+"Statechart"
 	}
 	
-	EnvironmentCompositeComponentCodeGenerator environmentCompositeComponentCodeGenerator;
+	EnvironmentSynchronousCompositeComponentCodeGenerator environmentSynchronousCompositeComponentCodeGenerator;
+	EnvironmentAsynchronousCompositeComponentCodeGenerator environmentAsynchronousCompositeComponentCodeGenerator;
+	EnvironmentAsynchronousAdapterCodeGenerator environmentAsynchronousAdapterCodeGenerator;
 	
 	var URIs=<String>newArrayList()
 	
 	new(ResourceSet resourceSet, String basePackageName, String srcGenFolderUri) {
 		super(resourceSet, basePackageName, srcGenFolderUri)
 		val trace = new Trace(super.engine)
-		this.environmentCompositeComponentCodeGenerator=new EnvironmentCompositeComponentCodeGenerator(super.BASE_PACKAGE_NAME, super.YAKINDU_PACKAGE_NAME, trace)
+		this.environmentSynchronousCompositeComponentCodeGenerator=new EnvironmentSynchronousCompositeComponentCodeGenerator(super.BASE_PACKAGE_NAME, super.YAKINDU_PACKAGE_NAME, trace)
+		this.environmentAsynchronousCompositeComponentCodeGenerator=new EnvironmentAsynchronousCompositeComponentCodeGenerator(this.BASE_PACKAGE_NAME, trace)
+		this.environmentAsynchronousAdapterCodeGenerator=new EnvironmentAsynchronousAdapterCodeGenerator(this.BASE_PACKAGE_NAME, trace)
 	}
 	
-		protected override getSynchronousCompositeComponentsRule() {
+	protected override getSynchronousCompositeComponentsRule() {
 		if (synchronousCompositeComponentsRule === null) {
 			 synchronousCompositeComponentsRule = createRule(AbstractSynchronousCompositeComponents.instance).action [
 				val compositeSystemUri = BASE_PACKAGE_URI + File.separator + it.synchronousCompositeComponent.containingPackage.name.toLowerCase
-				val code = environmentCompositeComponentCodeGenerator.createEnvironmentCompositeComponentClass(it.synchronousCompositeComponent)
+				val code = environmentSynchronousCompositeComponentCodeGenerator.createEnvironmentCompositeComponentClass(it.synchronousCompositeComponent)
 				code.saveCode(compositeSystemUri + File.separator + it.synchronousCompositeComponent.generateComponentClassName + ".java")
 				// Generating the interface that is able to return the Ports
 				val interfaceCode = it.synchronousCompositeComponent.generateComponentInterface
@@ -44,11 +49,26 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
 	}
 	
 	
+	protected override getAsynchronousCompositeComponentsRule() {
+		if (asynchronousCompositeComponentsRule === null) {
+			 asynchronousCompositeComponentsRule = createRule(AsynchronousCompositeComponents.instance).action [
+				val compositeSystemUri = BASE_PACKAGE_URI + File.separator + it.asynchronousCompositeComponent.containingPackage.name.toLowerCase
+				// Main components
+				val code = environmentAsynchronousCompositeComponentCodeGenerator.createEnvironmentAsynchronousCompositeComponentClass(it.asynchronousCompositeComponent,0,0)
+				code.saveCode(compositeSystemUri + File.separator + it.asynchronousCompositeComponent.generateComponentClassName + ".java")
+				val interfaceCode = it.asynchronousCompositeComponent.generateComponentInterface
+				interfaceCode.saveCode(compositeSystemUri + File.separator + it.asynchronousCompositeComponent.generatePortOwnerInterfaceName + ".java")
+			].build		
+		}
+		return asynchronousCompositeComponentsRule
+	}
+	
+	
 	protected override getAsynchronousAdapterRule() {
 		if (synchronousComponentWrapperRule === null) {
 			 synchronousComponentWrapperRule = createRule(SynchronousComponentWrappers.instance).action [
 				val compositeSystemUri = BASE_PACKAGE_URI + File.separator + it.synchronousComponentWrapper.containingPackage.name.toLowerCase
-				val code = it.synchronousComponentWrapper.createAsynchronousAdapterClass
+				val code = environmentAsynchronousAdapterCodeGenerator.createAsynchronousAdapterClass(it.synchronousComponentWrapper)
 				code.saveCode(compositeSystemUri + File.separator + it.synchronousComponentWrapper.generateComponentClassName + ".java")
 				val interfaceCode = it.synchronousComponentWrapper.generateComponentInterface
 				interfaceCode.saveCode(compositeSystemUri + File.separator + it.synchronousComponentWrapper.generatePortOwnerInterfaceName + ".java")

@@ -9,12 +9,10 @@
   <genPackages prefix="Environent" basePackage="hu.bme.mit.gamma.environment" disposableProviderFactory="true"
       ecorePackage="environment.ecore#/">
     <genClasses ecoreClass="environment.ecore#//EnvironmentEventSource"/>
-    <genClasses ecoreClass="environment.ecore#//EnvironmentCompositeComponent">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentCompositeComponent/environmentComponents"/>
-    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentCascadeCompositeComponent"/>
     <genClasses image="false" ecoreClass="environment.ecore#//EnvironmentComponentInstance"/>
-    <genClasses ecoreClass="environment.ecore#//EnvironmentCompositeComponentInstance">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentCompositeComponentInstance/type"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentCascadeCompositeComponentInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentCascadeCompositeComponentInstance/type"/>
     </genClasses>
     <genClasses ecoreClass="environment.ecore#//EnvironmentDelay"/>
     <genClasses ecoreClass="environment.ecore#//EnvironmentSwitch"/>
@@ -48,6 +46,22 @@
     <genClasses ecoreClass="environment.ecore#//EnvironmentPeriodicEventSource"/>
     <genClasses ecoreClass="environment.ecore#//PeriodicSimulation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute environment.ecore#//PeriodicSimulation/periodTime"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentSynchronousCompositeComponent"/>
+    <genClasses image="false" ecoreClass="environment.ecore#//AbstractEnvironmentCompositeComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//AbstractEnvironmentCompositeComponent/environmentComponents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="environment.ecore#//EnvironmentComponent"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentAsynchronousCompositeComponent"/>
+    <genClasses image="false" ecoreClass="environment.ecore#//AbstractEnvironmentCompositeComponentInstance"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentSynchronousCompositeComponentInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentSynchronousCompositeComponentInstance/type"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentAsynchronousCompositeComponentInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentAsynchronousCompositeComponentInstance/type"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//ParameterFilter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//ParameterFilter/parameter"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

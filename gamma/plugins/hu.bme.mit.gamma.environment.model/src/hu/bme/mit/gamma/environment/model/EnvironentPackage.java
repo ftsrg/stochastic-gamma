@@ -251,14 +251,14 @@ public interface EnvironentPackage extends EPackage {
 	int ENVIRONMENT_EVENT_SOURCE_OPERATION_COUNT = ELEMENTARY_ENVIRONMENT_COMPONENT_INSTANCE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentImpl <em>Environment Composite Component</em>}' class.
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentImpl <em>Environment Cascade Composite Component</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentImpl
-	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCompositeComponent()
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCascadeCompositeComponent()
 	 * @generated
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT = 1;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -267,7 +267,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__NAME = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__NAME;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__NAME = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Declarations</b></em>' containment reference list.
@@ -276,7 +276,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__PARAMETER_DECLARATIONS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__PARAMETER_DECLARATIONS;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__PARAMETER_DECLARATIONS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__PARAMETER_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
@@ -285,7 +285,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__PORTS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__PORTS;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__PORTS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__PORTS;
 
 	/**
 	 * The feature id for the '<em><b>Function Declarations</b></em>' containment reference list.
@@ -294,7 +294,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Port Bindings</b></em>' containment reference list.
@@ -303,7 +303,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__PORT_BINDINGS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__PORT_BINDINGS;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__PORT_BINDINGS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__PORT_BINDINGS;
 
 	/**
 	 * The feature id for the '<em><b>Channels</b></em>' containment reference list.
@@ -312,7 +312,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__CHANNELS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__CHANNELS;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__CHANNELS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__CHANNELS;
 
 	/**
 	 * The feature id for the '<em><b>Components</b></em>' containment reference list.
@@ -321,7 +321,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__COMPONENTS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__COMPONENTS;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__COMPONENTS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__COMPONENTS;
 
 	/**
 	 * The feature id for the '<em><b>Execution List</b></em>' reference list.
@@ -330,7 +330,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__EXECUTION_LIST = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__EXECUTION_LIST;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__EXECUTION_LIST = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__EXECUTION_LIST;
 
 	/**
 	 * The feature id for the '<em><b>Environment Components</b></em>' containment reference list.
@@ -339,35 +339,35 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT_FEATURE_COUNT + 0;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Environment Composite Component</em>' class.
+	 * The number of structural features of the '<em>Environment Cascade Composite Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT_FEATURE_COUNT + 1;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_FEATURE_COUNT = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Environment Composite Component</em>' class.
+	 * The number of operations of the '<em>Environment Cascade Composite Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_OPERATION_COUNT = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT_OPERATION_COUNT + 0;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_OPERATION_COUNT = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentInstanceImpl <em>Environment Composite Component Instance</em>}' class.
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentInstanceImpl <em>Abstract Environment Composite Component Instance</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentInstanceImpl
-	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCompositeComponentInstance()
+	 * @see hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentInstanceImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getAbstractEnvironmentCompositeComponentInstance()
 	 * @generated
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE = 3;
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE = 23;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -376,7 +376,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__NAME = ENVIRONMENT_COMPONENT_INSTANCE__NAME;
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__NAME = ENVIRONMENT_COMPONENT_INSTANCE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Arguments</b></em>' containment reference list.
@@ -385,7 +385,53 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS = ENVIRONMENT_COMPONENT_INSTANCE__ARGUMENTS;
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS = ENVIRONMENT_COMPONENT_INSTANCE__ARGUMENTS;
+
+	/**
+	 * The number of structural features of the '<em>Abstract Environment Composite Component Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT = ENVIRONMENT_COMPONENT_INSTANCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Abstract Environment Composite Component Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT = ENVIRONMENT_COMPONENT_INSTANCE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentInstanceImpl <em>Environment Cascade Composite Component Instance</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentInstanceImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCascadeCompositeComponentInstance()
+	 * @generated
+	 */
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE__NAME = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Arguments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -394,25 +440,25 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__TYPE = ENVIRONMENT_COMPONENT_INSTANCE_FEATURE_COUNT + 0;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE__TYPE = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Environment Composite Component Instance</em>' class.
+	 * The number of structural features of the '<em>Environment Cascade Composite Component Instance</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT = ENVIRONMENT_COMPONENT_INSTANCE_FEATURE_COUNT + 1;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Environment Composite Component Instance</em>' class.
+	 * The number of operations of the '<em>Environment Cascade Composite Component Instance</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT = ENVIRONMENT_COMPONENT_INSTANCE_OPERATION_COUNT + 0;
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentDelayImpl <em>Environment Delay</em>}' class.
@@ -1121,6 +1167,428 @@ public interface EnvironentPackage extends EPackage {
 	 */
 	int PERIODIC_SIMULATION_OPERATION_COUNT = SIMULATION_OPERATION_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentComponentImpl <em>Environment Component</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentComponentImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentComponent()
+	 * @generated
+	 */
+	int ENVIRONMENT_COMPONENT = 21;
+
+	/**
+	 * The number of structural features of the '<em>Environment Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_COMPONENT_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Environment Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_COMPONENT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentImpl <em>Abstract Environment Composite Component</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getAbstractEnvironmentCompositeComponent()
+	 * @generated
+	 */
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT = 20;
+
+	/**
+	 * The feature id for the '<em><b>Environment Components</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS = ENVIRONMENT_COMPONENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Abstract Environment Composite Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT = ENVIRONMENT_COMPONENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Abstract Environment Composite Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_OPERATION_COUNT = ENVIRONMENT_COMPONENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl <em>Environment Synchronous Composite Component</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentSynchronousCompositeComponent()
+	 * @generated
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT = 19;
+
+	/**
+	 * The feature id for the '<em><b>Environment Components</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__NAME = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PARAMETER_DECLARATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Function Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Port Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Channels</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Components</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of structural features of the '<em>Environment Synchronous Composite Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The number of operations of the '<em>Environment Synchronous Composite Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_OPERATION_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentImpl <em>Environment Asynchronous Composite Component</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentAsynchronousCompositeComponent()
+	 * @generated
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT = 22;
+
+	/**
+	 * The feature id for the '<em><b>Environment Components</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__NAME = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__PARAMETER_DECLARATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__PORTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Function Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Port Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Channels</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Components</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of structural features of the '<em>Environment Asynchronous Composite Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The number of operations of the '<em>Environment Asynchronous Composite Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_OPERATION_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentInstanceImpl <em>Environment Synchronous Composite Component Instance</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentInstanceImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentSynchronousCompositeComponentInstance()
+	 * @generated
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE = 24;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__NAME = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Arguments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Environment Synchronous Composite Component Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Environment Synchronous Composite Component Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentInstanceImpl <em>Environment Asynchronous Composite Component Instance</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentInstanceImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentAsynchronousCompositeComponentInstance()
+	 * @generated
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE = 25;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__NAME = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Arguments</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__ARGUMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Environment Asynchronous Composite Component Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Environment Asynchronous Composite Component Instance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE_OPERATION_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.model.impl.ParameterFilterImpl <em>Parameter Filter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.model.impl.ParameterFilterImpl
+	 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getParameterFilter()
+	 * @generated
+	 */
+	int PARAMETER_FILTER = 26;
+
+	/**
+	 * The feature id for the '<em><b>Event</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_FILTER__EVENT = EVENT_FILTER__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_FILTER__PARAMETER = EVENT_FILTER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Parameter Filter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_FILTER_FEATURE_COUNT = EVENT_FILTER_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Parameter Filter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_FILTER_OPERATION_COUNT = EVENT_FILTER_OPERATION_COUNT + 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentEventSource <em>Environment Event Source</em>}'.
@@ -1133,25 +1601,14 @@ public interface EnvironentPackage extends EPackage {
 	EClass getEnvironmentEventSource();
 
 	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent <em>Environment Composite Component</em>}'.
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponent <em>Environment Cascade Composite Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Environment Composite Component</em>'.
-	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent
+	 * @return the meta object for class '<em>Environment Cascade Composite Component</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponent
 	 * @generated
 	 */
-	EClass getEnvironmentCompositeComponent();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent#getEnvironmentComponents <em>Environment Components</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Environment Components</em>'.
-	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent#getEnvironmentComponents()
-	 * @see #getEnvironmentCompositeComponent()
-	 * @generated
-	 */
-	EReference getEnvironmentCompositeComponent_EnvironmentComponents();
+	EClass getEnvironmentCascadeCompositeComponent();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance <em>Environment Component Instance</em>}'.
@@ -1164,25 +1621,25 @@ public interface EnvironentPackage extends EPackage {
 	EClass getEnvironmentComponentInstance();
 
 	/**
-	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance <em>Environment Composite Component Instance</em>}'.
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance <em>Environment Cascade Composite Component Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Environment Composite Component Instance</em>'.
-	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance
+	 * @return the meta object for class '<em>Environment Cascade Composite Component Instance</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance
 	 * @generated
 	 */
-	EClass getEnvironmentCompositeComponentInstance();
+	EClass getEnvironmentCascadeCompositeComponentInstance();
 
 	/**
-	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance#getType <em>Type</em>}'.
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Type</em>'.
-	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance#getType()
-	 * @see #getEnvironmentCompositeComponentInstance()
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance#getType()
+	 * @see #getEnvironmentCascadeCompositeComponentInstance()
 	 * @generated
 	 */
-	EReference getEnvironmentCompositeComponentInstance_Type();
+	EReference getEnvironmentCascadeCompositeComponentInstance_Type();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentDelay <em>Environment Delay</em>}'.
@@ -1445,6 +1902,130 @@ public interface EnvironentPackage extends EPackage {
 	EAttribute getPeriodicSimulation_PeriodTime();
 
 	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent <em>Environment Synchronous Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Environment Synchronous Composite Component</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent
+	 * @generated
+	 */
+	EClass getEnvironmentSynchronousCompositeComponent();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent <em>Abstract Environment Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Abstract Environment Composite Component</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent
+	 * @generated
+	 */
+	EClass getAbstractEnvironmentCompositeComponent();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent#getEnvironmentComponents <em>Environment Components</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Environment Components</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent#getEnvironmentComponents()
+	 * @see #getAbstractEnvironmentCompositeComponent()
+	 * @generated
+	 */
+	EReference getAbstractEnvironmentCompositeComponent_EnvironmentComponents();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentComponent <em>Environment Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Environment Component</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentComponent
+	 * @generated
+	 */
+	EClass getEnvironmentComponent();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent <em>Environment Asynchronous Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Environment Asynchronous Composite Component</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent
+	 * @generated
+	 */
+	EClass getEnvironmentAsynchronousCompositeComponent();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponentInstance <em>Abstract Environment Composite Component Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Abstract Environment Composite Component Instance</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponentInstance
+	 * @generated
+	 */
+	EClass getAbstractEnvironmentCompositeComponentInstance();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance <em>Environment Synchronous Composite Component Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Environment Synchronous Composite Component Instance</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance
+	 * @generated
+	 */
+	EClass getEnvironmentSynchronousCompositeComponentInstance();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance#getType()
+	 * @see #getEnvironmentSynchronousCompositeComponentInstance()
+	 * @generated
+	 */
+	EReference getEnvironmentSynchronousCompositeComponentInstance_Type();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance <em>Environment Asynchronous Composite Component Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Environment Asynchronous Composite Component Instance</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance
+	 * @generated
+	 */
+	EClass getEnvironmentAsynchronousCompositeComponentInstance();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance#getType()
+	 * @see #getEnvironmentAsynchronousCompositeComponentInstance()
+	 * @generated
+	 */
+	EReference getEnvironmentAsynchronousCompositeComponentInstance_Type();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.model.ParameterFilter <em>Parameter Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parameter Filter</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.ParameterFilter
+	 * @generated
+	 */
+	EClass getParameterFilter();
+
+	/**
+	 * Returns the meta object for the reference '{@link hu.bme.mit.gamma.environment.model.ParameterFilter#getParameter <em>Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parameter</em>'.
+	 * @see hu.bme.mit.gamma.environment.model.ParameterFilter#getParameter()
+	 * @see #getParameterFilter()
+	 * @generated
+	 */
+	EReference getParameterFilter_Parameter();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1478,22 +2059,14 @@ public interface EnvironentPackage extends EPackage {
 		EClass ENVIRONMENT_EVENT_SOURCE = eINSTANCE.getEnvironmentEventSource();
 
 		/**
-		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentImpl <em>Environment Composite Component</em>}' class.
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentImpl <em>Environment Cascade Composite Component</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentImpl
-		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCompositeComponent()
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCascadeCompositeComponent()
 		 * @generated
 		 */
-		EClass ENVIRONMENT_COMPOSITE_COMPONENT = eINSTANCE.getEnvironmentCompositeComponent();
-
-		/**
-		 * The meta object literal for the '<em><b>Environment Components</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS = eINSTANCE.getEnvironmentCompositeComponent_EnvironmentComponents();
+		EClass ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT = eINSTANCE.getEnvironmentCascadeCompositeComponent();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentComponentInstanceImpl <em>Environment Component Instance</em>}' class.
@@ -1506,14 +2079,14 @@ public interface EnvironentPackage extends EPackage {
 		EClass ENVIRONMENT_COMPONENT_INSTANCE = eINSTANCE.getEnvironmentComponentInstance();
 
 		/**
-		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentInstanceImpl <em>Environment Composite Component Instance</em>}' class.
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentInstanceImpl <em>Environment Cascade Composite Component Instance</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCompositeComponentInstanceImpl
-		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCompositeComponentInstance()
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentCascadeCompositeComponentInstanceImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentCascadeCompositeComponentInstance()
 		 * @generated
 		 */
-		EClass ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE = eINSTANCE.getEnvironmentCompositeComponentInstance();
+		EClass ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE = eINSTANCE.getEnvironmentCascadeCompositeComponentInstance();
 
 		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
@@ -1521,7 +2094,7 @@ public interface EnvironentPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__TYPE = eINSTANCE.getEnvironmentCompositeComponentInstance_Type();
+		EReference ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE__TYPE = eINSTANCE.getEnvironmentCascadeCompositeComponentInstance_Type();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentDelayImpl <em>Environment Delay</em>}' class.
@@ -1752,6 +2325,118 @@ public interface EnvironentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PERIODIC_SIMULATION__PERIOD_TIME = eINSTANCE.getPeriodicSimulation_PeriodTime();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl <em>Environment Synchronous Composite Component</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentSynchronousCompositeComponent()
+		 * @generated
+		 */
+		EClass ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT = eINSTANCE.getEnvironmentSynchronousCompositeComponent();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentImpl <em>Abstract Environment Composite Component</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getAbstractEnvironmentCompositeComponent()
+		 * @generated
+		 */
+		EClass ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT = eINSTANCE.getAbstractEnvironmentCompositeComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Environment Components</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS = eINSTANCE.getAbstractEnvironmentCompositeComponent_EnvironmentComponents();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentComponentImpl <em>Environment Component</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentComponentImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentComponent()
+		 * @generated
+		 */
+		EClass ENVIRONMENT_COMPONENT = eINSTANCE.getEnvironmentComponent();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentImpl <em>Environment Asynchronous Composite Component</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentAsynchronousCompositeComponent()
+		 * @generated
+		 */
+		EClass ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT = eINSTANCE.getEnvironmentAsynchronousCompositeComponent();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentInstanceImpl <em>Abstract Environment Composite Component Instance</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.AbstractEnvironmentCompositeComponentInstanceImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getAbstractEnvironmentCompositeComponentInstance()
+		 * @generated
+		 */
+		EClass ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE = eINSTANCE.getAbstractEnvironmentCompositeComponentInstance();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentInstanceImpl <em>Environment Synchronous Composite Component Instance</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentInstanceImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentSynchronousCompositeComponentInstance()
+		 * @generated
+		 */
+		EClass ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE = eINSTANCE.getEnvironmentSynchronousCompositeComponentInstance();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE = eINSTANCE.getEnvironmentSynchronousCompositeComponentInstance_Type();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentInstanceImpl <em>Environment Asynchronous Composite Component Instance</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironmentAsynchronousCompositeComponentInstanceImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getEnvironmentAsynchronousCompositeComponentInstance()
+		 * @generated
+		 */
+		EClass ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE = eINSTANCE.getEnvironmentAsynchronousCompositeComponentInstance();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE = eINSTANCE.getEnvironmentAsynchronousCompositeComponentInstance_Type();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.model.impl.ParameterFilterImpl <em>Parameter Filter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.model.impl.ParameterFilterImpl
+		 * @see hu.bme.mit.gamma.environment.model.impl.EnvironentPackageImpl#getParameterFilter()
+		 * @generated
+		 */
+		EClass PARAMETER_FILTER = eINSTANCE.getParameterFilter();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PARAMETER_FILTER__PARAMETER = eINSTANCE.getParameterFilter_Parameter();
 
 	}
 

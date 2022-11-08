@@ -1,7 +1,6 @@
 package hu.bme.mit.gamma.analysis.transformation
 
 import com.google.inject.Inject
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent
 import org.eclipse.emf.ecore.resource.Resource
 import hu.bme.mit.gamma.analysis.AnalysisComponent
 import java.io.File
@@ -24,10 +23,10 @@ class AnalysisTransformation {
 	def transformandrun(Resource resource,URI uri,String packageName,List<String> uriList,String BasePackage){
 		
 		var pyGenURI=BasePackage+File.separator+"simulator-gen"+File.separator+"simulator.py"
-		var gatewayGenURI=BasePackage+File.separator+"gateway-gen"+File.separator+"javaenv"+File.separator+"AnalyzerGateway.java"
+		var gatewayGenURI=BasePackage+File.separator+"gateway-gen"+File.separator+"javaenv"+File.separator+"DetModelEntryPoint.java"
 		
-		var pythonGenerator = new GeneratePyroScript()
-		var javaGenerator= new GeneratePy4JGateway()
+		var pythonGenerator = new PyroSimulatorGenerator()
+		var javaGenerator= new Py4JGatewayGenerator()
 		var pck=resource.getContents().get(0) as Package
 		var acomp=pck.components.filter[e|e instanceof AnalysisComponent].get(0) as AnalysisComponent
 		System.out.println(pythonGenerator.generate(acomp,packageName))
@@ -48,8 +47,8 @@ class AnalysisTransformation {
 		var pyGenURI=BasePackage+File.separator+"simulator-gen"+File.separator+"simulator.py"
 		var gatewayGenURI=BasePackage+File.separator+"gateway-gen"+File.separator+"epasenv"+File.separator+"AnalyzerGateway.java"
 		
-		var pythonGenerator = new GeneratePyroScript()
-		var javaGenerator= new GeneratePy4JGateway()
+		var pythonGenerator = new PyroSimulatorGenerator()
+		var javaGenerator= new Py4JGatewayGenerator()
 		var pck=resource.getContents().get(0) as Package
 		var acomp=pck.components.filter[e|e instanceof AnalysisComponent].get(0) as AnalysisComponent
 		System.out.println(pythonGenerator.generate(acomp,packageName))

@@ -8,11 +8,15 @@ import hu.bme.mit.gamma.expression.model.ArgumentedElement;
 import hu.bme.mit.gamma.expression.model.NamedElement;
 import hu.bme.mit.gamma.expression.model.ParametricElement;
 
+import hu.bme.mit.gamma.statechart.composite.AbstractAsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.AbstractSynchronousCompositeComponent;
+import hu.bme.mit.gamma.statechart.composite.AsynchronousComponent;
+import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponent;
+import hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent;
 
 import hu.bme.mit.gamma.statechart.interface_.Component;
 
@@ -84,16 +88,16 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 				return createEnvironmentEventSourceAdapter();
 			}
 			@Override
-			public Adapter caseEnvironmentCompositeComponent(EnvironmentCompositeComponent object) {
-				return createEnvironmentCompositeComponentAdapter();
+			public Adapter caseEnvironmentCascadeCompositeComponent(EnvironmentCascadeCompositeComponent object) {
+				return createEnvironmentCascadeCompositeComponentAdapter();
 			}
 			@Override
 			public Adapter caseEnvironmentComponentInstance(EnvironmentComponentInstance object) {
 				return createEnvironmentComponentInstanceAdapter();
 			}
 			@Override
-			public Adapter caseEnvironmentCompositeComponentInstance(EnvironmentCompositeComponentInstance object) {
-				return createEnvironmentCompositeComponentInstanceAdapter();
+			public Adapter caseEnvironmentCascadeCompositeComponentInstance(EnvironmentCascadeCompositeComponentInstance object) {
+				return createEnvironmentCascadeCompositeComponentInstanceAdapter();
 			}
 			@Override
 			public Adapter caseEnvironmentDelay(EnvironmentDelay object) {
@@ -156,6 +160,38 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 				return createPeriodicSimulationAdapter();
 			}
 			@Override
+			public Adapter caseEnvironmentSynchronousCompositeComponent(EnvironmentSynchronousCompositeComponent object) {
+				return createEnvironmentSynchronousCompositeComponentAdapter();
+			}
+			@Override
+			public Adapter caseAbstractEnvironmentCompositeComponent(AbstractEnvironmentCompositeComponent object) {
+				return createAbstractEnvironmentCompositeComponentAdapter();
+			}
+			@Override
+			public Adapter caseEnvironmentComponent(EnvironmentComponent object) {
+				return createEnvironmentComponentAdapter();
+			}
+			@Override
+			public Adapter caseEnvironmentAsynchronousCompositeComponent(EnvironmentAsynchronousCompositeComponent object) {
+				return createEnvironmentAsynchronousCompositeComponentAdapter();
+			}
+			@Override
+			public Adapter caseAbstractEnvironmentCompositeComponentInstance(AbstractEnvironmentCompositeComponentInstance object) {
+				return createAbstractEnvironmentCompositeComponentInstanceAdapter();
+			}
+			@Override
+			public Adapter caseEnvironmentSynchronousCompositeComponentInstance(EnvironmentSynchronousCompositeComponentInstance object) {
+				return createEnvironmentSynchronousCompositeComponentInstanceAdapter();
+			}
+			@Override
+			public Adapter caseEnvironmentAsynchronousCompositeComponentInstance(EnvironmentAsynchronousCompositeComponentInstance object) {
+				return createEnvironmentAsynchronousCompositeComponentInstanceAdapter();
+			}
+			@Override
+			public Adapter caseParameterFilter(ParameterFilter object) {
+				return createParameterFilterAdapter();
+			}
+			@Override
 			public Adapter caseNamedElement(NamedElement object) {
 				return createNamedElementAdapter();
 			}
@@ -192,6 +228,22 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 				return createCascadeCompositeComponentAdapter();
 			}
 			@Override
+			public Adapter caseSynchronousCompositeComponent(SynchronousCompositeComponent object) {
+				return createSynchronousCompositeComponentAdapter();
+			}
+			@Override
+			public Adapter caseAsynchronousComponent(AsynchronousComponent object) {
+				return createAsynchronousComponentAdapter();
+			}
+			@Override
+			public Adapter caseAbstractAsynchronousCompositeComponent(AbstractAsynchronousCompositeComponent object) {
+				return createAbstractAsynchronousCompositeComponentAdapter();
+			}
+			@Override
+			public Adapter caseAsynchronousCompositeComponent(AsynchronousCompositeComponent object) {
+				return createAsynchronousCompositeComponentAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -226,16 +278,16 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent <em>Environment Composite Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponent <em>Environment Cascade Composite Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponent
 	 * @generated
 	 */
-	public Adapter createEnvironmentCompositeComponentAdapter() {
+	public Adapter createEnvironmentCascadeCompositeComponentAdapter() {
 		return null;
 	}
 
@@ -254,16 +306,16 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance <em>Environment Composite Component Instance</em>}'.
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance <em>Environment Cascade Composite Component Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance
 	 * @generated
 	 */
-	public Adapter createEnvironmentCompositeComponentInstanceAdapter() {
+	public Adapter createEnvironmentCascadeCompositeComponentInstanceAdapter() {
 		return null;
 	}
 
@@ -478,6 +530,118 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent <em>Environment Synchronous Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent
+	 * @generated
+	 */
+	public Adapter createEnvironmentSynchronousCompositeComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent <em>Abstract Environment Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent
+	 * @generated
+	 */
+	public Adapter createAbstractEnvironmentCompositeComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentComponent <em>Environment Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentComponent
+	 * @generated
+	 */
+	public Adapter createEnvironmentComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent <em>Environment Asynchronous Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent
+	 * @generated
+	 */
+	public Adapter createEnvironmentAsynchronousCompositeComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponentInstance <em>Abstract Environment Composite Component Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponentInstance
+	 * @generated
+	 */
+	public Adapter createAbstractEnvironmentCompositeComponentInstanceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance <em>Environment Synchronous Composite Component Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance
+	 * @generated
+	 */
+	public Adapter createEnvironmentSynchronousCompositeComponentInstanceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance <em>Environment Asynchronous Composite Component Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance
+	 * @generated
+	 */
+	public Adapter createEnvironmentAsynchronousCompositeComponentInstanceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.model.ParameterFilter <em>Parameter Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.model.ParameterFilter
+	 * @generated
+	 */
+	public Adapter createParameterFilterAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.expression.model.NamedElement <em>Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -600,6 +764,62 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCascadeCompositeComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent <em>Synchronous Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent
+	 * @generated
+	 */
+	public Adapter createSynchronousCompositeComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.statechart.composite.AsynchronousComponent <em>Asynchronous Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.statechart.composite.AsynchronousComponent
+	 * @generated
+	 */
+	public Adapter createAsynchronousComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.statechart.composite.AbstractAsynchronousCompositeComponent <em>Abstract Asynchronous Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.statechart.composite.AbstractAsynchronousCompositeComponent
+	 * @generated
+	 */
+	public Adapter createAbstractAsynchronousCompositeComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent <em>Asynchronous Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent
+	 * @generated
+	 */
+	public Adapter createAsynchronousCompositeComponentAdapter() {
 		return null;
 	}
 

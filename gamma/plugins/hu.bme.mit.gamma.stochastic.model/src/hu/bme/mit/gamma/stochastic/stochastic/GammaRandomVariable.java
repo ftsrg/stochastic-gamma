@@ -2,6 +2,7 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,47 +23,47 @@ package hu.bme.mit.gamma.stochastic.stochastic;
  */
 public interface GammaRandomVariable extends ContinouosRandomVariable {
 	/**
-	 * Returns the value of the '<em><b>Scale</b></em>' attribute.
+	 * Returns the value of the '<em><b>Scale</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Scale</em>' attribute.
-	 * @see #setScale(double)
+	 * @return the value of the '<em>Scale</em>' containment reference.
+	 * @see #setScale(Expression)
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage#getGammaRandomVariable_Scale()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	double getScale();
+	Expression getScale();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getScale <em>Scale</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getScale <em>Scale</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Scale</em>' attribute.
+	 * @param value the new value of the '<em>Scale</em>' containment reference.
 	 * @see #getScale()
 	 * @generated
 	 */
-	void setScale(double value);
+	void setScale(Expression value);
 
 	/**
-	 * Returns the value of the '<em><b>Shape</b></em>' attribute.
+	 * Returns the value of the '<em><b>Shape</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Shape</em>' attribute.
-	 * @see #setShape(double)
+	 * @return the value of the '<em>Shape</em>' containment reference.
+	 * @see #setShape(Expression)
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage#getGammaRandomVariable_Shape()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	double getShape();
+	Expression getShape();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getShape <em>Shape</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.GammaRandomVariable#getShape <em>Shape</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Shape</em>' attribute.
+	 * @param value the new value of the '<em>Shape</em>' containment reference.
 	 * @see #getShape()
 	 * @generated
 	 */
-	void setShape(double value);
+	void setShape(Expression value);
 
 } // GammaRandomVariable

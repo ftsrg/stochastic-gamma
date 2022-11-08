@@ -4,13 +4,18 @@ package hu.bme.mit.gamma.environment.model.impl;
 
 import hu.bme.mit.gamma.action.model.ActionModelPackage;
 
+import hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent;
+import hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponentInstance;
 import hu.bme.mit.gamma.environment.model.ComponentFilter;
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironentFactory;
 import hu.bme.mit.gamma.environment.model.EnvironentPackage;
+import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent;
+import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance;
+import hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponent;
+import hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance;
+import hu.bme.mit.gamma.environment.model.EnvironmentComponent;
 import hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance;
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent;
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironmentDelay;
 import hu.bme.mit.gamma.environment.model.EnvironmentEventSource;
 import hu.bme.mit.gamma.environment.model.EnvironmentExternSimulation;
@@ -18,8 +23,11 @@ import hu.bme.mit.gamma.environment.model.EnvironmentPeriodicEventSource;
 import hu.bme.mit.gamma.environment.model.EnvironmentRule;
 import hu.bme.mit.gamma.environment.model.EnvironmentSample;
 import hu.bme.mit.gamma.environment.model.EnvironmentSwitch;
+import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent;
+import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance;
 import hu.bme.mit.gamma.environment.model.EventFilter;
 import hu.bme.mit.gamma.environment.model.Filter;
+import hu.bme.mit.gamma.environment.model.ParameterFilter;
 import hu.bme.mit.gamma.environment.model.PeriodicSimulation;
 import hu.bme.mit.gamma.environment.model.PortFilter;
 import hu.bme.mit.gamma.environment.model.Simulation;
@@ -62,7 +70,7 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass environmentCompositeComponentEClass = null;
+	private EClass environmentCascadeCompositeComponentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -76,7 +84,7 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass environmentCompositeComponentInstanceEClass = null;
+	private EClass environmentCascadeCompositeComponentInstanceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -184,6 +192,62 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 	private EClass periodicSimulationEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass environmentSynchronousCompositeComponentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass abstractEnvironmentCompositeComponentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass environmentComponentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass environmentAsynchronousCompositeComponentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass abstractEnvironmentCompositeComponentInstanceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass environmentSynchronousCompositeComponentInstanceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass environmentAsynchronousCompositeComponentInstanceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass parameterFilterEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -266,17 +330,8 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEnvironmentCompositeComponent() {
-		return environmentCompositeComponentEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getEnvironmentCompositeComponent_EnvironmentComponents() {
-		return (EReference)environmentCompositeComponentEClass.getEStructuralFeatures().get(0);
+	public EClass getEnvironmentCascadeCompositeComponent() {
+		return environmentCascadeCompositeComponentEClass;
 	}
 
 	/**
@@ -293,8 +348,8 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEnvironmentCompositeComponentInstance() {
-		return environmentCompositeComponentInstanceEClass;
+	public EClass getEnvironmentCascadeCompositeComponentInstance() {
+		return environmentCascadeCompositeComponentInstanceEClass;
 	}
 
 	/**
@@ -302,8 +357,8 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEnvironmentCompositeComponentInstance_Type() {
-		return (EReference)environmentCompositeComponentInstanceEClass.getEStructuralFeatures().get(0);
+	public EReference getEnvironmentCascadeCompositeComponentInstance_Type() {
+		return (EReference)environmentCascadeCompositeComponentInstanceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -536,6 +591,114 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getEnvironmentSynchronousCompositeComponent() {
+		return environmentSynchronousCompositeComponentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAbstractEnvironmentCompositeComponent() {
+		return abstractEnvironmentCompositeComponentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAbstractEnvironmentCompositeComponent_EnvironmentComponents() {
+		return (EReference)abstractEnvironmentCompositeComponentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEnvironmentComponent() {
+		return environmentComponentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEnvironmentAsynchronousCompositeComponent() {
+		return environmentAsynchronousCompositeComponentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAbstractEnvironmentCompositeComponentInstance() {
+		return abstractEnvironmentCompositeComponentInstanceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEnvironmentSynchronousCompositeComponentInstance() {
+		return environmentSynchronousCompositeComponentInstanceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEnvironmentSynchronousCompositeComponentInstance_Type() {
+		return (EReference)environmentSynchronousCompositeComponentInstanceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEnvironmentAsynchronousCompositeComponentInstance() {
+		return environmentAsynchronousCompositeComponentInstanceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEnvironmentAsynchronousCompositeComponentInstance_Type() {
+		return (EReference)environmentAsynchronousCompositeComponentInstanceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getParameterFilter() {
+		return parameterFilterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getParameterFilter_Parameter() {
+		return (EReference)parameterFilterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EnvironentFactory getEnvironentFactory() {
 		return (EnvironentFactory)getEFactoryInstance();
 	}
@@ -561,13 +724,12 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 		// Create classes and their features
 		environmentEventSourceEClass = createEClass(ENVIRONMENT_EVENT_SOURCE);
 
-		environmentCompositeComponentEClass = createEClass(ENVIRONMENT_COMPOSITE_COMPONENT);
-		createEReference(environmentCompositeComponentEClass, ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS);
+		environmentCascadeCompositeComponentEClass = createEClass(ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT);
 
 		environmentComponentInstanceEClass = createEClass(ENVIRONMENT_COMPONENT_INSTANCE);
 
-		environmentCompositeComponentInstanceEClass = createEClass(ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE);
-		createEReference(environmentCompositeComponentInstanceEClass, ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__TYPE);
+		environmentCascadeCompositeComponentInstanceEClass = createEClass(ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE);
+		createEReference(environmentCascadeCompositeComponentInstanceEClass, ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE__TYPE);
 
 		environmentDelayEClass = createEClass(ENVIRONMENT_DELAY);
 
@@ -608,6 +770,26 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 
 		periodicSimulationEClass = createEClass(PERIODIC_SIMULATION);
 		createEAttribute(periodicSimulationEClass, PERIODIC_SIMULATION__PERIOD_TIME);
+
+		environmentSynchronousCompositeComponentEClass = createEClass(ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT);
+
+		abstractEnvironmentCompositeComponentEClass = createEClass(ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT);
+		createEReference(abstractEnvironmentCompositeComponentEClass, ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT__ENVIRONMENT_COMPONENTS);
+
+		environmentComponentEClass = createEClass(ENVIRONMENT_COMPONENT);
+
+		environmentAsynchronousCompositeComponentEClass = createEClass(ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT);
+
+		abstractEnvironmentCompositeComponentInstanceEClass = createEClass(ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE);
+
+		environmentSynchronousCompositeComponentInstanceEClass = createEClass(ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE);
+		createEReference(environmentSynchronousCompositeComponentInstanceEClass, ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE);
+
+		environmentAsynchronousCompositeComponentInstanceEClass = createEClass(ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE);
+		createEReference(environmentAsynchronousCompositeComponentInstanceEClass, ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE);
+
+		parameterFilterEClass = createEClass(PARAMETER_FILTER);
+		createEReference(parameterFilterEClass, PARAMETER_FILTER__PARAMETER);
 	}
 
 	/**
@@ -638,6 +820,7 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 		InterfaceModelPackage theInterfaceModelPackage = (InterfaceModelPackage)EPackage.Registry.INSTANCE.getEPackage(InterfaceModelPackage.eNS_URI);
 		StatechartModelPackage theStatechartModelPackage = (StatechartModelPackage)EPackage.Registry.INSTANCE.getEPackage(StatechartModelPackage.eNS_URI);
 		StochasticPackage theStochasticPackage = (StochasticPackage)EPackage.Registry.INSTANCE.getEPackage(StochasticPackage.eNS_URI);
+		ExpressionModelPackage theExpressionModelPackage = (ExpressionModelPackage)EPackage.Registry.INSTANCE.getEPackage(ExpressionModelPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -645,9 +828,10 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 
 		// Add supertypes to classes
 		environmentEventSourceEClass.getESuperTypes().add(this.getElementaryEnvironmentComponentInstance());
-		environmentCompositeComponentEClass.getESuperTypes().add(theCompositeModelPackage.getCascadeCompositeComponent());
+		environmentCascadeCompositeComponentEClass.getESuperTypes().add(theCompositeModelPackage.getCascadeCompositeComponent());
+		environmentCascadeCompositeComponentEClass.getESuperTypes().add(this.getAbstractEnvironmentCompositeComponent());
 		environmentComponentInstanceEClass.getESuperTypes().add(theCompositeModelPackage.getComponentInstance());
-		environmentCompositeComponentInstanceEClass.getESuperTypes().add(this.getEnvironmentComponentInstance());
+		environmentCascadeCompositeComponentInstanceEClass.getESuperTypes().add(this.getAbstractEnvironmentCompositeComponentInstance());
 		environmentDelayEClass.getESuperTypes().add(this.getElementaryEnvironmentComponentInstance());
 		environmentSwitchEClass.getESuperTypes().add(this.getElementaryEnvironmentComponentInstance());
 		elementaryEnvironmentComponentInstanceEClass.getESuperTypes().add(this.getEnvironmentComponentInstance());
@@ -660,17 +844,25 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 		simulationRuleEClass.getESuperTypes().add(this.getEnvironmentRule());
 		environmentPeriodicEventSourceEClass.getESuperTypes().add(this.getElementaryEnvironmentComponentInstance());
 		periodicSimulationEClass.getESuperTypes().add(this.getSimulation());
+		environmentSynchronousCompositeComponentEClass.getESuperTypes().add(this.getAbstractEnvironmentCompositeComponent());
+		environmentSynchronousCompositeComponentEClass.getESuperTypes().add(theCompositeModelPackage.getSynchronousCompositeComponent());
+		abstractEnvironmentCompositeComponentEClass.getESuperTypes().add(this.getEnvironmentComponent());
+		environmentAsynchronousCompositeComponentEClass.getESuperTypes().add(this.getAbstractEnvironmentCompositeComponent());
+		environmentAsynchronousCompositeComponentEClass.getESuperTypes().add(theCompositeModelPackage.getAsynchronousCompositeComponent());
+		abstractEnvironmentCompositeComponentInstanceEClass.getESuperTypes().add(this.getEnvironmentComponentInstance());
+		environmentSynchronousCompositeComponentInstanceEClass.getESuperTypes().add(this.getAbstractEnvironmentCompositeComponentInstance());
+		environmentAsynchronousCompositeComponentInstanceEClass.getESuperTypes().add(this.getAbstractEnvironmentCompositeComponentInstance());
+		parameterFilterEClass.getESuperTypes().add(this.getEventFilter());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(environmentEventSourceEClass, EnvironmentEventSource.class, "EnvironmentEventSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(environmentCompositeComponentEClass, EnvironmentCompositeComponent.class, "EnvironmentCompositeComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEnvironmentCompositeComponent_EnvironmentComponents(), this.getEnvironmentComponentInstance(), null, "environmentComponents", null, 0, -1, EnvironmentCompositeComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(environmentCascadeCompositeComponentEClass, EnvironmentCascadeCompositeComponent.class, "EnvironmentCascadeCompositeComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(environmentComponentInstanceEClass, EnvironmentComponentInstance.class, "EnvironmentComponentInstance", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(environmentCompositeComponentInstanceEClass, EnvironmentCompositeComponentInstance.class, "EnvironmentCompositeComponentInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEnvironmentCompositeComponentInstance_Type(), this.getEnvironmentCompositeComponent(), null, "type", null, 1, 1, EnvironmentCompositeComponentInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(environmentCascadeCompositeComponentInstanceEClass, EnvironmentCascadeCompositeComponentInstance.class, "EnvironmentCascadeCompositeComponentInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEnvironmentCascadeCompositeComponentInstance_Type(), this.getEnvironmentCascadeCompositeComponent(), null, "type", null, 1, 1, EnvironmentCascadeCompositeComponentInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(environmentDelayEClass, EnvironmentDelay.class, "EnvironmentDelay", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -711,6 +903,26 @@ public class EnvironentPackageImpl extends EPackageImpl implements EnvironentPac
 
 		initEClass(periodicSimulationEClass, PeriodicSimulation.class, "PeriodicSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPeriodicSimulation_PeriodTime(), ecorePackage.getEDouble(), "periodTime", null, 1, 1, PeriodicSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(environmentSynchronousCompositeComponentEClass, EnvironmentSynchronousCompositeComponent.class, "EnvironmentSynchronousCompositeComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(abstractEnvironmentCompositeComponentEClass, AbstractEnvironmentCompositeComponent.class, "AbstractEnvironmentCompositeComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAbstractEnvironmentCompositeComponent_EnvironmentComponents(), this.getEnvironmentComponentInstance(), null, "environmentComponents", null, 0, -1, AbstractEnvironmentCompositeComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(environmentComponentEClass, EnvironmentComponent.class, "EnvironmentComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(environmentAsynchronousCompositeComponentEClass, EnvironmentAsynchronousCompositeComponent.class, "EnvironmentAsynchronousCompositeComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(abstractEnvironmentCompositeComponentInstanceEClass, AbstractEnvironmentCompositeComponentInstance.class, "AbstractEnvironmentCompositeComponentInstance", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(environmentSynchronousCompositeComponentInstanceEClass, EnvironmentSynchronousCompositeComponentInstance.class, "EnvironmentSynchronousCompositeComponentInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEnvironmentSynchronousCompositeComponentInstance_Type(), this.getEnvironmentSynchronousCompositeComponent(), null, "type", null, 1, 1, EnvironmentSynchronousCompositeComponentInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(environmentAsynchronousCompositeComponentInstanceEClass, EnvironmentAsynchronousCompositeComponentInstance.class, "EnvironmentAsynchronousCompositeComponentInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEnvironmentAsynchronousCompositeComponentInstance_Type(), this.getEnvironmentAsynchronousCompositeComponent(), null, "type", null, 1, 1, EnvironmentAsynchronousCompositeComponentInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(parameterFilterEClass, ParameterFilter.class, "ParameterFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getParameterFilter_Parameter(), theExpressionModelPackage.getParameterDeclaration(), null, "parameter", null, 1, 1, ParameterFilter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

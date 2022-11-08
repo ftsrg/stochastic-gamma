@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class AssumeNotRaisedImpl extends AnalysisConditionImpl implements AssumeNotRaised {
+public class AssumeNotRaisedImpl extends AssumeConditionImpl implements AssumeNotRaised {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -1,0 +1,17 @@
+/**
+ */
+package hu.bme.mit.gamma.analysis;
+
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Observe Time</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ *
+ * @see hu.bme.mit.gamma.analysis.AnalysisPackage#getObserveTime()
+ * @model
+ * @generated
+ */
+public interface ObserveTime extends ObserveCondition {
+} // ObserveTime

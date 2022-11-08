@@ -14,5 +14,4 @@ package hu.bme.mit.gamma.stochastic.stochastic;
  * @generated
  */
 public interface FittedGaussianProcess extends GaussianProcess, FittedModel {
-
 } // FittedGaussianProcess

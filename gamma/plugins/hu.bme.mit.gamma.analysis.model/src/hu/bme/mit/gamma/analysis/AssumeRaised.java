@@ -13,5 +13,5 @@ package hu.bme.mit.gamma.analysis;
  * @model
  * @generated
  */
-public interface AssumeRaised extends AnalysisCondition {
+public interface AssumeRaised extends AssumeCondition {
 } // AssumeRaised

@@ -2,6 +2,7 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,25 +22,25 @@ package hu.bme.mit.gamma.stochastic.stochastic;
  */
 public interface BernoulliRandomVariable extends DiscreteRandomVariable {
 	/**
-	 * Returns the value of the '<em><b>Probability</b></em>' attribute.
+	 * Returns the value of the '<em><b>Probability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Probability</em>' attribute.
-	 * @see #setProbability(double)
+	 * @return the value of the '<em>Probability</em>' containment reference.
+	 * @see #setProbability(Expression)
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage#getBernoulliRandomVariable_Probability()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	double getProbability();
+	Expression getProbability();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.BernoulliRandomVariable#getProbability <em>Probability</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.BernoulliRandomVariable#getProbability <em>Probability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Probability</em>' attribute.
+	 * @param value the new value of the '<em>Probability</em>' containment reference.
 	 * @see #getProbability()
 	 * @generated
 	 */
-	void setProbability(double value);
+	void setProbability(Expression value);
 
 } // BernoulliRandomVariable

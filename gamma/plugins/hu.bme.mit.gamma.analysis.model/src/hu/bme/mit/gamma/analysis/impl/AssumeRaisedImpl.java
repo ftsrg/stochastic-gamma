@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class AssumeRaisedImpl extends AnalysisConditionImpl implements AssumeRaised {
+public class AssumeRaisedImpl extends AssumeConditionImpl implements AssumeRaised {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

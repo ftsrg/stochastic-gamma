@@ -22,10 +22,23 @@ import org.eclipse.xtext.scoping.Scopes;
 import hu.bme.mit.gamma.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.analysis.AnalysisPackage;
 import hu.bme.mit.gamma.analysis.ComponentPortEventReference;
+import hu.bme.mit.gamma.analysis.MeanParameter;
+import hu.bme.mit.gamma.analysis.ObserveParameter;
+import hu.bme.mit.gamma.analysis.ParameterDistribution;
+import hu.bme.mit.gamma.analysis.PrioryDistribution;
+import hu.bme.mit.gamma.analysis.RecursiveComponentReference;
+import hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent;
+import hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponentInstance;
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironentPackage;
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent;
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance;
+import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent;
+import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance;
+import hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponent;
+import hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentInstance;
+import hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance;
+import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent;
+import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance;
+import hu.bme.mit.gamma.environment.model.ParameterFilter;
 import hu.bme.mit.gamma.environment.model.PortFilter;
 import hu.bme.mit.gamma.environment.model.StochasticRule;
 import hu.bme.mit.gamma.expression.model.Declaration;
@@ -33,9 +46,12 @@ import hu.bme.mit.gamma.expression.model.EnumerationLiteralDefinition;
 import hu.bme.mit.gamma.expression.model.EnumerationLiteralExpression;
 import hu.bme.mit.gamma.expression.model.ExpressionModelPackage;
 import hu.bme.mit.gamma.expression.model.TypeDeclaration;
+import hu.bme.mit.gamma.statechart.composite.AbstractSynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.AsynchronousAdapter;
 import hu.bme.mit.gamma.statechart.composite.AsynchronousComponent;
 import hu.bme.mit.gamma.statechart.composite.AsynchronousComponentInstance;
+import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent;
+import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.CompositeModelPackage;
@@ -44,12 +60,14 @@ import hu.bme.mit.gamma.statechart.composite.InstancePortReference;
 import hu.bme.mit.gamma.statechart.composite.MessageQueue;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponentInstance;
+import hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.contract.AdaptiveContractAnnotation;
 import hu.bme.mit.gamma.statechart.contract.ContractModelPackage;
 import hu.bme.mit.gamma.statechart.contract.StateContractAnnotation;
 import hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures;
 import hu.bme.mit.gamma.statechart.interface_.Component;
 import hu.bme.mit.gamma.statechart.interface_.Event;
+import hu.bme.mit.gamma.statechart.interface_.EventDeclaration;
 import hu.bme.mit.gamma.statechart.interface_.EventParameterReferenceExpression;
 import hu.bme.mit.gamma.statechart.interface_.Interface;
 import hu.bme.mit.gamma.statechart.interface_.InterfaceModelPackage;
@@ -118,28 +136,116 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 				// Not only in events are returned as less-aware users tend to write out events on triggers
 				return Scopes.scopeFor(StatechartModelDerivedFeatures.getAllEvents(_interface));
 			}
-			//Environment component specific code
-			if (context instanceof ComponentPortEventReference ) {
-				AnalysisComponent component = (AnalysisComponent) context.eContainer().eContainer();
-				EnvironmentCompositeComponentInstance envComponent = (EnvironmentCompositeComponentInstance) component.getAnalyzedComponent();
-				if(reference==AnalysisPackage.Literals.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT) {
-					Collection<EnvironmentCompositeComponentInstance> components = new HashSet<>();
-					components.add(envComponent);
-					return Scopes.scopeFor(components);
+			
+			if (context instanceof RecursiveComponentReference) {
+
+				if (reference == AnalysisPackage.Literals.RECURSIVE_COMPONENT_REFERENCE__COMPONENT) {
+					AbstractEnvironmentCompositeComponentInstance envComponent;
+					if (context.eContainer().eContainer().eContainer() instanceof AnalysisComponent) {
+						AnalysisComponent component = (AnalysisComponent) context.eContainer().eContainer().eContainer();
+						envComponent = (AbstractEnvironmentCompositeComponentInstance) component.getAnalyzedComponent();					
+						Collection<AbstractEnvironmentCompositeComponentInstance> components = new HashSet<>();
+						components.add(envComponent);
+						return Scopes.scopeFor(components);
+					}else if(context.eContainer() instanceof RecursiveComponentReference) {
+						EnvironmentComponentInstance component = (EnvironmentComponentInstance) 
+								((RecursiveComponentReference)context.eContainer()).getComponent();
+						Collection<ComponentInstance> components = new HashSet<>();
+						if (component instanceof SynchronousComponentInstance) {
+							components.addAll((
+										(AbstractSynchronousCompositeComponent)((SynchronousComponentInstance)component).getType()
+									).getComponents());
+						}
+						if (component instanceof AsynchronousComponentInstance) {
+							components.addAll((
+										(AsynchronousCompositeComponent)((AsynchronousComponentInstance)component).getType()
+									).getComponents());
+						}
+						if (component instanceof EnvironmentSynchronousCompositeComponentInstance) {
+							components.addAll((
+										(EnvironmentSynchronousCompositeComponent)((EnvironmentSynchronousCompositeComponentInstance)component).getType()
+									).getEnvironmentComponents());
+						}
+						if (component instanceof EnvironmentAsynchronousCompositeComponentInstance) {
+							components.addAll((
+										(EnvironmentAsynchronousCompositeComponent)((EnvironmentAsynchronousCompositeComponentInstance)component).getType()
+									).getEnvironmentComponents());
+						}
+						if (component instanceof EnvironmentCascadeCompositeComponentInstance) {
+							components.addAll((
+										(EnvironmentCascadeCompositeComponent)((EnvironmentCascadeCompositeComponentInstance)component).getType()
+									).getEnvironmentComponents());
+						}
+						return Scopes.scopeFor(components);
+					}
+
 				}
+			}
+			
+			//Environment component specific code
+			if (context instanceof ObserveParameter && reference == AnalysisPackage.Literals.OBSERVE_PARAMETER__PARAMETER) {
+				ObserveParameter obs = (ObserveParameter) context;
+				return Scopes.scopeFor(obs.getEvent().getEvent().getParameterDeclarations());
+			}
+			if (context instanceof MeanParameter && reference == AnalysisPackage.Literals.MEAN_PARAMETER__PARAMETER) {
+				MeanParameter mp = (MeanParameter) context;
+				return Scopes.scopeFor(mp.getEvent().getEvent().getParameterDeclarations());
+			}
+			if (context instanceof ParameterDistribution && reference == AnalysisPackage.Literals.PARAMETER_DISTRIBUTION__PARAMETER) {
+				ParameterDistribution mp = (ParameterDistribution) context;
+				return Scopes.scopeFor(mp.getEvent().getEvent().getParameterDeclarations());
+			}
+			if (context instanceof ParameterFilter && reference == EnvironentPackage.Literals.PARAMETER_FILTER__PARAMETER) {
+				if (context.eContainer().eContainer() instanceof EnvironmentAsynchronousCompositeComponent) {
+					EnvironmentAsynchronousCompositeComponent comp = (EnvironmentAsynchronousCompositeComponent) context.eContainer().eContainer();
+					return Scopes.scopeFor(comp.getParameterDeclarations());
+				}
+				if (context.eContainer().eContainer() instanceof EnvironmentCascadeCompositeComponent) {
+					EnvironmentCascadeCompositeComponent comp = (EnvironmentCascadeCompositeComponent) context.eContainer().eContainer();
+					return Scopes.scopeFor(comp.getParameterDeclarations());
+				}
+				if (context.eContainer().eContainer() instanceof EnvironmentSynchronousCompositeComponent) {
+					EnvironmentSynchronousCompositeComponent comp = (EnvironmentSynchronousCompositeComponent) context.eContainer().eContainer();
+					return Scopes.scopeFor(comp.getParameterDeclarations());
+				}
+			}
+			if (context instanceof PrioryDistribution && reference == AnalysisPackage.Literals.PRIORY_DISTRIBUTION__PARAMETER) {
+				PrioryDistribution dist =(PrioryDistribution) context;
+				AnalysisComponent comp = (AnalysisComponent) dist.eContainer();
+				if (comp instanceof EnvironmentCascadeCompositeComponentInstance) {
+					return Scopes.scopeFor(((EnvironmentCascadeCompositeComponentInstance)comp)
+							.getType().getParameterDeclarations());
+				}
+				if (comp instanceof EnvironmentAsynchronousCompositeComponentInstance) {
+					return Scopes.scopeFor(((EnvironmentAsynchronousCompositeComponentInstance)comp)
+							.getType().getParameterDeclarations());
+				}
+				if (comp instanceof EnvironmentSynchronousCompositeComponentInstance) {
+					return Scopes.scopeFor(((EnvironmentSynchronousCompositeComponentInstance)comp)
+							.getType().getParameterDeclarations());
+				};
+			}
+			if (context instanceof ComponentPortEventReference ) {
+				ComponentPortEventReference ref=(ComponentPortEventReference) context;
+				AnalysisComponent component = (AnalysisComponent) context.eContainer().eContainer();
+				AbstractEnvironmentCompositeComponentInstance envComponent = getRecursiveInstance(ref.getComponent());
 				if(reference==AnalysisPackage.Literals.COMPONENT_PORT_EVENT_REFERENCE__PORT) {
 					Collection<Port> ports = new HashSet<>();
-					ports.addAll(envComponent.getType().getPorts());
-					return Scopes.scopeFor(ports);
+					if (envComponent instanceof EnvironmentCascadeCompositeComponentInstance) {
+						return Scopes.scopeFor(((EnvironmentCascadeCompositeComponentInstance)envComponent)
+								.getType().getPorts());
+					}
+					if (envComponent instanceof EnvironmentAsynchronousCompositeComponentInstance) {
+						return Scopes.scopeFor(((EnvironmentAsynchronousCompositeComponentInstance)envComponent)
+								.getType().getPorts());
+					}
+					if (envComponent instanceof EnvironmentSynchronousCompositeComponentInstance) {
+						return Scopes.scopeFor(((EnvironmentSynchronousCompositeComponentInstance)envComponent)
+								.getType().getPorts());
+					}
 				}
 				if(reference==AnalysisPackage.Literals.COMPONENT_PORT_EVENT_REFERENCE__EVENT) {
-					Collection<Port> ports = new HashSet<>();
-					Collection<Event> events = new HashSet<>();
-					ports.addAll(envComponent.getType().getPorts());
-					for(Port port : ports) {
-						events.addAll(getAllEvents(port.getInterfaceRealization().getInterface()));
-					}
-					return Scopes.scopeFor(events);
+					return Scopes.scopeFor(eventsFromDeclarations(ref.getPort().getInterfaceRealization().getInterface().getEvents()));
 				}
 			}
 			
@@ -204,7 +310,7 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 			if (context instanceof InterfaceRealization && reference == InterfaceModelPackage.Literals.INTERFACE_REALIZATION__INTERFACE) {
 				Package gammaPackage;
 				//Environment Component specific
-				if (context.eContainer().eContainer().eContainer() instanceof EnvironmentCompositeComponent) {
+				if (context.eContainer().eContainer().eContainer() instanceof AbstractEnvironmentCompositeComponent) {
 					gammaPackage = (Package) context.eContainer().eContainer().eContainer().eContainer();
 				}else {
 					gammaPackage = (Package) context.eContainer().eContainer().eContainer();
@@ -229,8 +335,16 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 					ports = new ArrayList<Port>(type.getPorts());
 				}
 				//Environment component specific code
-				if(instance instanceof EnvironmentCompositeComponentInstance) {
-					type = ((EnvironmentCompositeComponentInstance) instance).getType();
+				if(instance instanceof EnvironmentSynchronousCompositeComponentInstance) {
+					type = ((EnvironmentSynchronousCompositeComponentInstance) instance).getType();
+					ports = new ArrayList<Port>(type.getPorts());
+				}
+				if(instance instanceof EnvironmentAsynchronousCompositeComponentInstance) {
+					type = ((EnvironmentSynchronousCompositeComponentInstance) instance).getType();
+					ports = new ArrayList<Port>(type.getPorts());
+				}
+				if(instance instanceof EnvironmentCascadeCompositeComponentInstance) {
+					type = ((EnvironmentSynchronousCompositeComponentInstance) instance).getType();
 					ports = new ArrayList<Port>(type.getPorts());
 				}
 				if(instance instanceof ElementaryEnvironmentComponentInstance) {
@@ -314,8 +428,20 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 			}
 			
 			//Environment component specific rules
-
-			if (context instanceof EnvironmentCompositeComponentInstance && reference == EnvironentPackage.Literals.ENVIRONMENT_COMPOSITE_COMPONENT_INSTANCE__TYPE) {
+			if (context instanceof EnvironmentSynchronousCompositeComponentInstance && (
+					reference == EnvironentPackage.Literals.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE  )) {
+				List<Component> components = collectEnvironmentalComponents((Package) context.eContainer().eContainer());
+				components.remove(context.eContainer());
+				return Scopes.scopeFor(components);
+			}	
+			if (context instanceof EnvironmentCascadeCompositeComponentInstance && (
+					reference == EnvironentPackage.Literals.ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT_INSTANCE__TYPE  )) {
+				List<Component> components = collectEnvironmentalComponents((Package) context.eContainer().eContainer());
+				components.remove(context.eContainer());
+				return Scopes.scopeFor(components);
+			}	
+			if (context instanceof EnvironmentAsynchronousCompositeComponentInstance && (
+					reference == EnvironentPackage.Literals.ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_INSTANCE__TYPE  )) {
 				List<Component> components = collectEnvironmentalComponents((Package) context.eContainer().eContainer());
 				components.remove(context.eContainer());
 				return Scopes.scopeFor(components);
@@ -338,19 +464,26 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 		List<Component> types = new ArrayList<Component>();
 		for (Package importedPackage : parentPackage.getImports()) {
 			for (Component importedComponent : importedPackage.getComponents()) {
-				if (importedComponent instanceof EnvironmentCompositeComponent) {
+				if (importedComponent instanceof AbstractEnvironmentCompositeComponent) {
 					types.add(importedComponent);
 				}
 			}
 		}
 		for (Component siblingComponent : parentPackage.getComponents()) {
-			if (siblingComponent instanceof EnvironmentCompositeComponent ) {
+			if (siblingComponent instanceof AbstractEnvironmentCompositeComponent ) {
 				types.add(siblingComponent);
 			}
 		}
 		return types;
 	}
 
+	private List<Event> eventsFromDeclarations (List<EventDeclaration> eventDecs){
+		List<Event> events=new ArrayList<>();
+		for (EventDeclaration eventDec : eventDecs) {
+			events.add(eventDec.getEvent());
+		}
+		return events;
+	}
 	
 	
 	/** The parent interfaces are taken into considerations as well. */ 
@@ -367,6 +500,14 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
   		}
   		return eventSet;
   	}
+	
+	private AbstractEnvironmentCompositeComponentInstance getRecursiveInstance(RecursiveComponentReference ref) {
+		RecursiveComponentReference refi=ref;
+		while (refi.getRecursivecomponentreference() != null) {
+			refi=refi.getRecursivecomponentreference();
+		}
+		return refi.getComponent();
+	}
 	
 	
 	

@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
 
 import hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance;
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponent;
+import hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent;
 import hu.bme.mit.gamma.expression.model.ArgumentedElement;
 import hu.bme.mit.gamma.expression.model.ElseExpression;
 import hu.bme.mit.gamma.expression.model.Expression;
@@ -86,7 +86,7 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkComponentSepratation(Component component) {
-		if (component instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (component instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkComponentSepratation(component));
 	}
 	
@@ -94,7 +94,7 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkArgumentTypes(ArgumentedElement element) {
-		if (element instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (element instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		if (element instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkArgumentTypes(element));
 	}
@@ -104,14 +104,14 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkUnusedDeclarations(Component component) {
-		if (component instanceof EnvironmentCompositeComponent) 
+		if (component instanceof AbstractEnvironmentCompositeComponent) 
 			return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkUnusedDeclarations(component));
 	}
 	
 	@Check
 	public void checkTransitionEventTriggers(PortEventReference portEventReference) {
-		if (portEventReference.getPort().eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (portEventReference.getPort().eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		if (portEventReference.getPort().eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkTransitionEventTriggers(portEventReference));
 	}
@@ -132,7 +132,7 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkPortBinding(Port port) {
-		if (port.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (port.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		if (port.eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkPortBinding(port));
 	}
@@ -147,14 +147,14 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkPortBindingUniqueness(PortBinding portBinding) {
-		if (portBinding.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (portBinding.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		if (portBinding.eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkPortBindingUniqueness(portBinding));
 	}
 	
 	@Check
 	public void checkPortBinding(PortBinding portDefinition) {
-		if (portDefinition.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (portDefinition.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		if (portDefinition.eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkPortBinding(portDefinition));
 	}
@@ -167,61 +167,61 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkPortBindingWithSimpleChannel(SimpleChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkPortBindingWithSimpleChannel(channel));	
 	}
 	
 	@Check
 	public void checkPortBindingWithBroadcastChannel(BroadcastChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkPortBindingWithBroadcastChannel(channel));		
 	}
 	
 	@Check
 	public void checkChannelProvidedPorts(Channel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkChannelProvidedPorts(channel));
 	}
 	
 	@Check
 	public void checkChannelRequiredPorts(SimpleChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkChannelRequiredPorts(channel));
 	}
 	
 	@Check
 	public void checkChannelRequiredPorts(BroadcastChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkChannelRequiredPorts(channel));
 	}
 	
 	@Check
 	public void checkChannelInput(Channel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkChannelInput(channel));		
 	}
 	
 	@Check
 	public void checkSimpleChannelOutput(SimpleChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkSimpleChannelOutput(channel));
 	}
 	
 	@Check
 	public void checkBroadcastChannelOutput(BroadcastChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkBroadcastChannelOutput(channel));	
 	}
 	
 	@Check
 	public void checkCascadeLoopChannels(SimpleChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkCascadeLoopChannels(channel));
 	}
 	
 	@Check
 	public void checkCascadeLoopChannels(BroadcastChannel channel) {
-		if (channel.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkCascadeLoopChannels(channel));
 	}
 	
@@ -229,13 +229,13 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkWrapperPortName(Port port) {
-		if (port.eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (port.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		if (port.eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkWrapperPortName(port));
 	}
 	@Check
 	public void checkMessageQueueAnyEventReferences(AnyPortEventReference anyPortEventReference) {
-		if (anyPortEventReference.getPort().eContainer() instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (anyPortEventReference.getPort().eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		if (anyPortEventReference.getPort().eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator
 				.checkMessageQueueAnyEventReferences(anyPortEventReference));
@@ -243,19 +243,19 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkExecutionLists(CascadeCompositeComponent cascade) {
-		if (cascade instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (cascade instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkExecutionLists(cascade));
 	}
 	
 	@Check
 	public void checkExecutionLists(ScheduledAsynchronousCompositeComponent scheduledComponent) {
-		if (scheduledComponent instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (scheduledComponent instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkExecutionLists(scheduledComponent));
 	}
 	
 	@Check
 	public void checkComponents(ScheduledAsynchronousCompositeComponent scheduledComponent) {
-		if (scheduledComponent instanceof EnvironmentCompositeComponent) return; //todo: add validation
+		if (scheduledComponent instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(statechartModelValidator.checkComponents(scheduledComponent));
 	}
 	

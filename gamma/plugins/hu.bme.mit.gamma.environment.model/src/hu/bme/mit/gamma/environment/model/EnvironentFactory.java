@@ -31,22 +31,22 @@ public interface EnvironentFactory extends EFactory {
 	EnvironmentEventSource createEnvironmentEventSource();
 
 	/**
-	 * Returns a new object of class '<em>Environment Composite Component</em>'.
+	 * Returns a new object of class '<em>Environment Cascade Composite Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Environment Composite Component</em>'.
+	 * @return a new object of class '<em>Environment Cascade Composite Component</em>'.
 	 * @generated
 	 */
-	EnvironmentCompositeComponent createEnvironmentCompositeComponent();
+	EnvironmentCascadeCompositeComponent createEnvironmentCascadeCompositeComponent();
 
 	/**
-	 * Returns a new object of class '<em>Environment Composite Component Instance</em>'.
+	 * Returns a new object of class '<em>Environment Cascade Composite Component Instance</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Environment Composite Component Instance</em>'.
+	 * @return a new object of class '<em>Environment Cascade Composite Component Instance</em>'.
 	 * @generated
 	 */
-	EnvironmentCompositeComponentInstance createEnvironmentCompositeComponentInstance();
+	EnvironmentCascadeCompositeComponentInstance createEnvironmentCascadeCompositeComponentInstance();
 
 	/**
 	 * Returns a new object of class '<em>Environment Delay</em>'.
@@ -155,6 +155,51 @@ public interface EnvironentFactory extends EFactory {
 	 * @generated
 	 */
 	PeriodicSimulation createPeriodicSimulation();
+
+	/**
+	 * Returns a new object of class '<em>Environment Synchronous Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Environment Synchronous Composite Component</em>'.
+	 * @generated
+	 */
+	EnvironmentSynchronousCompositeComponent createEnvironmentSynchronousCompositeComponent();
+
+	/**
+	 * Returns a new object of class '<em>Environment Asynchronous Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Environment Asynchronous Composite Component</em>'.
+	 * @generated
+	 */
+	EnvironmentAsynchronousCompositeComponent createEnvironmentAsynchronousCompositeComponent();
+
+	/**
+	 * Returns a new object of class '<em>Environment Synchronous Composite Component Instance</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Environment Synchronous Composite Component Instance</em>'.
+	 * @generated
+	 */
+	EnvironmentSynchronousCompositeComponentInstance createEnvironmentSynchronousCompositeComponentInstance();
+
+	/**
+	 * Returns a new object of class '<em>Environment Asynchronous Composite Component Instance</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Environment Asynchronous Composite Component Instance</em>'.
+	 * @generated
+	 */
+	EnvironmentAsynchronousCompositeComponentInstance createEnvironmentAsynchronousCompositeComponentInstance();
+
+	/**
+	 * Returns a new object of class '<em>Parameter Filter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Parameter Filter</em>'.
+	 * @generated
+	 */
+	ParameterFilter createParameterFilter();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -2,6 +2,7 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,25 +22,25 @@ package hu.bme.mit.gamma.stochastic.stochastic;
  */
 public interface ExponentialRandomVariable extends ContinouosRandomVariable {
 	/**
-	 * Returns the value of the '<em><b>Rate</b></em>' attribute.
+	 * Returns the value of the '<em><b>Rate</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rate</em>' attribute.
-	 * @see #setRate(double)
+	 * @return the value of the '<em>Rate</em>' containment reference.
+	 * @see #setRate(Expression)
 	 * @see hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage#getExponentialRandomVariable_Rate()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	double getRate();
+	Expression getRate();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.ExponentialRandomVariable#getRate <em>Rate</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.stochastic.stochastic.ExponentialRandomVariable#getRate <em>Rate</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rate</em>' attribute.
+	 * @param value the new value of the '<em>Rate</em>' containment reference.
 	 * @see #getRate()
 	 * @generated
 	 */
-	void setRate(double value);
+	void setRate(Expression value);
 
 } // ExponentialRandomVariable

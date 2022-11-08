@@ -89,6 +89,7 @@ public class AnalysisSwitch<T> extends Switch<T> {
 			case AnalysisPackage.ASSUME_RAISED: {
 				AssumeRaised assumeRaised = (AssumeRaised)theEObject;
 				T result = caseAssumeRaised(assumeRaised);
+				if (result == null) result = caseAssumeCondition(assumeRaised);
 				if (result == null) result = caseAnalysisCondition(assumeRaised);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -96,6 +97,7 @@ public class AnalysisSwitch<T> extends Switch<T> {
 			case AnalysisPackage.ASSUME_NOT_RAISED: {
 				AssumeNotRaised assumeNotRaised = (AssumeNotRaised)theEObject;
 				T result = caseAssumeNotRaised(assumeNotRaised);
+				if (result == null) result = caseAssumeCondition(assumeNotRaised);
 				if (result == null) result = caseAnalysisCondition(assumeNotRaised);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -195,6 +197,69 @@ public class AnalysisSwitch<T> extends Switch<T> {
 				ParameterDistribution parameterDistribution = (ParameterDistribution)theEObject;
 				T result = caseParameterDistribution(parameterDistribution);
 				if (result == null) result = caseAnalysisAspect(parameterDistribution);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.RECURSIVE_COMPONENT_REFERENCE: {
+				RecursiveComponentReference recursiveComponentReference = (RecursiveComponentReference)theEObject;
+				T result = caseRecursiveComponentReference(recursiveComponentReference);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.MEAN_TIME_BETWEEN_EVENTS: {
+				MeanTimeBetweenEvents meanTimeBetweenEvents = (MeanTimeBetweenEvents)theEObject;
+				T result = caseMeanTimeBetweenEvents(meanTimeBetweenEvents);
+				if (result == null) result = caseAnalysisAspect(meanTimeBetweenEvents);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.EVENT_TIME_RATIO: {
+				EventTimeRatio eventTimeRatio = (EventTimeRatio)theEObject;
+				T result = caseEventTimeRatio(eventTimeRatio);
+				if (result == null) result = caseAnalysisAspect(eventTimeRatio);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.OBSERVE_PARAMETER: {
+				ObserveParameter observeParameter = (ObserveParameter)theEObject;
+				T result = caseObserveParameter(observeParameter);
+				if (result == null) result = caseObserveCondition(observeParameter);
+				if (result == null) result = caseAnalysisCondition(observeParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.PRIORY_DISTRIBUTION: {
+				PrioryDistribution prioryDistribution = (PrioryDistribution)theEObject;
+				T result = casePrioryDistribution(prioryDistribution);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.OBSERVE_CONDITION: {
+				ObserveCondition observeCondition = (ObserveCondition)theEObject;
+				T result = caseObserveCondition(observeCondition);
+				if (result == null) result = caseAnalysisCondition(observeCondition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.ASSUME_CONDITION: {
+				AssumeCondition assumeCondition = (AssumeCondition)theEObject;
+				T result = caseAssumeCondition(assumeCondition);
+				if (result == null) result = caseAnalysisCondition(assumeCondition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.OBSERVE_TIME: {
+				ObserveTime observeTime = (ObserveTime)theEObject;
+				T result = caseObserveTime(observeTime);
+				if (result == null) result = caseObserveCondition(observeTime);
+				if (result == null) result = caseAnalysisCondition(observeTime);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.END_CONDITION: {
+				EndCondition endCondition = (EndCondition)theEObject;
+				T result = caseEndCondition(endCondition);
+				if (result == null) result = caseAnalysisCondition(endCondition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -469,6 +534,141 @@ public class AnalysisSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseParameterDistribution(ParameterDistribution object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Recursive Component Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Recursive Component Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRecursiveComponentReference(RecursiveComponentReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Mean Time Between Events</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Mean Time Between Events</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMeanTimeBetweenEvents(MeanTimeBetweenEvents object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Event Time Ratio</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Event Time Ratio</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEventTimeRatio(EventTimeRatio object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Observe Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Observe Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseObserveParameter(ObserveParameter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Priory Distribution</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Priory Distribution</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePrioryDistribution(PrioryDistribution object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Observe Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Observe Condition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseObserveCondition(ObserveCondition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Assume Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Assume Condition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAssumeCondition(AssumeCondition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Observe Time</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Observe Time</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseObserveTime(ObserveTime object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>End Condition</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>End Condition</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEndCondition(EndCondition object) {
 		return null;
 	}
 

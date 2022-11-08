@@ -4,6 +4,7 @@ package hu.bme.mit.gamma.stochastic.stochastic.impl;
 
 import hu.bme.mit.gamma.stochastic.stochastic.FittedExponentialRandomVariable;
 import hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**

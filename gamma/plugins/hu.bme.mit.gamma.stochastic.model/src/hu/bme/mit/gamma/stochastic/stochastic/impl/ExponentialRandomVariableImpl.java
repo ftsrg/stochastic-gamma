@@ -2,12 +2,14 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic.impl;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.stochastic.stochastic.ExponentialRandomVariable;
 import hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage;
-
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -26,24 +28,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class ExponentialRandomVariableImpl extends ContinouosRandomVariableImpl implements ExponentialRandomVariable {
 	/**
-	 * The default value of the '{@link #getRate() <em>Rate</em>}' attribute.
+	 * The cached value of the '{@link #getRate() <em>Rate</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRate()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double RATE_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getRate() <em>Rate</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRate()
-	 * @generated
-	 * @ordered
-	 */
-	protected double rate = RATE_EDEFAULT;
+	protected Expression rate;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -69,7 +61,7 @@ public class ExponentialRandomVariableImpl extends ContinouosRandomVariableImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getRate() {
+	public Expression getRate() {
 		return rate;
 	}
 
@@ -78,11 +70,47 @@ public class ExponentialRandomVariableImpl extends ContinouosRandomVariableImpl 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRate(double newRate) {
-		double oldRate = rate;
+	public NotificationChain basicSetRate(Expression newRate, NotificationChain msgs) {
+		Expression oldRate = rate;
 		rate = newRate;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE, oldRate, rate));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE, oldRate, newRate);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRate(Expression newRate) {
+		if (newRate != rate) {
+			NotificationChain msgs = null;
+			if (rate != null)
+				msgs = ((InternalEObject)rate).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE, null, msgs);
+			if (newRate != null)
+				msgs = ((InternalEObject)newRate).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE, null, msgs);
+			msgs = basicSetRate(newRate, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE, newRate, newRate));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE:
+				return basicSetRate(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -108,7 +136,7 @@ public class ExponentialRandomVariableImpl extends ContinouosRandomVariableImpl 
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE:
-				setRate((Double)newValue);
+				setRate((Expression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,7 +151,7 @@ public class ExponentialRandomVariableImpl extends ContinouosRandomVariableImpl 
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE:
-				setRate(RATE_EDEFAULT);
+				setRate((Expression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -138,25 +166,9 @@ public class ExponentialRandomVariableImpl extends ContinouosRandomVariableImpl 
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.EXPONENTIAL_RANDOM_VARIABLE__RATE:
-				return rate != RATE_EDEFAULT;
+				return rate != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (rate: ");
-		result.append(rate);
-		result.append(')');
-		return result.toString();
 	}
 
 } //ExponentialRandomVariableImpl

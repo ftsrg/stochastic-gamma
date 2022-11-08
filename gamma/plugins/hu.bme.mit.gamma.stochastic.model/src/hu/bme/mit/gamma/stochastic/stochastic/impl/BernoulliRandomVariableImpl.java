@@ -2,12 +2,14 @@
  */
 package hu.bme.mit.gamma.stochastic.stochastic.impl;
 
+import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.stochastic.stochastic.BernoulliRandomVariable;
 import hu.bme.mit.gamma.stochastic.stochastic.StochasticPackage;
-
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -26,24 +28,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class BernoulliRandomVariableImpl extends DiscreteRandomVariableImpl implements BernoulliRandomVariable {
 	/**
-	 * The default value of the '{@link #getProbability() <em>Probability</em>}' attribute.
+	 * The cached value of the '{@link #getProbability() <em>Probability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getProbability()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double PROBABILITY_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getProbability() <em>Probability</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getProbability()
-	 * @generated
-	 * @ordered
-	 */
-	protected double probability = PROBABILITY_EDEFAULT;
+	protected Expression probability;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -69,7 +61,7 @@ public class BernoulliRandomVariableImpl extends DiscreteRandomVariableImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getProbability() {
+	public Expression getProbability() {
 		return probability;
 	}
 
@@ -78,11 +70,47 @@ public class BernoulliRandomVariableImpl extends DiscreteRandomVariableImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setProbability(double newProbability) {
-		double oldProbability = probability;
+	public NotificationChain basicSetProbability(Expression newProbability, NotificationChain msgs) {
+		Expression oldProbability = probability;
 		probability = newProbability;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY, oldProbability, probability));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY, oldProbability, newProbability);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setProbability(Expression newProbability) {
+		if (newProbability != probability) {
+			NotificationChain msgs = null;
+			if (probability != null)
+				msgs = ((InternalEObject)probability).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY, null, msgs);
+			if (newProbability != null)
+				msgs = ((InternalEObject)newProbability).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY, null, msgs);
+			msgs = basicSetProbability(newProbability, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY, newProbability, newProbability));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY:
+				return basicSetProbability(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -108,7 +136,7 @@ public class BernoulliRandomVariableImpl extends DiscreteRandomVariableImpl impl
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY:
-				setProbability((Double)newValue);
+				setProbability((Expression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -123,7 +151,7 @@ public class BernoulliRandomVariableImpl extends DiscreteRandomVariableImpl impl
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY:
-				setProbability(PROBABILITY_EDEFAULT);
+				setProbability((Expression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -138,25 +166,9 @@ public class BernoulliRandomVariableImpl extends DiscreteRandomVariableImpl impl
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case StochasticPackage.BERNOULLI_RANDOM_VARIABLE__PROBABILITY:
-				return probability != PROBABILITY_EDEFAULT;
+				return probability != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (probability: ");
-		result.append(probability);
-		result.append(')');
-		return result.toString();
 	}
 
 } //BernoulliRandomVariableImpl

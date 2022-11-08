@@ -145,6 +145,42 @@ public class AnalysisAdapterFactory extends AdapterFactoryImpl {
 				return createParameterDistributionAdapter();
 			}
 			@Override
+			public Adapter caseRecursiveComponentReference(RecursiveComponentReference object) {
+				return createRecursiveComponentReferenceAdapter();
+			}
+			@Override
+			public Adapter caseMeanTimeBetweenEvents(MeanTimeBetweenEvents object) {
+				return createMeanTimeBetweenEventsAdapter();
+			}
+			@Override
+			public Adapter caseEventTimeRatio(EventTimeRatio object) {
+				return createEventTimeRatioAdapter();
+			}
+			@Override
+			public Adapter caseObserveParameter(ObserveParameter object) {
+				return createObserveParameterAdapter();
+			}
+			@Override
+			public Adapter casePrioryDistribution(PrioryDistribution object) {
+				return createPrioryDistributionAdapter();
+			}
+			@Override
+			public Adapter caseObserveCondition(ObserveCondition object) {
+				return createObserveConditionAdapter();
+			}
+			@Override
+			public Adapter caseAssumeCondition(AssumeCondition object) {
+				return createAssumeConditionAdapter();
+			}
+			@Override
+			public Adapter caseObserveTime(ObserveTime object) {
+				return createObserveTimeAdapter();
+			}
+			@Override
+			public Adapter caseEndCondition(EndCondition object) {
+				return createEndConditionAdapter();
+			}
+			@Override
 			public Adapter caseNamedElement(NamedElement object) {
 				return createNamedElementAdapter();
 			}
@@ -425,6 +461,132 @@ public class AnalysisAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createParameterDistributionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.RecursiveComponentReference <em>Recursive Component Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.RecursiveComponentReference
+	 * @generated
+	 */
+	public Adapter createRecursiveComponentReferenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.MeanTimeBetweenEvents <em>Mean Time Between Events</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.MeanTimeBetweenEvents
+	 * @generated
+	 */
+	public Adapter createMeanTimeBetweenEventsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.EventTimeRatio <em>Event Time Ratio</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.EventTimeRatio
+	 * @generated
+	 */
+	public Adapter createEventTimeRatioAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.ObserveParameter <em>Observe Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.ObserveParameter
+	 * @generated
+	 */
+	public Adapter createObserveParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.PrioryDistribution <em>Priory Distribution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.PrioryDistribution
+	 * @generated
+	 */
+	public Adapter createPrioryDistributionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.ObserveCondition <em>Observe Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.ObserveCondition
+	 * @generated
+	 */
+	public Adapter createObserveConditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.AssumeCondition <em>Assume Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.AssumeCondition
+	 * @generated
+	 */
+	public Adapter createAssumeConditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.ObserveTime <em>Observe Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.ObserveTime
+	 * @generated
+	 */
+	public Adapter createObserveTimeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.analysis.EndCondition <em>End Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.analysis.EndCondition
+	 * @generated
+	 */
+	public Adapter createEndConditionAdapter() {
 		return null;
 	}
 

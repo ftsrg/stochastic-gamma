@@ -3,24 +3,30 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="analysis" nsURI="www.mit.bme.hu/analysis/Model" nsPrefix="hu.bme.mit.gamma.analysis">
   <eClassifiers xsi:type="ecore:EClass" name="AnalysisComponent" eSuperTypes="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Component">
     <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedComponent" lowerBound="1"
-        eType="ecore:EClass ../../hu.bme.mit.gamma.environment.model/model/environment.ecore#//EnvironmentCompositeComponentInstance"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.environment.model/model/environment.ecore#//EnvironmentAsynchronousCompositeComponentInstance"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
         eType="#//AnalysisCondition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="aspect" lowerBound="1"
-        eType="#//AnalysisAspect" containment="true"/>
+        upperBound="-1" eType="#//AnalysisAspect" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationTime" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1.0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationNumber" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
         defaultValueLiteral="100"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="priorydistribution" upperBound="-1"
+        eType="#//PrioryDistribution" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endcondition" upperBound="-1"
+        eType="#//EndCondition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="warmupTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="0.0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AnalysisCondition" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1" eType="#//ComponentPortEventReference"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AssumeRaised" eSuperTypes="#//AnalysisCondition"/>
-  <eClassifiers xsi:type="ecore:EClass" name="AssumeNotRaised" eSuperTypes="#//AnalysisCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssumeRaised" eSuperTypes="#//AssumeCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssumeNotRaised" eSuperTypes="#//AssumeCondition"/>
   <eClassifiers xsi:type="ecore:EClass" name="AnalysisAspect" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1" eType="#//ComponentPortEventReference"
         containment="true"/>
@@ -57,12 +63,52 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentPortEventReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="component" lowerBound="1"
-        eType="ecore:EClass ../../hu.bme.mit.gamma.environment.model/model/environment.ecore#//EnvironmentCompositeComponentInstance"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="port" lowerBound="1" eType="ecore:EClass ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Port"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1" eType="ecore:EClass ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" lowerBound="1"
+        eType="#//RecursiveComponentReference" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Frequency" eSuperTypes="#//AnalysisAspect"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MeanParameter" eSuperTypes="#//AnalysisAspect"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ParameterDistribution" eSuperTypes="#//AnalysisAspect"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MeanParameter" eSuperTypes="#//AnalysisAspect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//ParameterDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterDistribution" eSuperTypes="#//AnalysisAspect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//ParameterDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RecursiveComponentReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.environment.model/model/environment.ecore#//EnvironmentAsynchronousCompositeComponentInstance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recursivecomponentreference"
+        eType="#//RecursiveComponentReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MeanTimeBetweenEvents" eSuperTypes="#//AnalysisAspect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event2" lowerBound="1"
+        eType="#//ComponentPortEventReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventTimeRatio" eSuperTypes="#//AnalysisAspect">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event2" lowerBound="1"
+        eType="#//ComponentPortEventReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObserveParameter" eSuperTypes="#//ObserveCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//ParameterDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrioryDistribution">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="randomvariable" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.stochastic.model/model/stochastic.ecore#//RandomVariable"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//ParameterDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObserveCondition" abstract="true" eSuperTypes="#//AnalysisCondition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="randomvariable" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.stochastic.model/model/stochastic.ecore#//StochasticModel"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssumeCondition" abstract="true" eSuperTypes="#//AnalysisCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObserveTime" eSuperTypes="#//ObserveCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EndCondition" eSuperTypes="#//AnalysisCondition"/>
 </ecore:EPackage>

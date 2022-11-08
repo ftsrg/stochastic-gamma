@@ -12,5 +12,7 @@ Export-Package: hu.bme.mit.gamma.stochastic.stochastic,
  hu.bme.mit.gamma.stochastic.stochastic.impl,
  hu.bme.mit.gamma.stochastic.stochastic.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ hu.bme.mit.gamma.expression.model;bundle-version="2.5.1";visibility:=reexport,
+ hu.bme.mit.gamma.action.model;bundle-version="2.5.1"
 Bundle-ActivationPolicy: lazy

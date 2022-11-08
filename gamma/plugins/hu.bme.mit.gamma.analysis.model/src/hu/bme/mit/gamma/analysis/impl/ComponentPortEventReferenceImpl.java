@@ -4,13 +4,13 @@ package hu.bme.mit.gamma.analysis.impl;
 
 import hu.bme.mit.gamma.analysis.AnalysisPackage;
 import hu.bme.mit.gamma.analysis.ComponentPortEventReference;
-
-import hu.bme.mit.gamma.environment.model.EnvironmentCompositeComponentInstance;
+import hu.bme.mit.gamma.analysis.RecursiveComponentReference;
 
 import hu.bme.mit.gamma.statechart.interface_.Event;
 import hu.bme.mit.gamma.statechart.interface_.Port;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -26,24 +26,14 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link hu.bme.mit.gamma.analysis.impl.ComponentPortEventReferenceImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.analysis.impl.ComponentPortEventReferenceImpl#getPort <em>Port</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.analysis.impl.ComponentPortEventReferenceImpl#getEvent <em>Event</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.analysis.impl.ComponentPortEventReferenceImpl#getComponent <em>Component</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class ComponentPortEventReferenceImpl extends MinimalEObjectImpl.Container implements ComponentPortEventReference {
-	/**
-	 * The cached value of the '{@link #getComponent() <em>Component</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComponent()
-	 * @generated
-	 * @ordered
-	 */
-	protected EnvironmentCompositeComponentInstance component;
-
 	/**
 	 * The cached value of the '{@link #getPort() <em>Port</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -65,6 +55,16 @@ public class ComponentPortEventReferenceImpl extends MinimalEObjectImpl.Containe
 	protected Event event;
 
 	/**
+	 * The cached value of the '{@link #getComponent() <em>Component</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getComponent()
+	 * @generated
+	 * @ordered
+	 */
+	protected RecursiveComponentReference component;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -81,44 +81,6 @@ public class ComponentPortEventReferenceImpl extends MinimalEObjectImpl.Containe
 	@Override
 	protected EClass eStaticClass() {
 		return AnalysisPackage.Literals.COMPONENT_PORT_EVENT_REFERENCE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EnvironmentCompositeComponentInstance getComponent() {
-		if (component != null && component.eIsProxy()) {
-			InternalEObject oldComponent = (InternalEObject)component;
-			component = (EnvironmentCompositeComponentInstance)eResolveProxy(oldComponent);
-			if (component != oldComponent) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT, oldComponent, component));
-			}
-		}
-		return component;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EnvironmentCompositeComponentInstance basicGetComponent() {
-		return component;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setComponent(EnvironmentCompositeComponentInstance newComponent) {
-		EnvironmentCompositeComponentInstance oldComponent = component;
-		component = newComponent;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT, oldComponent, component));
 	}
 
 	/**
@@ -202,18 +164,74 @@ public class ComponentPortEventReferenceImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RecursiveComponentReference getComponent() {
+		return component;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetComponent(RecursiveComponentReference newComponent, NotificationChain msgs) {
+		RecursiveComponentReference oldComponent = component;
+		component = newComponent;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT, oldComponent, newComponent);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponent(RecursiveComponentReference newComponent) {
+		if (newComponent != component) {
+			NotificationChain msgs = null;
+			if (component != null)
+				msgs = ((InternalEObject)component).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT, null, msgs);
+			if (newComponent != null)
+				msgs = ((InternalEObject)newComponent).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT, null, msgs);
+			msgs = basicSetComponent(newComponent, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT, newComponent, newComponent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
+				return basicSetComponent(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
-				if (resolve) return getComponent();
-				return basicGetComponent();
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__PORT:
 				if (resolve) return getPort();
 				return basicGetPort();
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__EVENT:
 				if (resolve) return getEvent();
 				return basicGetEvent();
+			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
+				return getComponent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -226,14 +244,14 @@ public class ComponentPortEventReferenceImpl extends MinimalEObjectImpl.Containe
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
-				setComponent((EnvironmentCompositeComponentInstance)newValue);
-				return;
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__PORT:
 				setPort((Port)newValue);
 				return;
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__EVENT:
 				setEvent((Event)newValue);
+				return;
+			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
+				setComponent((RecursiveComponentReference)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -247,14 +265,14 @@ public class ComponentPortEventReferenceImpl extends MinimalEObjectImpl.Containe
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
-				setComponent((EnvironmentCompositeComponentInstance)null);
-				return;
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__PORT:
 				setPort((Port)null);
 				return;
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__EVENT:
 				setEvent((Event)null);
+				return;
+			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
+				setComponent((RecursiveComponentReference)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -268,12 +286,12 @@ public class ComponentPortEventReferenceImpl extends MinimalEObjectImpl.Containe
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
-				return component != null;
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__PORT:
 				return port != null;
 			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__EVENT:
 				return event != null;
+			case AnalysisPackage.COMPONENT_PORT_EVENT_REFERENCE__COMPONENT:
+				return component != null;
 		}
 		return super.eIsSet(featureID);
 	}
