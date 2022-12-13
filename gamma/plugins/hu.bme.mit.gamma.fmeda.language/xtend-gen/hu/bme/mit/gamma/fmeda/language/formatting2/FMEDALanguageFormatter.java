@@ -5,12 +5,7 @@ package hu.bme.mit.gamma.fmeda.language.formatting2;
 
 import com.google.inject.Inject;
 import hu.bme.mit.gamma.fmeda.language.services.FMEDALanguageGrammarAccess;
-import hu.bme.mit.gamma.fmeda.model.FMEDAComponent;
-import hu.bme.mit.gamma.fmeda.model.FMEDAComponentInstance;
-import hu.bme.mit.gamma.fmeda.model.FailureMode;
-import hu.bme.mit.gamma.fmeda.model.FailurePropagation;
 import java.util.Arrays;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.formatting2.AbstractFormatter2;
 import org.eclipse.xtext.formatting2.IFormattableDocument;
@@ -23,50 +18,41 @@ public class FMEDALanguageFormatter extends AbstractFormatter2 {
   @Extension
   private FMEDALanguageGrammarAccess _fMEDALanguageGrammarAccess;
   
-  protected void _format(final hu.bme.mit.gamma.fmeda.model.Package _package, @Extension final IFormattableDocument document) {
-    EList<FMEDAComponent> _components = _package.getComponents();
-    for (final FMEDAComponent fMEDAComponent : _components) {
-      document.<FMEDAComponent>format(fMEDAComponent);
-    }
+  protected void _format(final /* hu.bme.mit.gamma.fmeda.model.Package */Object _package, @Extension final IFormattableDocument document) {
+    throw new Error("Unresolved compilation problems:"
+      + "\ncomponents cannot be resolved"
+      + "\nformat cannot be resolved");
   }
   
-  protected void _format(final FMEDAComponent fMEDAComponent, @Extension final IFormattableDocument document) {
-    EList<FailureMode> _failuremodes = fMEDAComponent.getFailuremodes();
-    for (final FailureMode failureMode : _failuremodes) {
-      document.<FailureMode>format(failureMode);
-    }
-    EList<FMEDAComponentInstance> _subcomponents = fMEDAComponent.getSubcomponents();
-    for (final FMEDAComponentInstance fMEDAComponentInstance : _subcomponents) {
-      document.<FMEDAComponentInstance>format(fMEDAComponentInstance);
-    }
-    EList<FailurePropagation> _failurepropagations = fMEDAComponent.getFailurepropagations();
-    for (final FailurePropagation failurePropagation : _failurepropagations) {
-      document.<FailurePropagation>format(failurePropagation);
-    }
+  protected void _format(final /* FMEDAComponent */Object fMEDAComponent, @Extension final IFormattableDocument document) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nfailuremodes cannot be resolved"
+      + "\nformat cannot be resolved"
+      + "\nsubcomponents cannot be resolved"
+      + "\nformat cannot be resolved"
+      + "\nfailurepropagations cannot be resolved"
+      + "\nformat cannot be resolved");
   }
   
-  public void format(final Object fMEDAComponent, final IFormattableDocument document) {
-    if (fMEDAComponent instanceof XtextResource) {
-      _format((XtextResource)fMEDAComponent, document);
+  public void format(final Object _package, final IFormattableDocument document) {
+    if (_package instanceof XtextResource) {
+      _format((XtextResource)_package, document);
       return;
-    } else if (fMEDAComponent instanceof FMEDAComponent) {
-      _format((FMEDAComponent)fMEDAComponent, document);
+    } else if (_package instanceof EObject) {
+      _format((EObject)_package, document);
       return;
-    } else if (fMEDAComponent instanceof hu.bme.mit.gamma.fmeda.model.Package) {
-      _format((hu.bme.mit.gamma.fmeda.model.Package)fMEDAComponent, document);
-      return;
-    } else if (fMEDAComponent instanceof EObject) {
-      _format((EObject)fMEDAComponent, document);
-      return;
-    } else if (fMEDAComponent == null) {
+    } else if (_package == null) {
       _format((Void)null, document);
       return;
-    } else if (fMEDAComponent != null) {
-      _format(fMEDAComponent, document);
+    } else if (_package != null) {
+      _format(_package, document);
+      return;
+    } else if (_package != null) {
+      _format(_package, document);
       return;
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(fMEDAComponent, document).toString());
+        Arrays.<Object>asList(_package, document).toString());
     }
   }
 }

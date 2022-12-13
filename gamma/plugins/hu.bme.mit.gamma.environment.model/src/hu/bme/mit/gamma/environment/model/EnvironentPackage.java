@@ -297,6 +297,15 @@ public interface EnvironentPackage extends EPackage {
 	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__ANNOTATIONS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Port Bindings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -324,7 +333,16 @@ public interface EnvironentPackage extends EPackage {
 	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__COMPONENTS = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__COMPONENTS;
 
 	/**
-	 * The feature id for the '<em><b>Execution List</b></em>' reference list.
+	 * The feature id for the '<em><b>Initial Execution List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_CASCADE_COMPOSITE_COMPONENT__INITIAL_EXECUTION_LIST = CompositeModelPackage.CASCADE_COMPOSITE_COMPONENT__INITIAL_EXECUTION_LIST;
+
+	/**
+	 * The feature id for the '<em><b>Execution List</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1288,13 +1306,22 @@ public interface EnvironentPackage extends EPackage {
 	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Port Bindings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 4;
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Channels</b></em>' containment reference list.
@@ -1303,7 +1330,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 5;
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Components</b></em>' containment reference list.
@@ -1312,7 +1339,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 6;
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Environment Synchronous Composite Component</em>' class.
@@ -1321,7 +1348,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 7;
+	int ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of operations of the '<em>Environment Synchronous Composite Component</em>' class.
@@ -1388,13 +1415,22 @@ public interface EnvironentPackage extends EPackage {
 	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Port Bindings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 4;
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Channels</b></em>' containment reference list.
@@ -1403,7 +1439,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 5;
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Components</b></em>' containment reference list.
@@ -1412,7 +1448,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 6;
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT__COMPONENTS = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Environment Asynchronous Composite Component</em>' class.
@@ -1421,7 +1457,7 @@ public interface EnvironentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 7;
+	int ENVIRONMENT_ASYNCHRONOUS_COMPOSITE_COMPONENT_FEATURE_COUNT = ABSTRACT_ENVIRONMENT_COMPOSITE_COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of operations of the '<em>Environment Asynchronous Composite Component</em>' class.

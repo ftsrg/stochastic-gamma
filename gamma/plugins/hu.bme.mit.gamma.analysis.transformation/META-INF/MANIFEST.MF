@@ -12,7 +12,7 @@ Require-Bundle: com.google.guava,
  com.google.inject;bundle-version="3.0.0",
  hu.bme.mit.gamma.environment.model;bundle-version="0.1.0",
  hu.bme.mit.gamma.analysis.model;bundle-version="0.1.0",
- hu.bme.mit.gamma.environment.codegenerator.java;bundle-version="2.2.1",
+ hu.bme.mit.gamma.environment.codegeneration.java;bundle-version="2.2.1",
  hu.bme.mit.gamma.statechart.lowlevel.model;bundle-version="2.3.1"
 Export-Package: hu.bme.mit.gamma.analysis.transformation
 Import-Package: javax.tools

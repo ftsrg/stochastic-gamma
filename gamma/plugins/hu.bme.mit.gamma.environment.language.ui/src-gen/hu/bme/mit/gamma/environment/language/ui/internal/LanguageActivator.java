@@ -6,8 +6,8 @@ package hu.bme.mit.gamma.environment.language.ui.internal;
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import hu.mit.gamma.environment.language.EnvironmentLanguageRuntimeModule;
-import hu.mit.gamma.environment.language.ui.EnvironmentLanguageUiModule;
+import hu.bme.mit.gamma.environment.language.EnvironmentLanguageRuntimeModule;
+import hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageUiModule;
 import java.util.Collections;
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -23,7 +23,7 @@ import org.osgi.framework.BundleContext;
 public class LanguageActivator extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "hu.bme.mit.gamma.environment.language.ui";
-	public static final String HU_MIT_GAMMA_ENVIRONMENT_LANGUAGE_ENVIRONMENTLANGUAGE = "hu.mit.gamma.environment.language.EnvironmentLanguage";
+	public static final String HU_BME_MIT_GAMMA_ENVIRONMENT_LANGUAGE_ENVIRONMENTLANGUAGE = "hu.bme.mit.gamma.environment.language.EnvironmentLanguage";
 	
 	private static final Logger logger = Logger.getLogger(LanguageActivator.class);
 	
@@ -73,14 +73,14 @@ public class LanguageActivator extends AbstractUIPlugin {
 	}
 	
 	protected com.google.inject.Module getRuntimeModule(String grammar) {
-		if (HU_MIT_GAMMA_ENVIRONMENT_LANGUAGE_ENVIRONMENTLANGUAGE.equals(grammar)) {
+		if (HU_BME_MIT_GAMMA_ENVIRONMENT_LANGUAGE_ENVIRONMENTLANGUAGE.equals(grammar)) {
 			return new EnvironmentLanguageRuntimeModule();
 		}
 		throw new IllegalArgumentException(grammar);
 	}
 	
 	protected com.google.inject.Module getUiModule(String grammar) {
-		if (HU_MIT_GAMMA_ENVIRONMENT_LANGUAGE_ENVIRONMENTLANGUAGE.equals(grammar)) {
+		if (HU_BME_MIT_GAMMA_ENVIRONMENT_LANGUAGE_ENVIRONMENTLANGUAGE.equals(grammar)) {
 			return new EnvironmentLanguageUiModule(this);
 		}
 		throw new IllegalArgumentException(grammar);

@@ -3,7 +3,6 @@
  */
 package hu.bme.mit.gamma.fmeda.language.generator;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
@@ -26,9 +25,9 @@ public class FMEDALanguageGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    EObject _get = resource.getContents().get(0);
-    final hu.bme.mit.gamma.fmeda.model.Package fmedaPackage = ((hu.bme.mit.gamma.fmeda.model.Package) _get);
-    String _name = fmedaPackage.getName();
-    final String ifname = (_name + "FMEDAInterface");
+    throw new Error("Unresolved compilation problems:"
+      + "\nhu.bme.mit.gamma.fmeda.model.Package cannot be resolved to a type."
+      + "\nname cannot be resolved"
+      + "\n+ cannot be resolved");
   }
 }

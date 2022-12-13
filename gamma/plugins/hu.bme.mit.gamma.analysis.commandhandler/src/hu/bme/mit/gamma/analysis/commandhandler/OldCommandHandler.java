@@ -33,7 +33,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import hu.bme.mit.gamma.analysis.transformation.AnalysisTransformation;
 import hu.bme.mit.gamma.analysis.transformation.PyroScriptGenerator;
-import hu.bme.mit.gamma.codegenerator.java.GlueCodeGenerator;
+import hu.bme.mit.gamma.codegeneration.java.GlueCodeGenerator;
 import hu.bme.mit.gamma.dialog.DialogUtil;
 import hu.bme.mit.gamma.genmodel.model.AnalysisModelTransformation;
 import hu.bme.mit.gamma.genmodel.model.CodeGeneration;

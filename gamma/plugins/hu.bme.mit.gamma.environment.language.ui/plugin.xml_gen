@@ -4,48 +4,48 @@
 	<extension
 		point="org.eclipse.ui.editors">
 		<editor
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
 			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
 			default="true"
 			extensions="sgcd"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
 			name="EnvironmentLanguage Editor">
 		</editor>
 	</extension>
 	<extension
 		point="org.eclipse.ui.handlers">
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
 			commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
 			<activeWhen>
 				<reference
-					definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+					definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
-			commandId="hu.mit.gamma.environment.language.EnvironmentLanguage.validate">
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+			commandId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.validate">
 			<activeWhen>
 				<reference
-					definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+					definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
 		<!-- copy qualified name -->
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName">
 			<activeWhen>
-				<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
+				<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
 			</activeWhen>
 		</handler>
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
 			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName">
 			<activeWhen>
 				<and>
-					<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.XtextEditor.opened" />
+					<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.XtextEditor.opened" />
 					<iterate>
 						<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 					</iterate>
@@ -54,22 +54,22 @@
 		</handler>
 	</extension>
 	<extension point="org.eclipse.core.expressions.definitions">
-		<definition id="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+		<definition id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 			<and>
 				<reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="hu.mit.gamma.environment.language.EnvironmentLanguage"
+						value="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
 		</definition>
-		<definition id="hu.mit.gamma.environment.language.EnvironmentLanguage.XtextEditor.opened">
+		<definition id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.XtextEditor.opened">
 			<and>
 				<reference definitionId="isXtextEditorActive"/>
 				<with variable="activeEditor">
 					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
-						value="hu.mit.gamma.environment.language.EnvironmentLanguage"
+						value="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
 						forcePluginActivation="true"/>
 				</with>
 			</and>
@@ -78,33 +78,33 @@
 	<extension
 			point="org.eclipse.ui.preferencePages">
 		<page
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
 			name="EnvironmentLanguage">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 		</page>
 		<page
-			category="hu.mit.gamma.environment.language.EnvironmentLanguage"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.coloring"
+			category="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.coloring"
 			name="Syntax Coloring">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 		</page>
 		<page
-			category="hu.mit.gamma.environment.language.EnvironmentLanguage"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.templates"
+			category="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.templates"
 			name="Templates">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 		</page>
 	</extension>
 	<extension
 			point="org.eclipse.ui.propertyPages">
 		<page
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
 			name="EnvironmentLanguage">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
 			</enabledWhen>
@@ -114,14 +114,14 @@
 	<extension
 		point="org.eclipse.ui.keywords">
 		<keyword
-			id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"
+			id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"
 			label="EnvironmentLanguage"/>
 	</extension>
 	<extension
 		point="org.eclipse.ui.commands">
 		<command
 			description="Trigger expensive validation"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.validate"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.validate"
 			name="Validate">
 		</command>
 		<!-- copy qualified name -->
@@ -142,12 +142,12 @@
 		<menuContribution
 			locationURI="popup:#TextEditorContext?after=group.edit">
 			<command
-				commandId="hu.mit.gamma.environment.language.EnvironmentLanguage.validate"
+				commandId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.validate"
 				style="push"
 				tooltip="Trigger expensive validation">
 				<visibleWhen checkEnabled="false">
 					<reference
-						definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+						definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -157,7 +157,7 @@
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
+					<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -165,7 +165,7 @@
 			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
+					<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
@@ -174,7 +174,7 @@
 				style="push" tooltip="Copy Qualified Name">
 				<visibleWhen checkEnabled="false">
 					<and>
-						<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.XtextEditor.opened" />
+						<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.XtextEditor.opened" />
 						<iterate>
 							<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
 						</iterate>
@@ -187,7 +187,7 @@
 		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
 			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+					<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -195,11 +195,11 @@
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
 			commandId="org.eclipse.xtext.ui.editor.FindReferences">
 			<activeWhen>
 				<reference
-					definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+					definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -208,7 +208,7 @@
 		<content-type
 			base-type="org.eclipse.core.runtime.text"
 			file-extensions="sgcd"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
 			name="EnvironmentLanguage File"
 			priority="normal">
 		</content-type>
@@ -217,17 +217,17 @@
 	<extension
 		point="org.eclipse.emf.ecore.extension_parser">
 		<parser
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
 			type="sgcd">
 		</parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
 		<resourceServiceProvider
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
 			uriExtension="sgcd">
 		</resourceServiceProvider>
 	</extension>
-	<!-- marker definitions for hu.mit.gamma.environment.language.EnvironmentLanguage -->
+	<!-- marker definitions for hu.bme.mit.gamma.environment.language.EnvironmentLanguage -->
 	<extension
 			id="environmentlanguage.check.fast"
 			name="EnvironmentLanguage Problem"
@@ -251,34 +251,34 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="hu.mit.gamma.environment.language.EnvironmentLanguage"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.validator.preferencePage"
+			category="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.validator.preferencePage"
 			name="Errors/Warnings">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.xtext.builder.participant">
 		<participant
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
 			fileExtensions="sgcd"/>
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="hu.mit.gamma.environment.language.EnvironmentLanguage"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.compiler.preferencePage"
+			category="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.compiler.preferencePage"
 			name="Compiler">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
-			category="hu.mit.gamma.environment.language.EnvironmentLanguage"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.compiler.propertyPage"
+			category="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.compiler.propertyPage"
 			name="Compiler">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
 			</enabledWhen>
@@ -289,20 +289,20 @@
 		<menuContribution locationURI="popup:#TextEditorContext?after=xtext.ui.openDeclaration">
 			<command
 				commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand"
-				id="hu.mit.gamma.environment.language.EnvironmentLanguage.OpenGeneratedCode"
+				id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.OpenGeneratedCode"
 				style="push">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
+					<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
 				</visibleWhen>
 			</command>
 		</menuContribution>
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
 			commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand">
 			<activeWhen>
-				<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
+				<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened" />
 			</activeWhen>
 		</handler>
 	</extension>
@@ -310,11 +310,11 @@
 	<extension
 		point="org.eclipse.ui.handlers">
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
 			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
 			<activeWhen>
 				<reference
-					definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+					definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -334,16 +334,16 @@
 				style="push"
 				tooltip="Open Quick Outline">
 				<visibleWhen checkEnabled="false">
-					<reference definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened"/>
+					<reference definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened"/>
 				</visibleWhen>
 			</command>
 		</menuContribution>
 	</extension>
-	<!-- quickfix marker resolution generator for hu.mit.gamma.environment.language.EnvironmentLanguage -->
+	<!-- quickfix marker resolution generator for hu.bme.mit.gamma.environment.language.EnvironmentLanguage -->
 	<extension
 			point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="hu.bme.mit.gamma.environment.language.ui.environmentlanguage.check.fast">
 			<attribute
 				name="FIXABLE_KEY"
@@ -351,7 +351,7 @@
 			</attribute>
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="hu.bme.mit.gamma.environment.language.ui.environmentlanguage.check.normal">
 			<attribute
 				name="FIXABLE_KEY"
@@ -359,7 +359,7 @@
 			</attribute>
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
 			markerType="hu.bme.mit.gamma.environment.language.ui.environmentlanguage.check.expensive">
 			<attribute
 				name="FIXABLE_KEY"
@@ -370,11 +370,11 @@
 	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
 		<handler
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
 			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
 			<activeWhen>
 				<reference
-					definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+					definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 				</reference>
 			</activeWhen>
 		</handler>
@@ -386,7 +386,7 @@
 				style="push">
 				<visibleWhen checkEnabled="false">
 					<reference
-						definitionId="hu.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
+						definitionId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.Editor.opened">
 					</reference>
 				</visibleWhen>
 			</command>
@@ -394,34 +394,34 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			category="hu.mit.gamma.environment.language.EnvironmentLanguage"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
-			id="hu.mit.gamma.environment.language.EnvironmentLanguage.refactoring"
+			category="hu.bme.mit.gamma.environment.language.EnvironmentLanguage"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+			id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.refactoring"
 			name="Refactoring">
-			<keywordReference id="hu.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
+			<keywordReference id="hu.bme.mit.gamma.environment.language.ui.keyword_EnvironmentLanguage"/>
 		</page>
 	</extension>
 	<extension point="org.eclipse.compare.contentViewers">
-		<viewer id="hu.mit.gamma.environment.language.EnvironmentLanguage.compare.contentViewers"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+		<viewer id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.compare.contentViewers"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="sgcd">
 		</viewer>
 		<contentTypeBinding
-			contentTypeId="hu.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
-			contentViewerId="hu.mit.gamma.environment.language.EnvironmentLanguage.compare.contentViewers" />
+			contentTypeId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
+			contentViewerId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.compare.contentViewers" />
 	</extension>
 	<extension point="org.eclipse.compare.contentMergeViewers">
-		<viewer id="hu.mit.gamma.environment.language.EnvironmentLanguage.compare.contentMergeViewers"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+		<viewer id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.compare.contentMergeViewers"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
 			extensions="sgcd" label="EnvironmentLanguage Compare">
 		</viewer>
 		<contentTypeBinding
-			contentTypeId="hu.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
-			contentMergeViewerId="hu.mit.gamma.environment.language.EnvironmentLanguage.compare.contentMergeViewers" />
+			contentTypeId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.contenttype"
+			contentMergeViewerId="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.compare.contentMergeViewers" />
 	</extension>
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider id="hu.mit.gamma.environment.language.EnvironmentLanguage.editors.documentProviders"
-			class="hu.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+		<provider id="hu.bme.mit.gamma.environment.language.EnvironmentLanguage.editors.documentProviders"
+			class="hu.bme.mit.gamma.environment.language.ui.EnvironmentLanguageExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
 			extensions="sgcd">
 		</provider>
 	</extension>

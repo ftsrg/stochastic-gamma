@@ -7,7 +7,6 @@ import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeCompone
 import hu.bme.mit.gamma.action.model.AssignmentStatement
 import hu.bme.mit.gamma.expression.model.IntegerTypeDefinition
 import hu.bme.mit.gamma.expression.model.Type
-import hu.bme.mit.gamma.codegenerator.java.TypeTransformer
 import hu.bme.mit.gamma.expression.util.TypeSerializer
 import hu.bme.mit.gamma.analysis.ParameterDistribution
 import hu.bme.mit.gamma.analysis.MeanParameter

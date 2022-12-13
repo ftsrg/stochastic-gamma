@@ -24,14 +24,14 @@ Require-Bundle: org.eclipse.xtext,
  hu.bme.mit.gamma.trace.environment.transformation;bundle-version="2.5.1",
  hu.bme.mit.gamma.analysis.transformation;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: hu.mit.gamma.environment.language.parser.antlr,
- hu.mit.gamma.environment.language.generator,
- hu.mit.gamma.environment.language.parser.antlr.internal,
- hu.mit.gamma.environment.language.services,
- hu.mit.gamma.environment.language.validation,
- hu.mit.gamma.environment.language.serializer,
- hu.mit.gamma.environment.language.scoping,
- hu.mit.gamma.environment.language
+Export-Package: hu.bme.mit.gamma.environment.language,
+ hu.bme.mit.gamma.environment.language.generator,
+ hu.bme.mit.gamma.environment.language.parser.antlr,
+ hu.bme.mit.gamma.environment.language.parser.antlr.internal,
+ hu.bme.mit.gamma.environment.language.scoping,
+ hu.bme.mit.gamma.environment.language.serializer,
+ hu.bme.mit.gamma.environment.language.services,
+ hu.bme.mit.gamma.environment.language.validation
 Import-Package: hu.bme.mit.gamma.language.util.linking,
  hu.bme.mit.gamma.statechart.lowlevel.model,
  org.apache.log4j,

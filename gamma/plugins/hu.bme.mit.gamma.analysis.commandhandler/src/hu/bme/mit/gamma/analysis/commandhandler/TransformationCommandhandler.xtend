@@ -1,8 +1,8 @@
 package hu.bme.mit.gamma.analysis.commandhandler
 
 import hu.bme.mit.gamma.analysis.transformation.AnalysisTransformation
-import hu.bme.mit.gamma.codegenerator.java.EnvironmentGlueCodeGenerator
-import hu.bme.mit.gamma.codegenerator.java.commandhandler.CommandHandler
+import hu.bme.mit.gamma.codegeneration.java.EnvironmentGlueCodeGenerator
+import hu.bme.mit.gamma.codegeneration.java.commandhandler.CommandHandler
 import hu.bme.mit.gamma.dialog.DialogUtil
 import hu.bme.mit.gamma.statechart.interface_.Package
 import java.util.ArrayList

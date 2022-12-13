@@ -1,4 +1,4 @@
-grammar hu.mit.gamma.environment.language.EnvironmentLanguage 
+grammar hu.bme.mit.gamma.environment.language.EnvironmentLanguage 
 	with hu.bme.mit.gamma.statechart.language.StatechartLanguage
 
 //import "http://www.mit.bme.hu/gamma/environment/Model" as Env
@@ -200,7 +200,10 @@ EnvironmentCascadeCompositeComponent returns EnvironmentModel::EnvironmentCascad
 				environmentComponents+=EnvironmentComponentInstance |
 				portBindings+=PortBinding |
 				channels+=Channel |
-				'execute' executionList+=[CompositeModel::SynchronousComponentInstance] (',' executionList+=[CompositeModel::SynchronousComponentInstance])*
+			('initial' 'execute' initialExecutionList+=AtomicComponentInstanceReferenceExpression
+					(',' initialExecutionList+=AtomicComponentInstanceReferenceExpression)*) |
+			('execute' executionList+=AtomicComponentInstanceReferenceExpression
+					(',' executionList+=AtomicComponentInstanceReferenceExpression)*)
 		)*
 		'}'
 ;	

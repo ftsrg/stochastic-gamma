@@ -21,6 +21,7 @@ import hu.bme.mit.gamma.statechart.composite.SynchronousComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent;
 
 import hu.bme.mit.gamma.statechart.interface_.Component;
+import hu.bme.mit.gamma.statechart.interface_.ComponentAnnotation;
 import hu.bme.mit.gamma.statechart.interface_.InterfaceModelPackage;
 import hu.bme.mit.gamma.statechart.interface_.Port;
 
@@ -51,6 +52,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl#getParameterDeclarations <em>Parameter Declarations</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl#getPorts <em>Ports</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl#getFunctionDeclarations <em>Function Declarations</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl#getAnnotations <em>Annotations</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl#getPortBindings <em>Port Bindings</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl#getChannels <em>Channels</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.model.impl.EnvironmentSynchronousCompositeComponentImpl#getComponents <em>Components</em>}</li>
@@ -108,6 +110,16 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 	 * @ordered
 	 */
 	protected EList<FunctionDeclaration> functionDeclarations;
+
+	/**
+	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAnnotations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ComponentAnnotation> annotations;
 
 	/**
 	 * The cached value of the '{@link #getPortBindings() <em>Port Bindings</em>}' containment reference list.
@@ -220,6 +232,18 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ComponentAnnotation> getAnnotations() {
+		if (annotations == null) {
+			annotations = new EObjectContainmentEList<ComponentAnnotation>(ComponentAnnotation.class, this, EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS);
+		}
+		return annotations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<PortBinding> getPortBindings() {
 		if (portBindings == null) {
 			portBindings = new EObjectContainmentEList<PortBinding>(PortBinding.class, this, EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS);
@@ -265,6 +289,8 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS:
 				return ((InternalEList<?>)getFunctionDeclarations()).basicRemove(otherEnd, msgs);
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS:
+				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS:
 				return ((InternalEList<?>)getPortBindings()).basicRemove(otherEnd, msgs);
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS:
@@ -291,6 +317,8 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 				return getPorts();
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS:
 				return getFunctionDeclarations();
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS:
+				return getAnnotations();
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS:
 				return getPortBindings();
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS:
@@ -324,6 +352,10 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS:
 				getFunctionDeclarations().clear();
 				getFunctionDeclarations().addAll((Collection<? extends FunctionDeclaration>)newValue);
+				return;
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS:
+				getAnnotations().clear();
+				getAnnotations().addAll((Collection<? extends ComponentAnnotation>)newValue);
 				return;
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS:
 				getPortBindings().clear();
@@ -361,6 +393,9 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS:
 				getFunctionDeclarations().clear();
 				return;
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS:
+				getAnnotations().clear();
+				return;
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS:
 				getPortBindings().clear();
 				return;
@@ -390,6 +425,8 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 				return ports != null && !ports.isEmpty();
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS:
 				return functionDeclarations != null && !functionDeclarations.isEmpty();
+			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS:
+				return annotations != null && !annotations.isEmpty();
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORT_BINDINGS:
 				return portBindings != null && !portBindings.isEmpty();
 			case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__CHANNELS:
@@ -423,6 +460,7 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 			switch (derivedFeatureID) {
 				case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORTS: return InterfaceModelPackage.COMPONENT__PORTS;
 				case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS: return InterfaceModelPackage.COMPONENT__FUNCTION_DECLARATIONS;
+				case EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS: return InterfaceModelPackage.COMPONENT__ANNOTATIONS;
 				default: return -1;
 			}
 		}
@@ -475,6 +513,7 @@ public class EnvironmentSynchronousCompositeComponentImpl extends AbstractEnviro
 			switch (baseFeatureID) {
 				case InterfaceModelPackage.COMPONENT__PORTS: return EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__PORTS;
 				case InterfaceModelPackage.COMPONENT__FUNCTION_DECLARATIONS: return EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__FUNCTION_DECLARATIONS;
+				case InterfaceModelPackage.COMPONENT__ANNOTATIONS: return EnvironentPackage.ENVIRONMENT_SYNCHRONOUS_COMPOSITE_COMPONENT__ANNOTATIONS;
 				default: return -1;
 			}
 		}

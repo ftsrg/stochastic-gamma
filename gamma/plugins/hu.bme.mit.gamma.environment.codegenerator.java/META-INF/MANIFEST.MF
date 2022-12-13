@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Java Code Generator
-Bundle-SymbolicName: hu.bme.mit.gamma.environment.codegenerator.java;singleton:=true
+Bundle-SymbolicName: hu.bme.mit.gamma.environment.codegeneration.java;singleton:=true
 Bundle-Version: 2.2.1.qualifier
 Bundle-Vendor: BME-FTSRG
-Export-Package: hu.bme.mit.gamma.codegenerator.java
+Export-Package: hu.bme.mit.gamma.codegeneration.java
 Require-Bundle: hu.bme.mit.gamma.expression.model,
  hu.bme.mit.gamma.action.model,
  org.yakindu.sct.model.sgraph,
@@ -19,8 +19,8 @@ Require-Bundle: hu.bme.mit.gamma.expression.model,
  org.yakindu.sct.model.stext,
  hu.bme.mit.gamma.genmodel.model,
  hu.bme.mit.gamma.analysis.model;bundle-version="0.1.0",
- hu.bme.mit.gamma.codegenerator.java;bundle-version="2.3.1",
- hu.bme.mit.gamma.codegenerator.java.util;bundle-version="2.3.1",
+ hu.bme.mit.gamma.codegeneration.java;bundle-version="2.3.1",
+ hu.bme.mit.gamma.codegeneration.java.util;bundle-version="2.3.1",
  hu.bme.mit.gamma.statechart.lowlevel.model;bundle-version="2.3.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: hu.bme.mit.gamma.codegenerator.java

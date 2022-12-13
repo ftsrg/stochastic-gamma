@@ -15,6 +15,7 @@ import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
+import hu.bme.mit.gamma.statechart.composite.SchedulableCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent;
 
@@ -222,6 +223,10 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseAbstractSynchronousCompositeComponent(AbstractSynchronousCompositeComponent object) {
 				return createAbstractSynchronousCompositeComponentAdapter();
+			}
+			@Override
+			public Adapter caseSchedulableCompositeComponent(SchedulableCompositeComponent object) {
+				return createSchedulableCompositeComponentAdapter();
 			}
 			@Override
 			public Adapter caseCascadeCompositeComponent(CascadeCompositeComponent object) {
@@ -750,6 +755,20 @@ public class EnvironentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAbstractSynchronousCompositeComponentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.statechart.composite.SchedulableCompositeComponent <em>Schedulable Composite Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.statechart.composite.SchedulableCompositeComponent
+	 * @generated
+	 */
+	public Adapter createSchedulableCompositeComponentAdapter() {
 		return null;
 	}
 

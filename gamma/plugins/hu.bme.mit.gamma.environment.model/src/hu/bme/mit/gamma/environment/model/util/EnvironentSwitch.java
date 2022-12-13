@@ -15,6 +15,7 @@ import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
+import hu.bme.mit.gamma.statechart.composite.SchedulableCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousCompositeComponent;
 
@@ -99,6 +100,7 @@ public class EnvironentSwitch<T> extends Switch<T> {
 				if (result == null) result = caseCascadeCompositeComponent(environmentCascadeCompositeComponent);
 				if (result == null) result = caseAbstractEnvironmentCompositeComponent(environmentCascadeCompositeComponent);
 				if (result == null) result = caseAbstractSynchronousCompositeComponent(environmentCascadeCompositeComponent);
+				if (result == null) result = caseSchedulableCompositeComponent(environmentCascadeCompositeComponent);
 				if (result == null) result = caseEnvironmentComponent(environmentCascadeCompositeComponent);
 				if (result == null) result = caseCompositeComponent(environmentCascadeCompositeComponent);
 				if (result == null) result = caseSynchronousComponent(environmentCascadeCompositeComponent);
@@ -862,6 +864,21 @@ public class EnvironentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseAbstractSynchronousCompositeComponent(AbstractSynchronousCompositeComponent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Schedulable Composite Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Schedulable Composite Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSchedulableCompositeComponent(SchedulableCompositeComponent object) {
 		return null;
 	}
 

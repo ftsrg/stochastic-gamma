@@ -76,7 +76,7 @@ import hu.bme.mit.gamma.statechart.interface_.Package;
 import hu.bme.mit.gamma.statechart.interface_.Port;
 import hu.bme.mit.gamma.statechart.language.scoping.StatechartLanguageScopeProvider;
 import hu.bme.mit.gamma.statechart.phase.InstanceVariableReference;
-import hu.bme.mit.gamma.statechart.phase.MissionPhaseStateDefinition;
+import hu.bme.mit.gamma.statechart.phase.MissionPhaseStateAnnotation;
 import hu.bme.mit.gamma.statechart.phase.PhaseModelPackage;
 import hu.bme.mit.gamma.statechart.statechart.AnyPortEventReference;
 import hu.bme.mit.gamma.statechart.statechart.PortEventReference;
@@ -106,7 +106,7 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 				return Scopes.scopeFor(allComponents);
 			}
 			if (context instanceof StateContractAnnotation &&
-					reference == ContractModelPackage.Literals.STATE_CONTRACT_ANNOTATION__CONTRACT_STATECHARTS) {
+					reference == ContractModelPackage.Literals.STATE_CONTRACT_ANNOTATION__CONTRACT_STATECHART) {
 				Package parentPackage = StatechartModelDerivedFeatures.getContainingPackage(context);
 				StatechartDefinition parentStatechart = StatechartModelDerivedFeatures.getContainingStatechart(context);
 				Set<StatechartDefinition> allComponents = StatechartModelDerivedFeatures.getAllStatechartComponents(parentPackage);
@@ -116,11 +116,11 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 			// Phase
 			if (context instanceof InstanceVariableReference &&
 					reference == PhaseModelPackage.Literals.INSTANCE_VARIABLE_REFERENCE__VARIABLE) {
-				MissionPhaseStateDefinition container = EcoreUtil2.getContainerOfType(context, MissionPhaseStateDefinition.class);
-				SynchronousComponentInstance instance = container.getComponent();
-				SynchronousComponent type = instance.getType();
+				MissionPhaseStateAnnotation container = ecoreUtil.getContainerOfType(context, MissionPhaseStateAnnotation.class);
+				ComponentInstance instance = container.getComponent();
+				Component type = StatechartModelDerivedFeatures.getDerivedType(instance);
 				if (type instanceof StatechartDefinition) {
-					StatechartDefinition statechart = (StatechartDefinition) instance.getType();
+					StatechartDefinition statechart = (StatechartDefinition) type;
 					return Scopes.scopeFor(statechart.getVariableDeclarations());
 				}
 			}
