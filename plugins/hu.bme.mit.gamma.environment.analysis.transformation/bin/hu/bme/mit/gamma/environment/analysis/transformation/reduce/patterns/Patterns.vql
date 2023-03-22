@@ -1,0 +1,58 @@
+package hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns
+
+
+import "http://www.mit.bme.hu/gamma/statechart/Model/Interface"
+import "http://www.mit.bme.hu/gamma/statechart/Model/Statechart"
+import "www.mit.bme.hu/gamma/environment/Model"
+
+
+pattern PackagePattern(^package : Package) {
+	Package(^package);
+}
+
+pattern EnvironmentAsynchronousCompositeComponentPattern  (component : EnvironmentAsynchronousCompositeComponent){
+	EnvironmentAsynchronousCompositeComponent(component);
+}
+
+pattern EnvironmentSynchronousCompositeComponentPattern  (component : EnvironmentSynchronousCompositeComponent){
+	EnvironmentSynchronousCompositeComponent(component);
+}
+
+pattern EnvironmentCascadeCompositeComponentPattern  (component : EnvironmentCascadeCompositeComponent){
+	EnvironmentCascadeCompositeComponent(component);
+}
+
+pattern EnvironmentAsynchronousCompositeComponentInstancePattern  (component : EnvironmentAsynchronousCompositeComponentInstance){
+	EnvironmentAsynchronousCompositeComponentInstance(component);
+}
+
+pattern EnvironmentSynchronousCompositeComponentInstancePattern  (component : EnvironmentSynchronousCompositeComponentInstance){
+	EnvironmentSynchronousCompositeComponentInstance(component);
+}
+
+pattern EnvironmentCascadeCompositeComponentInstancePattern  (component : EnvironmentCascadeCompositeComponentInstance){
+	EnvironmentCascadeCompositeComponentInstance(component);
+}
+
+pattern ElementaryEnvironmentComponentInstancePattern  (instance : ElementaryEnvironmentComponentInstance){
+	ElementaryEnvironmentComponentInstance (instance);
+}
+
+pattern SynchronousElementaryEnvironmentComponentInstancePattern  (instance : ElementaryEnvironmentComponentInstance, component : EnvironmentSynchronousCompositeComponent){
+	ElementaryEnvironmentComponentInstance (instance);
+	EnvironmentSynchronousCompositeComponent(component);
+	EnvironmentSynchronousCompositeComponent.environmentComponents(component,instance);
+}
+
+pattern CascadeElementaryEnvironmentComponentInstancePattern  (instance : ElementaryEnvironmentComponentInstance, component : EnvironmentCascadeCompositeComponent){
+	ElementaryEnvironmentComponentInstance (instance);
+	EnvironmentCascadeCompositeComponent(component);
+	EnvironmentCascadeCompositeComponent.environmentComponents(component,instance);
+}
+
+pattern AsynchronousElementaryEnvironmentComponentInstancePattern  (instance : ElementaryEnvironmentComponentInstance, component : EnvironmentAsynchronousCompositeComponent){
+	ElementaryEnvironmentComponentInstance (instance);
+	EnvironmentAsynchronousCompositeComponent(component);
+	EnvironmentAsynchronousCompositeComponent.environmentComponents(component,instance);
+}
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.gamma.environment.model/src-gen" editDirectory="/hu.bme.mit.gamma.environment.model.edit/src-gen"
+    editorDirectory="/hu.bme.mit.gamma.environment.model.editor/src-gen" modelPluginID="hu.bme.mit.gamma.environment.model"
+    modelName="Environment" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    usedGenPackages="../../hu.bme.mit.gamma.expression.model/model/expression.genmodel#//model ../../hu.bme.mit.gamma.statechart.model/model/statechart.genmodel#//composite ../../hu.bme.mit.gamma.statechart.model/model/statechart.genmodel#//interface ../../hu.bme.mit.gamma.environment.stochastic.model/model/stochastic.genmodel#//stochastic ../../hu.bme.mit.gamma.statechart.model/model/statechart.genmodel#//statechart ../../hu.bme.mit.gamma.action.model/model/action.genmodel#//model"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>environment.ecore</foreignModel>
+  <genPackages prefix="EnvironmentModel" basePackage="hu.bme.mit.gamma.environment"
+      disposableProviderFactory="true" ecorePackage="environment.ecore#/">
+    <genClasses ecoreClass="environment.ecore#//EnvironmentEventSource"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentCascadeCompositeComponent"/>
+    <genClasses image="false" ecoreClass="environment.ecore#//EnvironmentComponentInstance"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentCascadeCompositeComponentInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentCascadeCompositeComponentInstance/type"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentDelay"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentSwitch"/>
+    <genClasses image="false" ecoreClass="environment.ecore#//ElementaryEnvironmentComponentInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//ElementaryEnvironmentComponentInstance/outports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//ElementaryEnvironmentComponentInstance/inports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//ElementaryEnvironmentComponentInstance/behaviorRules"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EventFilter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//EventFilter/event"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//StochasticRule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//StochasticRule/stochasticModel"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//PortFilter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//PortFilter/port"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//ComponentFilter"/>
+    <genClasses image="false" ecoreClass="environment.ecore#//EnvironmentRule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentRule/filter"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentSample"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentExternSimulation"/>
+    <genClasses ecoreClass="environment.ecore#//SimulationRule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//SimulationRule/simulation"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="environment.ecore#//Filter"/>
+    <genClasses ecoreClass="environment.ecore#//Simulation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute environment.ecore#//Simulation/simulationClassName"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentPeriodicEventSource"/>
+    <genClasses ecoreClass="environment.ecore#//PeriodicSimulation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute environment.ecore#//PeriodicSimulation/periodTime"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentSynchronousCompositeComponent"/>
+    <genClasses image="false" ecoreClass="environment.ecore#//AbstractEnvironmentCompositeComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference environment.ecore#//AbstractEnvironmentCompositeComponent/environmentComponents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="environment.ecore#//EnvironmentComponent"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentAsynchronousCompositeComponent"/>
+    <genClasses image="false" ecoreClass="environment.ecore#//AbstractEnvironmentCompositeComponentInstance"/>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentSynchronousCompositeComponentInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentSynchronousCompositeComponentInstance/type"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//EnvironmentAsynchronousCompositeComponentInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//EnvironmentAsynchronousCompositeComponentInstance/type"/>
+    </genClasses>
+    <genClasses ecoreClass="environment.ecore#//ParameterFilter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference environment.ecore#//ParameterFilter/parameter"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

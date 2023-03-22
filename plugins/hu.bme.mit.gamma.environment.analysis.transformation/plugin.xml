@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><?eclipse version="3.4"?><plugin>
+  <extension id="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.Patterns" point="org.eclipse.viatra.query.runtime.queryspecification">
+    <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.Patterns" id="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.Patterns">
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.PackagePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentAsynchronousCompositeComponentPattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentSynchronousCompositeComponentPattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentCascadeCompositeComponentPattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentAsynchronousCompositeComponentInstancePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentSynchronousCompositeComponentInstancePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentCascadeCompositeComponentInstancePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.ElementaryEnvironmentComponentInstancePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.SynchronousElementaryEnvironmentComponentInstancePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.CascadeElementaryEnvironmentComponentInstancePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.AsynchronousElementaryEnvironmentComponentInstancePattern"/>
+    </group>
+  </extension>
+  <extension id="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.TracePatterns" point="org.eclipse.viatra.query.runtime.queryspecification">
+    <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.TracePatterns" id="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.TracePatterns">
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentAsynchronousCompositeCopmponentTracePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentSynchronousCompositeCopmponentTracePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentCascadeCompositeComponentTracePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentAsynchronousCompositeInstanceTracePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentSynchronousCompositeInstanceTracePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.EnvironmentCascadeCompositeInstanceTracePattern"/>
+      <query-specification fqn="hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns.ElementaryEnvironmentComponentInstanceTracePattern"/>
+    </group>
+  </extension>
+</plugin>

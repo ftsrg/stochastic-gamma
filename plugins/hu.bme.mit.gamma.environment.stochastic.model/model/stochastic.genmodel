@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.gamma.environment.stochastic.model/src-gen"
+    editDirectory="/hu.bme.mit.gamma.environment.stochastic.model.edit/src-gen" editorDirectory="/hu.bme.mit.gamma.environment.stochastic.model.editor/src-gen"
+    modelPluginID="hu.bme.mit.gamma.environment.stochastic.model" modelName="Stochastic"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" usedGenPackages="../../hu.bme.mit.gamma.expression.model/model/expression.genmodel#//model"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>stochastic.ecore</foreignModel>
+  <genPackages prefix="Stochastic" basePackage="hu.bme.mit.gamma.environment.stochastic"
+      disposableProviderFactory="true" ecorePackage="stochastic.ecore#/">
+    <genClasses image="false" ecoreClass="stochastic.ecore#//StochasticModel"/>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//RandomVariable">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute stochastic.ecore#//RandomVariable/dimension"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//ContinouosRandomVariable"/>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//StochasticProcess"/>
+    <genClasses ecoreClass="stochastic.ecore#//PoissonProcess"/>
+    <genClasses ecoreClass="stochastic.ecore#//NormalRandomVariable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//NormalRandomVariable/mean"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//NormalRandomVariable/scale"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//ExponentialRandomVariable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//ExponentialRandomVariable/rate"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//DiscreteRandomVariable"/>
+    <genClasses ecoreClass="stochastic.ecore#//BernoulliRandomVariable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//BernoulliRandomVariable/probability"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//GaussianProcess">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//GaussianProcess/kernel"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//Kernel"/>
+    <genClasses ecoreClass="stochastic.ecore#//LinearKernel"/>
+    <genClasses ecoreClass="stochastic.ecore#//BrownianKernel"/>
+    <genClasses ecoreClass="stochastic.ecore#//PeriodicKernel"/>
+    <genClasses ecoreClass="stochastic.ecore#//RBFKernel"/>
+    <genClasses ecoreClass="stochastic.ecore#//SumKernel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//SumKernel/kernels"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//FittedGaussianProcess"/>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//DataSource"/>
+    <genClasses ecoreClass="stochastic.ecore#//InfluxDB">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stochastic.ecore#//InfluxDB/dbname"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stochastic.ecore#//InfluxDB/ip"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stochastic.ecore#//InfluxDB/port"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stochastic.ecore#//InfluxDB/query"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//DiracProcess">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//DiracProcess/source"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//PythonSimulation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stochastic.ecore#//PythonSimulation/script"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//CategoricalProbabaility">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//CategoricalProbabaility/probability"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//HomogeneousPoissonProcess"/>
+    <genClasses ecoreClass="stochastic.ecore#//InhomogeneousPoissonProcess"/>
+    <genClasses ecoreClass="stochastic.ecore#//WeibullRandomVariable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//WeibullRandomVariable/scale"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//WeibullRandomVariable/shape"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//MarkovProcess"/>
+    <genClasses ecoreClass="stochastic.ecore#//ProbabilisticProgram"/>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//FittedModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//FittedModel/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stochastic.ecore#//FittedModel/lr"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//FittedNormalRandomVariable"/>
+    <genClasses ecoreClass="stochastic.ecore#//FittedExponentialRandomVariable"/>
+    <genClasses ecoreClass="stochastic.ecore#//FittedGammaRandomVariable"/>
+    <genClasses ecoreClass="stochastic.ecore#//GammaRandomVariable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//GammaRandomVariable/scale"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference stochastic.ecore#//GammaRandomVariable/shape"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="stochastic.ecore#//FittedContinuousRandomVariable"/>
+    <genClasses ecoreClass="stochastic.ecore#//CustomRandomVariable">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference stochastic.ecore#//CustomRandomVariable/inverse_cdf"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//StochasticExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//StochasticExpression/randomvariable"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//UniformRandomVariable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//UniformRandomVariable/lowerBound"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//UniformRandomVariable/upperBound"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//BetaRandomVariable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//BetaRandomVariable/apha"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//BetaRandomVariable/beta"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//LogNormalRandomVariable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//LogNormalRandomVariable/mean"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//LogNormalRandomVariable/scale"/>
+    </genClasses>
+    <genClasses ecoreClass="stochastic.ecore#//ParetoRandomVariable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//ParetoRandomVariable/scale"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stochastic.ecore#//ParetoRandomVariable/alpha"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

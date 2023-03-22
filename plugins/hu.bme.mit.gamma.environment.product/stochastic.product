@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Eclipse IDE" uid="stochastic" id="org.eclipse.epp.package.dsl.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true" autoIncludeRequirements="true">
+
+   <aboutInfo>
+      <image path="eclipse_lg.png"/>
+      <text>
+         Eclipse DSL Tools (includes Incubating components)
+
+Version: {1}
+Build id: {0}
+
+(c) Copyright Eclipse contributors and others 2000, 2023.  All rights reserved. Eclipse and the Eclipse logo are trademarks of the Eclipse Foundation, Inc., https://www.eclipse.org/. The Eclipse logo cannot be altered without Eclipse&apos;s permission. Eclipse logos are provided for use under the Eclipse logo and trademark guidelines, https://www.eclipse.org/logotm/. Oracle and Java are trademarks or registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.
+
+This product includes software developed by other open source projects including the Apache Software Foundation, https://www.apache.org/.
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-consoleLog
+      </programArgs>
+      <vmArgs>-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="eclipse16.png" i32="eclipse32.png" i48="eclipse48.png" i64="eclipse256.png"/>
+
+   <splash
+      startupProgressRect="2,290,448,10"
+      startupMessageRect="7,265,320,20"
+      startupForegroundColor="ffffff" />
+   <vm>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17</windows>
+   </vm>
+
+   <plugins>
+      <plugin id="de.uni_paderborn.uppaal"/>
+      <plugin id="hu.bme.mit.gamma.action.language"/>
+      <plugin id="hu.bme.mit.gamma.action.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.action.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.action.model"/>
+      <plugin id="hu.bme.mit.gamma.analysis.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.analysis.model"/>
+      <plugin id="hu.bme.mit.gamma.analysis.transformation"/>
+      <plugin id="hu.bme.mit.gamma.codegeneration.java"/>
+      <plugin id="hu.bme.mit.gamma.codegeneration.java.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.codegeneration.java.util"/>
+      <plugin id="hu.bme.mit.gamma.composition.xsts.uppaal.transformation"/>
+      <plugin id="hu.bme.mit.gamma.dialog"/>
+      <plugin id="hu.bme.mit.gamma.environment.codegeneration.java"/>
+      <plugin id="hu.bme.mit.gamma.environment.language"/>
+      <plugin id="hu.bme.mit.gamma.environment.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.environment.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.environment.model"/>
+      <plugin id="hu.bme.mit.gamma.environment.product"/>
+      <plugin id="hu.bme.mit.gamma.eventpriority.transformation"/>
+      <plugin id="hu.bme.mit.gamma.expression.language"/>
+      <plugin id="hu.bme.mit.gamma.expression.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.expression.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.expression.model"/>
+      <plugin id="hu.bme.mit.gamma.genmodel.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.genmodel.language"/>
+      <plugin id="hu.bme.mit.gamma.genmodel.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.genmodel.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.genmodel.model"/>
+      <plugin id="hu.bme.mit.gamma.language.util"/>
+      <plugin id="hu.bme.mit.gamma.lowlevel.xsts.transformation"/>
+      <plugin id="hu.bme.mit.gamma.lowlevel.xsts.transformation.traceability"/>
+      <plugin id="hu.bme.mit.gamma.plugintemplate"/>
+      <plugin id="hu.bme.mit.gamma.plugintemplate.transformation"/>
+      <plugin id="hu.bme.mit.gamma.plugintemplate.transformation.traceability"/>
+      <plugin id="hu.bme.mit.gamma.promela.verification"/>
+      <plugin id="hu.bme.mit.gamma.property.language"/>
+      <plugin id="hu.bme.mit.gamma.property.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.property.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.property.model"/>
+      <plugin id="hu.bme.mit.gamma.querygenerator"/>
+      <plugin id="hu.bme.mit.gamma.querygenerator.gui"/>
+      <plugin id="hu.bme.mit.gamma.querygenerator.gui.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.scenario.language"/>
+      <plugin id="hu.bme.mit.gamma.scenario.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.scenario.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.scenario.model"/>
+      <plugin id="hu.bme.mit.gamma.scenario.statechart.generator"/>
+      <plugin id="hu.bme.mit.gamma.scenario.statechart.util"/>
+      <plugin id="hu.bme.mit.gamma.scenario.trace.generator"/>
+      <plugin id="hu.bme.mit.gamma.serializer.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.setup"/>
+      <plugin id="hu.bme.mit.gamma.statechart.contract.testgeneration.java"/>
+      <plugin id="hu.bme.mit.gamma.statechart.contract.tracegeneration"/>
+      <plugin id="hu.bme.mit.gamma.statechart.language"/>
+      <plugin id="hu.bme.mit.gamma.statechart.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.statechart.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.statechart.lowlevel.model"/>
+      <plugin id="hu.bme.mit.gamma.statechart.lowlevel.transformation"/>
+      <plugin id="hu.bme.mit.gamma.statechart.lowlevel.transformation.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.statechart.model"/>
+      <plugin id="hu.bme.mit.gamma.statechart.phase.transformation"/>
+      <plugin id="hu.bme.mit.gamma.statechart.plantuml.textprovider"/>
+      <plugin id="hu.bme.mit.gamma.statechart.plantuml.transformation"/>
+      <plugin id="hu.bme.mit.gamma.statechart.traverser"/>
+      <plugin id="hu.bme.mit.gamma.stochastic.model"/>
+      <plugin id="hu.bme.mit.gamma.theta.verification"/>
+      <plugin id="hu.bme.mit.gamma.trace.environment.transformation"/>
+      <plugin id="hu.bme.mit.gamma.trace.language"/>
+      <plugin id="hu.bme.mit.gamma.trace.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.trace.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.trace.model"/>
+      <plugin id="hu.bme.mit.gamma.trace.testgeneration.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.trace.testgeneration.java"/>
+      <plugin id="hu.bme.mit.gamma.transformation.util"/>
+      <plugin id="hu.bme.mit.gamma.ui"/>
+      <plugin id="hu.bme.mit.gamma.uppaal.composition.transformation"/>
+      <plugin id="hu.bme.mit.gamma.uppaal.composition.transformation.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.uppaal.serializer"/>
+      <plugin id="hu.bme.mit.gamma.uppaal.transformation"/>
+      <plugin id="hu.bme.mit.gamma.uppaal.transformation.traceability"/>
+      <plugin id="hu.bme.mit.gamma.uppaal.util"/>
+      <plugin id="hu.bme.mit.gamma.uppaal.verification"/>
+      <plugin id="hu.bme.mit.gamma.util"/>
+      <plugin id="hu.bme.mit.gamma.validation"/>
+      <plugin id="hu.bme.mit.gamma.validation.validation"/>
+      <plugin id="hu.bme.mit.gamma.verification.util"/>
+      <plugin id="hu.bme.mit.gamma.xsts.codegeneration.java"/>
+      <plugin id="hu.bme.mit.gamma.xsts.model"/>
+      <plugin id="hu.bme.mit.gamma.xsts.promela.transformation"/>
+      <plugin id="hu.bme.mit.gamma.xsts.transformation"/>
+      <plugin id="hu.bme.mit.gamma.xsts.transformation.util"/>
+      <plugin id="hu.bme.mit.gamma.xsts.uppaal.transformation"/>
+      <plugin id="hu.bme.mit.gamma.yakindu.interface.transformation.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.yakindu.transformation"/>
+      <plugin id="hu.bme.mit.gamma.yakindu.transformation.traceability"/>
+   </plugins>
+
+
+</product>
