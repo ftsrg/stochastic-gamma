@@ -271,6 +271,70 @@ public class AnalysisSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AnalysisPackage.ANALYSIS_METHOD: {
+				AnalysisMethod analysisMethod = (AnalysisMethod)theEObject;
+				T result = caseAnalysisMethod(analysisMethod);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.EXACT_ANALYSIS_METHOD: {
+				ExactAnalysisMethod exactAnalysisMethod = (ExactAnalysisMethod)theEObject;
+				T result = caseExactAnalysisMethod(exactAnalysisMethod);
+				if (result == null) result = caseAnalysisMethod(exactAnalysisMethod);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD: {
+				SimulationAnalysisMethod simulationAnalysisMethod = (SimulationAnalysisMethod)theEObject;
+				T result = caseSimulationAnalysisMethod(simulationAnalysisMethod);
+				if (result == null) result = caseAnalysisMethod(simulationAnalysisMethod);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.IMPORTANCE_SAMPLING: {
+				ImportanceSampling importanceSampling = (ImportanceSampling)theEObject;
+				T result = caseImportanceSampling(importanceSampling);
+				if (result == null) result = caseSimulationAnalysisMethod(importanceSampling);
+				if (result == null) result = caseAnalysisMethod(importanceSampling);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.MCMC: {
+				MCMC mcmc = (MCMC)theEObject;
+				T result = caseMCMC(mcmc);
+				if (result == null) result = caseSimulationAnalysisMethod(mcmc);
+				if (result == null) result = caseAnalysisMethod(mcmc);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.SVI: {
+				SVI svi = (SVI)theEObject;
+				T result = caseSVI(svi);
+				if (result == null) result = caseSimulationAnalysisMethod(svi);
+				if (result == null) result = caseAnalysisMethod(svi);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.MCMC_KERNEL: {
+				MCMCKernel mcmcKernel = (MCMCKernel)theEObject;
+				T result = caseMCMCKernel(mcmcKernel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.NUTS: {
+				NUTS nuts = (NUTS)theEObject;
+				T result = caseNUTS(nuts);
+				if (result == null) result = caseMCMCKernel(nuts);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AnalysisPackage.HMC: {
+				HMC hmc = (HMC)theEObject;
+				T result = caseHMC(hmc);
+				if (result == null) result = caseMCMCKernel(hmc);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -677,6 +741,141 @@ public class AnalysisSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEndCondition(EndCondition object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Method</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Method</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAnalysisMethod(AnalysisMethod object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Exact Analysis Method</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Exact Analysis Method</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExactAnalysisMethod(ExactAnalysisMethod object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Simulation Analysis Method</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Simulation Analysis Method</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSimulationAnalysisMethod(SimulationAnalysisMethod object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Importance Sampling</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Importance Sampling</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseImportanceSampling(ImportanceSampling object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>MCMC</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>MCMC</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMCMC(MCMC object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>SVI</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>SVI</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSVI(SVI object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>MCMC Kernel</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>MCMC Kernel</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMCMCKernel(MCMCKernel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>NUTS</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>NUTS</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNUTS(NUTS object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>HMC</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>HMC</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseHMC(HMC object) {
 		return null;
 	}
 

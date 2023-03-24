@@ -30,7 +30,9 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import hu.bme.mit.gamma.codegeneration.java.EnvironmentGlueCodeGenerator;
 import hu.bme.mit.gamma.codegeneration.java.commandhandler.CommandHandler;
 import hu.bme.mit.gamma.dialog.DialogUtil;
+import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.environment.analysis.transformation.AnalysisTransformation;
+import hu.bme.mit.gamma.statechart.interface_.Component;
 import hu.bme.mit.gamma.statechart.interface_.Package;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -77,7 +79,18 @@ public class AnalysisTransformationHandler extends CommandHandler {
 			var compositeSystemURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
 			// Loading the composite system to the resource set
 			var resource = loadResource(resSet, compositeSystemURI);
-			var compositeSystem = (Package) resource.getContents().get(0);
+			var analysisSystem = (Package) resource.getContents().get(0);
+			AnalysisComponent analysisComponent=null;
+			for (Component comp : analysisSystem.getComponents()) {
+				if (comp instanceof AnalysisComponent) {
+					analysisComponent=(AnalysisComponent) comp;
+				}
+			}
+			if (analysisComponent==null) {
+				DialogUtil.showError("No AnalysisComponent has been found in the selected .sgcl file.");
+				return;
+			}
+			var compositeSystem = (Package) analysisComponent.getAnalyzedComponent().getType().eContainer();
 			// Checking whether all the statecharts have unique names
 			checkStatechartNameUniqueness(file.getProject(), new HashSet<String>());
 			// Getting the simple statechart names
@@ -102,19 +115,25 @@ public class AnalysisTransformationHandler extends CommandHandler {
 			parentFolder = URI.decode(parentFolder);
 			logger.log(Level.INFO, "Resource set content for Java code generation: " + resSet);
 			String packageName = file.getProject().getName().toLowerCase();
-			EnvironmentGlueCodeGenerator generator = new EnvironmentGlueCodeGenerator(resSet, packageName,
-					parentFolder);
+			EnvironmentGlueCodeGenerator generator = new EnvironmentGlueCodeGenerator(resSet, packageName, parentFolder);
 			generator.execute();
 			uris = generator.getURIs();
 			BasePackageURI = file.getProject().getLocation().toString();
 			logger.log(Level.INFO, "Base package URI: "+BasePackageURI);
 			generator.dispose();
 			logger.log(Level.INFO, "The Java code generation has been finished.");
+		} catch (IllegalArgumentException e) {
+			logger.log(Level.SEVERE, e.getMessage());
+			e.printStackTrace();
+			DialogUtil.showErrorWithStackTrace(e.getMessage(), e);
+			return;	
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			logger.log(Level.SEVERE, exception.getMessage());
 			DialogUtil.showErrorWithStackTrace(exception.getMessage(), exception);
+			return;	
 		}
+		
 		try {
 			ResourceSetImpl resSet = new ResourceSetImpl();
 			URI compositeSystemURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
@@ -133,6 +152,7 @@ public class AnalysisTransformationHandler extends CommandHandler {
 			logger.log(Level.SEVERE, e.getCause().toString());
 			logger.log(Level.SEVERE, e.getStackTrace().toString());
 			logger.log(Level.SEVERE, e.getMessage());
+			return;
 		}
 		DialogUtil.showInfo("Analysis Transformation is succesfull!");
 		/*

@@ -8,6 +8,7 @@ import hu.bme.mit.gamma.environment.analysis.AnalysisAspect;
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.environment.analysis.AnalysisCondition;
 import hu.bme.mit.gamma.environment.analysis.AnalysisFactory;
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.AnalysisPackage;
 import hu.bme.mit.gamma.environment.analysis.AssumeCondition;
 import hu.bme.mit.gamma.environment.analysis.AssumeNotRaised;
@@ -15,10 +16,13 @@ import hu.bme.mit.gamma.environment.analysis.AssumeRaised;
 import hu.bme.mit.gamma.environment.analysis.ComponentPortEventReference;
 import hu.bme.mit.gamma.environment.analysis.EndCondition;
 import hu.bme.mit.gamma.environment.analysis.EventTimeRatio;
+import hu.bme.mit.gamma.environment.analysis.ExactAnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.Frequency;
 import hu.bme.mit.gamma.environment.analysis.GreaterThan;
+import hu.bme.mit.gamma.environment.analysis.ImportanceSampling;
 import hu.bme.mit.gamma.environment.analysis.IsBetween;
 import hu.bme.mit.gamma.environment.analysis.LowerThan;
+import hu.bme.mit.gamma.environment.analysis.MCMCKernel;
 import hu.bme.mit.gamma.environment.analysis.MeanParameter;
 import hu.bme.mit.gamma.environment.analysis.MeanTime;
 import hu.bme.mit.gamma.environment.analysis.MeanTimeBetweenEvents;
@@ -31,6 +35,7 @@ import hu.bme.mit.gamma.environment.analysis.Probability;
 import hu.bme.mit.gamma.environment.analysis.RecursiveComponentReference;
 import hu.bme.mit.gamma.environment.analysis.RequirementAspect;
 import hu.bme.mit.gamma.environment.analysis.RequirementComponent;
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.TimeBoundedProbability;
 import hu.bme.mit.gamma.environment.analysis.TimedProbability;
 
@@ -250,6 +255,69 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	private EClass endConditionEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass analysisMethodEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass exactAnalysisMethodEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass simulationAnalysisMethodEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass importanceSamplingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mcmcEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass sviEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mcmcKernelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass nutsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass hmcEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -359,26 +427,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAnalysisComponent_SimulationTime() {
-		return (EAttribute)analysisComponentEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getAnalysisComponent_SimulationNumber() {
-		return (EAttribute)analysisComponentEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getAnalysisComponent_Priorydistribution() {
-		return (EReference)analysisComponentEClass.getEStructuralFeatures().get(5);
+		return (EReference)analysisComponentEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -386,17 +436,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAnalysisComponent_Endcondition() {
-		return (EReference)analysisComponentEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getAnalysisComponent_WarmupTime() {
-		return (EAttribute)analysisComponentEClass.getEStructuralFeatures().get(7);
+	public EReference getAnalysisComponent_Analysismethod() {
+		return (EReference)analysisComponentEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -809,17 +850,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getObserveCondition_Value() {
-		return (EAttribute)observeConditionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getObserveCondition_Randomvariable() {
-		return (EReference)observeConditionEClass.getEStructuralFeatures().get(1);
+		return (EReference)observeConditionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -854,6 +886,141 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAnalysisMethod() {
+		return analysisMethodEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExactAnalysisMethod() {
+		return exactAnalysisMethodEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSimulationAnalysisMethod() {
+		return simulationAnalysisMethodEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSimulationAnalysisMethod_Endcondition() {
+		return (EReference)simulationAnalysisMethodEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSimulationAnalysisMethod_WarmupTime() {
+		return (EAttribute)simulationAnalysisMethodEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSimulationAnalysisMethod_SimulationTime() {
+		return (EAttribute)simulationAnalysisMethodEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSimulationAnalysisMethod_SimulationNumber() {
+		return (EAttribute)simulationAnalysisMethodEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getImportanceSampling() {
+		return importanceSamplingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMCMC() {
+		return mcmcEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMCMC_Kernel() {
+		return (EReference)mcmcEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMCMC_WarmupStepNum() {
+		return (EAttribute)mcmcEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSVI() {
+		return sviEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMCMCKernel() {
+		return mcmcKernelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNUTS() {
+		return nutsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getHMC() {
+		return hmcEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AnalysisFactory getAnalysisFactory() {
 		return (AnalysisFactory)getEFactoryInstance();
 	}
@@ -881,11 +1048,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__ANALYZED_COMPONENT);
 		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__CONDITIONS);
 		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__ASPECT);
-		createEAttribute(analysisComponentEClass, ANALYSIS_COMPONENT__SIMULATION_TIME);
-		createEAttribute(analysisComponentEClass, ANALYSIS_COMPONENT__SIMULATION_NUMBER);
 		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__PRIORYDISTRIBUTION);
-		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__ENDCONDITION);
-		createEAttribute(analysisComponentEClass, ANALYSIS_COMPONENT__WARMUP_TIME);
+		createEReference(analysisComponentEClass, ANALYSIS_COMPONENT__ANALYSISMETHOD);
 
 		analysisConditionEClass = createEClass(ANALYSIS_CONDITION);
 
@@ -954,7 +1118,6 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		createEReference(prioryDistributionEClass, PRIORY_DISTRIBUTION__PARAMETER);
 
 		observeConditionEClass = createEClass(OBSERVE_CONDITION);
-		createEAttribute(observeConditionEClass, OBSERVE_CONDITION__VALUE);
 		createEReference(observeConditionEClass, OBSERVE_CONDITION__RANDOMVARIABLE);
 
 		assumeConditionEClass = createEClass(ASSUME_CONDITION);
@@ -962,6 +1125,30 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		observeTimeEClass = createEClass(OBSERVE_TIME);
 
 		endConditionEClass = createEClass(END_CONDITION);
+
+		analysisMethodEClass = createEClass(ANALYSIS_METHOD);
+
+		exactAnalysisMethodEClass = createEClass(EXACT_ANALYSIS_METHOD);
+
+		simulationAnalysisMethodEClass = createEClass(SIMULATION_ANALYSIS_METHOD);
+		createEReference(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__ENDCONDITION);
+		createEAttribute(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__WARMUP_TIME);
+		createEAttribute(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME);
+		createEAttribute(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER);
+
+		importanceSamplingEClass = createEClass(IMPORTANCE_SAMPLING);
+
+		mcmcEClass = createEClass(MCMC);
+		createEReference(mcmcEClass, MCMC__KERNEL);
+		createEAttribute(mcmcEClass, MCMC__WARMUP_STEP_NUM);
+
+		sviEClass = createEClass(SVI);
+
+		mcmcKernelEClass = createEClass(MCMC_KERNEL);
+
+		nutsEClass = createEClass(NUTS);
+
+		hmcEClass = createEClass(HMC);
 	}
 
 	/**
@@ -1020,17 +1207,21 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		assumeConditionEClass.getESuperTypes().add(this.getAnalysisCondition());
 		observeTimeEClass.getESuperTypes().add(this.getObserveCondition());
 		endConditionEClass.getESuperTypes().add(this.getAnalysisCondition());
+		exactAnalysisMethodEClass.getESuperTypes().add(this.getAnalysisMethod());
+		simulationAnalysisMethodEClass.getESuperTypes().add(this.getAnalysisMethod());
+		importanceSamplingEClass.getESuperTypes().add(this.getSimulationAnalysisMethod());
+		mcmcEClass.getESuperTypes().add(this.getSimulationAnalysisMethod());
+		sviEClass.getESuperTypes().add(this.getSimulationAnalysisMethod());
+		nutsEClass.getESuperTypes().add(this.getMCMCKernel());
+		hmcEClass.getESuperTypes().add(this.getMCMCKernel());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(analysisComponentEClass, AnalysisComponent.class, "AnalysisComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAnalysisComponent_AnalyzedComponent(), theEnvironmentModelPackage.getEnvironmentAsynchronousCompositeComponentInstance(), null, "analyzedComponent", null, 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAnalysisComponent_Conditions(), this.getAnalysisCondition(), null, "conditions", null, 0, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAnalysisComponent_Aspect(), this.getAnalysisAspect(), null, "aspect", null, 1, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAnalysisComponent_SimulationTime(), ecorePackage.getEDouble(), "simulationTime", "1.0", 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAnalysisComponent_SimulationNumber(), ecorePackage.getEBigInteger(), "simulationNumber", "100", 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAnalysisComponent_Priorydistribution(), this.getPrioryDistribution(), null, "priorydistribution", null, 0, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAnalysisComponent_Endcondition(), this.getEndCondition(), null, "endcondition", null, 0, -1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAnalysisComponent_WarmupTime(), ecorePackage.getEDouble(), "warmupTime", "0.0", 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnalysisComponent_Analysismethod(), this.getAnalysisMethod(), null, "analysismethod", null, 1, 1, AnalysisComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(analysisConditionEClass, AnalysisCondition.class, "AnalysisCondition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1099,7 +1290,6 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		initEReference(getPrioryDistribution_Parameter(), theExpressionModelPackage.getParameterDeclaration(), null, "parameter", null, 1, 1, PrioryDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(observeConditionEClass, ObserveCondition.class, "ObserveCondition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getObserveCondition_Value(), ecorePackage.getEDouble(), "value", null, 1, 1, ObserveCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getObserveCondition_Randomvariable(), theStochasticPackage.getStochasticModel(), null, "randomvariable", null, 1, 1, ObserveCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(assumeConditionEClass, AssumeCondition.class, "AssumeCondition", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1107,6 +1297,30 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 		initEClass(observeTimeEClass, ObserveTime.class, "ObserveTime", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(endConditionEClass, EndCondition.class, "EndCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(analysisMethodEClass, AnalysisMethod.class, "AnalysisMethod", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(exactAnalysisMethodEClass, ExactAnalysisMethod.class, "ExactAnalysisMethod", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(simulationAnalysisMethodEClass, SimulationAnalysisMethod.class, "SimulationAnalysisMethod", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSimulationAnalysisMethod_Endcondition(), this.getEndCondition(), null, "endcondition", null, 0, -1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSimulationAnalysisMethod_WarmupTime(), ecorePackage.getEDouble(), "warmupTime", "0.0", 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSimulationAnalysisMethod_SimulationTime(), ecorePackage.getEDouble(), "simulationTime", "1.0", 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSimulationAnalysisMethod_SimulationNumber(), ecorePackage.getEBigInteger(), "simulationNumber", "100", 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(importanceSamplingEClass, ImportanceSampling.class, "ImportanceSampling", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(mcmcEClass, hu.bme.mit.gamma.environment.analysis.MCMC.class, "MCMC", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMCMC_Kernel(), this.getMCMCKernel(), null, "kernel", null, 1, 1, hu.bme.mit.gamma.environment.analysis.MCMC.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMCMC_WarmupStepNum(), ecorePackage.getEBigInteger(), "warmupStepNum", "0", 1, 1, hu.bme.mit.gamma.environment.analysis.MCMC.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(sviEClass, hu.bme.mit.gamma.environment.analysis.SVI.class, "SVI", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(mcmcKernelEClass, MCMCKernel.class, "MCMCKernel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(nutsEClass, hu.bme.mit.gamma.environment.analysis.NUTS.class, "NUTS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(hmcEClass, hu.bme.mit.gamma.environment.analysis.HMC.class, "HMC", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -36,7 +36,7 @@ public class PyroStochasticClassGenerator {
       List<EnvironmentConnections> connections = ElementaryComponentCollector.collect(analysis_component.getAnalyzedComponent(), stack);
       ExpressionEvaluator expEval = ExpressionEvaluator.INSTANCE;
       PyroComponentInstanceGenerator componentGenerator = new PyroComponentInstanceGenerator(packageName);
-      PyroDistGenerator distGenerator = new PyroDistGenerator(packageName);
+      PyroDistGenerator distGenerator = new PyroDistGenerator();
       Integer param_cntr = new Integer(0);
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("class StochasticEventGenerator():");
@@ -143,7 +143,7 @@ public class PyroStochasticClassGenerator {
               String _string = param_cntr.toString();
               _builder.append(_string, "\t\t");
               _builder.append("\",");
-              CharSequence _generateDitribution = distGenerator.generateDitribution(((StochasticExpression) arg_1).getRandomvariable());
+              CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(((StochasticExpression)arg_1).getRandomvariable());
               _builder.append(_generateDitribution, "\t\t");
               _builder.append(")");
               _builder.newLineIfNotEmpty();

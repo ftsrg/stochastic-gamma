@@ -49,7 +49,7 @@ public class PyroComponentInstanceGenerator {
   public PyroComponentInstanceGenerator(final String packageName) {
     this.packageName = packageName;
     this.expEval = ExpressionEvaluator.INSTANCE;
-    PyroDistGenerator _pyroDistGenerator = new PyroDistGenerator(packageName);
+    PyroDistGenerator _pyroDistGenerator = new PyroDistGenerator();
     this.distGenerator = _pyroDistGenerator;
   }
 
@@ -72,7 +72,7 @@ public class PyroComponentInstanceGenerator {
     EList<Port> _outports = connection.component.getOutports();
     for (final Port port : _outports) {
       {
-        builder.append(StringExtensions.toFirstUpper(port.getName())).append(" : {");
+        builder.append("\'").append(StringExtensions.toFirstUpper(port.getName())).append("\' : {");
         EList<EventDeclaration> _events = port.getInterfaceRealization().getInterface().getEvents();
         for (final EventDeclaration event : _events) {
           {
@@ -118,7 +118,7 @@ public class PyroComponentInstanceGenerator {
             boolean _not = (!_isEmpty_2);
             if (_not) {
               rule = rules.get(0);
-              builder.append(StringExtensions.toFirstUpper(event.getEvent().getName())).append(" : ");
+              builder.append("\'").append(StringExtensions.toFirstUpper(event.getEvent().getName())).append("\' : ");
               builder.append(this.generateRule(rule, connection.component.getName())).append(",");
             }
           }
@@ -260,11 +260,11 @@ public class PyroComponentInstanceGenerator {
     EList<Port> _outports = connection.component.getOutports();
     for (final Port port : _outports) {
       {
-        builder.append(StringExtensions.toFirstUpper(port.getName())).append(" : {");
+        builder.append("\'").append(StringExtensions.toFirstUpper(port.getName())).append("\' : {");
         EList<EventDeclaration> _events = port.getInterfaceRealization().getInterface().getEvents();
         for (final EventDeclaration event : _events) {
           {
-            builder.append(StringExtensions.toFirstUpper(event.getEvent().getName())).append(" : {");
+            builder.append("\'").append(StringExtensions.toFirstUpper(event.getEvent().getName())).append("\' : {");
             EList<ParameterDeclaration> _parameterDeclarations = event.getEvent().getParameterDeclarations();
             for (final ParameterDeclaration param : _parameterDeclarations) {
               {
@@ -285,7 +285,7 @@ public class PyroComponentInstanceGenerator {
                 boolean _not = (!_isEmpty);
                 if (_not) {
                   EnvironmentRule rule = rules.get(0);
-                  builder.append(StringExtensions.toFirstLower(param.getName()));
+                  builder.append("\'").append(StringExtensions.toFirstLower(param.getName())).append("\'");
                   builder.append(" : ");
                   builder.append(this.generateRule(rule, connection.component.getName()));
                   builder.append(",");
@@ -642,6 +642,7 @@ public class PyroComponentInstanceGenerator {
         String _firstUpper = StringExtensions.toFirstUpper(connection.component.getInports().get(0).getInterfaceRealization().getInterface().getName());
         _builder.append(_firstUpper);
         _builder.append("()})");
+        _builder.newLineIfNotEmpty();
       }
     }
     return _builder;

@@ -21,8 +21,9 @@ stochastic async IoTSystem [
 
 analysis ServiceAvailability {
 	in stochastic component system : IoTSystem
-	probability of event [system]:Failures->newEvent;
-	@Configuration{
-		end event [system]:CarLeave->newEvent raised
+	probability of event system.Failures.newEvent;
+	@Configuration(ImportanceSampling){
+		end condition raised event system.CarLeave.newEvent
+		
 	}
 }

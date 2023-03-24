@@ -78,6 +78,11 @@ public class AnalysisFactoryImpl extends EFactoryImpl implements AnalysisFactory
 			case AnalysisPackage.PRIORY_DISTRIBUTION: return createPrioryDistribution();
 			case AnalysisPackage.OBSERVE_TIME: return createObserveTime();
 			case AnalysisPackage.END_CONDITION: return createEndCondition();
+			case AnalysisPackage.IMPORTANCE_SAMPLING: return createImportanceSampling();
+			case AnalysisPackage.MCMC: return createMCMC();
+			case AnalysisPackage.SVI: return createSVI();
+			case AnalysisPackage.NUTS: return createNUTS();
+			case AnalysisPackage.HMC: return createHMC();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -301,6 +306,56 @@ public class AnalysisFactoryImpl extends EFactoryImpl implements AnalysisFactory
 	public EndCondition createEndCondition() {
 		EndConditionImpl endCondition = new EndConditionImpl();
 		return endCondition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ImportanceSampling createImportanceSampling() {
+		ImportanceSamplingImpl importanceSampling = new ImportanceSamplingImpl();
+		return importanceSampling;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MCMC createMCMC() {
+		MCMCImpl mcmc = new MCMCImpl();
+		return mcmc;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SVI createSVI() {
+		SVIImpl svi = new SVIImpl();
+		return svi;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NUTS createNUTS() {
+		NUTSImpl nuts = new NUTSImpl();
+		return nuts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public HMC createHMC() {
+		HMCImpl hmc = new HMCImpl();
+		return hmc;
 	}
 
 	/**

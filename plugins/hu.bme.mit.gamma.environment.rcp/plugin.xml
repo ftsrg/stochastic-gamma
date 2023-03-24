@@ -18,7 +18,7 @@
          </property>
          <property
                name="aboutText"
-               value="Stochastic Gamma Composition Framework&#x0A;Developed by: ftsrg, Budapest University of Technology and Economics">
+               value="Stochastic Gamma Composition Framework&#x0A;Developed by: ftsrg, Budapest University of Technology and Economics&#x0A;This software is currently under development.  If you encounter a bug or a malfunction please send a bug report to">
          </property>
          <property
                name="windowImages"
@@ -42,5 +42,11 @@
          </property>
       </product>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.intro.configExtension">
+   		<configExtension
+            configId="org.eclipse.ui.intro.universalConfig"
+            content="$nl$/introContent.xml"/>  
+   </extension>
+   
 </plugin>

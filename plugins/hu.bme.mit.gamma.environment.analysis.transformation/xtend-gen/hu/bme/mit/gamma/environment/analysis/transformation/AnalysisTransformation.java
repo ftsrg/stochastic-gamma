@@ -22,9 +22,9 @@ public class AnalysisTransformation {
 
   private final FileUtil futil = FileUtil.INSTANCE;
 
-  public void transformandrun(final Resource resource, final URI uri, final String packageName, final List<String> uriList, final String BasePackage) {
-    String pyGenURI = ((((BasePackage + File.separator) + "simulator-gen") + File.separator) + "simulator.py");
-    String gatewayGenURI = ((((((BasePackage + File.separator) + "gateway-gen") + File.separator) + "javaenv") + File.separator) + "DetModelEntryPoint.java");
+  public void transformandrun(final Resource resource, final URI uri, final String packageName, final List<String> uriList, final String basePackage) {
+    String pyGenURI = ((((basePackage + File.separator) + "simulator-gen") + File.separator) + "simulator.py");
+    String gatewayGenURI = ((((((basePackage + File.separator) + "gateway-gen") + File.separator) + "javaenv") + File.separator) + "DetModelEntryPoint.java");
     PyroSimulatorGenerator pythonGenerator = new PyroSimulatorGenerator();
     JavaEntryClassGenerator javaGenerator = new JavaEntryClassGenerator();
     EObject _get = resource.getContents().get(0);
@@ -36,7 +36,7 @@ public class AnalysisTransformation {
     AnalysisComponent acomp = ((AnalysisComponent) _get_1);
     this.logger.log(Level.INFO, ("Python Simulator URI: " + pyGenURI));
     this.logger.log(Level.INFO, ("Java Simulator URI: " + gatewayGenURI));
-    this.futil.saveString(pyGenURI, pythonGenerator.generate(acomp, packageName).toString());
+    this.futil.saveString(pyGenURI, pythonGenerator.generate(acomp, packageName, basePackage).toString());
     this.futil.saveString(gatewayGenURI, javaGenerator.generate(acomp, packageName).toString());
     this.logger.log(Level.INFO, "Analysis has been finnished");
   }

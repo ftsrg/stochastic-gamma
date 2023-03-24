@@ -4,10 +4,12 @@ import com.google.common.base.Objects;
 import hu.bme.mit.gamma.environment.analysis.AnalysisAspect;
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.environment.analysis.AnalysisCondition;
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.EndCondition;
 import hu.bme.mit.gamma.environment.analysis.MeanParameter;
 import hu.bme.mit.gamma.environment.analysis.ObserveParameter;
 import hu.bme.mit.gamma.environment.analysis.ParameterDistribution;
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility;
 import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance;
@@ -45,6 +47,10 @@ public class JavaEntryClassGenerator {
         return a.getEvent().getPort().getInterfaceRealization().getInterface();
       };
       List<Interface> interfaces = IterableExtensions.<Interface>toList(IterableExtensions.<Interface>toSet(ListExtensions.<AnalysisAspect, Interface>map(component.getAspect(), _function)));
+      AnalysisMethod _analysismethod = component.getAnalysismethod();
+      SimulationAnalysisMethod analysismethod = ((SimulationAnalysisMethod) _analysismethod);
+      EObject _eContainer_1 = component.getAnalyzedComponent().getType().eContainer();
+      String componentPackageName = ((hu.bme.mit.gamma.statechart.interface_.Package) _eContainer_1).getName().toLowerCase();
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("package javaenv;");
       _builder.newLine();
@@ -52,8 +58,7 @@ public class JavaEntryClassGenerator {
       _builder.append("import ");
       _builder.append(packageName);
       _builder.append(".");
-      String _lowerCase = pack.getName().toLowerCase();
-      _builder.append(_lowerCase);
+      _builder.append(componentPackageName);
       _builder.append(".");
       _builder.append(compName);
       _builder.append(";");
@@ -133,7 +138,7 @@ public class JavaEntryClassGenerator {
       }
       _builder.newLine();
       {
-        EList<EndCondition> _endcondition = component.getEndcondition();
+        EList<EndCondition> _endcondition = analysismethod.getEndcondition();
         for(final EndCondition endCondition : _endcondition) {
           _builder.append("\t\t\t");
           _builder.append("public MonitorOf");
@@ -188,7 +193,7 @@ public class JavaEntryClassGenerator {
       }
       _builder.newLine();
       {
-        EList<EndCondition> _endcondition_1 = component.getEndcondition();
+        EList<EndCondition> _endcondition_1 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_1 : _endcondition_1) {
           _builder.append("\t\t\t\t");
           _builder.append("detModel.get");
@@ -258,7 +263,7 @@ public class JavaEntryClassGenerator {
         }
       }
       {
-        EList<EndCondition> _endcondition_2 = component.getEndcondition();
+        EList<EndCondition> _endcondition_2 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_2 : _endcondition_2) {
           _builder.append("\t\t\t\t");
           _builder.append("detModel.get");
@@ -286,7 +291,7 @@ public class JavaEntryClassGenerator {
         }
       }
       {
-        EList<EndCondition> _endcondition_3 = component.getEndcondition();
+        EList<EndCondition> _endcondition_3 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_3 : _endcondition_3) {
           _builder.append("\t\t\t\t");
           _builder.append("monitorOf");
@@ -355,7 +360,7 @@ public class JavaEntryClassGenerator {
       }
       _builder.newLine();
       {
-        EList<EndCondition> _endcondition_4 = component.getEndcondition();
+        EList<EndCondition> _endcondition_4 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_4 : _endcondition_4) {
           _builder.append("\t\t\t");
           CharSequence _generateMonitor_2 = this.generateMonitor(endCondition_4);

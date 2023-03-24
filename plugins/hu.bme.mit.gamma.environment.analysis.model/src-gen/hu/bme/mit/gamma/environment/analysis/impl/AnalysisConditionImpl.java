@@ -4,6 +4,7 @@ package hu.bme.mit.gamma.environment.analysis.impl;
 
 import hu.bme.mit.gamma.environment.analysis.AnalysisCondition;
 import hu.bme.mit.gamma.environment.analysis.AnalysisPackage;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**

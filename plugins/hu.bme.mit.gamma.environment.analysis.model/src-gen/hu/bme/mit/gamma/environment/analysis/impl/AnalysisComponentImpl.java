@@ -5,15 +5,13 @@ package hu.bme.mit.gamma.environment.analysis.impl;
 import hu.bme.mit.gamma.environment.analysis.AnalysisAspect;
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.environment.analysis.AnalysisCondition;
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.AnalysisPackage;
-import hu.bme.mit.gamma.environment.analysis.EndCondition;
 import hu.bme.mit.gamma.environment.analysis.PrioryDistribution;
 
 import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance;
 
 import hu.bme.mit.gamma.statechart.interface_.impl.ComponentImpl;
-
-import java.math.BigInteger;
 
 import java.util.Collection;
 
@@ -41,11 +39,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getAnalyzedComponent <em>Analyzed Component</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getConditions <em>Conditions</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getAspect <em>Aspect</em>}</li>
- *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getSimulationTime <em>Simulation Time</em>}</li>
- *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getSimulationNumber <em>Simulation Number</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getPriorydistribution <em>Priorydistribution</em>}</li>
- *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getEndcondition <em>Endcondition</em>}</li>
- *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getWarmupTime <em>Warmup Time</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisComponentImpl#getAnalysismethod <em>Analysismethod</em>}</li>
  * </ul>
  *
  * @generated
@@ -82,46 +77,6 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 	protected EList<AnalysisAspect> aspect;
 
 	/**
-	 * The default value of the '{@link #getSimulationTime() <em>Simulation Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSimulationTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double SIMULATION_TIME_EDEFAULT = 1.0;
-
-	/**
-	 * The cached value of the '{@link #getSimulationTime() <em>Simulation Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSimulationTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected double simulationTime = SIMULATION_TIME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSimulationNumber() <em>Simulation Number</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSimulationNumber()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final BigInteger SIMULATION_NUMBER_EDEFAULT = new BigInteger("100");
-
-	/**
-	 * The cached value of the '{@link #getSimulationNumber() <em>Simulation Number</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSimulationNumber()
-	 * @generated
-	 * @ordered
-	 */
-	protected BigInteger simulationNumber = SIMULATION_NUMBER_EDEFAULT;
-
-	/**
 	 * The cached value of the '{@link #getPriorydistribution() <em>Priorydistribution</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -132,34 +87,14 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 	protected EList<PrioryDistribution> priorydistribution;
 
 	/**
-	 * The cached value of the '{@link #getEndcondition() <em>Endcondition</em>}' containment reference list.
+	 * The cached value of the '{@link #getAnalysismethod() <em>Analysismethod</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEndcondition()
+	 * @see #getAnalysismethod()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<EndCondition> endcondition;
-
-	/**
-	 * The default value of the '{@link #getWarmupTime() <em>Warmup Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getWarmupTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double WARMUP_TIME_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getWarmupTime() <em>Warmup Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getWarmupTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected double warmupTime = WARMUP_TIME_EDEFAULT;
+	protected AnalysisMethod analysismethod;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -252,48 +187,6 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getSimulationTime() {
-		return simulationTime;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSimulationTime(double newSimulationTime) {
-		double oldSimulationTime = simulationTime;
-		simulationTime = newSimulationTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_TIME, oldSimulationTime, simulationTime));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public BigInteger getSimulationNumber() {
-		return simulationNumber;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSimulationNumber(BigInteger newSimulationNumber) {
-		BigInteger oldSimulationNumber = simulationNumber;
-		simulationNumber = newSimulationNumber;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_NUMBER, oldSimulationNumber, simulationNumber));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<PrioryDistribution> getPriorydistribution() {
 		if (priorydistribution == null) {
 			priorydistribution = new EObjectContainmentEList<PrioryDistribution>(PrioryDistribution.class, this, AnalysisPackage.ANALYSIS_COMPONENT__PRIORYDISTRIBUTION);
@@ -306,11 +199,23 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EndCondition> getEndcondition() {
-		if (endcondition == null) {
-			endcondition = new EObjectContainmentEList<EndCondition>(EndCondition.class, this, AnalysisPackage.ANALYSIS_COMPONENT__ENDCONDITION);
+	public AnalysisMethod getAnalysismethod() {
+		return analysismethod;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetAnalysismethod(AnalysisMethod newAnalysismethod, NotificationChain msgs) {
+		AnalysisMethod oldAnalysismethod = analysismethod;
+		analysismethod = newAnalysismethod;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD, oldAnalysismethod, newAnalysismethod);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
-		return endcondition;
+		return msgs;
 	}
 
 	/**
@@ -318,20 +223,18 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getWarmupTime() {
-		return warmupTime;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setWarmupTime(double newWarmupTime) {
-		double oldWarmupTime = warmupTime;
-		warmupTime = newWarmupTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.ANALYSIS_COMPONENT__WARMUP_TIME, oldWarmupTime, warmupTime));
+	public void setAnalysismethod(AnalysisMethod newAnalysismethod) {
+		if (newAnalysismethod != analysismethod) {
+			NotificationChain msgs = null;
+			if (analysismethod != null)
+				msgs = ((InternalEObject)analysismethod).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD, null, msgs);
+			if (newAnalysismethod != null)
+				msgs = ((InternalEObject)newAnalysismethod).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD, null, msgs);
+			msgs = basicSetAnalysismethod(newAnalysismethod, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD, newAnalysismethod, newAnalysismethod));
 	}
 
 	/**
@@ -350,8 +253,8 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 				return ((InternalEList<?>)getAspect()).basicRemove(otherEnd, msgs);
 			case AnalysisPackage.ANALYSIS_COMPONENT__PRIORYDISTRIBUTION:
 				return ((InternalEList<?>)getPriorydistribution()).basicRemove(otherEnd, msgs);
-			case AnalysisPackage.ANALYSIS_COMPONENT__ENDCONDITION:
-				return ((InternalEList<?>)getEndcondition()).basicRemove(otherEnd, msgs);
+			case AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD:
+				return basicSetAnalysismethod(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -370,16 +273,10 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 				return getConditions();
 			case AnalysisPackage.ANALYSIS_COMPONENT__ASPECT:
 				return getAspect();
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_TIME:
-				return getSimulationTime();
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_NUMBER:
-				return getSimulationNumber();
 			case AnalysisPackage.ANALYSIS_COMPONENT__PRIORYDISTRIBUTION:
 				return getPriorydistribution();
-			case AnalysisPackage.ANALYSIS_COMPONENT__ENDCONDITION:
-				return getEndcondition();
-			case AnalysisPackage.ANALYSIS_COMPONENT__WARMUP_TIME:
-				return getWarmupTime();
+			case AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD:
+				return getAnalysismethod();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -404,22 +301,12 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 				getAspect().clear();
 				getAspect().addAll((Collection<? extends AnalysisAspect>)newValue);
 				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_TIME:
-				setSimulationTime((Double)newValue);
-				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_NUMBER:
-				setSimulationNumber((BigInteger)newValue);
-				return;
 			case AnalysisPackage.ANALYSIS_COMPONENT__PRIORYDISTRIBUTION:
 				getPriorydistribution().clear();
 				getPriorydistribution().addAll((Collection<? extends PrioryDistribution>)newValue);
 				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__ENDCONDITION:
-				getEndcondition().clear();
-				getEndcondition().addAll((Collection<? extends EndCondition>)newValue);
-				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__WARMUP_TIME:
-				setWarmupTime((Double)newValue);
+			case AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD:
+				setAnalysismethod((AnalysisMethod)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -442,20 +329,11 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 			case AnalysisPackage.ANALYSIS_COMPONENT__ASPECT:
 				getAspect().clear();
 				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_TIME:
-				setSimulationTime(SIMULATION_TIME_EDEFAULT);
-				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_NUMBER:
-				setSimulationNumber(SIMULATION_NUMBER_EDEFAULT);
-				return;
 			case AnalysisPackage.ANALYSIS_COMPONENT__PRIORYDISTRIBUTION:
 				getPriorydistribution().clear();
 				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__ENDCONDITION:
-				getEndcondition().clear();
-				return;
-			case AnalysisPackage.ANALYSIS_COMPONENT__WARMUP_TIME:
-				setWarmupTime(WARMUP_TIME_EDEFAULT);
+			case AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD:
+				setAnalysismethod((AnalysisMethod)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -475,38 +353,12 @@ public class AnalysisComponentImpl extends ComponentImpl implements AnalysisComp
 				return conditions != null && !conditions.isEmpty();
 			case AnalysisPackage.ANALYSIS_COMPONENT__ASPECT:
 				return aspect != null && !aspect.isEmpty();
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_TIME:
-				return simulationTime != SIMULATION_TIME_EDEFAULT;
-			case AnalysisPackage.ANALYSIS_COMPONENT__SIMULATION_NUMBER:
-				return SIMULATION_NUMBER_EDEFAULT == null ? simulationNumber != null : !SIMULATION_NUMBER_EDEFAULT.equals(simulationNumber);
 			case AnalysisPackage.ANALYSIS_COMPONENT__PRIORYDISTRIBUTION:
 				return priorydistribution != null && !priorydistribution.isEmpty();
-			case AnalysisPackage.ANALYSIS_COMPONENT__ENDCONDITION:
-				return endcondition != null && !endcondition.isEmpty();
-			case AnalysisPackage.ANALYSIS_COMPONENT__WARMUP_TIME:
-				return warmupTime != WARMUP_TIME_EDEFAULT;
+			case AnalysisPackage.ANALYSIS_COMPONENT__ANALYSISMETHOD:
+				return analysismethod != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (simulationTime: ");
-		result.append(simulationTime);
-		result.append(", simulationNumber: ");
-		result.append(simulationNumber);
-		result.append(", warmupTime: ");
-		result.append(warmupTime);
-		result.append(')');
-		return result.toString();
 	}
 
 } //AnalysisComponentImpl

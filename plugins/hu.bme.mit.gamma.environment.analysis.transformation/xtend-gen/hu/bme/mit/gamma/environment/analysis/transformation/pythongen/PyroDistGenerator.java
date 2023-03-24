@@ -28,6 +28,7 @@ import hu.bme.mit.gamma.environment.stochastic.stochastic.ParetoRandomVariable;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.PeriodicKernel;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.PythonSimulation;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.RBFKernel;
+import hu.bme.mit.gamma.environment.stochastic.stochastic.RandomVariable;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticModel;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.SumKernel;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.UniformRandomVariable;
@@ -48,14 +49,7 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 public class PyroDistGenerator {
   private static Integer distcntr = Integer.valueOf(0);
 
-  private final ExpressionEvaluator expEval;
-
-  private final String packageName;
-
-  public PyroDistGenerator(final String packageName) {
-    this.packageName = packageName;
-    this.expEval = ExpressionEvaluator.INSTANCE;
-  }
+  private final ExpressionEvaluator expEval = ExpressionEvaluator.INSTANCE;
 
   public CharSequence generateRandomVariableClass() {
     StringConcatenation _builder = new StringConcatenation();
@@ -945,7 +939,7 @@ public class PyroDistGenerator {
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("source=");
-    CharSequence _generateDatasetInstance = this.generateDatasetInstance(variable.getSource());
+    CharSequence _generateDatasetInstance = PyroDistGenerator.generateDatasetInstance(variable.getSource());
     _builder.append(_generateDatasetInstance, "\t\t\t");
     _builder.append(",");
     _builder.newLineIfNotEmpty();
@@ -972,7 +966,7 @@ public class PyroDistGenerator {
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("source=");
-    CharSequence _generateDatasetInstance = this.generateDatasetInstance(variable.getSource());
+    CharSequence _generateDatasetInstance = PyroDistGenerator.generateDatasetInstance(variable.getSource());
     _builder.append(_generateDatasetInstance, "\t\t\t");
     _builder.append(",");
     _builder.newLineIfNotEmpty();
@@ -996,7 +990,7 @@ public class PyroDistGenerator {
   protected CharSequence _generateZerotimeStochasticModel(final DiscreteRandomVariable variable, final String name) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("ZerotimeRandomVariable(");
-    CharSequence _generateDitribution = this.generateDitribution(variable);
+    CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(variable);
     _builder.append(_generateDitribution);
     _builder.append(",\"ZerotimeRandomVarriable");
     _builder.append(name);
@@ -1009,7 +1003,7 @@ public class PyroDistGenerator {
   protected CharSequence _generateStochasticModel(final ContinouosRandomVariable variable, final String name) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("ContinuousRandomVariable(");
-    CharSequence _generateDitribution = this.generateDitribution(variable);
+    CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(variable);
     _builder.append(_generateDitribution);
     _builder.append(",\"ContRandomVarriable");
     _builder.append(name);
@@ -1022,7 +1016,7 @@ public class PyroDistGenerator {
   protected CharSequence _generateStochasticModel(final DiscreteRandomVariable variable, final String name) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("ContinuousRandomVariable(");
-    CharSequence _generateDitribution = this.generateDitribution(variable);
+    CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(variable);
     _builder.append(_generateDitribution);
     _builder.append(",\"DiscRandomVarriable");
     _builder.append(name);
@@ -1038,7 +1032,7 @@ public class PyroDistGenerator {
     _builder.newLine();
     _builder.append("\t");
     _builder.append("dataset=");
-    CharSequence _generateDatasetInstance = this.generateDatasetInstance(variable.getSource());
+    CharSequence _generateDatasetInstance = PyroDistGenerator.generateDatasetInstance(variable.getSource());
     _builder.append(_generateDatasetInstance, "\t");
     _builder.append(",");
     _builder.newLineIfNotEmpty();
@@ -1066,7 +1060,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final NormalRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final NormalRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Normal(loc=");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getMean());
@@ -1078,7 +1072,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final WeibullRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final WeibullRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Weibull(concentration=");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getShape());
@@ -1090,7 +1084,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final GammaRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final GammaRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Gamma(concentration=");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getShape());
@@ -1102,7 +1096,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final UniformRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final UniformRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Uniform(low=");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getLowerBound());
@@ -1114,7 +1108,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final LogNormalRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final LogNormalRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.LogNormal(loc=");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getMean());
@@ -1126,7 +1120,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final ParetoRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final ParetoRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Pareto(alpha=");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getAlpha());
@@ -1138,7 +1132,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final BetaRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final BetaRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Beta(concentration1=");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getApha());
@@ -1150,7 +1144,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final ExponentialRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final ExponentialRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Exponential(");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getRate());
@@ -1159,7 +1153,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final BernoulliRandomVariable dist) {
+  protected static CharSequence _generateDitribution(final BernoulliRandomVariable dist) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("pyro.distributions.Bernoulli(");
     CharSequence _evaluateMixedExpression = TransformationUtility.evaluateMixedExpression(dist.getProbability());
@@ -1168,7 +1162,11 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateStochasticProcess(final FittedGaussianProcess gp) {
+  protected static CharSequence _generateDitribution(final RandomVariable dist) {
+    throw new UnsupportedOperationException("Stochastic Processes are not supported yet.");
+  }
+
+  protected static CharSequence _generateStochasticProcess(final FittedGaussianProcess gp) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("MLGaussProcess(");
     _builder.newLine();
@@ -1180,7 +1178,7 @@ public class PyroDistGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("dataset=");
-    CharSequence _generateDatasetInstance = this.generateDatasetInstance(gp.getSource());
+    CharSequence _generateDatasetInstance = PyroDistGenerator.generateDatasetInstance(gp.getSource());
     _builder.append(_generateDatasetInstance, "\t");
     _builder.append(",");
     _builder.newLineIfNotEmpty();
@@ -1194,17 +1192,17 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDitribution(final DiracProcess dirac) {
+  protected static CharSequence _generateDitribution(final DiracProcess dirac) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("dirac=");
-    CharSequence _generateDatasetInstance = this.generateDatasetInstance(dirac.getSource());
+    CharSequence _generateDatasetInstance = PyroDistGenerator.generateDatasetInstance(dirac.getSource());
     _builder.append(_generateDatasetInstance);
     _builder.append(",dist=None,mlgp=None");
     _builder.newLineIfNotEmpty();
     return _builder;
   }
 
-  protected CharSequence _generateDatasetInstance(final InfluxDB dataset) {
+  protected static CharSequence _generateDatasetInstance(final InfluxDB dataset) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("Dataset(");
     _builder.newLine();
@@ -1272,7 +1270,7 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateDatasetInstance(final PythonSimulation dataset) {
+  protected static CharSequence _generateDatasetInstance(final PythonSimulation dataset) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("Dataset(");
     _builder.newLine();
@@ -1433,7 +1431,7 @@ public class PyroDistGenerator {
     return _generateZerotimeStochasticModel(variable, name);
   }
 
-  public CharSequence generateDitribution(final StochasticModel dist) {
+  public static CharSequence generateDitribution(final StochasticModel dist) {
     if (dist instanceof BernoulliRandomVariable) {
       return _generateDitribution((BernoulliRandomVariable)dist);
     } else if (dist instanceof BetaRandomVariable) {
@@ -1454,17 +1452,19 @@ public class PyroDistGenerator {
       return _generateDitribution((WeibullRandomVariable)dist);
     } else if (dist instanceof DiracProcess) {
       return _generateDitribution((DiracProcess)dist);
+    } else if (dist instanceof RandomVariable) {
+      return _generateDitribution((RandomVariable)dist);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(dist).toString());
     }
   }
 
-  public CharSequence generateStochasticProcess(final FittedGaussianProcess gp) {
+  public static CharSequence generateStochasticProcess(final FittedGaussianProcess gp) {
     return _generateStochasticProcess(gp);
   }
 
-  public CharSequence generateDatasetInstance(final DataSource dataset) {
+  public static CharSequence generateDatasetInstance(final DataSource dataset) {
     if (dataset instanceof InfluxDB) {
       return _generateDatasetInstance((InfluxDB)dataset);
     } else if (dataset instanceof PythonSimulation) {

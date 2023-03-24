@@ -8,6 +8,7 @@
       <text>
          Stochastic Gamma Composition Framework
 Developed by: ftsrg, Budapest University of Technology and Economics
+This software is currently under development.  If you encounter a bug or a malfunction please send a bug report to
       </text>
    </aboutInfo>
 
@@ -28,7 +29,7 @@ Developed by: ftsrg, Budapest University of Technology and Economics
       startupProgressRect="5,335,700,15"
       startupMessageRect="7,316,700,20"
       startupForegroundColor="000000" />
-   <launcher>
+   <launcher name="stochastic-gamma">
       <win useIco="false">
          <bmp/>
       </win>
@@ -94,11 +95,14 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    <plugins>
       <plugin id="bcpg"/>
       <plugin id="bcprov"/>
+      <plugin id="ch.qos.logback.classic"/>
+      <plugin id="ch.qos.logback.core"/>
       <plugin id="com.google.gson"/>
       <plugin id="com.google.guava"/>
       <plugin id="com.google.guava.failureaccess"/>
       <plugin id="com.google.inject"/>
       <plugin id="com.ibm.icu"/>
+      <plugin id="com.python.pydev.analysis"/>
       <plugin id="com.sun.jna"/>
       <plugin id="com.sun.jna.platform"/>
       <plugin id="de.uni_paderborn.uppaal"/>
@@ -124,6 +128,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.environment.rcp"/>
       <plugin id="hu.bme.mit.gamma.environment.stochastic.model"/>
       <plugin id="hu.bme.mit.gamma.environment.ui"/>
+      <plugin id="hu.bme.mit.gamma.environment.ui.intro"/>
       <plugin id="hu.bme.mit.gamma.eventpriority.transformation"/>
       <plugin id="hu.bme.mit.gamma.expression.language"/>
       <plugin id="hu.bme.mit.gamma.expression.language.ide"/>
@@ -202,8 +207,10 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.yakindu.transformation"/>
       <plugin id="hu.bme.mit.gamma.yakindu.transformation.traceability"/>
       <plugin id="io.github.classgraph"/>
+      <plugin id="jakarta.servlet-api"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
+      <plugin id="javax.xml"/>
       <plugin id="net.sourceforge.plantuml.eclipse"/>
       <plugin id="net.sourceforge.plantuml.eclipse.imagecontrol"/>
       <plugin id="net.sourceforge.plantuml.lib"/>
@@ -217,19 +224,27 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.apache.batik.i18n"/>
       <plugin id="org.apache.batik.util"/>
       <plugin id="org.apache.commons.cli"/>
+      <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.commons-io"/>
       <plugin id="org.apache.commons.jxpath"/>
       <plugin id="org.apache.commons.lang"/>
       <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.felix.scr"/>
       <plugin id="org.apache.log4j"/>
+      <plugin id="org.apache.lucene.analysis-common"/>
+      <plugin id="org.apache.lucene.analysis-smartcn"/>
+      <plugin id="org.apache.lucene.core"/>
+      <plugin id="org.apache.xerces"/>
+      <plugin id="org.apache.xml.resolver"/>
       <plugin id="org.apache.xmlgraphics"/>
+      <plugin id="org.eclipse.ant.core"/>
       <plugin id="org.eclipse.collections"/>
       <plugin id="org.eclipse.compare"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
+      <plugin id="org.eclipse.core.databinding.beans"/>
       <plugin id="org.eclipse.core.databinding.observable"/>
       <plugin id="org.eclipse.core.databinding.property"/>
       <plugin id="org.eclipse.core.expressions"/>
@@ -245,6 +260,8 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.debug.core"/>
+      <plugin id="org.eclipse.debug.ui"/>
+      <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.e4.core.commands"/>
       <plugin id="org.eclipse.e4.core.contexts"/>
       <plugin id="org.eclipse.e4.core.di"/>
@@ -292,6 +309,11 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.equinox.bidi"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.event"/>
+      <plugin id="org.eclipse.equinox.frameworkadmin"/>
+      <plugin id="org.eclipse.equinox.frameworkadmin.equinox"/>
+      <plugin id="org.eclipse.equinox.http.jetty"/>
+      <plugin id="org.eclipse.equinox.http.registry"/>
+      <plugin id="org.eclipse.equinox.http.servlet"/>
       <plugin id="org.eclipse.equinox.launcher"/>
       <plugin id="org.eclipse.equinox.launcher.win32.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.equinox.p2.artifact.repository"/>
@@ -300,15 +322,21 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.equinox.p2.director"/>
       <plugin id="org.eclipse.equinox.p2.director.app"/>
       <plugin id="org.eclipse.equinox.p2.engine"/>
+      <plugin id="org.eclipse.equinox.p2.garbagecollector"/>
       <plugin id="org.eclipse.equinox.p2.jarprocessor"/>
       <plugin id="org.eclipse.equinox.p2.metadata"/>
       <plugin id="org.eclipse.equinox.p2.metadata.repository"/>
+      <plugin id="org.eclipse.equinox.p2.publisher"/>
+      <plugin id="org.eclipse.equinox.p2.publisher.eclipse"/>
       <plugin id="org.eclipse.equinox.p2.repository"/>
+      <plugin id="org.eclipse.equinox.p2.repository.tools"/>
+      <plugin id="org.eclipse.equinox.p2.touchpoint.eclipse"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
       <plugin id="org.eclipse.equinox.security.win32.x86_64" fragment="true"/>
       <plugin id="org.eclipse.equinox.simpleconfigurator"/>
+      <plugin id="org.eclipse.equinox.simpleconfigurator.manipulator"/>
       <plugin id="org.eclipse.fx.osgi" fragment="true"/>
       <plugin id="org.eclipse.gmf.runtime.common.core"/>
       <plugin id="org.eclipse.gmf.runtime.diagram.core"/>
@@ -318,17 +346,39 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.gmf.runtime.emf.type.core"/>
       <plugin id="org.eclipse.gmf.runtime.notation"/>
       <plugin id="org.eclipse.help"/>
+      <plugin id="org.eclipse.help.base"/>
+      <plugin id="org.eclipse.help.ui"/>
       <plugin id="org.eclipse.jdt.core"/>
       <plugin id="org.eclipse.jdt.core.compiler.batch"/>
+      <plugin id="org.eclipse.jdt.core.manipulation"/>
       <plugin id="org.eclipse.jdt.debug"/>
       <plugin id="org.eclipse.jdt.launching"/>
+      <plugin id="org.eclipse.jdt.ui"/>
+      <plugin id="org.eclipse.jetty.http"/>
+      <plugin id="org.eclipse.jetty.io"/>
+      <plugin id="org.eclipse.jetty.security"/>
+      <plugin id="org.eclipse.jetty.server"/>
+      <plugin id="org.eclipse.jetty.servlet"/>
+      <plugin id="org.eclipse.jetty.util"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.ltk.core.refactoring"/>
       <plugin id="org.eclipse.ltk.ui.refactoring"/>
+      <plugin id="org.eclipse.m2e.archetype.common"/>
+      <plugin id="org.eclipse.m2e.core"/>
+      <plugin id="org.eclipse.m2e.core.ui"/>
+      <plugin id="org.eclipse.m2e.logback" fragment="true"/>
+      <plugin id="org.eclipse.m2e.maven.runtime"/>
+      <plugin id="org.eclipse.m2e.model.edit"/>
+      <plugin id="org.eclipse.m2e.workspace.cli"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.compatibility.state" fragment="true"/>
+      <plugin id="org.eclipse.osgi.services"/>
+      <plugin id="org.eclipse.osgi.util"/>
+      <plugin id="org.eclipse.pde.build"/>
+      <plugin id="org.eclipse.pde.core"/>
+      <plugin id="org.eclipse.platform"/>
       <plugin id="org.eclipse.rcp"/>
       <plugin id="org.eclipse.search"/>
       <plugin id="org.eclipse.swt"/>
@@ -337,12 +387,15 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.team.ui"/>
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.browser"/>
       <plugin id="org.eclipse.ui.console"/>
       <plugin id="org.eclipse.ui.editors"/>
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.ide"/>
       <plugin id="org.eclipse.ui.ide.application"/>
       <plugin id="org.eclipse.ui.intro"/>
+      <plugin id="org.eclipse.ui.intro.quicklinks"/>
+      <plugin id="org.eclipse.ui.intro.universal"/>
       <plugin id="org.eclipse.ui.navigator"/>
       <plugin id="org.eclipse.ui.navigator.resources"/>
       <plugin id="org.eclipse.ui.views"/>
@@ -364,6 +417,13 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.viatra.query.runtime.rete.recipes"/>
       <plugin id="org.eclipse.viatra.transformation.evm"/>
       <plugin id="org.eclipse.viatra.transformation.runtime.emf"/>
+      <plugin id="org.eclipse.wst.common.core"/>
+      <plugin id="org.eclipse.wst.common.emf"/>
+      <plugin id="org.eclipse.wst.common.environment"/>
+      <plugin id="org.eclipse.wst.common.frameworks"/>
+      <plugin id="org.eclipse.wst.common.uriresolver"/>
+      <plugin id="org.eclipse.wst.sse.core"/>
+      <plugin id="org.eclipse.wst.xml.core"/>
       <plugin id="org.eclipse.xtend.lib"/>
       <plugin id="org.eclipse.xtend.lib.macro"/>
       <plugin id="org.eclipse.xtext"/>
@@ -374,6 +434,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.xtext.common.types"/>
       <plugin id="org.eclipse.xtext.common.types.edit"/>
       <plugin id="org.eclipse.xtext.common.types.shared"/>
+      <plugin id="org.eclipse.xtext.common.types.shared.jdt38" fragment="true"/>
       <plugin id="org.eclipse.xtext.common.types.ui"/>
       <plugin id="org.eclipse.xtext.doc"/>
       <plugin id="org.eclipse.xtext.ecore"/>
@@ -407,17 +468,28 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.hamcrest.core"/>
       <plugin id="org.junit"/>
       <plugin id="org.objectweb.asm"/>
+      <plugin id="org.osgi.service.cm"/>
       <plugin id="org.osgi.service.component"/>
+      <plugin id="org.osgi.service.device"/>
       <plugin id="org.osgi.service.event"/>
+      <plugin id="org.osgi.service.metatype"/>
       <plugin id="org.osgi.service.prefs"/>
+      <plugin id="org.osgi.service.provisioning"/>
+      <plugin id="org.osgi.service.upnp"/>
+      <plugin id="org.osgi.service.useradmin"/>
+      <plugin id="org.osgi.service.wireadmin"/>
       <plugin id="org.osgi.util.function"/>
+      <plugin id="org.osgi.util.measurement"/>
+      <plugin id="org.osgi.util.position"/>
       <plugin id="org.osgi.util.promise"/>
+      <plugin id="org.osgi.util.xml"/>
       <plugin id="org.python.pydev"/>
       <plugin id="org.python.pydev.ast"/>
       <plugin id="org.python.pydev.core"/>
       <plugin id="org.python.pydev.customizations"/>
       <plugin id="org.python.pydev.debug"/>
       <plugin id="org.python.pydev.help"/>
+      <plugin id="org.python.pydev.jython"/>
       <plugin id="org.python.pydev.parser"/>
       <plugin id="org.python.pydev.refactoring"/>
       <plugin id="org.python.pydev.shared_core"/>
@@ -437,6 +509,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.yakindu.sct.model.sgraph"/>
       <plugin id="org.yakindu.sct.model.stext"/>
       <plugin id="org.yakindu.sct.model.stext.lib"/>
+      <plugin id="slf4j.api"/>
    </plugins>
 
    <configurations>
@@ -445,6 +518,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="org.eclipse.ui/defaultPerspectiveId" value="hu.bme.mit.gamma.environment.ui.perspective" />
    </configurations>
 
    <preferencesInfo>

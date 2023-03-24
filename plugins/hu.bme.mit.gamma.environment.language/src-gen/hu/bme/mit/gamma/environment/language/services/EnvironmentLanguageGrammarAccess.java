@@ -147,7 +147,6 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final RuleCall cEnvironmentSynchronousCompositeComponentParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cEnvironmentAsynchronousCompositeComponentParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cAnalysisComponentParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
-		private final RuleCall cRequirementComponentParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//@Override
 		//Component returns InterfaceModel::Component:
@@ -155,8 +154,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//    EnvironmentCascadeCompositeComponent |
 		//    EnvironmentSynchronousCompositeComponent |
 		//    EnvironmentAsynchronousCompositeComponent |
-		//    AnalysisComponent |
-		//    RequirementComponent
+		//    AnalysisComponent //|
+		//    //RequirementComponent
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -164,8 +163,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//EnvironmentCascadeCompositeComponent |
 		//EnvironmentSynchronousCompositeComponent |
 		//EnvironmentAsynchronousCompositeComponent |
-		//AnalysisComponent |
-		//RequirementComponent
+		//AnalysisComponent
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//SynchronousComponent
@@ -182,308 +180,6 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		
 		//AnalysisComponent
 		public RuleCall getAnalysisComponentParserRuleCall_4() { return cAnalysisComponentParserRuleCall_4; }
-		
-		//RequirementComponent
-		public RuleCall getRequirementComponentParserRuleCall_5() { return cRequirementComponentParserRuleCall_5; }
-	}
-	public class RequirementComponentElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.RequirementComponent");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cRequirementKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cLeftParenthesisKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Group cGroup_2_1 = (Group)cGroup_2.eContents().get(1);
-		private final Assignment cParameterDeclarationsAssignment_2_1_0 = (Assignment)cGroup_2_1.eContents().get(0);
-		private final RuleCall cParameterDeclarationsParameterDeclarationParserRuleCall_2_1_0_0 = (RuleCall)cParameterDeclarationsAssignment_2_1_0.eContents().get(0);
-		private final Group cGroup_2_1_1 = (Group)cGroup_2_1.eContents().get(1);
-		private final Keyword cCommaKeyword_2_1_1_0 = (Keyword)cGroup_2_1_1.eContents().get(0);
-		private final Assignment cParameterDeclarationsAssignment_2_1_1_1 = (Assignment)cGroup_2_1_1.eContents().get(1);
-		private final RuleCall cParameterDeclarationsParameterDeclarationParserRuleCall_2_1_1_1_0 = (RuleCall)cParameterDeclarationsAssignment_2_1_1_1.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_2_2 = (Keyword)cGroup_2.eContents().get(2);
-		private final Keyword cLeftCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		private final Keyword cInKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Assignment cAnalyzedComponentAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cAnalyzedComponentEnvironmentAsynchronousCompositeComponentInstanceParserRuleCall_5_0 = (RuleCall)cAnalyzedComponentAssignment_5.eContents().get(0);
-		private final Alternatives cAlternatives_6 = (Alternatives)cGroup.eContents().get(6);
-		private final Assignment cAspectAssignment_6_0 = (Assignment)cAlternatives_6.eContents().get(0);
-		private final RuleCall cAspectAnalysisAspectParserRuleCall_6_0_0 = (RuleCall)cAspectAssignment_6_0.eContents().get(0);
-		private final Assignment cRequirementAssignment_6_1 = (Assignment)cAlternatives_6.eContents().get(1);
-		private final RuleCall cRequirementRequirementAspectParserRuleCall_6_1_0 = (RuleCall)cRequirementAssignment_6_1.eContents().get(0);
-		private final Assignment cConditionsAssignment_6_2 = (Assignment)cAlternatives_6.eContents().get(2);
-		private final RuleCall cConditionsAnalysisConditionParserRuleCall_6_2_0 = (RuleCall)cConditionsAssignment_6_2.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		
-		////defining Analysis and Requirement models
-		//RequirementComponent returns AnalysisModel::RequirementComponent:
-		//    'requirement' name=ID
-		//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
-		//    '{'
-		//        'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
-		//        (aspect+=AnalysisAspect |
-		//        requirement+=RequirementAspect |
-		//        conditions+=AnalysisCondition)*
-		//    '}'
-		//;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'requirement' name=ID
-		//('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
-		//'{'
-		//    'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
-		//    (aspect+=AnalysisAspect |
-		//    requirement+=RequirementAspect |
-		//    conditions+=AnalysisCondition)*
-		//'}'
-		public Group getGroup() { return cGroup; }
-		
-		//'requirement'
-		public Keyword getRequirementKeyword_0() { return cRequirementKeyword_0; }
-		
-		//name=ID
-		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-		
-		//ID
-		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-		
-		//('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
-		public Group getGroup_2() { return cGroup_2; }
-		
-		//'('
-		public Keyword getLeftParenthesisKeyword_2_0() { return cLeftParenthesisKeyword_2_0; }
-		
-		//((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)?
-		public Group getGroup_2_1() { return cGroup_2_1; }
-		
-		//(parameterDeclarations+=ParameterDeclaration)
-		public Assignment getParameterDeclarationsAssignment_2_1_0() { return cParameterDeclarationsAssignment_2_1_0; }
-		
-		//ParameterDeclaration
-		public RuleCall getParameterDeclarationsParameterDeclarationParserRuleCall_2_1_0_0() { return cParameterDeclarationsParameterDeclarationParserRuleCall_2_1_0_0; }
-		
-		//(',' parameterDeclarations+=ParameterDeclaration)*
-		public Group getGroup_2_1_1() { return cGroup_2_1_1; }
-		
-		//','
-		public Keyword getCommaKeyword_2_1_1_0() { return cCommaKeyword_2_1_1_0; }
-		
-		//parameterDeclarations+=ParameterDeclaration
-		public Assignment getParameterDeclarationsAssignment_2_1_1_1() { return cParameterDeclarationsAssignment_2_1_1_1; }
-		
-		//ParameterDeclaration
-		public RuleCall getParameterDeclarationsParameterDeclarationParserRuleCall_2_1_1_1_0() { return cParameterDeclarationsParameterDeclarationParserRuleCall_2_1_1_1_0; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_2_2() { return cRightParenthesisKeyword_2_2; }
-		
-		//'{'
-		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
-		
-		//'in'
-		public Keyword getInKeyword_4() { return cInKeyword_4; }
-		
-		//analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
-		public Assignment getAnalyzedComponentAssignment_5() { return cAnalyzedComponentAssignment_5; }
-		
-		//EnvironmentAsynchronousCompositeComponentInstance
-		public RuleCall getAnalyzedComponentEnvironmentAsynchronousCompositeComponentInstanceParserRuleCall_5_0() { return cAnalyzedComponentEnvironmentAsynchronousCompositeComponentInstanceParserRuleCall_5_0; }
-		
-		//(aspect+=AnalysisAspect |
-		//requirement+=RequirementAspect |
-		//conditions+=AnalysisCondition)*
-		public Alternatives getAlternatives_6() { return cAlternatives_6; }
-		
-		//aspect+=AnalysisAspect
-		public Assignment getAspectAssignment_6_0() { return cAspectAssignment_6_0; }
-		
-		//AnalysisAspect
-		public RuleCall getAspectAnalysisAspectParserRuleCall_6_0_0() { return cAspectAnalysisAspectParserRuleCall_6_0_0; }
-		
-		//requirement+=RequirementAspect
-		public Assignment getRequirementAssignment_6_1() { return cRequirementAssignment_6_1; }
-		
-		//RequirementAspect
-		public RuleCall getRequirementRequirementAspectParserRuleCall_6_1_0() { return cRequirementRequirementAspectParserRuleCall_6_1_0; }
-		
-		//conditions+=AnalysisCondition
-		public Assignment getConditionsAssignment_6_2() { return cConditionsAssignment_6_2; }
-		
-		//AnalysisCondition
-		public RuleCall getConditionsAnalysisConditionParserRuleCall_6_2_0() { return cConditionsAnalysisConditionParserRuleCall_6_2_0; }
-		
-		//'}'
-		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
-	}
-	public class RequirementAspectElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.RequirementAspect");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cLowerThanParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cGreaterThanParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cIsBetweenParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		
-		//RequirementAspect returns AnalysisModel::RequirementAspect:
-		//    LowerThan | GreaterThan | IsBetween
-		//;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//LowerThan | GreaterThan | IsBetween
-		public Alternatives getAlternatives() { return cAlternatives; }
-		
-		//LowerThan
-		public RuleCall getLowerThanParserRuleCall_0() { return cLowerThanParserRuleCall_0; }
-		
-		//GreaterThan
-		public RuleCall getGreaterThanParserRuleCall_1() { return cGreaterThanParserRuleCall_1; }
-		
-		//IsBetween
-		public RuleCall getIsBetweenParserRuleCall_2() { return cIsBetweenParserRuleCall_2; }
-	}
-	public class LowerThanElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.LowerThan");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cLowerThanKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cValueDOUBLETerminalRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cDescriptionKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Assignment cDescriptionAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
-		private final RuleCall cDescriptionSTRINGTerminalRuleCall_2_1_0 = (RuleCall)cDescriptionAssignment_2_1.eContents().get(0);
-		
-		//LowerThan returns AnalysisModel::LowerThan:
-		//    'lower than' value=DOUBLE
-		//    ('description' description=STRING)?
-		//;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'lower than' value=DOUBLE
-		//('description' description=STRING)?
-		public Group getGroup() { return cGroup; }
-		
-		//'lower than'
-		public Keyword getLowerThanKeyword_0() { return cLowerThanKeyword_0; }
-		
-		//value=DOUBLE
-		public Assignment getValueAssignment_1() { return cValueAssignment_1; }
-		
-		//DOUBLE
-		public RuleCall getValueDOUBLETerminalRuleCall_1_0() { return cValueDOUBLETerminalRuleCall_1_0; }
-		
-		//('description' description=STRING)?
-		public Group getGroup_2() { return cGroup_2; }
-		
-		//'description'
-		public Keyword getDescriptionKeyword_2_0() { return cDescriptionKeyword_2_0; }
-		
-		//description=STRING
-		public Assignment getDescriptionAssignment_2_1() { return cDescriptionAssignment_2_1; }
-		
-		//STRING
-		public RuleCall getDescriptionSTRINGTerminalRuleCall_2_1_0() { return cDescriptionSTRINGTerminalRuleCall_2_1_0; }
-	}
-	public class GreaterThanElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.GreaterThan");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cGreaterThanKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cValueDOUBLETerminalRuleCall_1_0 = (RuleCall)cValueAssignment_1.eContents().get(0);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cDescriptionKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Assignment cDescriptionAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
-		private final RuleCall cDescriptionSTRINGTerminalRuleCall_2_1_0 = (RuleCall)cDescriptionAssignment_2_1.eContents().get(0);
-		
-		//GreaterThan returns AnalysisModel::GreaterThan:
-		//    'greater than' value=DOUBLE
-		//    ('description' description=STRING)?
-		//;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'greater than' value=DOUBLE
-		//('description' description=STRING)?
-		public Group getGroup() { return cGroup; }
-		
-		//'greater than'
-		public Keyword getGreaterThanKeyword_0() { return cGreaterThanKeyword_0; }
-		
-		//value=DOUBLE
-		public Assignment getValueAssignment_1() { return cValueAssignment_1; }
-		
-		//DOUBLE
-		public RuleCall getValueDOUBLETerminalRuleCall_1_0() { return cValueDOUBLETerminalRuleCall_1_0; }
-		
-		//('description' description=STRING)?
-		public Group getGroup_2() { return cGroup_2; }
-		
-		//'description'
-		public Keyword getDescriptionKeyword_2_0() { return cDescriptionKeyword_2_0; }
-		
-		//description=STRING
-		public Assignment getDescriptionAssignment_2_1() { return cDescriptionAssignment_2_1; }
-		
-		//STRING
-		public RuleCall getDescriptionSTRINGTerminalRuleCall_2_1_0() { return cDescriptionSTRINGTerminalRuleCall_2_1_0; }
-	}
-	public class IsBetweenElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.IsBetween");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cInKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cLeftSquareBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cLowerBoundAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cLowerBoundDOUBLETerminalRuleCall_2_0 = (RuleCall)cLowerBoundAssignment_2.eContents().get(0);
-		private final Keyword cCommaKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		private final Assignment cUpperBoundAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cUpperBoundDOUBLETerminalRuleCall_4_0 = (RuleCall)cUpperBoundAssignment_4.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
-		private final Keyword cDescriptionKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
-		private final Assignment cDescriptionAssignment_6_1 = (Assignment)cGroup_6.eContents().get(1);
-		private final RuleCall cDescriptionSTRINGTerminalRuleCall_6_1_0 = (RuleCall)cDescriptionAssignment_6_1.eContents().get(0);
-		
-		//IsBetween returns AnalysisModel::IsBetween:
-		//    'in' '[' lowerBound=DOUBLE ',' upperBound=DOUBLE ']'
-		//    ('description' description=STRING)?
-		//;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//'in' '[' lowerBound=DOUBLE ',' upperBound=DOUBLE ']'
-		//('description' description=STRING)?
-		public Group getGroup() { return cGroup; }
-		
-		//'in'
-		public Keyword getInKeyword_0() { return cInKeyword_0; }
-		
-		//'['
-		public Keyword getLeftSquareBracketKeyword_1() { return cLeftSquareBracketKeyword_1; }
-		
-		//lowerBound=DOUBLE
-		public Assignment getLowerBoundAssignment_2() { return cLowerBoundAssignment_2; }
-		
-		//DOUBLE
-		public RuleCall getLowerBoundDOUBLETerminalRuleCall_2_0() { return cLowerBoundDOUBLETerminalRuleCall_2_0; }
-		
-		//','
-		public Keyword getCommaKeyword_3() { return cCommaKeyword_3; }
-		
-		//upperBound=DOUBLE
-		public Assignment getUpperBoundAssignment_4() { return cUpperBoundAssignment_4; }
-		
-		//DOUBLE
-		public RuleCall getUpperBoundDOUBLETerminalRuleCall_4_0() { return cUpperBoundDOUBLETerminalRuleCall_4_0; }
-		
-		//']'
-		public Keyword getRightSquareBracketKeyword_5() { return cRightSquareBracketKeyword_5; }
-		
-		//('description' description=STRING)?
-		public Group getGroup_6() { return cGroup_6; }
-		
-		//'description'
-		public Keyword getDescriptionKeyword_6_0() { return cDescriptionKeyword_6_0; }
-		
-		//description=STRING
-		public Assignment getDescriptionAssignment_6_1() { return cDescriptionAssignment_6_1; }
-		
-		//STRING
-		public RuleCall getDescriptionSTRINGTerminalRuleCall_6_1_0() { return cDescriptionSTRINGTerminalRuleCall_6_1_0; }
 	}
 	public class AnalysisComponentElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.AnalysisComponent");
@@ -517,34 +213,38 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Assignment cPriorydistributionAssignment_7_3_1 = (Assignment)cAlternatives_7_3.eContents().get(1);
 		private final RuleCall cPriorydistributionPrioryDistributionParserRuleCall_7_3_1_0 = (RuleCall)cPriorydistributionAssignment_7_3_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_7_4 = (Keyword)cGroup_7.eContents().get(4);
-		private final Group cGroup_8 = (Group)cGroup.eContents().get(8);
-		private final Keyword cCommercialAtKeyword_8_0 = (Keyword)cGroup_8.eContents().get(0);
-		private final Keyword cConfigurationKeyword_8_1 = (Keyword)cGroup_8.eContents().get(1);
-		private final Keyword cLeftCurlyBracketKeyword_8_2 = (Keyword)cGroup_8.eContents().get(2);
-		private final Alternatives cAlternatives_8_3 = (Alternatives)cGroup_8.eContents().get(3);
-		private final Assignment cEndconditionAssignment_8_3_0 = (Assignment)cAlternatives_8_3.eContents().get(0);
-		private final RuleCall cEndconditionEndConditionParserRuleCall_8_3_0_0 = (RuleCall)cEndconditionAssignment_8_3_0.eContents().get(0);
-		private final Group cGroup_8_3_1 = (Group)cAlternatives_8_3.eContents().get(1);
-		private final Keyword cSimulationKeyword_8_3_1_0 = (Keyword)cGroup_8_3_1.eContents().get(0);
-		private final Keyword cTimeKeyword_8_3_1_1 = (Keyword)cGroup_8_3_1.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_8_3_1_2 = (Keyword)cGroup_8_3_1.eContents().get(2);
-		private final Assignment cSimulationTimeAssignment_8_3_1_3 = (Assignment)cGroup_8_3_1.eContents().get(3);
-		private final RuleCall cSimulationTimeDOUBLETerminalRuleCall_8_3_1_3_0 = (RuleCall)cSimulationTimeAssignment_8_3_1_3.eContents().get(0);
-		private final Group cGroup_8_3_2 = (Group)cAlternatives_8_3.eContents().get(2);
-		private final Keyword cSimulationKeyword_8_3_2_0 = (Keyword)cGroup_8_3_2.eContents().get(0);
-		private final Keyword cNumberKeyword_8_3_2_1 = (Keyword)cGroup_8_3_2.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_8_3_2_2 = (Keyword)cGroup_8_3_2.eContents().get(2);
-		private final Assignment cSimulationNumberAssignment_8_3_2_3 = (Assignment)cGroup_8_3_2.eContents().get(3);
-		private final RuleCall cSimulationNumberINTEGERTerminalRuleCall_8_3_2_3_0 = (RuleCall)cSimulationNumberAssignment_8_3_2_3.eContents().get(0);
-		private final Group cGroup_8_3_3 = (Group)cAlternatives_8_3.eContents().get(3);
-		private final Keyword cWarmupKeyword_8_3_3_0 = (Keyword)cGroup_8_3_3.eContents().get(0);
-		private final Keyword cTimeKeyword_8_3_3_1 = (Keyword)cGroup_8_3_3.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_8_3_3_2 = (Keyword)cGroup_8_3_3.eContents().get(2);
-		private final Assignment cWarmupTimeAssignment_8_3_3_3 = (Assignment)cGroup_8_3_3.eContents().get(3);
-		private final RuleCall cWarmupTimeDOUBLETerminalRuleCall_8_3_3_3_0 = (RuleCall)cWarmupTimeAssignment_8_3_3_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketKeyword_8_4 = (Keyword)cGroup_8.eContents().get(4);
+		private final Assignment cAnalysismethodAssignment_8 = (Assignment)cGroup.eContents().get(8);
+		private final RuleCall cAnalysismethodAnalysisMethodParserRuleCall_8_0 = (RuleCall)cAnalysismethodAssignment_8.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_9 = (Keyword)cGroup.eContents().get(9);
 		
+		////defining Analysis and Requirement models
+		///*
+		//RequirementComponent returns AnalysisModel::RequirementComponent:
+		//    'requirement' name=ID
+		//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		//    '{'
+		//        'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
+		//        (aspect+=AnalysisAspect |
+		//        requirement+=RequirementAspect |
+		//        conditions+=AnalysisCondition)*
+		//    '}'
+		//;
+		//RequirementAspect returns AnalysisModel::RequirementAspect:
+		//    LowerThan | GreaterThan | IsBetween
+		//;
+		//LowerThan returns AnalysisModel::LowerThan:
+		//    'lower than' value=DOUBLE
+		//    ('description' description=STRING)?
+		//;
+		//GreaterThan returns AnalysisModel::GreaterThan:
+		//    'greater than' value=DOUBLE
+		//    ('description' description=STRING)?
+		//;
+		//IsBetween returns AnalysisModel::IsBetween:
+		//    'in' '[' lowerBound=DOUBLE ',' upperBound=DOUBLE ']'
+		//    ('description' description=STRING)?
+		//;
+		//*/
 		//AnalysisComponent returns AnalysisModel::AnalysisComponent:
 		//    'analysis' name=ID
 		//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
@@ -555,12 +255,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//            ((conditions+=AnalysisCondition)|
 		//            (priorydistribution+=PrioryDistribution))*
 		//        '}')?
-		//        ('@' 'Configuration' '{'
-		//            ((endcondition+=EndCondition)|
-		//            ("simulation" "time" "=" simulationTime=DOUBLE)|
-		//            ("simulation" "number" "=" simulationNumber=INTEGER)|
-		//            ("warmup" "time" "=" warmupTime=DOUBLE))*
-		//        '}')?
+		//        analysismethod=AnalysisMethod
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
@@ -574,12 +269,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//        ((conditions+=AnalysisCondition)|
 		//        (priorydistribution+=PrioryDistribution))*
 		//    '}')?
-		//    ('@' 'Configuration' '{'
-		//        ((endcondition+=EndCondition)|
-		//        ("simulation" "time" "=" simulationTime=DOUBLE)|
-		//        ("simulation" "number" "=" simulationNumber=INTEGER)|
-		//        ("warmup" "time" "=" warmupTime=DOUBLE))*
-		//    '}')?
+		//    analysismethod=AnalysisMethod
 		//'}'
 		public Group getGroup() { return cGroup; }
 		
@@ -674,142 +364,454 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_7_4() { return cRightCurlyBracketKeyword_7_4; }
 		
-		//('@' 'Configuration' '{'
-		//    ((endcondition+=EndCondition)|
-		//    ("simulation" "time" "=" simulationTime=DOUBLE)|
-		//    ("simulation" "number" "=" simulationNumber=INTEGER)|
-		//    ("warmup" "time" "=" warmupTime=DOUBLE))*
-		//'}')?
-		public Group getGroup_8() { return cGroup_8; }
+		//analysismethod=AnalysisMethod
+		public Assignment getAnalysismethodAssignment_8() { return cAnalysismethodAssignment_8; }
+		
+		//AnalysisMethod
+		public RuleCall getAnalysismethodAnalysisMethodParserRuleCall_8_0() { return cAnalysismethodAnalysisMethodParserRuleCall_8_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_9() { return cRightCurlyBracketKeyword_9; }
+	}
+	public class AnalysisMethodElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.AnalysisMethod");
+		private final RuleCall cSimulationAnalysisMethodParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//AnalysisMethod returns AnalysisModel::AnalysisMethod:
+		//    SimulationAnalysisMethod
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//SimulationAnalysisMethod
+		public RuleCall getSimulationAnalysisMethodParserRuleCall() { return cSimulationAnalysisMethodParserRuleCall; }
+	}
+	public class SimulationAnalysisMethodElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.SimulationAnalysisMethod");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cImportanceSamplingParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cMCMCParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//SimulationAnalysisMethod returns AnalysisModel::SimulationAnalysisMethod:
+		//    ImportanceSampling | MCMC
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//ImportanceSampling | MCMC
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//ImportanceSampling
+		public RuleCall getImportanceSamplingParserRuleCall_0() { return cImportanceSamplingParserRuleCall_0; }
+		
+		//MCMC
+		public RuleCall getMCMCParserRuleCall_1() { return cMCMCParserRuleCall_1; }
+	}
+	public class ImportanceSamplingElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.ImportanceSampling");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cCommercialAtKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cConfigurationKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cImportanceSamplingKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cLeftCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Alternatives cAlternatives_6 = (Alternatives)cGroup.eContents().get(6);
+		private final Assignment cEndconditionAssignment_6_0 = (Assignment)cAlternatives_6.eContents().get(0);
+		private final RuleCall cEndconditionEndConditionParserRuleCall_6_0_0 = (RuleCall)cEndconditionAssignment_6_0.eContents().get(0);
+		private final Group cGroup_6_1 = (Group)cAlternatives_6.eContents().get(1);
+		private final Keyword cSimulationKeyword_6_1_0 = (Keyword)cGroup_6_1.eContents().get(0);
+		private final Keyword cTimeKeyword_6_1_1 = (Keyword)cGroup_6_1.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_6_1_2 = (Keyword)cGroup_6_1.eContents().get(2);
+		private final Assignment cSimulationTimeAssignment_6_1_3 = (Assignment)cGroup_6_1.eContents().get(3);
+		private final RuleCall cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0 = (RuleCall)cSimulationTimeAssignment_6_1_3.eContents().get(0);
+		private final Group cGroup_6_2 = (Group)cAlternatives_6.eContents().get(2);
+		private final Keyword cSimulationKeyword_6_2_0 = (Keyword)cGroup_6_2.eContents().get(0);
+		private final Keyword cNumberKeyword_6_2_1 = (Keyword)cGroup_6_2.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_6_2_2 = (Keyword)cGroup_6_2.eContents().get(2);
+		private final Assignment cSimulationNumberAssignment_6_2_3 = (Assignment)cGroup_6_2.eContents().get(3);
+		private final RuleCall cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0 = (RuleCall)cSimulationNumberAssignment_6_2_3.eContents().get(0);
+		private final Group cGroup_6_3 = (Group)cAlternatives_6.eContents().get(3);
+		private final Keyword cWarmupKeyword_6_3_0 = (Keyword)cGroup_6_3.eContents().get(0);
+		private final Keyword cTimeKeyword_6_3_1 = (Keyword)cGroup_6_3.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_6_3_2 = (Keyword)cGroup_6_3.eContents().get(2);
+		private final Assignment cWarmupTimeAssignment_6_3_3 = (Assignment)cGroup_6_3.eContents().get(3);
+		private final RuleCall cWarmupTimeDOUBLETerminalRuleCall_6_3_3_0 = (RuleCall)cWarmupTimeAssignment_6_3_3.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		
+		//ImportanceSampling returns AnalysisModel::ImportanceSampling:
+		//    '@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
+		//            ((endcondition+=EndCondition)|
+		//            ("simulation" "time" "=" simulationTime=DOUBLE)|
+		//            ("simulation" "number" "=" simulationNumber=INTEGER)|
+		//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//        '}'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
+		//        ((endcondition+=EndCondition)|
+		//        ("simulation" "time" "=" simulationTime=DOUBLE)|
+		//        ("simulation" "number" "=" simulationNumber=INTEGER)|
+		//        ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//    '}'
+		public Group getGroup() { return cGroup; }
 		
 		//'@'
-		public Keyword getCommercialAtKeyword_8_0() { return cCommercialAtKeyword_8_0; }
+		public Keyword getCommercialAtKeyword_0() { return cCommercialAtKeyword_0; }
 		
 		//'Configuration'
-		public Keyword getConfigurationKeyword_8_1() { return cConfigurationKeyword_8_1; }
+		public Keyword getConfigurationKeyword_1() { return cConfigurationKeyword_1; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
+		
+		//'ImportanceSampling'
+		public Keyword getImportanceSamplingKeyword_3() { return cImportanceSamplingKeyword_3; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
 		
 		//'{'
-		public Keyword getLeftCurlyBracketKeyword_8_2() { return cLeftCurlyBracketKeyword_8_2; }
+		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 		
 		//((endcondition+=EndCondition)|
 		//("simulation" "time" "=" simulationTime=DOUBLE)|
 		//("simulation" "number" "=" simulationNumber=INTEGER)|
 		//("warmup" "time" "=" warmupTime=DOUBLE))*
-		public Alternatives getAlternatives_8_3() { return cAlternatives_8_3; }
+		public Alternatives getAlternatives_6() { return cAlternatives_6; }
 		
 		//(endcondition+=EndCondition)
-		public Assignment getEndconditionAssignment_8_3_0() { return cEndconditionAssignment_8_3_0; }
+		public Assignment getEndconditionAssignment_6_0() { return cEndconditionAssignment_6_0; }
 		
 		//EndCondition
-		public RuleCall getEndconditionEndConditionParserRuleCall_8_3_0_0() { return cEndconditionEndConditionParserRuleCall_8_3_0_0; }
+		public RuleCall getEndconditionEndConditionParserRuleCall_6_0_0() { return cEndconditionEndConditionParserRuleCall_6_0_0; }
 		
 		//("simulation" "time" "=" simulationTime=DOUBLE)
-		public Group getGroup_8_3_1() { return cGroup_8_3_1; }
+		public Group getGroup_6_1() { return cGroup_6_1; }
 		
 		//"simulation"
-		public Keyword getSimulationKeyword_8_3_1_0() { return cSimulationKeyword_8_3_1_0; }
+		public Keyword getSimulationKeyword_6_1_0() { return cSimulationKeyword_6_1_0; }
 		
 		//"time"
-		public Keyword getTimeKeyword_8_3_1_1() { return cTimeKeyword_8_3_1_1; }
+		public Keyword getTimeKeyword_6_1_1() { return cTimeKeyword_6_1_1; }
 		
 		//"="
-		public Keyword getEqualsSignKeyword_8_3_1_2() { return cEqualsSignKeyword_8_3_1_2; }
+		public Keyword getEqualsSignKeyword_6_1_2() { return cEqualsSignKeyword_6_1_2; }
 		
 		//simulationTime=DOUBLE
-		public Assignment getSimulationTimeAssignment_8_3_1_3() { return cSimulationTimeAssignment_8_3_1_3; }
+		public Assignment getSimulationTimeAssignment_6_1_3() { return cSimulationTimeAssignment_6_1_3; }
 		
 		//DOUBLE
-		public RuleCall getSimulationTimeDOUBLETerminalRuleCall_8_3_1_3_0() { return cSimulationTimeDOUBLETerminalRuleCall_8_3_1_3_0; }
+		public RuleCall getSimulationTimeDOUBLETerminalRuleCall_6_1_3_0() { return cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0; }
 		
 		//("simulation" "number" "=" simulationNumber=INTEGER)
-		public Group getGroup_8_3_2() { return cGroup_8_3_2; }
+		public Group getGroup_6_2() { return cGroup_6_2; }
 		
 		//"simulation"
-		public Keyword getSimulationKeyword_8_3_2_0() { return cSimulationKeyword_8_3_2_0; }
+		public Keyword getSimulationKeyword_6_2_0() { return cSimulationKeyword_6_2_0; }
 		
 		//"number"
-		public Keyword getNumberKeyword_8_3_2_1() { return cNumberKeyword_8_3_2_1; }
+		public Keyword getNumberKeyword_6_2_1() { return cNumberKeyword_6_2_1; }
 		
 		//"="
-		public Keyword getEqualsSignKeyword_8_3_2_2() { return cEqualsSignKeyword_8_3_2_2; }
+		public Keyword getEqualsSignKeyword_6_2_2() { return cEqualsSignKeyword_6_2_2; }
 		
 		//simulationNumber=INTEGER
-		public Assignment getSimulationNumberAssignment_8_3_2_3() { return cSimulationNumberAssignment_8_3_2_3; }
+		public Assignment getSimulationNumberAssignment_6_2_3() { return cSimulationNumberAssignment_6_2_3; }
 		
 		//INTEGER
-		public RuleCall getSimulationNumberINTEGERTerminalRuleCall_8_3_2_3_0() { return cSimulationNumberINTEGERTerminalRuleCall_8_3_2_3_0; }
+		public RuleCall getSimulationNumberINTEGERTerminalRuleCall_6_2_3_0() { return cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0; }
 		
 		//("warmup" "time" "=" warmupTime=DOUBLE)
-		public Group getGroup_8_3_3() { return cGroup_8_3_3; }
+		public Group getGroup_6_3() { return cGroup_6_3; }
 		
 		//"warmup"
-		public Keyword getWarmupKeyword_8_3_3_0() { return cWarmupKeyword_8_3_3_0; }
+		public Keyword getWarmupKeyword_6_3_0() { return cWarmupKeyword_6_3_0; }
 		
 		//"time"
-		public Keyword getTimeKeyword_8_3_3_1() { return cTimeKeyword_8_3_3_1; }
+		public Keyword getTimeKeyword_6_3_1() { return cTimeKeyword_6_3_1; }
 		
 		//"="
-		public Keyword getEqualsSignKeyword_8_3_3_2() { return cEqualsSignKeyword_8_3_3_2; }
+		public Keyword getEqualsSignKeyword_6_3_2() { return cEqualsSignKeyword_6_3_2; }
 		
 		//warmupTime=DOUBLE
-		public Assignment getWarmupTimeAssignment_8_3_3_3() { return cWarmupTimeAssignment_8_3_3_3; }
+		public Assignment getWarmupTimeAssignment_6_3_3() { return cWarmupTimeAssignment_6_3_3; }
 		
 		//DOUBLE
-		public RuleCall getWarmupTimeDOUBLETerminalRuleCall_8_3_3_3_0() { return cWarmupTimeDOUBLETerminalRuleCall_8_3_3_3_0; }
+		public RuleCall getWarmupTimeDOUBLETerminalRuleCall_6_3_3_0() { return cWarmupTimeDOUBLETerminalRuleCall_6_3_3_0; }
 		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_8_4() { return cRightCurlyBracketKeyword_8_4; }
-		
-		//'}'
-		public Keyword getRightCurlyBracketKeyword_9() { return cRightCurlyBracketKeyword_9; }
+		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
 	}
-	public class RecursiveComponentReferenceElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.RecursiveComponentReference");
+	public class MCMCElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.MCMC");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cLeftSquareBracketKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cComponentAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final CrossReference cComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_1_0 = (CrossReference)cComponentAssignment_1.eContents().get(0);
-		private final RuleCall cComponentEnvironmentAsynchronousCompositeComponentInstanceIDTerminalRuleCall_1_0_1 = (RuleCall)cComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_1_0.eContents().get(1);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cFullStopKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Assignment cRecursivecomponentreferenceAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
-		private final RuleCall cRecursivecomponentreferenceRecursiveComponentReferenceParserRuleCall_2_1_0 = (RuleCall)cRecursivecomponentreferenceAssignment_2_1.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cCommercialAtKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cConfigurationKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cMCMCKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cLeftCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Alternatives cAlternatives_6 = (Alternatives)cGroup.eContents().get(6);
+		private final Assignment cEndconditionAssignment_6_0 = (Assignment)cAlternatives_6.eContents().get(0);
+		private final RuleCall cEndconditionEndConditionParserRuleCall_6_0_0 = (RuleCall)cEndconditionAssignment_6_0.eContents().get(0);
+		private final Group cGroup_6_1 = (Group)cAlternatives_6.eContents().get(1);
+		private final Keyword cSimulationKeyword_6_1_0 = (Keyword)cGroup_6_1.eContents().get(0);
+		private final Keyword cTimeKeyword_6_1_1 = (Keyword)cGroup_6_1.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_6_1_2 = (Keyword)cGroup_6_1.eContents().get(2);
+		private final Assignment cSimulationTimeAssignment_6_1_3 = (Assignment)cGroup_6_1.eContents().get(3);
+		private final RuleCall cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0 = (RuleCall)cSimulationTimeAssignment_6_1_3.eContents().get(0);
+		private final Group cGroup_6_2 = (Group)cAlternatives_6.eContents().get(2);
+		private final Keyword cSimulationKeyword_6_2_0 = (Keyword)cGroup_6_2.eContents().get(0);
+		private final Keyword cNumberKeyword_6_2_1 = (Keyword)cGroup_6_2.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_6_2_2 = (Keyword)cGroup_6_2.eContents().get(2);
+		private final Assignment cSimulationNumberAssignment_6_2_3 = (Assignment)cGroup_6_2.eContents().get(3);
+		private final RuleCall cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0 = (RuleCall)cSimulationNumberAssignment_6_2_3.eContents().get(0);
+		private final Group cGroup_6_3 = (Group)cAlternatives_6.eContents().get(3);
+		private final Keyword cWarmupKeyword_6_3_0 = (Keyword)cGroup_6_3.eContents().get(0);
+		private final Keyword cStepKeyword_6_3_1 = (Keyword)cGroup_6_3.eContents().get(1);
+		private final Keyword cNumberKeyword_6_3_2 = (Keyword)cGroup_6_3.eContents().get(2);
+		private final Keyword cEqualsSignKeyword_6_3_3 = (Keyword)cGroup_6_3.eContents().get(3);
+		private final Assignment cWarmupStepNumAssignment_6_3_4 = (Assignment)cGroup_6_3.eContents().get(4);
+		private final RuleCall cWarmupStepNumINTEGERTerminalRuleCall_6_3_4_0 = (RuleCall)cWarmupStepNumAssignment_6_3_4.eContents().get(0);
+		private final Group cGroup_6_4 = (Group)cAlternatives_6.eContents().get(4);
+		private final Keyword cKernelKeyword_6_4_0 = (Keyword)cGroup_6_4.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_6_4_1 = (Keyword)cGroup_6_4.eContents().get(1);
+		private final Assignment cKernelAssignment_6_4_2 = (Assignment)cGroup_6_4.eContents().get(2);
+		private final RuleCall cKernelMCMCKernelParserRuleCall_6_4_2_0 = (RuleCall)cKernelAssignment_6_4_2.eContents().get(0);
+		private final Group cGroup_6_5 = (Group)cAlternatives_6.eContents().get(5);
+		private final Keyword cWarmupKeyword_6_5_0 = (Keyword)cGroup_6_5.eContents().get(0);
+		private final Keyword cTimeKeyword_6_5_1 = (Keyword)cGroup_6_5.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_6_5_2 = (Keyword)cGroup_6_5.eContents().get(2);
+		private final Assignment cWarmupTimeAssignment_6_5_3 = (Assignment)cGroup_6_5.eContents().get(3);
+		private final RuleCall cWarmupTimeDOUBLETerminalRuleCall_6_5_3_0 = (RuleCall)cWarmupTimeAssignment_6_5_3.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
-		//RecursiveComponentReference returns AnalysisModel::RecursiveComponentReference:
-		//    "["component=[EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]('.'recursivecomponentreference=RecursiveComponentReference)?"]"
+		//MCMC returns AnalysisModel::MCMC:
+		//    '@' 'Configuration' '(' 'MCMC' ')' '{'
+		//            ((endcondition+=EndCondition)|
+		//            ("simulation" "time" "=" simulationTime=DOUBLE)|
+		//            ("simulation" "number" "=" simulationNumber=INTEGER)|
+		//            ("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+		//            ("kernel" "=" kernel=MCMCKernel)|
+		//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//        '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//"["component=[EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]('.'recursivecomponentreference=RecursiveComponentReference)?"]"
+		//'@' 'Configuration' '(' 'MCMC' ')' '{'
+		//        ((endcondition+=EndCondition)|
+		//        ("simulation" "time" "=" simulationTime=DOUBLE)|
+		//        ("simulation" "number" "=" simulationNumber=INTEGER)|
+		//        ("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+		//        ("kernel" "=" kernel=MCMCKernel)|
+		//        ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//    '}'
 		public Group getGroup() { return cGroup; }
 		
-		//"["
-		public Keyword getLeftSquareBracketKeyword_0() { return cLeftSquareBracketKeyword_0; }
+		//'@'
+		public Keyword getCommercialAtKeyword_0() { return cCommercialAtKeyword_0; }
 		
-		//component=[EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]
-		public Assignment getComponentAssignment_1() { return cComponentAssignment_1; }
+		//'Configuration'
+		public Keyword getConfigurationKeyword_1() { return cConfigurationKeyword_1; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
+		
+		//'MCMC'
+		public Keyword getMCMCKeyword_3() { return cMCMCKeyword_3; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
+		
+		//((endcondition+=EndCondition)|
+		//("simulation" "time" "=" simulationTime=DOUBLE)|
+		//("simulation" "number" "=" simulationNumber=INTEGER)|
+		//("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+		//("kernel" "=" kernel=MCMCKernel)|
+		//("warmup" "time" "=" warmupTime=DOUBLE))*
+		public Alternatives getAlternatives_6() { return cAlternatives_6; }
+		
+		//(endcondition+=EndCondition)
+		public Assignment getEndconditionAssignment_6_0() { return cEndconditionAssignment_6_0; }
+		
+		//EndCondition
+		public RuleCall getEndconditionEndConditionParserRuleCall_6_0_0() { return cEndconditionEndConditionParserRuleCall_6_0_0; }
+		
+		//("simulation" "time" "=" simulationTime=DOUBLE)
+		public Group getGroup_6_1() { return cGroup_6_1; }
+		
+		//"simulation"
+		public Keyword getSimulationKeyword_6_1_0() { return cSimulationKeyword_6_1_0; }
+		
+		//"time"
+		public Keyword getTimeKeyword_6_1_1() { return cTimeKeyword_6_1_1; }
+		
+		//"="
+		public Keyword getEqualsSignKeyword_6_1_2() { return cEqualsSignKeyword_6_1_2; }
+		
+		//simulationTime=DOUBLE
+		public Assignment getSimulationTimeAssignment_6_1_3() { return cSimulationTimeAssignment_6_1_3; }
+		
+		//DOUBLE
+		public RuleCall getSimulationTimeDOUBLETerminalRuleCall_6_1_3_0() { return cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0; }
+		
+		//("simulation" "number" "=" simulationNumber=INTEGER)
+		public Group getGroup_6_2() { return cGroup_6_2; }
+		
+		//"simulation"
+		public Keyword getSimulationKeyword_6_2_0() { return cSimulationKeyword_6_2_0; }
+		
+		//"number"
+		public Keyword getNumberKeyword_6_2_1() { return cNumberKeyword_6_2_1; }
+		
+		//"="
+		public Keyword getEqualsSignKeyword_6_2_2() { return cEqualsSignKeyword_6_2_2; }
+		
+		//simulationNumber=INTEGER
+		public Assignment getSimulationNumberAssignment_6_2_3() { return cSimulationNumberAssignment_6_2_3; }
+		
+		//INTEGER
+		public RuleCall getSimulationNumberINTEGERTerminalRuleCall_6_2_3_0() { return cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0; }
+		
+		//("warmup" "step" "number" "=" warmupStepNum=INTEGER)
+		public Group getGroup_6_3() { return cGroup_6_3; }
+		
+		//"warmup"
+		public Keyword getWarmupKeyword_6_3_0() { return cWarmupKeyword_6_3_0; }
+		
+		//"step"
+		public Keyword getStepKeyword_6_3_1() { return cStepKeyword_6_3_1; }
+		
+		//"number"
+		public Keyword getNumberKeyword_6_3_2() { return cNumberKeyword_6_3_2; }
+		
+		//"="
+		public Keyword getEqualsSignKeyword_6_3_3() { return cEqualsSignKeyword_6_3_3; }
+		
+		//warmupStepNum=INTEGER
+		public Assignment getWarmupStepNumAssignment_6_3_4() { return cWarmupStepNumAssignment_6_3_4; }
+		
+		//INTEGER
+		public RuleCall getWarmupStepNumINTEGERTerminalRuleCall_6_3_4_0() { return cWarmupStepNumINTEGERTerminalRuleCall_6_3_4_0; }
+		
+		//("kernel" "=" kernel=MCMCKernel)
+		public Group getGroup_6_4() { return cGroup_6_4; }
+		
+		//"kernel"
+		public Keyword getKernelKeyword_6_4_0() { return cKernelKeyword_6_4_0; }
+		
+		//"="
+		public Keyword getEqualsSignKeyword_6_4_1() { return cEqualsSignKeyword_6_4_1; }
+		
+		//kernel=MCMCKernel
+		public Assignment getKernelAssignment_6_4_2() { return cKernelAssignment_6_4_2; }
+		
+		//MCMCKernel
+		public RuleCall getKernelMCMCKernelParserRuleCall_6_4_2_0() { return cKernelMCMCKernelParserRuleCall_6_4_2_0; }
+		
+		//("warmup" "time" "=" warmupTime=DOUBLE)
+		public Group getGroup_6_5() { return cGroup_6_5; }
+		
+		//"warmup"
+		public Keyword getWarmupKeyword_6_5_0() { return cWarmupKeyword_6_5_0; }
+		
+		//"time"
+		public Keyword getTimeKeyword_6_5_1() { return cTimeKeyword_6_5_1; }
+		
+		//"="
+		public Keyword getEqualsSignKeyword_6_5_2() { return cEqualsSignKeyword_6_5_2; }
+		
+		//warmupTime=DOUBLE
+		public Assignment getWarmupTimeAssignment_6_5_3() { return cWarmupTimeAssignment_6_5_3; }
+		
+		//DOUBLE
+		public RuleCall getWarmupTimeDOUBLETerminalRuleCall_6_5_3_0() { return cWarmupTimeDOUBLETerminalRuleCall_6_5_3_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
+	}
+	public class MCMCKernelElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.MCMCKernel");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cNUTSParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cHMCParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//MCMCKernel returns AnalysisModel::MCMCKernel:
+		//    NUTS | HMC
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//NUTS | HMC
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//NUTS
+		public RuleCall getNUTSParserRuleCall_0() { return cNUTSParserRuleCall_0; }
+		
+		//HMC
+		public RuleCall getHMCParserRuleCall_1() { return cHMCParserRuleCall_1; }
+	}
+	public class NUTSElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.NUTS");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cNUTSAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cNUTSKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		
+		//NUTS returns AnalysisModel::NUTS:
+		//    {AnalysisModel::NUTS} "NUTS"
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{AnalysisModel::NUTS} "NUTS"
+		public Group getGroup() { return cGroup; }
+		
+		//{AnalysisModel::NUTS}
+		public Action getNUTSAction_0() { return cNUTSAction_0; }
+		
+		//"NUTS"
+		public Keyword getNUTSKeyword_1() { return cNUTSKeyword_1; }
+	}
+	public class HMCElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.HMC");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cHMCAction_0 = (Action)cGroup.eContents().get(0);
+		private final Keyword cHMCKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		
+		//HMC returns AnalysisModel::HMC:
+		//    {AnalysisModel::HMC} "HMC"
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{AnalysisModel::HMC} "HMC"
+		public Group getGroup() { return cGroup; }
+		
+		//{AnalysisModel::HMC}
+		public Action getHMCAction_0() { return cHMCAction_0; }
+		
+		//"HMC"
+		public Keyword getHMCKeyword_1() { return cHMCKeyword_1; }
+	}
+	public class RecursiveComponentReferenceElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.RecursiveComponentReference");
+		private final Assignment cComponentAssignment = (Assignment)rule.eContents().get(1);
+		private final CrossReference cComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_0 = (CrossReference)cComponentAssignment.eContents().get(0);
+		private final RuleCall cComponentEnvironmentAsynchronousCompositeComponentInstanceIDTerminalRuleCall_0_1 = (RuleCall)cComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_0.eContents().get(1);
+		
+		//RecursiveComponentReference returns AnalysisModel::RecursiveComponentReference:
+		//    component = [EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//component = [EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]
+		public Assignment getComponentAssignment() { return cComponentAssignment; }
 		
 		//[EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]
-		public CrossReference getComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_1_0() { return cComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_1_0; }
+		public CrossReference getComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_0() { return cComponentEnvironmentAsynchronousCompositeComponentInstanceCrossReference_0; }
 		
 		//ID
-		public RuleCall getComponentEnvironmentAsynchronousCompositeComponentInstanceIDTerminalRuleCall_1_0_1() { return cComponentEnvironmentAsynchronousCompositeComponentInstanceIDTerminalRuleCall_1_0_1; }
-		
-		//('.'recursivecomponentreference=RecursiveComponentReference)?
-		public Group getGroup_2() { return cGroup_2; }
-		
-		//'.'
-		public Keyword getFullStopKeyword_2_0() { return cFullStopKeyword_2_0; }
-		
-		//recursivecomponentreference=RecursiveComponentReference
-		public Assignment getRecursivecomponentreferenceAssignment_2_1() { return cRecursivecomponentreferenceAssignment_2_1; }
-		
-		//RecursiveComponentReference
-		public RuleCall getRecursivecomponentreferenceRecursiveComponentReferenceParserRuleCall_2_1_0() { return cRecursivecomponentreferenceRecursiveComponentReferenceParserRuleCall_2_1_0; }
-		
-		//"]"
-		public Keyword getRightSquareBracketKeyword_3() { return cRightSquareBracketKeyword_3; }
+		public RuleCall getComponentEnvironmentAsynchronousCompositeComponentInstanceIDTerminalRuleCall_0_1() { return cComponentEnvironmentAsynchronousCompositeComponentInstanceIDTerminalRuleCall_0_1; }
 	}
 	public class ComponentPortEventReferenceElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.ComponentPortEventReference");
@@ -817,21 +819,21 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cEventKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cComponentAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cComponentRecursiveComponentReferenceParserRuleCall_1_0 = (RuleCall)cComponentAssignment_1.eContents().get(0);
-		private final Keyword cColonKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Keyword cFullStopKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cPortAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final CrossReference cPortPortCrossReference_3_0 = (CrossReference)cPortAssignment_3.eContents().get(0);
 		private final RuleCall cPortPortIDTerminalRuleCall_3_0_1 = (RuleCall)cPortPortCrossReference_3_0.eContents().get(1);
-		private final Keyword cHyphenMinusGreaterThanSignKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cFullStopKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Assignment cEventAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final CrossReference cEventEventCrossReference_5_0 = (CrossReference)cEventAssignment_5.eContents().get(0);
 		private final RuleCall cEventEventIDTerminalRuleCall_5_0_1 = (RuleCall)cEventEventCrossReference_5_0.eContents().get(1);
 		
 		//ComponentPortEventReference returns AnalysisModel::ComponentPortEventReference:
-		//    'event'  component=RecursiveComponentReference ':'port=[InterfaceModel::Port]'->'event=[InterfaceModel::Event]
+		//    'event'  component=RecursiveComponentReference '.'port=[InterfaceModel::Port]'.'event=[InterfaceModel::Event]
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'event'  component=RecursiveComponentReference ':'port=[InterfaceModel::Port]'->'event=[InterfaceModel::Event]
+		//'event'  component=RecursiveComponentReference '.'port=[InterfaceModel::Port]'.'event=[InterfaceModel::Event]
 		public Group getGroup() { return cGroup; }
 		
 		//'event'
@@ -843,8 +845,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//RecursiveComponentReference
 		public RuleCall getComponentRecursiveComponentReferenceParserRuleCall_1_0() { return cComponentRecursiveComponentReferenceParserRuleCall_1_0; }
 		
-		//':'
-		public Keyword getColonKeyword_2() { return cColonKeyword_2; }
+		//'.'
+		public Keyword getFullStopKeyword_2() { return cFullStopKeyword_2; }
 		
 		//port=[InterfaceModel::Port]
 		public Assignment getPortAssignment_3() { return cPortAssignment_3; }
@@ -855,8 +857,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//ID
 		public RuleCall getPortPortIDTerminalRuleCall_3_0_1() { return cPortPortIDTerminalRuleCall_3_0_1; }
 		
-		//'->'
-		public Keyword getHyphenMinusGreaterThanSignKeyword_4() { return cHyphenMinusGreaterThanSignKeyword_4; }
+		//'.'
+		public Keyword getFullStopKeyword_4() { return cFullStopKeyword_4; }
 		
 		//event=[InterfaceModel::Event]
 		public Assignment getEventAssignment_5() { return cEventAssignment_5; }
@@ -1372,91 +1374,68 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	public class ObserveTimeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.ObserveTime");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cAssumeKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cObserveKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cTimeKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cLeftParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cEventAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cEventComponentPortEventReferenceParserRuleCall_3_0 = (RuleCall)cEventAssignment_3.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cEqualsSignKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Assignment cValueAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cValueDOUBLETerminalRuleCall_6_0 = (RuleCall)cValueAssignment_6.eContents().get(0);
-		private final Keyword cTildeKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		private final Assignment cRandomvariableAssignment_8 = (Assignment)cGroup.eContents().get(8);
-		private final RuleCall cRandomvariableStochasticModelParserRuleCall_8_0 = (RuleCall)cRandomvariableAssignment_8.eContents().get(0);
+		private final Assignment cEventAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cEventComponentPortEventReferenceParserRuleCall_2_0 = (RuleCall)cEventAssignment_2.eContents().get(0);
+		private final Keyword cTildeKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Assignment cRandomvariableAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cRandomvariableStochasticModelParserRuleCall_4_0 = (RuleCall)cRandomvariableAssignment_4.eContents().get(0);
 		
 		//ObserveTime returns AnalysisModel::ObserveTime:
-		//    'assume' 'time' '(' event=ComponentPortEventReference ')'  '=' value=DOUBLE '~' randomvariable=StochasticModel
+		//    'observe' 'time'  event=ComponentPortEventReference  '~' randomvariable=StochasticModel
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'assume' 'time' '(' event=ComponentPortEventReference ')'  '=' value=DOUBLE '~' randomvariable=StochasticModel
+		//'observe' 'time'  event=ComponentPortEventReference  '~' randomvariable=StochasticModel
 		public Group getGroup() { return cGroup; }
 		
-		//'assume'
-		public Keyword getAssumeKeyword_0() { return cAssumeKeyword_0; }
+		//'observe'
+		public Keyword getObserveKeyword_0() { return cObserveKeyword_0; }
 		
 		//'time'
 		public Keyword getTimeKeyword_1() { return cTimeKeyword_1; }
 		
-		//'('
-		public Keyword getLeftParenthesisKeyword_2() { return cLeftParenthesisKeyword_2; }
-		
 		//event=ComponentPortEventReference
-		public Assignment getEventAssignment_3() { return cEventAssignment_3; }
+		public Assignment getEventAssignment_2() { return cEventAssignment_2; }
 		
 		//ComponentPortEventReference
-		public RuleCall getEventComponentPortEventReferenceParserRuleCall_3_0() { return cEventComponentPortEventReferenceParserRuleCall_3_0; }
-		
-		//')'
-		public Keyword getRightParenthesisKeyword_4() { return cRightParenthesisKeyword_4; }
-		
-		//'='
-		public Keyword getEqualsSignKeyword_5() { return cEqualsSignKeyword_5; }
-		
-		//value=DOUBLE
-		public Assignment getValueAssignment_6() { return cValueAssignment_6; }
-		
-		//DOUBLE
-		public RuleCall getValueDOUBLETerminalRuleCall_6_0() { return cValueDOUBLETerminalRuleCall_6_0; }
+		public RuleCall getEventComponentPortEventReferenceParserRuleCall_2_0() { return cEventComponentPortEventReferenceParserRuleCall_2_0; }
 		
 		//'~'
-		public Keyword getTildeKeyword_7() { return cTildeKeyword_7; }
+		public Keyword getTildeKeyword_3() { return cTildeKeyword_3; }
 		
 		//randomvariable=StochasticModel
-		public Assignment getRandomvariableAssignment_8() { return cRandomvariableAssignment_8; }
+		public Assignment getRandomvariableAssignment_4() { return cRandomvariableAssignment_4; }
 		
 		//StochasticModel
-		public RuleCall getRandomvariableStochasticModelParserRuleCall_8_0() { return cRandomvariableStochasticModelParserRuleCall_8_0; }
+		public RuleCall getRandomvariableStochasticModelParserRuleCall_4_0() { return cRandomvariableStochasticModelParserRuleCall_4_0; }
 	}
 	public class ObserveParameterElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.ObserveParameter");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cAssumeKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cObserveKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cParameterKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cEventAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cEventComponentPortEventReferenceParserRuleCall_2_0 = (RuleCall)cEventAssignment_2.eContents().get(0);
-		private final Keyword cFullStopKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cColonColonKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final Assignment cParameterAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final CrossReference cParameterParameterDeclarationCrossReference_4_0 = (CrossReference)cParameterAssignment_4.eContents().get(0);
 		private final RuleCall cParameterParameterDeclarationIDTerminalRuleCall_4_0_1 = (RuleCall)cParameterParameterDeclarationCrossReference_4_0.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Assignment cValueAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cValueDOUBLETerminalRuleCall_6_0 = (RuleCall)cValueAssignment_6.eContents().get(0);
-		private final Keyword cTildeKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		private final Assignment cRandomvariableAssignment_8 = (Assignment)cGroup.eContents().get(8);
-		private final RuleCall cRandomvariableStochasticModelParserRuleCall_8_0 = (RuleCall)cRandomvariableAssignment_8.eContents().get(0);
+		private final Keyword cTildeKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cRandomvariableAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cRandomvariableStochasticModelParserRuleCall_6_0 = (RuleCall)cRandomvariableAssignment_6.eContents().get(0);
 		
 		//ObserveParameter returns AnalysisModel::ObserveParameter:
-		//    'assume' 'parameter' event=ComponentPortEventReference"."parameter=[ParameterDeclaration] "=" value=DOUBLE "~" randomvariable=StochasticModel
+		//    'observe' 'parameter' event=ComponentPortEventReference"::"parameter=[ParameterDeclaration] "~" randomvariable=StochasticModel
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'assume' 'parameter' event=ComponentPortEventReference"."parameter=[ParameterDeclaration] "=" value=DOUBLE "~" randomvariable=StochasticModel
+		//'observe' 'parameter' event=ComponentPortEventReference"::"parameter=[ParameterDeclaration] "~" randomvariable=StochasticModel
 		public Group getGroup() { return cGroup; }
 		
-		//'assume'
-		public Keyword getAssumeKeyword_0() { return cAssumeKeyword_0; }
+		//'observe'
+		public Keyword getObserveKeyword_0() { return cObserveKeyword_0; }
 		
 		//'parameter'
 		public Keyword getParameterKeyword_1() { return cParameterKeyword_1; }
@@ -1467,8 +1446,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//ComponentPortEventReference
 		public RuleCall getEventComponentPortEventReferenceParserRuleCall_2_0() { return cEventComponentPortEventReferenceParserRuleCall_2_0; }
 		
-		//"."
-		public Keyword getFullStopKeyword_3() { return cFullStopKeyword_3; }
+		//"::"
+		public Keyword getColonColonKeyword_3() { return cColonColonKeyword_3; }
 		
 		//parameter=[ParameterDeclaration]
 		public Assignment getParameterAssignment_4() { return cParameterAssignment_4; }
@@ -1479,51 +1458,46 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//ID
 		public RuleCall getParameterParameterDeclarationIDTerminalRuleCall_4_0_1() { return cParameterParameterDeclarationIDTerminalRuleCall_4_0_1; }
 		
-		//"="
-		public Keyword getEqualsSignKeyword_5() { return cEqualsSignKeyword_5; }
-		
-		//value=DOUBLE
-		public Assignment getValueAssignment_6() { return cValueAssignment_6; }
-		
-		//DOUBLE
-		public RuleCall getValueDOUBLETerminalRuleCall_6_0() { return cValueDOUBLETerminalRuleCall_6_0; }
-		
 		//"~"
-		public Keyword getTildeKeyword_7() { return cTildeKeyword_7; }
+		public Keyword getTildeKeyword_5() { return cTildeKeyword_5; }
 		
 		//randomvariable=StochasticModel
-		public Assignment getRandomvariableAssignment_8() { return cRandomvariableAssignment_8; }
+		public Assignment getRandomvariableAssignment_6() { return cRandomvariableAssignment_6; }
 		
 		//StochasticModel
-		public RuleCall getRandomvariableStochasticModelParserRuleCall_8_0() { return cRandomvariableStochasticModelParserRuleCall_8_0; }
+		public RuleCall getRandomvariableStochasticModelParserRuleCall_6_0() { return cRandomvariableStochasticModelParserRuleCall_6_0; }
 	}
 	public class EndConditionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.EndCondition");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cEndKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cEventAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cEventComponentPortEventReferenceParserRuleCall_1_0 = (RuleCall)cEventAssignment_1.eContents().get(0);
+		private final Keyword cConditionKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Keyword cRaisedKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cEventAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cEventComponentPortEventReferenceParserRuleCall_3_0 = (RuleCall)cEventAssignment_3.eContents().get(0);
 		
 		//EndCondition returns AnalysisModel::EndCondition:
-		//    'end' event=ComponentPortEventReference  'raised'
+		//    'end' 'condition' 'raised' event=ComponentPortEventReference
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'end' event=ComponentPortEventReference  'raised'
+		//'end' 'condition' 'raised' event=ComponentPortEventReference
 		public Group getGroup() { return cGroup; }
 		
 		//'end'
 		public Keyword getEndKeyword_0() { return cEndKeyword_0; }
 		
-		//event=ComponentPortEventReference
-		public Assignment getEventAssignment_1() { return cEventAssignment_1; }
-		
-		//ComponentPortEventReference
-		public RuleCall getEventComponentPortEventReferenceParserRuleCall_1_0() { return cEventComponentPortEventReferenceParserRuleCall_1_0; }
+		//'condition'
+		public Keyword getConditionKeyword_1() { return cConditionKeyword_1; }
 		
 		//'raised'
 		public Keyword getRaisedKeyword_2() { return cRaisedKeyword_2; }
+		
+		//event=ComponentPortEventReference
+		public Assignment getEventAssignment_3() { return cEventAssignment_3; }
+		
+		//ComponentPortEventReference
+		public RuleCall getEventComponentPortEventReferenceParserRuleCall_3_0() { return cEventComponentPortEventReferenceParserRuleCall_3_0; }
 	}
 	public class AnalysisConditionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.AnalysisCondition");
@@ -4600,12 +4574,14 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	private final PackageElements pPackage;
 	private final ComponentElements pComponent;
-	private final RequirementComponentElements pRequirementComponent;
-	private final RequirementAspectElements pRequirementAspect;
-	private final LowerThanElements pLowerThan;
-	private final GreaterThanElements pGreaterThan;
-	private final IsBetweenElements pIsBetween;
 	private final AnalysisComponentElements pAnalysisComponent;
+	private final AnalysisMethodElements pAnalysisMethod;
+	private final SimulationAnalysisMethodElements pSimulationAnalysisMethod;
+	private final ImportanceSamplingElements pImportanceSampling;
+	private final MCMCElements pMCMC;
+	private final MCMCKernelElements pMCMCKernel;
+	private final NUTSElements pNUTS;
+	private final HMCElements pHMC;
 	private final RecursiveComponentReferenceElements pRecursiveComponentReference;
 	private final ComponentPortEventReferenceElements pComponentPortEventReference;
 	private final AnalysisAspectElements pAnalysisAspect;
@@ -4707,12 +4683,14 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		this.gaTerminals = gaTerminals;
 		this.pPackage = new PackageElements();
 		this.pComponent = new ComponentElements();
-		this.pRequirementComponent = new RequirementComponentElements();
-		this.pRequirementAspect = new RequirementAspectElements();
-		this.pLowerThan = new LowerThanElements();
-		this.pGreaterThan = new GreaterThanElements();
-		this.pIsBetween = new IsBetweenElements();
 		this.pAnalysisComponent = new AnalysisComponentElements();
+		this.pAnalysisMethod = new AnalysisMethodElements();
+		this.pSimulationAnalysisMethod = new SimulationAnalysisMethodElements();
+		this.pImportanceSampling = new ImportanceSamplingElements();
+		this.pMCMC = new MCMCElements();
+		this.pMCMCKernel = new MCMCKernelElements();
+		this.pNUTS = new NUTSElements();
+		this.pHMC = new HMCElements();
 		this.pRecursiveComponentReference = new RecursiveComponentReferenceElements();
 		this.pComponentPortEventReference = new ComponentPortEventReferenceElements();
 		this.pAnalysisAspect = new AnalysisAspectElements();
@@ -4857,8 +4835,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//    EnvironmentCascadeCompositeComponent |
 	//    EnvironmentSynchronousCompositeComponent |
 	//    EnvironmentAsynchronousCompositeComponent |
-	//    AnalysisComponent |
-	//    RequirementComponent
+	//    AnalysisComponent //|
+	//    //RequirementComponent
 	//;
 	public ComponentElements getComponentAccess() {
 		return pComponent;
@@ -4869,6 +4847,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	////defining Analysis and Requirement models
+	///*
 	//RequirementComponent returns AnalysisModel::RequirementComponent:
 	//    'requirement' name=ID
 	//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
@@ -4879,61 +4858,22 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//        conditions+=AnalysisCondition)*
 	//    '}'
 	//;
-	public RequirementComponentElements getRequirementComponentAccess() {
-		return pRequirementComponent;
-	}
-	
-	public ParserRule getRequirementComponentRule() {
-		return getRequirementComponentAccess().getRule();
-	}
-	
 	//RequirementAspect returns AnalysisModel::RequirementAspect:
 	//    LowerThan | GreaterThan | IsBetween
 	//;
-	public RequirementAspectElements getRequirementAspectAccess() {
-		return pRequirementAspect;
-	}
-	
-	public ParserRule getRequirementAspectRule() {
-		return getRequirementAspectAccess().getRule();
-	}
-	
 	//LowerThan returns AnalysisModel::LowerThan:
 	//    'lower than' value=DOUBLE
 	//    ('description' description=STRING)?
 	//;
-	public LowerThanElements getLowerThanAccess() {
-		return pLowerThan;
-	}
-	
-	public ParserRule getLowerThanRule() {
-		return getLowerThanAccess().getRule();
-	}
-	
 	//GreaterThan returns AnalysisModel::GreaterThan:
 	//    'greater than' value=DOUBLE
 	//    ('description' description=STRING)?
 	//;
-	public GreaterThanElements getGreaterThanAccess() {
-		return pGreaterThan;
-	}
-	
-	public ParserRule getGreaterThanRule() {
-		return getGreaterThanAccess().getRule();
-	}
-	
 	//IsBetween returns AnalysisModel::IsBetween:
 	//    'in' '[' lowerBound=DOUBLE ',' upperBound=DOUBLE ']'
 	//    ('description' description=STRING)?
 	//;
-	public IsBetweenElements getIsBetweenAccess() {
-		return pIsBetween;
-	}
-	
-	public ParserRule getIsBetweenRule() {
-		return getIsBetweenAccess().getRule();
-	}
-	
+	//*/
 	//AnalysisComponent returns AnalysisModel::AnalysisComponent:
 	//    'analysis' name=ID
 	//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
@@ -4944,12 +4884,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//            ((conditions+=AnalysisCondition)|
 	//            (priorydistribution+=PrioryDistribution))*
 	//        '}')?
-	//        ('@' 'Configuration' '{'
-	//            ((endcondition+=EndCondition)|
-	//            ("simulation" "time" "=" simulationTime=DOUBLE)|
-	//            ("simulation" "number" "=" simulationNumber=INTEGER)|
-	//            ("warmup" "time" "=" warmupTime=DOUBLE))*
-	//        '}')?
+	//        analysismethod=AnalysisMethod
 	//    '}'
 	//;
 	public AnalysisComponentElements getAnalysisComponentAccess() {
@@ -4960,8 +4895,97 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		return getAnalysisComponentAccess().getRule();
 	}
 	
+	//AnalysisMethod returns AnalysisModel::AnalysisMethod:
+	//    SimulationAnalysisMethod
+	//;
+	public AnalysisMethodElements getAnalysisMethodAccess() {
+		return pAnalysisMethod;
+	}
+	
+	public ParserRule getAnalysisMethodRule() {
+		return getAnalysisMethodAccess().getRule();
+	}
+	
+	//SimulationAnalysisMethod returns AnalysisModel::SimulationAnalysisMethod:
+	//    ImportanceSampling | MCMC
+	//;
+	public SimulationAnalysisMethodElements getSimulationAnalysisMethodAccess() {
+		return pSimulationAnalysisMethod;
+	}
+	
+	public ParserRule getSimulationAnalysisMethodRule() {
+		return getSimulationAnalysisMethodAccess().getRule();
+	}
+	
+	//ImportanceSampling returns AnalysisModel::ImportanceSampling:
+	//    '@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
+	//            ((endcondition+=EndCondition)|
+	//            ("simulation" "time" "=" simulationTime=DOUBLE)|
+	//            ("simulation" "number" "=" simulationNumber=INTEGER)|
+	//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+	//        '}'
+	//;
+	public ImportanceSamplingElements getImportanceSamplingAccess() {
+		return pImportanceSampling;
+	}
+	
+	public ParserRule getImportanceSamplingRule() {
+		return getImportanceSamplingAccess().getRule();
+	}
+	
+	//MCMC returns AnalysisModel::MCMC:
+	//    '@' 'Configuration' '(' 'MCMC' ')' '{'
+	//            ((endcondition+=EndCondition)|
+	//            ("simulation" "time" "=" simulationTime=DOUBLE)|
+	//            ("simulation" "number" "=" simulationNumber=INTEGER)|
+	//            ("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+	//            ("kernel" "=" kernel=MCMCKernel)|
+	//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+	//        '}'
+	//;
+	public MCMCElements getMCMCAccess() {
+		return pMCMC;
+	}
+	
+	public ParserRule getMCMCRule() {
+		return getMCMCAccess().getRule();
+	}
+	
+	//MCMCKernel returns AnalysisModel::MCMCKernel:
+	//    NUTS | HMC
+	//;
+	public MCMCKernelElements getMCMCKernelAccess() {
+		return pMCMCKernel;
+	}
+	
+	public ParserRule getMCMCKernelRule() {
+		return getMCMCKernelAccess().getRule();
+	}
+	
+	//NUTS returns AnalysisModel::NUTS:
+	//    {AnalysisModel::NUTS} "NUTS"
+	//;
+	public NUTSElements getNUTSAccess() {
+		return pNUTS;
+	}
+	
+	public ParserRule getNUTSRule() {
+		return getNUTSAccess().getRule();
+	}
+	
+	//HMC returns AnalysisModel::HMC:
+	//    {AnalysisModel::HMC} "HMC"
+	//;
+	public HMCElements getHMCAccess() {
+		return pHMC;
+	}
+	
+	public ParserRule getHMCRule() {
+		return getHMCAccess().getRule();
+	}
+	
 	//RecursiveComponentReference returns AnalysisModel::RecursiveComponentReference:
-	//    "["component=[EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]('.'recursivecomponentreference=RecursiveComponentReference)?"]"
+	//    component = [EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]
 	//;
 	public RecursiveComponentReferenceElements getRecursiveComponentReferenceAccess() {
 		return pRecursiveComponentReference;
@@ -4972,7 +4996,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//ComponentPortEventReference returns AnalysisModel::ComponentPortEventReference:
-	//    'event'  component=RecursiveComponentReference ':'port=[InterfaceModel::Port]'->'event=[InterfaceModel::Event]
+	//    'event'  component=RecursiveComponentReference '.'port=[InterfaceModel::Port]'.'event=[InterfaceModel::Event]
 	//;
 	public ComponentPortEventReferenceElements getComponentPortEventReferenceAccess() {
 		return pComponentPortEventReference;
@@ -5117,7 +5141,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//ObserveTime returns AnalysisModel::ObserveTime:
-	//    'assume' 'time' '(' event=ComponentPortEventReference ')'  '=' value=DOUBLE '~' randomvariable=StochasticModel
+	//    'observe' 'time'  event=ComponentPortEventReference  '~' randomvariable=StochasticModel
 	//;
 	public ObserveTimeElements getObserveTimeAccess() {
 		return pObserveTime;
@@ -5128,7 +5152,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//ObserveParameter returns AnalysisModel::ObserveParameter:
-	//    'assume' 'parameter' event=ComponentPortEventReference"."parameter=[ParameterDeclaration] "=" value=DOUBLE "~" randomvariable=StochasticModel
+	//    'observe' 'parameter' event=ComponentPortEventReference"::"parameter=[ParameterDeclaration] "~" randomvariable=StochasticModel
 	//;
 	public ObserveParameterElements getObserveParameterAccess() {
 		return pObserveParameter;
@@ -5139,7 +5163,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//EndCondition returns AnalysisModel::EndCondition:
-	//    'end' event=ComponentPortEventReference  'raised'
+	//    'end' 'condition' 'raised' event=ComponentPortEventReference
 	//;
 	public EndConditionElements getEndConditionAccess() {
 		return pEndCondition;

@@ -5,9 +5,9 @@ package hu.bme.mit.gamma.environment.language.validation;
 
 import org.eclipse.xtext.validation.Check;
 
-import hu.bme.mit.gamma.environment.model.util.EnvironmentModelValidator;
 import hu.bme.mit.gamma.environment.model.AbstractEnvironmentCompositeComponent;
 import hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance;
+import hu.bme.mit.gamma.environment.model.utils.EnvironmentModelValidator;
 import hu.bme.mit.gamma.expression.model.ArgumentedElement;
 import hu.bme.mit.gamma.statechart.composite.BroadcastChannel;
 import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
@@ -113,7 +113,7 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	public void checkPortBinding(PortBinding portDefinition) {
 		//if (portDefinition.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		//if (portDefinition.eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
-		handleValidationResultMessage(environmentModelValidator.checkPortBinding(portDefinition));
+		//handleValidationResultMessage(environmentModelValidator.checkPortBinding(portDefinition));
 	}
 	
 	@Check
@@ -124,7 +124,7 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 	
 	@Check
 	public void checkPortBindingWithSimpleChannel(SimpleChannel channel) {
-		//if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
+		if (channel.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		handleValidationResultMessage(environmentModelValidator.checkPortBindingWithSimpleChannel(channel));	
 	}
 	

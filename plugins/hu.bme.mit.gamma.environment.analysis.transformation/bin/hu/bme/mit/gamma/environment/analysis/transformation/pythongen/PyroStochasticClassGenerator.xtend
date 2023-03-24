@@ -10,6 +10,9 @@ import hu.bme.mit.gamma.statechart.composite.ComponentInstance
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility
 import hu.bme.mit.gamma.environment.analysis.transformation.util.ElementaryComponentCollector
 
+import static extension hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility.*
+import static extension hu.bme.mit.gamma.environment.analysis.transformation.pythongen.PyroDistGenerator.*
+
 class  PyroStochasticClassGenerator {
 	
 	static def generate(AnalysisComponent analysis_component,String packageName){
@@ -20,7 +23,7 @@ class  PyroStochasticClassGenerator {
 		var connections=ElementaryComponentCollector.collect(analysis_component.analyzedComponent,stack)
 		var expEval=ExpressionEvaluator.INSTANCE
 		var componentGenerator=new PyroComponentInstanceGenerator(packageName)
-		var distGenerator=new PyroDistGenerator(packageName)
+		var distGenerator=new PyroDistGenerator
 		var param_cntr=new Integer(0)
 '''  
 class StochasticEventGenerator():
@@ -52,7 +55,7 @@ class StochasticEventGenerator():
 			dist.reset()
 		«FOR arg : analysis_component.analyzedComponent.arguments SEPARATOR ","»
 			«IF arg instanceof StochasticExpression»
-				self.«analysis_component.analyzedComponent.type.parameterDeclarations.get(param_cntr).name»[0]=pyro.sample("param_«(param_cntr).toString»",«distGenerator.generateDitribution((arg as StochasticExpression).randomvariable)»)
+				self.«analysis_component.analyzedComponent.type.parameterDeclarations.get(param_cntr).name»[0]=pyro.sample("param_«(param_cntr).toString»",«(arg.randomvariable).generateDitribution»)
 			«ENDIF»
 			#«param_cntr++»
 		«ENDFOR»

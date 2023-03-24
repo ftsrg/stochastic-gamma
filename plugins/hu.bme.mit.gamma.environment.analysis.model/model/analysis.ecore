@@ -9,17 +9,10 @@
         eType="#//AnalysisCondition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="aspect" lowerBound="1"
         upperBound="-1" eType="#//AnalysisAspect" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationTime" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1.0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationNumber" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
-        defaultValueLiteral="100"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="priorydistribution" upperBound="-1"
         eType="#//PrioryDistribution" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="endcondition" upperBound="-1"
-        eType="#//EndCondition" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="warmupTime" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analysismethod" lowerBound="1"
+        eType="#//AnalysisMethod" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AnalysisCondition" abstract="true" eSuperTypes="#//AnalysisAspect"/>
   <eClassifiers xsi:type="ecore:EClass" name="AssumeRaised" eSuperTypes="#//AssumeCondition"/>
@@ -100,7 +93,6 @@
         eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//ParameterDeclaration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObserveCondition" abstract="true" eSuperTypes="#//AnalysisCondition">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="randomvariable" lowerBound="1"
         eType="ecore:EClass ../../hu.bme.mit.gamma.environment.stochastic.model/model/stochastic.ecore#//StochasticModel"
         containment="true"/>
@@ -108,4 +100,31 @@
   <eClassifiers xsi:type="ecore:EClass" name="AssumeCondition" abstract="true" eSuperTypes="#//AnalysisCondition"/>
   <eClassifiers xsi:type="ecore:EClass" name="ObserveTime" eSuperTypes="#//ObserveCondition"/>
   <eClassifiers xsi:type="ecore:EClass" name="EndCondition" eSuperTypes="#//AnalysisCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisMethod" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExactAnalysisMethod" abstract="true"
+      eSuperTypes="#//AnalysisMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationAnalysisMethod" abstract="true"
+      eSuperTypes="#//AnalysisMethod">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endcondition" upperBound="-1"
+        eType="#//EndCondition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="warmupTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="0.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationNumber" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="100"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportanceSampling" eSuperTypes="#//SimulationAnalysisMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MCMC" eSuperTypes="#//SimulationAnalysisMethod">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kernel" lowerBound="1"
+        eType="#//MCMCKernel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="warmupStepNum" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SVI" eSuperTypes="#//SimulationAnalysisMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MCMCKernel" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NUTS" eSuperTypes="#//MCMCKernel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HMC" eSuperTypes="#//MCMCKernel"/>
 </ecore:EPackage>

@@ -13,11 +13,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//AnalysisComponent/analyzedComponent"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//AnalysisComponent/conditions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//AnalysisComponent/aspect"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//AnalysisComponent/simulationTime"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//AnalysisComponent/simulationNumber"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//AnalysisComponent/priorydistribution"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//AnalysisComponent/endcondition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//AnalysisComponent/warmupTime"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//AnalysisComponent/analysismethod"/>
     </genClasses>
     <genClasses image="false" ecoreClass="analysis.ecore#//AnalysisCondition"/>
     <genClasses ecoreClass="analysis.ecore#//AssumeRaised"/>
@@ -80,11 +77,27 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//PrioryDistribution/parameter"/>
     </genClasses>
     <genClasses image="false" ecoreClass="analysis.ecore#//ObserveCondition">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//ObserveCondition/value"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//ObserveCondition/randomvariable"/>
     </genClasses>
     <genClasses image="false" ecoreClass="analysis.ecore#//AssumeCondition"/>
     <genClasses ecoreClass="analysis.ecore#//ObserveTime"/>
     <genClasses ecoreClass="analysis.ecore#//EndCondition"/>
+    <genClasses image="false" ecoreClass="analysis.ecore#//AnalysisMethod"/>
+    <genClasses image="false" ecoreClass="analysis.ecore#//ExactAnalysisMethod"/>
+    <genClasses image="false" ecoreClass="analysis.ecore#//SimulationAnalysisMethod">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/endcondition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/warmupTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/simulationTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/simulationNumber"/>
+    </genClasses>
+    <genClasses ecoreClass="analysis.ecore#//ImportanceSampling"/>
+    <genClasses ecoreClass="analysis.ecore#//MCMC">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//MCMC/kernel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//MCMC/warmupStepNum"/>
+    </genClasses>
+    <genClasses ecoreClass="analysis.ecore#//SVI"/>
+    <genClasses image="false" ecoreClass="analysis.ecore#//MCMCKernel"/>
+    <genClasses ecoreClass="analysis.ecore#//NUTS"/>
+    <genClasses ecoreClass="analysis.ecore#//HMC"/>
   </genPackages>
 </genmodel:GenModel>

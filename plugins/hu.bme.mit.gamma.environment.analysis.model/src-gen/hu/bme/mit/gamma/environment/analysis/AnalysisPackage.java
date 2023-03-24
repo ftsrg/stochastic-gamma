@@ -141,49 +141,22 @@ public interface AnalysisPackage extends EPackage {
 	int ANALYSIS_COMPONENT__ASPECT = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ANALYSIS_COMPONENT__SIMULATION_TIME = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ANALYSIS_COMPONENT__SIMULATION_NUMBER = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 4;
-
-	/**
 	 * The feature id for the '<em><b>Priorydistribution</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANALYSIS_COMPONENT__PRIORYDISTRIBUTION = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 5;
+	int ANALYSIS_COMPONENT__PRIORYDISTRIBUTION = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Analysismethod</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANALYSIS_COMPONENT__ENDCONDITION = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ANALYSIS_COMPONENT__WARMUP_TIME = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 7;
+	int ANALYSIS_COMPONENT__ANALYSISMETHOD = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Component</em>' class.
@@ -192,7 +165,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ANALYSIS_COMPONENT_FEATURE_COUNT = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 8;
+	int ANALYSIS_COMPONENT_FEATURE_COUNT = InterfaceModelPackage.COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Component</em>' class.
@@ -202,46 +175,6 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int ANALYSIS_COMPONENT_OPERATION_COUNT = InterfaceModelPackage.COMPONENT_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisConditionImpl <em>Condition</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisConditionImpl
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAnalysisCondition()
-	 * @generated
-	 */
-	int ANALYSIS_CONDITION = 1;
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AssumeConditionImpl <em>Assume Condition</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AssumeConditionImpl
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAssumeCondition()
-	 * @generated
-	 */
-	int ASSUME_CONDITION = 24;
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AssumeRaisedImpl <em>Assume Raised</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AssumeRaisedImpl
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAssumeRaised()
-	 * @generated
-	 */
-	int ASSUME_RAISED = 2;
-
-	/**
-	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AssumeNotRaisedImpl <em>Assume Not Raised</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AssumeNotRaisedImpl
-	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAssumeNotRaised()
-	 * @generated
-	 */
-	int ASSUME_NOT_RAISED = 3;
 
 	/**
 	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisAspectImpl <em>Aspect</em>}' class.
@@ -281,6 +214,16 @@ public interface AnalysisPackage extends EPackage {
 	int ANALYSIS_ASPECT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisConditionImpl <em>Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisConditionImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAnalysisCondition()
+	 * @generated
+	 */
+	int ANALYSIS_CONDITION = 1;
+
+	/**
 	 * The feature id for the '<em><b>Event</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -306,6 +249,16 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int ANALYSIS_CONDITION_OPERATION_COUNT = ANALYSIS_ASPECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AssumeConditionImpl <em>Assume Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AssumeConditionImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAssumeCondition()
+	 * @generated
+	 */
+	int ASSUME_CONDITION = 24;
 
 	/**
 	 * The feature id for the '<em><b>Event</b></em>' containment reference.
@@ -335,6 +288,16 @@ public interface AnalysisPackage extends EPackage {
 	int ASSUME_CONDITION_OPERATION_COUNT = ANALYSIS_CONDITION_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AssumeRaisedImpl <em>Assume Raised</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AssumeRaisedImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAssumeRaised()
+	 * @generated
+	 */
+	int ASSUME_RAISED = 2;
+
+	/**
 	 * The feature id for the '<em><b>Event</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -360,6 +323,16 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int ASSUME_RAISED_OPERATION_COUNT = ASSUME_CONDITION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AssumeNotRaisedImpl <em>Assume Not Raised</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AssumeNotRaisedImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAssumeNotRaised()
+	 * @generated
+	 */
+	int ASSUME_NOT_RAISED = 3;
 
 	/**
 	 * The feature id for the '<em><b>Event</b></em>' containment reference.
@@ -646,24 +619,6 @@ public interface AnalysisPackage extends EPackage {
 	int REQUIREMENT_COMPONENT__ASPECT = ANALYSIS_COMPONENT__ASPECT;
 
 	/**
-	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_COMPONENT__SIMULATION_TIME = ANALYSIS_COMPONENT__SIMULATION_TIME;
-
-	/**
-	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_COMPONENT__SIMULATION_NUMBER = ANALYSIS_COMPONENT__SIMULATION_NUMBER;
-
-	/**
 	 * The feature id for the '<em><b>Priorydistribution</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -673,22 +628,13 @@ public interface AnalysisPackage extends EPackage {
 	int REQUIREMENT_COMPONENT__PRIORYDISTRIBUTION = ANALYSIS_COMPONENT__PRIORYDISTRIBUTION;
 
 	/**
-	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Analysismethod</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUIREMENT_COMPONENT__ENDCONDITION = ANALYSIS_COMPONENT__ENDCONDITION;
-
-	/**
-	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUIREMENT_COMPONENT__WARMUP_TIME = ANALYSIS_COMPONENT__WARMUP_TIME;
+	int REQUIREMENT_COMPONENT__ANALYSISMETHOD = ANALYSIS_COMPONENT__ANALYSISMETHOD;
 
 	/**
 	 * The feature id for the '<em><b>Requirement</b></em>' containment reference list.
@@ -1243,22 +1189,13 @@ public interface AnalysisPackage extends EPackage {
 	int OBSERVE_CONDITION__EVENT = ANALYSIS_CONDITION__EVENT;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OBSERVE_CONDITION__VALUE = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OBSERVE_CONDITION__RANDOMVARIABLE = ANALYSIS_CONDITION_FEATURE_COUNT + 1;
+	int OBSERVE_CONDITION__RANDOMVARIABLE = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Observe Condition</em>' class.
@@ -1267,7 +1204,7 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBSERVE_CONDITION_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 2;
+	int OBSERVE_CONDITION_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Observe Condition</em>' class.
@@ -1296,15 +1233,6 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int OBSERVE_PARAMETER__EVENT = OBSERVE_CONDITION__EVENT;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OBSERVE_PARAMETER__VALUE = OBSERVE_CONDITION__VALUE;
 
 	/**
 	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
@@ -1408,15 +1336,6 @@ public interface AnalysisPackage extends EPackage {
 	int OBSERVE_TIME__EVENT = OBSERVE_CONDITION__EVENT;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OBSERVE_TIME__VALUE = OBSERVE_CONDITION__VALUE;
-
-	/**
 	 * The feature id for the '<em><b>Randomvariable</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1480,6 +1399,420 @@ public interface AnalysisPackage extends EPackage {
 	 */
 	int END_CONDITION_OPERATION_COUNT = ANALYSIS_CONDITION_OPERATION_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisMethodImpl <em>Method</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisMethodImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAnalysisMethod()
+	 * @generated
+	 */
+	int ANALYSIS_METHOD = 27;
+
+	/**
+	 * The number of structural features of the '<em>Method</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METHOD_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Method</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_METHOD_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.ExactAnalysisMethodImpl <em>Exact Analysis Method</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.ExactAnalysisMethodImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getExactAnalysisMethod()
+	 * @generated
+	 */
+	int EXACT_ANALYSIS_METHOD = 28;
+
+	/**
+	 * The number of structural features of the '<em>Exact Analysis Method</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXACT_ANALYSIS_METHOD_FEATURE_COUNT = ANALYSIS_METHOD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Exact Analysis Method</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXACT_ANALYSIS_METHOD_OPERATION_COUNT = ANALYSIS_METHOD_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl <em>Simulation Analysis Method</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	int SIMULATION_ANALYSIS_METHOD = 29;
+
+	/**
+	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD__ENDCONDITION = ANALYSIS_METHOD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD__WARMUP_TIME = ANALYSIS_METHOD_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = ANALYSIS_METHOD_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER = ANALYSIS_METHOD_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Simulation Analysis Method</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT = ANALYSIS_METHOD_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Simulation Analysis Method</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD_OPERATION_COUNT = ANALYSIS_METHOD_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.ImportanceSamplingImpl <em>Importance Sampling</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.ImportanceSamplingImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getImportanceSampling()
+	 * @generated
+	 */
+	int IMPORTANCE_SAMPLING = 30;
+
+	/**
+	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__ENDCONDITION = SIMULATION_ANALYSIS_METHOD__ENDCONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__WARMUP_TIME = SIMULATION_ANALYSIS_METHOD__WARMUP_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
+
+	/**
+	 * The number of structural features of the '<em>Importance Sampling</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING_FEATURE_COUNT = SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Importance Sampling</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING_OPERATION_COUNT = SIMULATION_ANALYSIS_METHOD_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.MCMCImpl <em>MCMC</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.MCMCImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getMCMC()
+	 * @generated
+	 */
+	int MCMC = 31;
+
+	/**
+	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__ENDCONDITION = SIMULATION_ANALYSIS_METHOD__ENDCONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__WARMUP_TIME = SIMULATION_ANALYSIS_METHOD__WARMUP_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Kernel</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__KERNEL = SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Step Num</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__WARMUP_STEP_NUM = SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>MCMC</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC_FEATURE_COUNT = SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>MCMC</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC_OPERATION_COUNT = SIMULATION_ANALYSIS_METHOD_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.SVIImpl <em>SVI</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.SVIImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getSVI()
+	 * @generated
+	 */
+	int SVI = 32;
+
+	/**
+	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__ENDCONDITION = SIMULATION_ANALYSIS_METHOD__ENDCONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__WARMUP_TIME = SIMULATION_ANALYSIS_METHOD__WARMUP_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
+
+	/**
+	 * The number of structural features of the '<em>SVI</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI_FEATURE_COUNT = SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>SVI</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI_OPERATION_COUNT = SIMULATION_ANALYSIS_METHOD_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.MCMCKernelImpl <em>MCMC Kernel</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.MCMCKernelImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getMCMCKernel()
+	 * @generated
+	 */
+	int MCMC_KERNEL = 33;
+
+	/**
+	 * The number of structural features of the '<em>MCMC Kernel</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC_KERNEL_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>MCMC Kernel</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC_KERNEL_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.NUTSImpl <em>NUTS</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.NUTSImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getNUTS()
+	 * @generated
+	 */
+	int NUTS = 34;
+
+	/**
+	 * The number of structural features of the '<em>NUTS</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUTS_FEATURE_COUNT = MCMC_KERNEL_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>NUTS</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUTS_OPERATION_COUNT = MCMC_KERNEL_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.HMCImpl <em>HMC</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.HMCImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getHMC()
+	 * @generated
+	 */
+	int HMC = 35;
+
+	/**
+	 * The number of structural features of the '<em>HMC</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HMC_FEATURE_COUNT = MCMC_KERNEL_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>HMC</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HMC_OPERATION_COUNT = MCMC_KERNEL_OPERATION_COUNT + 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.AnalysisComponent <em>Component</em>}'.
@@ -1525,28 +1858,6 @@ public interface AnalysisPackage extends EPackage {
 	EReference getAnalysisComponent_Aspect();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getSimulationTime <em>Simulation Time</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Simulation Time</em>'.
-	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getSimulationTime()
-	 * @see #getAnalysisComponent()
-	 * @generated
-	 */
-	EAttribute getAnalysisComponent_SimulationTime();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getSimulationNumber <em>Simulation Number</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Simulation Number</em>'.
-	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getSimulationNumber()
-	 * @see #getAnalysisComponent()
-	 * @generated
-	 */
-	EAttribute getAnalysisComponent_SimulationNumber();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getPriorydistribution <em>Priorydistribution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1558,26 +1869,15 @@ public interface AnalysisPackage extends EPackage {
 	EReference getAnalysisComponent_Priorydistribution();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getEndcondition <em>Endcondition</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getAnalysismethod <em>Analysismethod</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Endcondition</em>'.
-	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getEndcondition()
+	 * @return the meta object for the containment reference '<em>Analysismethod</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getAnalysismethod()
 	 * @see #getAnalysisComponent()
 	 * @generated
 	 */
-	EReference getAnalysisComponent_Endcondition();
-
-	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getWarmupTime <em>Warmup Time</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Warmup Time</em>'.
-	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisComponent#getWarmupTime()
-	 * @see #getAnalysisComponent()
-	 * @generated
-	 */
-	EAttribute getAnalysisComponent_WarmupTime();
+	EReference getAnalysisComponent_Analysismethod();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.AnalysisCondition <em>Condition</em>}'.
@@ -2052,17 +2352,6 @@ public interface AnalysisPackage extends EPackage {
 	EClass getObserveCondition();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.ObserveCondition#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see hu.bme.mit.gamma.environment.analysis.ObserveCondition#getValue()
-	 * @see #getObserveCondition()
-	 * @generated
-	 */
-	EAttribute getObserveCondition_Value();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.ObserveCondition#getRandomvariable <em>Randomvariable</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2102,6 +2391,162 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getEndCondition();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.AnalysisMethod <em>Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Method</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisMethod
+	 * @generated
+	 */
+	EClass getAnalysisMethod();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.ExactAnalysisMethod <em>Exact Analysis Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Exact Analysis Method</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.ExactAnalysisMethod
+	 * @generated
+	 */
+	EClass getExactAnalysisMethod();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod <em>Simulation Analysis Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Simulation Analysis Method</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
+	 * @generated
+	 */
+	EClass getSimulationAnalysisMethod();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getEndcondition <em>Endcondition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Endcondition</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getEndcondition()
+	 * @see #getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	EReference getSimulationAnalysisMethod_Endcondition();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime <em>Warmup Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Warmup Time</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime()
+	 * @see #getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	EAttribute getSimulationAnalysisMethod_WarmupTime();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime <em>Simulation Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Simulation Time</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime()
+	 * @see #getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	EAttribute getSimulationAnalysisMethod_SimulationTime();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Simulation Number</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber()
+	 * @see #getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	EAttribute getSimulationAnalysisMethod_SimulationNumber();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.ImportanceSampling <em>Importance Sampling</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Importance Sampling</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.ImportanceSampling
+	 * @generated
+	 */
+	EClass getImportanceSampling();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.MCMC <em>MCMC</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>MCMC</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.MCMC
+	 * @generated
+	 */
+	EClass getMCMC();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.MCMC#getKernel <em>Kernel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Kernel</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.MCMC#getKernel()
+	 * @see #getMCMC()
+	 * @generated
+	 */
+	EReference getMCMC_Kernel();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.MCMC#getWarmupStepNum <em>Warmup Step Num</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Warmup Step Num</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.MCMC#getWarmupStepNum()
+	 * @see #getMCMC()
+	 * @generated
+	 */
+	EAttribute getMCMC_WarmupStepNum();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.SVI <em>SVI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>SVI</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SVI
+	 * @generated
+	 */
+	EClass getSVI();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.MCMCKernel <em>MCMC Kernel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>MCMC Kernel</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.MCMCKernel
+	 * @generated
+	 */
+	EClass getMCMCKernel();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.NUTS <em>NUTS</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>NUTS</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.NUTS
+	 * @generated
+	 */
+	EClass getNUTS();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.HMC <em>HMC</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>HMC</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.HMC
+	 * @generated
+	 */
+	EClass getHMC();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2161,22 +2606,6 @@ public interface AnalysisPackage extends EPackage {
 		EReference ANALYSIS_COMPONENT__ASPECT = eINSTANCE.getAnalysisComponent_Aspect();
 
 		/**
-		 * The meta object literal for the '<em><b>Simulation Time</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ANALYSIS_COMPONENT__SIMULATION_TIME = eINSTANCE.getAnalysisComponent_SimulationTime();
-
-		/**
-		 * The meta object literal for the '<em><b>Simulation Number</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ANALYSIS_COMPONENT__SIMULATION_NUMBER = eINSTANCE.getAnalysisComponent_SimulationNumber();
-
-		/**
 		 * The meta object literal for the '<em><b>Priorydistribution</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2185,20 +2614,12 @@ public interface AnalysisPackage extends EPackage {
 		EReference ANALYSIS_COMPONENT__PRIORYDISTRIBUTION = eINSTANCE.getAnalysisComponent_Priorydistribution();
 
 		/**
-		 * The meta object literal for the '<em><b>Endcondition</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Analysismethod</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ANALYSIS_COMPONENT__ENDCONDITION = eINSTANCE.getAnalysisComponent_Endcondition();
-
-		/**
-		 * The meta object literal for the '<em><b>Warmup Time</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ANALYSIS_COMPONENT__WARMUP_TIME = eINSTANCE.getAnalysisComponent_WarmupTime();
+		EReference ANALYSIS_COMPONENT__ANALYSISMETHOD = eINSTANCE.getAnalysisComponent_Analysismethod();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisConditionImpl <em>Condition</em>}' class.
@@ -2607,14 +3028,6 @@ public interface AnalysisPackage extends EPackage {
 		EClass OBSERVE_CONDITION = eINSTANCE.getObserveCondition();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute OBSERVE_CONDITION__VALUE = eINSTANCE.getObserveCondition_Value();
-
-		/**
 		 * The meta object literal for the '<em><b>Randomvariable</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2651,6 +3064,144 @@ public interface AnalysisPackage extends EPackage {
 		 * @generated
 		 */
 		EClass END_CONDITION = eINSTANCE.getEndCondition();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.AnalysisMethodImpl <em>Method</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisMethodImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getAnalysisMethod()
+		 * @generated
+		 */
+		EClass ANALYSIS_METHOD = eINSTANCE.getAnalysisMethod();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.ExactAnalysisMethodImpl <em>Exact Analysis Method</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.ExactAnalysisMethodImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getExactAnalysisMethod()
+		 * @generated
+		 */
+		EClass EXACT_ANALYSIS_METHOD = eINSTANCE.getExactAnalysisMethod();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl <em>Simulation Analysis Method</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getSimulationAnalysisMethod()
+		 * @generated
+		 */
+		EClass SIMULATION_ANALYSIS_METHOD = eINSTANCE.getSimulationAnalysisMethod();
+
+		/**
+		 * The meta object literal for the '<em><b>Endcondition</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SIMULATION_ANALYSIS_METHOD__ENDCONDITION = eINSTANCE.getSimulationAnalysisMethod_Endcondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Warmup Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIMULATION_ANALYSIS_METHOD__WARMUP_TIME = eINSTANCE.getSimulationAnalysisMethod_WarmupTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Simulation Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = eINSTANCE.getSimulationAnalysisMethod_SimulationTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Simulation Number</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER = eINSTANCE.getSimulationAnalysisMethod_SimulationNumber();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.ImportanceSamplingImpl <em>Importance Sampling</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.ImportanceSamplingImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getImportanceSampling()
+		 * @generated
+		 */
+		EClass IMPORTANCE_SAMPLING = eINSTANCE.getImportanceSampling();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.MCMCImpl <em>MCMC</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.MCMCImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getMCMC()
+		 * @generated
+		 */
+		EClass MCMC = eINSTANCE.getMCMC();
+
+		/**
+		 * The meta object literal for the '<em><b>Kernel</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MCMC__KERNEL = eINSTANCE.getMCMC_Kernel();
+
+		/**
+		 * The meta object literal for the '<em><b>Warmup Step Num</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MCMC__WARMUP_STEP_NUM = eINSTANCE.getMCMC_WarmupStepNum();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.SVIImpl <em>SVI</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.SVIImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getSVI()
+		 * @generated
+		 */
+		EClass SVI = eINSTANCE.getSVI();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.MCMCKernelImpl <em>MCMC Kernel</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.MCMCKernelImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getMCMCKernel()
+		 * @generated
+		 */
+		EClass MCMC_KERNEL = eINSTANCE.getMCMCKernel();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.NUTSImpl <em>NUTS</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.NUTSImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getNUTS()
+		 * @generated
+		 */
+		EClass NUTS = eINSTANCE.getNUTS();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.HMCImpl <em>HMC</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.HMCImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getHMC()
+		 * @generated
+		 */
+		EClass HMC = eINSTANCE.getHMC();
 
 	}
 

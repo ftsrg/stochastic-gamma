@@ -28,19 +28,16 @@ import hu.bme.mit.gamma.environment.stochastic.stochastic.ParetoRandomVariable
 import hu.bme.mit.gamma.environment.stochastic.stochastic.BetaRandomVariable
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility
 import hu.bme.mit.gamma.environment.analysis.transformation.util.EnvironmentConnections
+import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticProcess
+import hu.bme.mit.gamma.environment.stochastic.stochastic.RandomVariable
 
 class PyroDistGenerator {	
 	
 	static Integer distcntr=0
-	final ExpressionEvaluator expEval;
-	final String packageName
+	final ExpressionEvaluator expEval=ExpressionEvaluator.INSTANCE;
+	//final String packageName
 	
-	
-	
-	new(String packageName){
-		this.packageName=packageName
-		expEval=ExpressionEvaluator.INSTANCE;
-	}
+
 	
 		
 	def generateRandomVariableClass(){
@@ -425,38 +422,42 @@ class PyroDistGenerator {
 	}
 	
 	
-	dispatch def generateDitribution(NormalRandomVariable dist){
+	static dispatch def generateDitribution(NormalRandomVariable dist){
 		'''pyro.distributions.Normal(loc=«TransformationUtility.evaluateMixedExpression((dist.mean))»,scale=«TransformationUtility.evaluateMixedExpression((dist.scale))»)'''
 	}
 	
-	dispatch def generateDitribution(WeibullRandomVariable dist){
+	static dispatch def generateDitribution(WeibullRandomVariable dist){
 		'''pyro.distributions.Weibull(concentration=«TransformationUtility.evaluateMixedExpression((dist.shape))»,shape=«TransformationUtility.evaluateMixedExpression((dist.scale))»)'''
 	}
-	dispatch def generateDitribution(GammaRandomVariable dist){
+	static dispatch def generateDitribution(GammaRandomVariable dist){
 		'''pyro.distributions.Gamma(concentration=«TransformationUtility.evaluateMixedExpression((dist.shape))»,rate=«TransformationUtility.evaluateMixedExpression((dist.scale))»)'''
 	}
-	dispatch def generateDitribution(UniformRandomVariable dist){
+	static dispatch def generateDitribution(UniformRandomVariable dist){
 		'''pyro.distributions.Uniform(low=«TransformationUtility.evaluateMixedExpression((dist.lowerBound))»,high=«TransformationUtility.evaluateMixedExpression((dist.upperBound))»)'''
 	}
-	dispatch def generateDitribution(LogNormalRandomVariable dist){
+	static dispatch def generateDitribution(LogNormalRandomVariable dist){
 		'''pyro.distributions.LogNormal(loc=«TransformationUtility.evaluateMixedExpression((dist.mean))»,scale=«TransformationUtility.evaluateMixedExpression((dist.scale))»)'''
 	}
-	dispatch def generateDitribution(ParetoRandomVariable dist){
+	static dispatch def generateDitribution(ParetoRandomVariable dist){
 		'''pyro.distributions.Pareto(alpha=«TransformationUtility.evaluateMixedExpression((dist.alpha))»,scale=«TransformationUtility.evaluateMixedExpression((dist.scale))»)'''
 	}
-	dispatch def generateDitribution(BetaRandomVariable dist){
+	static dispatch def generateDitribution(BetaRandomVariable dist){
 		'''pyro.distributions.Beta(concentration1=«TransformationUtility.evaluateMixedExpression((dist.apha))»,concentration0=«TransformationUtility.evaluateMixedExpression((dist.beta))»)'''
 	}
 	
-	dispatch def generateDitribution(ExponentialRandomVariable dist){
+	static dispatch def generateDitribution(ExponentialRandomVariable dist){
 		'''pyro.distributions.Exponential(«TransformationUtility.evaluateMixedExpression((dist.rate))»)'''
 	}
 	
-	dispatch def generateDitribution(BernoulliRandomVariable dist){
+	static dispatch def generateDitribution(BernoulliRandomVariable dist){
 		'''pyro.distributions.Bernoulli(«TransformationUtility.evaluateMixedExpression((dist.probability))»)'''
 	}
 	
-	dispatch def generateStochasticProcess(FittedGaussianProcess gp){
+	static dispatch def generateDitribution(RandomVariable dist){
+		throw new UnsupportedOperationException("Stochastic Processes are not supported yet.")
+	}
+	
+	static dispatch def generateStochasticProcess(FittedGaussianProcess gp){
 		'''
 		MLGaussProcess(
 			lr=float(«gp.lr.toString»),
@@ -466,13 +467,13 @@ class PyroDistGenerator {
 		'''
 	}
 	
-	dispatch def generateDitribution(DiracProcess dirac){
+	static dispatch def generateDitribution(DiracProcess dirac){
 		'''
 		dirac=«generateDatasetInstance(dirac.source)»,dist=None,mlgp=None
 		'''
 	}
 	
-	dispatch def generateDatasetInstance(InfluxDB dataset){
+	static dispatch def generateDatasetInstance(InfluxDB dataset){
 		'''
 		Dataset(
 			dbname="«dataset.dbname»",
@@ -499,7 +500,7 @@ class PyroDistGenerator {
 		'''
 	}
 	
-	dispatch def generateDatasetInstance(PythonSimulation dataset){
+	static dispatch def generateDatasetInstance(PythonSimulation dataset){
 '''Dataset(
 			dbname=None,
 			query=None,

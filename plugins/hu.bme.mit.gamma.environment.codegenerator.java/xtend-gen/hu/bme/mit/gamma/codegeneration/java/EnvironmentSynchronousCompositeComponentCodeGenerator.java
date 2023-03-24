@@ -576,7 +576,7 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
                 CharSequence _generateName = this.gammaEventDeclarationHandler.generateName(parameter_2);
                 _builder.append(_generateName, "\t\t");
                 _builder.append(" = ");
-                String _serialize = this.compositeComponentCodeGenerator.expressionSerializer.serialize(ExpressionModelDerivedFeatures.getDefaultExpression(parameter_2.getType()));
+                String _serialize = this.expSerializer.serialize(ExpressionModelDerivedFeatures.getDefaultExpression(parameter_2.getType()));
                 _builder.append(_serialize, "\t\t");
                 _builder.append(";");
                 _builder.newLineIfNotEmpty();
@@ -1382,7 +1382,8 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
     StringConcatenation _builder = new StringConcatenation();
     {
       boolean _isEmpty = component.getEnvironmentComponents().isEmpty();
-      if (_isEmpty) {
+      boolean _not = (!_isEmpty);
+      if (_not) {
         _builder.append("&& ");
       }
     }
@@ -1409,7 +1410,8 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
     StringConcatenation _builder = new StringConcatenation();
     {
       boolean _isEmpty = component.getEnvironmentComponents().isEmpty();
-      if (_isEmpty) {
+      boolean _not = (!_isEmpty);
+      if (_not) {
         _builder.append("&& ");
       }
     }

@@ -2,6 +2,7 @@
  */
 package hu.bme.mit.gamma.environment.analysis;
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Condition</b></em>'.
@@ -13,5 +14,4 @@ package hu.bme.mit.gamma.environment.analysis;
  * @generated
  */
 public interface AnalysisCondition extends AnalysisAspect {
-
 } // AnalysisCondition

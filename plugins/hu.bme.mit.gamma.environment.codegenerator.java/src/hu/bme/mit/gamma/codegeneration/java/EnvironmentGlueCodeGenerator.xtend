@@ -49,6 +49,26 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
 		envSchGen.generate.saveCode(BASE_PACKAGE_URI + File.separator + envUtil.schedulingInterfacePackage + File.separator + envUtil.schedulingInterfaceName + ".java")
 	}
 	
+	override execute() {
+		checkUniqueInterfaceNames
+		generateEventClass
+		generateTimerClasses
+		getTypeDeclarationRule.fireAllCurrent
+		getPortInterfaceRule.fireAllCurrent
+		generateReflectiveInterfaceRule
+		getSimpleComponentReflectionRule.fireAllCurrent
+		getSimpleComponentDeclarationRule.fireAllCurrent
+		getSynchronousCompositeComponentsRule.fireAllCurrent
+		if (hasSynchronousWrapper) {
+			generateLinkedBlockingMultiQueueClasses
+		}
+		getAsynchronousAdapterRule.fireAllCurrent
+		if (hasAsynchronousComposite) {
+			getChannelsRule.fireAllCurrent
+		}
+		getAsynchronousCompositeComponentsRule.fireAllCurrent
+	}	
+	
 	protected override getSynchronousCompositeComponentsRule() {
 		if (synchronousCompositeComponentsRule === null) {
 			 synchronousCompositeComponentsRule = createRule(AbstractSynchronousCompositeComponents.instance).action [

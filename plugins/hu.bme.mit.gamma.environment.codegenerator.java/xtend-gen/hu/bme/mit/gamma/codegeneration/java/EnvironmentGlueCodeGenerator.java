@@ -71,6 +71,29 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
   }
 
   @Override
+  public void execute() {
+    this.checkUniqueInterfaceNames();
+    this.generateEventClass();
+    this.generateTimerClasses();
+    this.statements.fireAllCurrent(this.getTypeDeclarationRule());
+    this.statements.fireAllCurrent(this.getPortInterfaceRule());
+    this.generateReflectiveInterfaceRule();
+    this.statements.fireAllCurrent(this.getSimpleComponentReflectionRule());
+    this.statements.fireAllCurrent(this.getSimpleComponentDeclarationRule());
+    this.statements.fireAllCurrent(this.getSynchronousCompositeComponentsRule());
+    boolean _hasSynchronousWrapper = this.hasSynchronousWrapper();
+    if (_hasSynchronousWrapper) {
+      this.generateLinkedBlockingMultiQueueClasses();
+    }
+    this.statements.fireAllCurrent(this.getAsynchronousAdapterRule());
+    boolean _hasAsynchronousComposite = this.hasAsynchronousComposite();
+    if (_hasAsynchronousComposite) {
+      this.statements.fireAllCurrent(this.getChannelsRule());
+    }
+    this.statements.fireAllCurrent(this.getAsynchronousCompositeComponentsRule());
+  }
+
+  @Override
   protected BatchTransformationRule<? extends IPatternMatch, ? extends ViatraQueryMatcher<?>> getSynchronousCompositeComponentsRule() {
     if ((this.synchronousCompositeComponentsRule == null)) {
       final Consumer<AbstractSynchronousCompositeComponents.Match> _function = (AbstractSynchronousCompositeComponents.Match it) -> {

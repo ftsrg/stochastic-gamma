@@ -37,7 +37,7 @@ public class PyroComponentClassGenerator {
   public PyroComponentClassGenerator(final String packageName) {
     this.packageName = packageName;
     this.expEval = ExpressionEvaluator.INSTANCE;
-    PyroDistGenerator _pyroDistGenerator = new PyroDistGenerator(packageName);
+    PyroDistGenerator _pyroDistGenerator = new PyroDistGenerator();
     this.distGenerator = _pyroDistGenerator;
   }
 
@@ -608,9 +608,6 @@ public class PyroComponentClassGenerator {
       _builder.newLine();
       _builder.append("\t");
       _builder.append("def generateEvents(self):");
-      _builder.newLine();
-      _builder.append("\t\t");
-      _builder.append("self.events.clear()");
       _builder.newLine();
       _builder.append("\t\t");
       _builder.append("pass");

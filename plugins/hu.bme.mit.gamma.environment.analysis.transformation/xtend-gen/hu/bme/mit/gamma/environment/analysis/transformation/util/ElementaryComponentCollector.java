@@ -69,7 +69,7 @@ public class ElementaryComponentCollector {
               ComponentInstance _instance_2 = req_1.getInstance();
               boolean _equals_2 = Objects.equal(_instance_2, component);
               if (_equals_2) {
-                EnvironmentConnections.Builder.addInCall(req_1.getPort(), ((BroadcastChannel)chan).getProvidedPort().getPort());
+                EnvironmentConnections.Builder.addInCall(req_1.getPort(), ((BroadcastChannel)chan).getProvidedPort());
               }
             }
           }

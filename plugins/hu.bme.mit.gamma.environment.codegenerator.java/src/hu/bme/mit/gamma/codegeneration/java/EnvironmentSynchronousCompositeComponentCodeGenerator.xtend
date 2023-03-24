@@ -213,7 +213,7 @@ class EnvironmentSynchronousCompositeComponentCodeGenerator extends SynchronousC
 					«FOR event : systemPort.outputEvents»
 						boolean isRaised«event.name.toFirstUpper»;
 						«FOR parameter : event.parameterDeclarations»
-							«parameter.type.transformType» «parameter.generateName» = «expressionSerializer.serialize(parameter.type.defaultExpression)»;
+							«parameter.type.transformType» «parameter.generateName» = «expSerializer.serialize(parameter.type.defaultExpression)»;
 						«ENDFOR»
 					«ENDFOR»
 					
@@ -421,11 +421,11 @@ class EnvironmentSynchronousCompositeComponentCodeGenerator extends SynchronousC
 	'''
 	
 	dispatch def generateIsEmpty(EnvironmentSynchronousCompositeComponent component){
-		return '''«IF component.environmentComponents.empty»&& «ENDIF»  «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR»'''
+		return '''«IF !component.environmentComponents.empty»&& «ENDIF»  «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR»'''
 	}
 	
 	dispatch def generateIsEmpty(EnvironmentCascadeCompositeComponent component){
-		return '''«IF component.environmentComponents.empty»&& «ENDIF»  «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR»'''
+		return '''«IF !component.environmentComponents.empty»&& «ENDIF»  «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR»'''
 	}
 	dispatch def generateIsEmpty(AbstractSynchronousCompositeComponent component){
 		return ""

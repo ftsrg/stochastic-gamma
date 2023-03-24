@@ -55,7 +55,7 @@ class ElementaryComponentCollector {
 				if (chan instanceof BroadcastChannel){
 					for(req : chan.requiredPorts){
 						if (req.instance==component){
-							EnvironmentConnections.Builder.addInCall(req.port,chan.providedPort.port)
+							EnvironmentConnections.Builder.addInCall(req.port,chan.providedPort)
 						}
 					}
 					/*chan.requiredPorts.filter[e|e.instance==component]

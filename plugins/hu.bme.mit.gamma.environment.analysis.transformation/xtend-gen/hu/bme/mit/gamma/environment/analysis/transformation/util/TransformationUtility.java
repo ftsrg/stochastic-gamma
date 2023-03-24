@@ -4,12 +4,20 @@ import com.google.common.base.Objects;
 import hu.bme.mit.gamma.environment.analysis.AnalysisAspect;
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.environment.analysis.AnalysisCondition;
+import hu.bme.mit.gamma.environment.analysis.AssumeCondition;
+import hu.bme.mit.gamma.environment.analysis.AssumeNotRaised;
+import hu.bme.mit.gamma.environment.analysis.AssumeRaised;
 import hu.bme.mit.gamma.environment.analysis.EndCondition;
 import hu.bme.mit.gamma.environment.analysis.Frequency;
 import hu.bme.mit.gamma.environment.analysis.MeanParameter;
 import hu.bme.mit.gamma.environment.analysis.MeanTime;
+import hu.bme.mit.gamma.environment.analysis.MeanTimeBetweenEvents;
+import hu.bme.mit.gamma.environment.analysis.ObserveCondition;
+import hu.bme.mit.gamma.environment.analysis.ObserveParameter;
+import hu.bme.mit.gamma.environment.analysis.ObserveTime;
 import hu.bme.mit.gamma.environment.analysis.Probability;
 import hu.bme.mit.gamma.environment.analysis.RecursiveComponentReference;
+import hu.bme.mit.gamma.environment.analysis.transformation.pythongen.PyroDistGenerator;
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticExpression;
 import hu.bme.mit.gamma.expression.model.DirectReferenceExpression;
@@ -49,10 +57,9 @@ public class TransformationUtility {
   }
 
   public static String generateEnvCompName(final String componentCall, final ElementaryEnvironmentComponentInstance component) {
-    String _replaceAll = componentCall.replaceAll(".get", "");
-    String _plus = (_replaceAll + ".");
+    String _replaceAll = componentCall.replaceAll(".get()", ".");
     String _name = component.getName();
-    return (_plus + _name);
+    return (_replaceAll + _name);
   }
 
   public static String generateAspectName(final AnalysisAspect aspect) {
@@ -141,45 +148,109 @@ public class TransformationUtility {
     return _builder;
   }
 
-  public static CharSequence generateSimulationReturn(final List<AnalysisAspect> aspects) {
+  public static CharSequence generatePyroAspectRegistry(final List<AnalysisAspect> aspects) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
     _builder.append("#register the result of the analysis to the Pyro");
     _builder.newLine();
     {
       for(final AnalysisAspect aspect : aspects) {
-        CharSequence _generateGetValueCalls = TransformationUtility.generateGetValueCalls(aspect);
-        _builder.append(_generateGetValueCalls);
-        _builder.newLineIfNotEmpty();
         _builder.append("pyro.deterministic(\"");
-        String _generateAspectName = TransformationUtility.generateAspectName(aspect);
-        _builder.append(_generateAspectName);
+        CharSequence _pyroName = TransformationUtility.pyroName(aspect);
+        _builder.append(_pyroName);
         _builder.append("\",torch.tensor(");
-        CharSequence _generateGetValueCalls_1 = TransformationUtility.generateGetValueCalls(aspect);
-        _builder.append(_generateGetValueCalls_1);
+        CharSequence _valueCall = TransformationUtility.getValueCall(aspect);
+        _builder.append(_valueCall);
         _builder.append("))");
         _builder.newLineIfNotEmpty();
       }
     }
+    return _builder;
+  }
+
+  public static CharSequence generatePyroConditionRegistry(final List<AnalysisCondition> conditions) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
+    _builder.append("#register the conditions to the Pyro");
+    _builder.newLine();
+    {
+      for(final AnalysisCondition condition : conditions) {
+        CharSequence _registerCondition = TransformationUtility.registerCondition(condition);
+        _builder.append(_registerCondition);
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    return _builder;
+  }
+
+  protected static CharSequence _registerCondition(final ObserveCondition condition) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("pyro.sample(\"");
+    CharSequence _pyroName = TransformationUtility.pyroName(condition);
+    _builder.append(_pyroName);
+    _builder.append("\",");
+    CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(condition.getRandomvariable());
+    _builder.append(_generateDitribution);
+    _builder.append(", obs = torch.tensor(");
+    CharSequence _valueCall = TransformationUtility.getValueCall(condition);
+    _builder.append(_valueCall);
+    _builder.append("))");
+    return _builder;
+  }
+
+  protected static CharSequence _registerCondition(final AssumeRaised condition) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("pyro.sample(\"");
+    CharSequence _pyroName = TransformationUtility.pyroName(condition);
+    _builder.append(_pyroName);
+    _builder.append("\",pyro.distributions.Bernoulli(torch.tensor(0.999)), obs = torch.tensor(");
+    CharSequence _valueCall = TransformationUtility.getValueCall(condition);
+    _builder.append(_valueCall);
+    _builder.append("))");
+    return _builder;
+  }
+
+  protected static CharSequence _registerCondition(final AssumeNotRaised condition) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("pyro.sample(\"");
+    CharSequence _pyroName = TransformationUtility.pyroName(condition);
+    _builder.append(_pyroName);
+    _builder.append("\",pyro.distributions.Bernoulli(torch.tensor(0.0001)), obs = torch.tensor(");
+    CharSequence _valueCall = TransformationUtility.getValueCall(condition);
+    _builder.append(_valueCall);
+    _builder.append("))");
+    return _builder;
+  }
+
+  protected static CharSequence _registerCondition(final AnalysisCondition condition) {
+    String _string = condition.getClass().toString();
+    String _plus = (_string + " type of condition is not supported yet.");
+    throw new UnsupportedOperationException(_plus);
+  }
+
+  public static CharSequence generateSimulationReturn(final List<AnalysisAspect> aspects) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
     _builder.append("#return the result of the simulation");
     _builder.newLine();
     _builder.append("return ");
     {
-      for(final AnalysisAspect aspect_1 : aspects) {
-        CharSequence _generateGetValueCalls_2 = TransformationUtility.generateGetValueCalls(aspect_1);
-        _builder.append(_generateGetValueCalls_2);
+      for(final AnalysisAspect aspect : aspects) {
+        CharSequence _valueCall = TransformationUtility.getValueCall(aspect);
+        _builder.append(_valueCall);
       }
     }
     _builder.newLineIfNotEmpty();
     return _builder;
   }
 
-  protected static CharSequence _generateGetValueCalls(final MeanTime aspect) {
+  protected static CharSequence _getValueCall(final MeanTime aspect) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("stochmodel.time");
     return _builder;
   }
 
-  protected static CharSequence _generateGetValueCalls(final Probability aspect) {
+  protected static CharSequence _getValueCall(final Probability aspect) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("state2num(detmodel.monitorOf");
     String _generateAspectName = TransformationUtility.generateAspectName(aspect);
@@ -188,7 +259,7 @@ public class TransformationUtility {
     return _builder;
   }
 
-  protected static CharSequence _generateGetValueCalls(final MeanParameter aspect) {
+  protected static CharSequence _getValueCall(final MeanParameter aspect) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("detmodel.monitorOf");
     String _generateAspectName = TransformationUtility.generateAspectName(aspect);
@@ -197,12 +268,36 @@ public class TransformationUtility {
     return _builder;
   }
 
-  protected static CharSequence _generateGetValueCalls(final Frequency aspect) {
+  protected static CharSequence _getValueCall(final Frequency aspect) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("detmodel.monitorOf");
     String _generateAspectName = TransformationUtility.generateAspectName(aspect);
     _builder.append(_generateAspectName);
     _builder.append(".freq()");
+    return _builder;
+  }
+
+  protected static CharSequence _getValueCall(final ObserveTime aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("stochmodel.time");
+    return _builder;
+  }
+
+  protected static CharSequence _getValueCall(final ObserveParameter aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("detmodel.monitorOf");
+    String _generateAspectName = TransformationUtility.generateAspectName(aspect);
+    _builder.append(_generateAspectName);
+    _builder.append(".meanParameter()");
+    return _builder;
+  }
+
+  protected static CharSequence _getValueCall(final AssumeCondition aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("state2num(detmodel.monitorOf");
+    String _generateAspectName = TransformationUtility.generateAspectName(aspect);
+    _builder.append(_generateAspectName);
+    _builder.append(".state)");
     return _builder;
   }
 
@@ -342,15 +437,168 @@ public class TransformationUtility {
     return _xblockexpression;
   }
 
-  public static CharSequence generateGetValueCalls(final AnalysisAspect aspect) {
-    if (aspect instanceof Frequency) {
-      return _generateGetValueCalls((Frequency)aspect);
+  protected static CharSequence _pyroName(final Frequency aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_freq");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final MeanTime aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_mt");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final MeanParameter aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_mp");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final MeanTimeBetweenEvents aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_mtbe");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final Probability aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_prob");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final ObserveParameter aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_cond_op");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final ObserveTime aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_cond_ot");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final AssumeRaised aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_cond_ar");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final AssumeNotRaised aspect) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = aspect.getEvent().getPort().getName();
+    _builder.append(_name);
+    _builder.append("_");
+    String _name_1 = aspect.getEvent().getEvent().getName();
+    _builder.append(_name_1);
+    _builder.append("_cond_anr");
+    return _builder;
+  }
+
+  protected static CharSequence _pyroName(final AnalysisAspect aspect) {
+    String _genericString = aspect.getClass().toGenericString();
+    String _plus = (_genericString + " type of AnalysisAspect is not supported yet. ");
+    throw new UnsupportedOperationException(_plus);
+  }
+
+  public static CharSequence registerCondition(final AnalysisCondition condition) {
+    if (condition instanceof AssumeNotRaised) {
+      return _registerCondition((AssumeNotRaised)condition);
+    } else if (condition instanceof AssumeRaised) {
+      return _registerCondition((AssumeRaised)condition);
+    } else if (condition instanceof ObserveCondition) {
+      return _registerCondition((ObserveCondition)condition);
+    } else if (condition != null) {
+      return _registerCondition(condition);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(condition).toString());
+    }
+  }
+
+  public static CharSequence getValueCall(final AnalysisAspect aspect) {
+    if (aspect instanceof ObserveParameter) {
+      return _getValueCall((ObserveParameter)aspect);
+    } else if (aspect instanceof ObserveTime) {
+      return _getValueCall((ObserveTime)aspect);
+    } else if (aspect instanceof AssumeCondition) {
+      return _getValueCall((AssumeCondition)aspect);
+    } else if (aspect instanceof Frequency) {
+      return _getValueCall((Frequency)aspect);
     } else if (aspect instanceof MeanParameter) {
-      return _generateGetValueCalls((MeanParameter)aspect);
+      return _getValueCall((MeanParameter)aspect);
     } else if (aspect instanceof MeanTime) {
-      return _generateGetValueCalls((MeanTime)aspect);
+      return _getValueCall((MeanTime)aspect);
     } else if (aspect instanceof Probability) {
-      return _generateGetValueCalls((Probability)aspect);
+      return _getValueCall((Probability)aspect);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(aspect).toString());
+    }
+  }
+
+  public static CharSequence pyroName(final AnalysisAspect aspect) {
+    if (aspect instanceof AssumeNotRaised) {
+      return _pyroName((AssumeNotRaised)aspect);
+    } else if (aspect instanceof AssumeRaised) {
+      return _pyroName((AssumeRaised)aspect);
+    } else if (aspect instanceof ObserveParameter) {
+      return _pyroName((ObserveParameter)aspect);
+    } else if (aspect instanceof ObserveTime) {
+      return _pyroName((ObserveTime)aspect);
+    } else if (aspect instanceof Frequency) {
+      return _pyroName((Frequency)aspect);
+    } else if (aspect instanceof MeanParameter) {
+      return _pyroName((MeanParameter)aspect);
+    } else if (aspect instanceof MeanTime) {
+      return _pyroName((MeanTime)aspect);
+    } else if (aspect instanceof MeanTimeBetweenEvents) {
+      return _pyroName((MeanTimeBetweenEvents)aspect);
+    } else if (aspect instanceof Probability) {
+      return _pyroName((Probability)aspect);
+    } else if (aspect != null) {
+      return _pyroName(aspect);
     } else {
       throw new IllegalArgumentException("Unhandled parameter types: " +
         Arrays.<Object>asList(aspect).toString());

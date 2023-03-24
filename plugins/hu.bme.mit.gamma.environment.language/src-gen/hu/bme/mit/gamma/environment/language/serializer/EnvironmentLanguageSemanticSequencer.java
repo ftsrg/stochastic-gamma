@@ -28,19 +28,19 @@ import hu.bme.mit.gamma.environment.analysis.ComponentPortEventReference;
 import hu.bme.mit.gamma.environment.analysis.EndCondition;
 import hu.bme.mit.gamma.environment.analysis.EventTimeRatio;
 import hu.bme.mit.gamma.environment.analysis.Frequency;
-import hu.bme.mit.gamma.environment.analysis.GreaterThan;
-import hu.bme.mit.gamma.environment.analysis.IsBetween;
-import hu.bme.mit.gamma.environment.analysis.LowerThan;
+import hu.bme.mit.gamma.environment.analysis.HMC;
+import hu.bme.mit.gamma.environment.analysis.ImportanceSampling;
+import hu.bme.mit.gamma.environment.analysis.MCMC;
 import hu.bme.mit.gamma.environment.analysis.MeanParameter;
 import hu.bme.mit.gamma.environment.analysis.MeanTime;
 import hu.bme.mit.gamma.environment.analysis.MeanTimeBetweenEvents;
+import hu.bme.mit.gamma.environment.analysis.NUTS;
 import hu.bme.mit.gamma.environment.analysis.ObserveParameter;
 import hu.bme.mit.gamma.environment.analysis.ObserveTime;
 import hu.bme.mit.gamma.environment.analysis.ParameterDistribution;
 import hu.bme.mit.gamma.environment.analysis.PrioryDistribution;
 import hu.bme.mit.gamma.environment.analysis.Probability;
 import hu.bme.mit.gamma.environment.analysis.RecursiveComponentReference;
-import hu.bme.mit.gamma.environment.analysis.RequirementComponent;
 import hu.bme.mit.gamma.environment.analysis.TimeBoundedProbability;
 import hu.bme.mit.gamma.environment.analysis.TimedProbability;
 import hu.bme.mit.gamma.environment.language.services.EnvironmentLanguageGrammarAccess;
@@ -272,14 +272,14 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 			case AnalysisPackage.FREQUENCY:
 				sequence_Frequency(context, (Frequency) semanticObject); 
 				return; 
-			case AnalysisPackage.GREATER_THAN:
-				sequence_GreaterThan(context, (GreaterThan) semanticObject); 
+			case AnalysisPackage.HMC:
+				sequence_HMC(context, (HMC) semanticObject); 
 				return; 
-			case AnalysisPackage.IS_BETWEEN:
-				sequence_IsBetween(context, (IsBetween) semanticObject); 
+			case AnalysisPackage.IMPORTANCE_SAMPLING:
+				sequence_ImportanceSampling(context, (ImportanceSampling) semanticObject); 
 				return; 
-			case AnalysisPackage.LOWER_THAN:
-				sequence_LowerThan(context, (LowerThan) semanticObject); 
+			case AnalysisPackage.MCMC:
+				sequence_MCMC(context, (MCMC) semanticObject); 
 				return; 
 			case AnalysisPackage.MEAN_PARAMETER:
 				sequence_MeanParameter(context, (MeanParameter) semanticObject); 
@@ -289,6 +289,9 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 				return; 
 			case AnalysisPackage.MEAN_TIME_BETWEEN_EVENTS:
 				sequence_MeanTimeBetweenEvents(context, (MeanTimeBetweenEvents) semanticObject); 
+				return; 
+			case AnalysisPackage.NUTS:
+				sequence_NUTS(context, (NUTS) semanticObject); 
 				return; 
 			case AnalysisPackage.OBSERVE_PARAMETER:
 				sequence_ObserveParameter(context, (ObserveParameter) semanticObject); 
@@ -307,9 +310,6 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 				return; 
 			case AnalysisPackage.RECURSIVE_COMPONENT_REFERENCE:
 				sequence_RecursiveComponentReference(context, (RecursiveComponentReference) semanticObject); 
-				return; 
-			case AnalysisPackage.REQUIREMENT_COMPONENT:
-				sequence_RequirementComponent(context, (RequirementComponent) semanticObject); 
 				return; 
 			case AnalysisPackage.TIME_BOUNDED_PROBABILITY:
 				sequence_TimeBoundedProbability(context, (TimeBoundedProbability) semanticObject); 
@@ -1123,9 +1123,8 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *         (parameterDeclarations+=ParameterDeclaration parameterDeclarations+=ParameterDeclaration*)? 
 	 *         analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance 
 	 *         aspect+=AnalysisAspect+ 
-	 *         conditions+=AnalysisCondition? 
-	 *         (priorydistribution+=PrioryDistribution? conditions+=AnalysisCondition?)* 
-	 *         (endcondition+=EndCondition | simulationTime=DOUBLE | simulationNumber=INTEGER | warmupTime=DOUBLE)*
+	 *         (conditions+=AnalysisCondition | priorydistribution+=PrioryDistribution)* 
+	 *         analysismethod=AnalysisMethod
 	 *     )
 	 * </pre>
 	 */
@@ -1352,7 +1351,7 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.ANALYSIS_ASPECT__EVENT));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getEndConditionAccess().getEventComponentPortEventReferenceParserRuleCall_1_0(), semanticObject.getEvent());
+		feeder.accept(grammarAccess.getEndConditionAccess().getEventComponentPortEventReferenceParserRuleCall_3_0(), semanticObject.getEvent());
 		feeder.finish();
 	}
 	
@@ -1742,14 +1741,30 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     RequirementAspect returns GreaterThan
-	 *     GreaterThan returns GreaterThan
+	 *     MCMCKernel returns HMC
+	 *     HMC returns HMC
 	 *
 	 * Constraint:
-	 *     (value=DOUBLE description=STRING?)
+	 *     {HMC}
 	 * </pre>
 	 */
-	protected void sequence_GreaterThan(ISerializationContext context, GreaterThan semanticObject) {
+	protected void sequence_HMC(ISerializationContext context, HMC semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     AnalysisMethod returns ImportanceSampling
+	 *     SimulationAnalysisMethod returns ImportanceSampling
+	 *     ImportanceSampling returns ImportanceSampling
+	 *
+	 * Constraint:
+	 *     (endcondition+=EndCondition | simulationTime=DOUBLE | simulationNumber=INTEGER | warmupTime=DOUBLE)+
+	 * </pre>
+	 */
+	protected void sequence_ImportanceSampling(ISerializationContext context, ImportanceSampling semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1781,21 +1796,6 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 		feeder.accept(grammarAccess.getInfluxDBAccess().getPortSTRINGTerminalRuleCall_12_0(), semanticObject.getPort());
 		feeder.accept(grammarAccess.getInfluxDBAccess().getQuerySTRINGTerminalRuleCall_16_0(), semanticObject.getQuery());
 		feeder.finish();
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
-	 *     RequirementAspect returns IsBetween
-	 *     IsBetween returns IsBetween
-	 *
-	 * Constraint:
-	 *     (lowerBound=DOUBLE upperBound=DOUBLE description=STRING?)
-	 * </pre>
-	 */
-	protected void sequence_IsBetween(ISerializationContext context, IsBetween semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1843,14 +1843,22 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     RequirementAspect returns LowerThan
-	 *     LowerThan returns LowerThan
+	 *     AnalysisMethod returns MCMC
+	 *     SimulationAnalysisMethod returns MCMC
+	 *     MCMC returns MCMC
 	 *
 	 * Constraint:
-	 *     (value=DOUBLE description=STRING?)
+	 *     (
+	 *         endcondition+=EndCondition | 
+	 *         simulationTime=DOUBLE | 
+	 *         simulationNumber=INTEGER | 
+	 *         warmupStepNum=INTEGER | 
+	 *         kernel=MCMCKernel | 
+	 *         warmupTime=DOUBLE
+	 *     )+
 	 * </pre>
 	 */
-	protected void sequence_LowerThan(ISerializationContext context, LowerThan semanticObject) {
+	protected void sequence_MCMC(ISerializationContext context, MCMC semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1927,6 +1935,21 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	/**
 	 * <pre>
 	 * Contexts:
+	 *     MCMCKernel returns NUTS
+	 *     NUTS returns NUTS
+	 *
+	 * Constraint:
+	 *     {NUTS}
+	 * </pre>
+	 */
+	protected void sequence_NUTS(ISerializationContext context, NUTS semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
 	 *     StochasticModel returns NormalRandomVariable
 	 *     RandomVariable returns NormalRandomVariable
 	 *     ContinouosRandomVariable returns NormalRandomVariable
@@ -1957,7 +1980,7 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     AnalysisCondition returns ObserveParameter
 	 *
 	 * Constraint:
-	 *     (event=ComponentPortEventReference parameter=[ParameterDeclaration|ID] value=DOUBLE randomvariable=StochasticModel)
+	 *     (event=ComponentPortEventReference parameter=[ParameterDeclaration|ID] randomvariable=StochasticModel)
 	 * </pre>
 	 */
 	protected void sequence_ObserveParameter(ISerializationContext context, ObserveParameter semanticObject) {
@@ -1966,16 +1989,13 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.ANALYSIS_ASPECT__EVENT));
 			if (transientValues.isValueTransient(semanticObject, AnalysisPackage.Literals.OBSERVE_PARAMETER__PARAMETER) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.OBSERVE_PARAMETER__PARAMETER));
-			if (transientValues.isValueTransient(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__VALUE));
 			if (transientValues.isValueTransient(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__RANDOMVARIABLE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__RANDOMVARIABLE));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getObserveParameterAccess().getEventComponentPortEventReferenceParserRuleCall_2_0(), semanticObject.getEvent());
 		feeder.accept(grammarAccess.getObserveParameterAccess().getParameterParameterDeclarationIDTerminalRuleCall_4_0_1(), semanticObject.eGet(AnalysisPackage.Literals.OBSERVE_PARAMETER__PARAMETER, false));
-		feeder.accept(grammarAccess.getObserveParameterAccess().getValueDOUBLETerminalRuleCall_6_0(), semanticObject.getValue());
-		feeder.accept(grammarAccess.getObserveParameterAccess().getRandomvariableStochasticModelParserRuleCall_8_0(), semanticObject.getRandomvariable());
+		feeder.accept(grammarAccess.getObserveParameterAccess().getRandomvariableStochasticModelParserRuleCall_6_0(), semanticObject.getRandomvariable());
 		feeder.finish();
 	}
 	
@@ -1987,22 +2007,19 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     AnalysisCondition returns ObserveTime
 	 *
 	 * Constraint:
-	 *     (event=ComponentPortEventReference value=DOUBLE randomvariable=StochasticModel)
+	 *     (event=ComponentPortEventReference randomvariable=StochasticModel)
 	 * </pre>
 	 */
 	protected void sequence_ObserveTime(ISerializationContext context, ObserveTime semanticObject) {
 		if (errorAcceptor != null) {
 			if (transientValues.isValueTransient(semanticObject, AnalysisPackage.Literals.ANALYSIS_ASPECT__EVENT) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.ANALYSIS_ASPECT__EVENT));
-			if (transientValues.isValueTransient(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__VALUE));
 			if (transientValues.isValueTransient(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__RANDOMVARIABLE) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.OBSERVE_CONDITION__RANDOMVARIABLE));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getObserveTimeAccess().getEventComponentPortEventReferenceParserRuleCall_3_0(), semanticObject.getEvent());
-		feeder.accept(grammarAccess.getObserveTimeAccess().getValueDOUBLETerminalRuleCall_6_0(), semanticObject.getValue());
-		feeder.accept(grammarAccess.getObserveTimeAccess().getRandomvariableStochasticModelParserRuleCall_8_0(), semanticObject.getRandomvariable());
+		feeder.accept(grammarAccess.getObserveTimeAccess().getEventComponentPortEventReferenceParserRuleCall_2_0(), semanticObject.getEvent());
+		feeder.accept(grammarAccess.getObserveTimeAccess().getRandomvariableStochasticModelParserRuleCall_4_0(), semanticObject.getRandomvariable());
 		feeder.finish();
 	}
 	
@@ -2242,31 +2259,17 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     RecursiveComponentReference returns RecursiveComponentReference
 	 *
 	 * Constraint:
-	 *     (component=[EnvironmentAsynchronousCompositeComponentInstance|ID] recursivecomponentreference=RecursiveComponentReference?)
+	 *     component=[EnvironmentAsynchronousCompositeComponentInstance|ID]
 	 * </pre>
 	 */
 	protected void sequence_RecursiveComponentReference(ISerializationContext context, RecursiveComponentReference semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
-	 *     Component returns RequirementComponent
-	 *     RequirementComponent returns RequirementComponent
-	 *
-	 * Constraint:
-	 *     (
-	 *         name=ID 
-	 *         (parameterDeclarations+=ParameterDeclaration parameterDeclarations+=ParameterDeclaration*)? 
-	 *         analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance 
-	 *         (aspect+=AnalysisAspect | requirement+=RequirementAspect | conditions+=AnalysisCondition)*
-	 *     )
-	 * </pre>
-	 */
-	protected void sequence_RequirementComponent(ISerializationContext context, RequirementComponent semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, AnalysisPackage.Literals.RECURSIVE_COMPONENT_REFERENCE__COMPONENT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, AnalysisPackage.Literals.RECURSIVE_COMPONENT_REFERENCE__COMPONENT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getRecursiveComponentReferenceAccess().getComponentEnvironmentAsynchronousCompositeComponentInstanceIDTerminalRuleCall_0_1(), semanticObject.eGet(AnalysisPackage.Literals.RECURSIVE_COMPONENT_REFERENCE__COMPONENT, false));
+		feeder.finish();
 	}
 	
 	

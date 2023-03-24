@@ -37,13 +37,13 @@ Component returns InterfaceModel::Component:
 	EnvironmentCascadeCompositeComponent |
 	EnvironmentSynchronousCompositeComponent |
 	EnvironmentAsynchronousCompositeComponent |
-	AnalysisComponent |
-	RequirementComponent
+	AnalysisComponent //|
+	//RequirementComponent
 ;
 
 
 //defining Analysis and Requirement models
-
+/* 
 RequirementComponent returns AnalysisModel::RequirementComponent: 
 	'requirement' name=ID
 	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
@@ -76,7 +76,7 @@ IsBetween returns AnalysisModel::IsBetween:
 	'in' '[' lowerBound=DOUBLE ',' upperBound=DOUBLE ']'
 	('description' description=STRING)?
 ;
-
+*/
 
 AnalysisComponent returns AnalysisModel::AnalysisComponent: 
 	'analysis' name=ID
@@ -88,22 +88,63 @@ AnalysisComponent returns AnalysisModel::AnalysisComponent:
 			((conditions+=AnalysisCondition)|
 			(priorydistribution+=PrioryDistribution))*
 		'}')?
-		('@' 'Configuration' '{'
+		analysismethod=AnalysisMethod
+	'}'
+;
+
+
+AnalysisMethod returns AnalysisModel::AnalysisMethod:
+	SimulationAnalysisMethod 
+;
+
+SimulationAnalysisMethod returns AnalysisModel::SimulationAnalysisMethod: 
+	ImportanceSampling | MCMC
+;
+
+ImportanceSampling returns AnalysisModel::ImportanceSampling: 
+	'@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
 			((endcondition+=EndCondition)|
 			("simulation" "time" "=" simulationTime=DOUBLE)|
 			("simulation" "number" "=" simulationNumber=INTEGER)|
 			("warmup" "time" "=" warmupTime=DOUBLE))*
-		'}')?
-	'}'
+		'}'
 ;
 
+MCMC returns AnalysisModel::MCMC: 
+	'@' 'Configuration' '(' 'MCMC' ')' '{'
+			((endcondition+=EndCondition)|
+			("simulation" "time" "=" simulationTime=DOUBLE)|
+			("simulation" "number" "=" simulationNumber=INTEGER)|
+			("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+			("kernel" "=" kernel=MCMCKernel)|
+			("warmup" "time" "=" warmupTime=DOUBLE))*
+		'}'
+;
+
+MCMCKernel returns AnalysisModel::MCMCKernel: 
+	NUTS | HMC 
+;
+
+NUTS returns AnalysisModel::NUTS: 
+	{AnalysisModel::NUTS} "NUTS"
+;
+
+
+HMC returns AnalysisModel::HMC: 
+	{AnalysisModel::HMC} "HMC"
+;
+
+
+
+
+
 RecursiveComponentReference returns AnalysisModel::RecursiveComponentReference: 
-	"["component=[EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]('.'recursivecomponentreference=RecursiveComponentReference)?"]"
+	component = [EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]
 ;
 
 
 ComponentPortEventReference returns AnalysisModel::ComponentPortEventReference: 
-	'event'  component=RecursiveComponentReference ':'port=[InterfaceModel::Port]'->'event=[InterfaceModel::Event] 
+	'event'  component=RecursiveComponentReference '.'port=[InterfaceModel::Port]'.'event=[InterfaceModel::Event] 
 ;
 
 AnalysisAspect returns AnalysisModel::AnalysisAspect: 
@@ -161,17 +202,17 @@ AssumeNotRaised returns AnalysisModel::AssumeNotRaised:
 ;
 
 ObserveTime returns AnalysisModel::ObserveTime: 
-	'assume' 'time' '(' event=ComponentPortEventReference ')'  '=' value=DOUBLE '~' randomvariable=StochasticModel
+	'observe' 'time'  event=ComponentPortEventReference  '~' randomvariable=StochasticModel
 ;
 
 
 ObserveParameter returns AnalysisModel::ObserveParameter: 
-	'assume' 'parameter' event=ComponentPortEventReference"."parameter=[ParameterDeclaration] "=" value=DOUBLE "~" randomvariable=StochasticModel
+	'observe' 'parameter' event=ComponentPortEventReference"::"parameter=[ParameterDeclaration] "~" randomvariable=StochasticModel
 ;
 
 
 EndCondition returns AnalysisModel::EndCondition: 
-	'end' event=ComponentPortEventReference  'raised'
+	'end' 'condition' 'raised' event=ComponentPortEventReference  
 ;
 
 

@@ -181,6 +181,42 @@ public class AnalysisAdapterFactory extends AdapterFactoryImpl {
 				return createEndConditionAdapter();
 			}
 			@Override
+			public Adapter caseAnalysisMethod(AnalysisMethod object) {
+				return createAnalysisMethodAdapter();
+			}
+			@Override
+			public Adapter caseExactAnalysisMethod(ExactAnalysisMethod object) {
+				return createExactAnalysisMethodAdapter();
+			}
+			@Override
+			public Adapter caseSimulationAnalysisMethod(SimulationAnalysisMethod object) {
+				return createSimulationAnalysisMethodAdapter();
+			}
+			@Override
+			public Adapter caseImportanceSampling(ImportanceSampling object) {
+				return createImportanceSamplingAdapter();
+			}
+			@Override
+			public Adapter caseMCMC(MCMC object) {
+				return createMCMCAdapter();
+			}
+			@Override
+			public Adapter caseSVI(SVI object) {
+				return createSVIAdapter();
+			}
+			@Override
+			public Adapter caseMCMCKernel(MCMCKernel object) {
+				return createMCMCKernelAdapter();
+			}
+			@Override
+			public Adapter caseNUTS(NUTS object) {
+				return createNUTSAdapter();
+			}
+			@Override
+			public Adapter caseHMC(HMC object) {
+				return createHMCAdapter();
+			}
+			@Override
 			public Adapter caseNamedElement(NamedElement object) {
 				return createNamedElementAdapter();
 			}
@@ -587,6 +623,132 @@ public class AnalysisAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEndConditionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.AnalysisMethod <em>Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisMethod
+	 * @generated
+	 */
+	public Adapter createAnalysisMethodAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.ExactAnalysisMethod <em>Exact Analysis Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.ExactAnalysisMethod
+	 * @generated
+	 */
+	public Adapter createExactAnalysisMethodAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod <em>Simulation Analysis Method</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
+	 * @generated
+	 */
+	public Adapter createSimulationAnalysisMethodAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.ImportanceSampling <em>Importance Sampling</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.ImportanceSampling
+	 * @generated
+	 */
+	public Adapter createImportanceSamplingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.MCMC <em>MCMC</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.MCMC
+	 * @generated
+	 */
+	public Adapter createMCMCAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.SVI <em>SVI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.SVI
+	 * @generated
+	 */
+	public Adapter createSVIAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.MCMCKernel <em>MCMC Kernel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.MCMCKernel
+	 * @generated
+	 */
+	public Adapter createMCMCKernelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.NUTS <em>NUTS</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.NUTS
+	 * @generated
+	 */
+	public Adapter createNUTSAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.HMC <em>HMC</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.HMC
+	 * @generated
+	 */
+	public Adapter createHMCAdapter() {
 		return null;
 	}
 

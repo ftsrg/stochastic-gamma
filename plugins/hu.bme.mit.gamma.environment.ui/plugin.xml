@@ -55,5 +55,45 @@
        </enablement>
     </commonWizard>
  </extension>
+ <extension
+       id="hu.bme.mit.gamma.environment.ui.help"
+       point="org.eclipse.help.toc">
+    <toc
+          file="toc.xml"
+          primary="true">
+    </toc>
+    <toc
+          file="tocmodeling.xml">
+    </toc>
+    <toc
+          file="tocgettingstarted.xml">
+    </toc>
+    <toc
+          file="tocreference.xml">
+    </toc>
+    <toc
+          file="tocsamples.xml">
+    </toc>
+    <toc
+          file="tocanalysis.xml">
+    </toc>
+ </extension>
+ <extension
+       point="org.eclipse.ui.perspectives">
+    <perspective
+          class="hu.bme.mit.gamma.environment.ui.perspecitves.StochasticGammaPerspectiveFactory"
+          fixed="false"
+          icon="icons/stochastic_gamma16.png"
+          id="hu.bme.mit.gamma.environment.ui.perspective"
+          name="Stochastic Gamma Perspective">
+    </perspective>
+ </extension>
+ <extension
+       point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="hu.bme.mit.gamma.environment.ui.perspective">
+    </perspectiveExtension>
+ </extension>
+
 
 </plugin>

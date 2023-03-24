@@ -25,12 +25,7 @@ import hu.bme.mit.gamma.statechart.composite.ScheduledAsynchronousCompositeCompo
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponentInstance;
 import hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures;
 import hu.bme.mit.gamma.statechart.interface_.Component;
-import hu.bme.mit.gamma.statechart.interface_.EventDeclaration;
-import hu.bme.mit.gamma.statechart.interface_.EventDirection;
-import hu.bme.mit.gamma.statechart.interface_.Interface;
-import hu.bme.mit.gamma.statechart.interface_.InterfaceRealization;
 import hu.bme.mit.gamma.statechart.interface_.Port;
-import hu.bme.mit.gamma.statechart.interface_.RealizationMode;
 
 public class EnvironmentModelDerivedFeatures extends StatechartModelDerivedFeatures {
 	public static Component getDerivedType(ComponentInstance instance) {

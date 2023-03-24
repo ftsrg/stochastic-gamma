@@ -11,6 +11,7 @@ import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeCompone
 import hu.bme.mit.gamma.statechart.interface_.Package
 import hu.bme.mit.gamma.environment.analysis.ObserveCondition
 import hu.bme.mit.gamma.environment.analysis.ObserveParameter
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
 
 class JavaEntryClassGenerator {
 	
@@ -23,10 +24,12 @@ class JavaEntryClassGenerator {
 			 (component.analyzedComponent as EnvironmentSynchronousCompositeComponentInstance).type.name.toFirstUpper
 		var i=0
 		var interfaces=component.aspect.map[a|a.event.port.interfaceRealization.interface].toSet.toList
+		var analysismethod = component.analysismethod as SimulationAnalysisMethod
+		var componentPackageName=(component.analyzedComponent.type.eContainer as Package).name.toLowerCase
 		'''
 		package javaenv;
 		
-		import «packageName».«pack.name.toLowerCase».«compName»;
+		import «packageName».«componentPackageName».«compName»;
 		«FOR a : component.aspect»
 			import «packageName».interfaces.«a.event.port.interfaceRealization.interface.name.toFirstUpper»Interface;
 		«ENDFOR»
@@ -48,7 +51,7 @@ class JavaEntryClassGenerator {
 						public MonitorOf«TransformationUtility.generateAspectName(c)» monitorOf«TransformationUtility.generateAspectName(c)»=new MonitorOf«TransformationUtility.generateAspectName(c)»();
 					«ENDFOR»
 
-					«FOR endCondition : component.endcondition»
+					«FOR endCondition : analysismethod.endcondition»
 						public MonitorOf«TransformationUtility.generateEndConditionName(endCondition)» monitorOf«TransformationUtility.generateEndConditionName(endCondition)»= new MonitorOf«TransformationUtility.generateEndConditionName(endCondition)»();
 					«ENDFOR»
 					
@@ -63,7 +66,7 @@ class JavaEntryClassGenerator {
 							detModel.get«c.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(c)»);
 						«ENDFOR»
 
-						«FOR endCondition : component.endcondition»
+						«FOR endCondition : analysismethod.endcondition»
 							detModel.get«endCondition.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateEndConditionName(endCondition)»);
 						«ENDFOR»
 					}
@@ -79,14 +82,14 @@ class JavaEntryClassGenerator {
 						«FOR c : component.conditions»
 							detModel.get«c.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(c)»);
 						«ENDFOR»
-						«FOR endCondition : component.endcondition»
+						«FOR endCondition : analysismethod.endcondition»
 							detModel.get«endCondition.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateEndConditionName(endCondition)»);
 						«ENDFOR»
 						*/
 						«FOR a : component.aspect»
 							monitorOf«TransformationUtility.generateAspectName(a)».reset();
 						«ENDFOR»											
-						«FOR endCondition : component.endcondition»
+						«FOR endCondition : analysismethod.endcondition»
 							monitorOf«TransformationUtility.generateEndConditionName(endCondition)».reset();
 						«ENDFOR»
 						detModel.reset();
@@ -109,7 +112,7 @@ class JavaEntryClassGenerator {
 						«generateMonitor(c)»
 					«ENDFOR»
 
-					«FOR endCondition : component.endcondition»
+					«FOR endCondition : analysismethod.endcondition»
 						«generateMonitor(endCondition)»
 					«ENDFOR»
 

@@ -57,6 +57,7 @@ Workflow {
 		    projectWizard = {
 		        generate = true
 		    }
+		    
 		}
 	}
 }

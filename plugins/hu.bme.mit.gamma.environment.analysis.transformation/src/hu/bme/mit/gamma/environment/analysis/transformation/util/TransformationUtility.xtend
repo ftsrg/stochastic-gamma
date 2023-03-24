@@ -19,6 +19,16 @@ import hu.bme.mit.gamma.expression.model.DirectReferenceExpression
 import hu.bme.mit.gamma.expression.util.ExpressionEvaluator
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent
 import hu.bme.mit.gamma.environment.analysis.AnalysisCondition
+import hu.bme.mit.gamma.environment.analysis.MeanTimeBetweenEvents
+import hu.bme.mit.gamma.environment.analysis.ObserveParameter
+import hu.bme.mit.gamma.environment.analysis.ObserveTime
+import hu.bme.mit.gamma.environment.analysis.AssumeRaised
+import hu.bme.mit.gamma.environment.analysis.AssumeNotRaised
+
+
+import static extension hu.bme.mit.gamma.environment.analysis.transformation.pythongen.PyroDistGenerator.*
+import hu.bme.mit.gamma.environment.analysis.ObserveCondition
+import hu.bme.mit.gamma.environment.analysis.AssumeCondition
 
 class TransformationUtility {
 	
@@ -31,7 +41,7 @@ class TransformationUtility {
 	}
 	
 	static def String generateEnvCompName(String componentCall,ElementaryEnvironmentComponentInstance component){
-		return componentCall.replaceAll(".get","")+"."+component.name
+		return componentCall.replaceAll(".get()",".")+component.name
 	}
 	 
 	
@@ -79,27 +89,75 @@ class TransformationUtility {
 	
 	static def generateName(ParameterDeclaration parameter) '''«parameter.name.toFirstLower»'''
 	
-	static def generateSimulationReturn(List<AnalysisAspect> aspects)
-	'''
-	#register the result of the analysis to the Pyro
-	«FOR aspect : aspects»«generateGetValueCalls(aspect)»
-	pyro.deterministic("«aspect.generateAspectName»",torch.tensor(«generateGetValueCalls(aspect)»))
-	«ENDFOR»
+	
+	static def generatePyroAspectRegistry(List<AnalysisAspect> aspects){
+		'''
+		
+		#register the result of the analysis to the Pyro
+		«FOR aspect : aspects»
+			pyro.deterministic("«aspect.pyroName»",torch.tensor(«aspect.valueCall»))
+		«ENDFOR»
+		'''
+	}
+	
+	static def generatePyroConditionRegistry(List<AnalysisCondition> conditions){
+		'''
+		
+		#register the conditions to the Pyro
+		«FOR condition : conditions»
+			«condition.registerCondition»
+		«ENDFOR»
+		'''
+	}
+	
+	static dispatch def registerCondition(ObserveCondition condition){
+		'''pyro.sample("«condition.pyroName»",«condition.randomvariable.generateDitribution», obs = torch.tensor(«condition.valueCall»))'''
+	}
+	
+	static dispatch def registerCondition(AssumeRaised condition){
+		'''pyro.sample("«condition.pyroName»",pyro.distributions.Bernoulli(torch.tensor(0.999)), obs = torch.tensor(«condition.valueCall»))'''
+	}
+	
+	static dispatch def registerCondition(AssumeNotRaised condition){
+		'''pyro.sample("«condition.pyroName»",pyro.distributions.Bernoulli(torch.tensor(0.0001)), obs = torch.tensor(«condition.valueCall»))'''
+	}
+	
+	static dispatch def registerCondition(AnalysisCondition condition){
+		throw new UnsupportedOperationException(condition.class.toString + " type of condition is not supported yet.")
+	}
+	
+	static def generateSimulationReturn(List<AnalysisAspect> aspects){
+		'''
+	
 	#return the result of the simulation
-	return «FOR aspect : aspects»«generateGetValueCalls(aspect)»«ENDFOR»
-	'''
+	return «FOR aspect : aspects»«aspect.valueCall»«ENDFOR»
+		'''
+	}
 	
-	static dispatch def generateGetValueCalls(MeanTime aspect)
-	'''stochmodel.time'''
+	static dispatch def getValueCall(MeanTime aspect)
+		'''stochmodel.time'''
 	
-	static dispatch def generateGetValueCalls(Probability aspect)
-	'''state2num(detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».state)'''
+	static dispatch def getValueCall(Probability aspect)
+		'''state2num(detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».state)'''
 	
-	static dispatch def generateGetValueCalls(MeanParameter aspect)
-	'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».meanParameter()'''
+	static dispatch def getValueCall(MeanParameter aspect)
+		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».meanParameter()'''
 	
-	static dispatch def generateGetValueCalls(Frequency aspect)
-	'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».freq()''' 
+	static dispatch def getValueCall(Frequency aspect)
+		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».freq()''' 
+	
+	
+	static dispatch def getValueCall(ObserveTime aspect)
+		'''stochmodel.time'''
+	
+	static dispatch def getValueCall(ObserveParameter aspect)
+		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».meanParameter()'''
+		
+	
+	static dispatch def getValueCall(AssumeCondition aspect)
+		'''state2num(detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».state)'''
+	
+	
 	
 	//Mixing Double expressions and Stochastic Expressions
 	static def evaluateMixedExpression(Expression expression){
@@ -109,20 +167,20 @@ class TransformationUtility {
 	}
 	
 	static def generateDetmodelParamsInit(AnalysisComponent component){
-	var expEval=ExpressionEvaluator.INSTANCE
-	'''
-	«FOR arg : component.analyzedComponent.arguments SEPARATOR ', '»«IF arg instanceof StochasticExpression»0.0«ELSE»«Double.toString(expEval.evaluate(arg))»«ENDIF»«ENDFOR»
-	'''
+		var expEval=ExpressionEvaluator.INSTANCE
+		'''
+		«FOR arg : component.analyzedComponent.arguments SEPARATOR ', '»«IF arg instanceof StochasticExpression»0.0«ELSE»«Double.toString(expEval.evaluate(arg))»«ENDIF»«ENDFOR»
+		'''
 	}
 	static def generateDetmodelParamsReset(AnalysisComponent component){
-	'''
-	«FOR param : component.analyzedComponent.type.parameterDeclarations SEPARATOR ', '»«TypeSerializer.INSTANCE.serialize(param.type).transformType» «param.name»«ENDFOR»
-	'''
+		'''
+		«FOR param : component.analyzedComponent.type.parameterDeclarations SEPARATOR ', '»«TypeSerializer.INSTANCE.serialize(param.type).transformType» «param.name»«ENDFOR»
+		'''
 	}
 	static def generateDetmodelParamsResetInit(AnalysisComponent component){
-	'''
-	«FOR param : component.analyzedComponent.type.parameterDeclarations SEPARATOR ', '»«param.name»«ENDFOR»
-	'''
+		'''
+		«FOR param : component.analyzedComponent.type.parameterDeclarations SEPARATOR ', '»«param.name»«ENDFOR»
+		'''
 	}
 	
 	static var i=0
@@ -132,10 +190,52 @@ class TransformationUtility {
 	}
 	
 	static def generateDetmodelParamsNew(AnalysisComponent component){
-	var expEval=ExpressionEvaluator.INSTANCE
-	i=0
-	'''
-	«FOR arg : component.analyzedComponent.arguments SEPARATOR ', '»«IF arg instanceof StochasticExpression»self.«component.analyzedComponent.type.parameterDeclarations.get(i).name»«ELSE»«Double.toString(expEval.evaluate(arg))»«ENDIF»#«increment»«ENDFOR»
-	'''
+		var expEval=ExpressionEvaluator.INSTANCE
+		i=0
+		'''
+		«FOR arg : component.analyzedComponent.arguments SEPARATOR ', '»«IF arg instanceof StochasticExpression»self.«component.analyzedComponent.type.parameterDeclarations.get(i).name»«ELSE»«Double.toString(expEval.evaluate(arg))»«ENDIF»#«increment»«ENDFOR»
+		'''
+	}
+	
+	
+	dispatch static def pyroName(Frequency aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_freq'''
+	}
+	
+	dispatch static def pyroName(MeanTime aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_mt'''
+	}
+	
+	dispatch static def pyroName(MeanParameter aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_mp'''
+	}
+	
+	dispatch static def pyroName(MeanTimeBetweenEvents aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_mtbe'''
+	}
+	
+	dispatch static def pyroName(Probability aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_prob'''
+	}
+	
+	dispatch static def pyroName(ObserveParameter aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_cond_op'''
+	}
+	
+	dispatch static def pyroName(ObserveTime aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_cond_ot'''
+	}
+	
+	dispatch static def pyroName(AssumeRaised aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_cond_ar'''
+	}
+	
+	dispatch static def pyroName(AssumeNotRaised aspect){
+		'''«aspect.event.port.name»_«aspect.event.event.name»_cond_anr'''
+	}
+	
+	
+	dispatch static def pyroName(AnalysisAspect aspect){
+		throw new UnsupportedOperationException(aspect.class.toGenericString + " type of AnalysisAspect is not supported yet. ")
 	}
 }

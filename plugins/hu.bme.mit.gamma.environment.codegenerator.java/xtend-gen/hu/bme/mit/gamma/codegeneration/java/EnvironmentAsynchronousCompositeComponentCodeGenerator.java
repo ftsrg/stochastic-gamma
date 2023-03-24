@@ -281,7 +281,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         _builder.append(" ");
         {
           boolean _isEmpty = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents().isEmpty();
-          if (_isEmpty) {
+          boolean _not = (!_isEmpty);
+          if (_not) {
             _builder.append("&& ");
           }
         }
@@ -584,8 +585,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
       for(final BroadcastChannel channel_2 : _allValuesOfbroadcastChannel_1) {
         {
           ComponentInstance _instance = channel_2.getProvidedPort().getInstance();
-          boolean _not = (!(_instance instanceof ElementaryEnvironmentComponentInstance));
-          if (_not) {
+          boolean _not_1 = (!(_instance instanceof ElementaryEnvironmentComponentInstance));
+          if (_not_1) {
             _builder.append("\t\t");
             _builder.append("channel");
             String _firstUpper_14 = StringExtensions.toFirstUpper(channel_2.getProvidedPort().getPort().getName());
@@ -609,8 +610,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
               for(final BroadcastChannels.Match channelMatch_1 : _allMatches_1) {
                 {
                   ComponentInstance _instance_1 = channelMatch_1.getRequiredPort().getInstance();
-                  boolean _not_1 = (!(_instance_1 instanceof ElementaryEnvironmentComponentInstance));
-                  if (_not_1) {
+                  boolean _not_2 = (!(_instance_1 instanceof ElementaryEnvironmentComponentInstance));
+                  if (_not_2) {
                     _builder.append("\t\t");
                     _builder.append("\t");
                     _builder.append("channel");
@@ -702,8 +703,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
           for(final PortBinding portDef : _portBindings) {
             {
               ComponentInstance _instance_2 = portDef.getInstancePortReference().getInstance();
-              boolean _not_2 = (!(_instance_2 instanceof ElementaryEnvironmentComponentInstance));
-              if (_not_2) {
+              boolean _not_3 = (!(_instance_2 instanceof ElementaryEnvironmentComponentInstance));
+              if (_not_3) {
                 _builder.append("\t");
                 _builder.append("\t\t");
                 String _name_14 = portDef.getInstancePortReference().getInstance().getName();
@@ -743,8 +744,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
           for(final PortBinding portDef_1 : _portBindings_1) {
             {
               ComponentInstance _instance_3 = portDef_1.getInstancePortReference().getInstance();
-              boolean _not_3 = (!(_instance_3 instanceof ElementaryEnvironmentComponentInstance));
-              if (_not_3) {
+              boolean _not_4 = (!(_instance_3 instanceof ElementaryEnvironmentComponentInstance));
+              if (_not_4) {
                 _builder.append("\t");
                 _builder.append("\t\t");
                 _builder.append("return ");

@@ -32,7 +32,7 @@ class PyroComponentInstanceGenerator {
 	new(String packageName){
 		this.packageName=packageName
 		expEval=ExpressionEvaluator.INSTANCE;
-		distGenerator=new PyroDistGenerator(packageName)
+		distGenerator=new PyroDistGenerator
 	}
 	 
 	dispatch def generateRule(StochasticRule rule, String name){
@@ -52,7 +52,7 @@ class PyroComponentInstanceGenerator {
 		var EnvironmentRule rule
 		builder.append("{")
 		for (port : connection.component.outports) {
-			builder.append(port.name.toFirstUpper).append(" : {")
+			builder.append("'").append(port.name.toFirstUpper).append("' : {")
 			for (event : port.interfaceRealization.interface.events){
 					var rules=connection.component.behaviorRules
 						.filter[
@@ -79,7 +79,7 @@ class PyroComponentInstanceGenerator {
 					} 
 					if (!rules.empty){
 						rule=rules.get(0)
-						builder.append(event.event.name.toFirstUpper).append(" : ")
+						builder.append("'").append(event.event.name.toFirstUpper).append("' : ")
 						builder.append(generateRule(rule,connection.component.name)).append(",")
 					} 
 			}
@@ -112,9 +112,9 @@ class PyroComponentInstanceGenerator {
 		var builder=new StringBuilder()
 		builder.append("{")
 		for (port : connection.component.outports) {
-			builder.append(port.name.toFirstUpper).append(" : {")
+			builder.append("'").append(port.name.toFirstUpper).append("' : {")
 			for (event : port.interfaceRealization.interface.events){
-				builder.append(event.event.name.toFirstUpper).append(" : {")
+				builder.append("'").append(event.event.name.toFirstUpper).append("' : {")
 				for (param : event.event.parameterDeclarations){
 					var rules=connection.component.behaviorRules
 						.filter[
@@ -127,7 +127,7 @@ class PyroComponentInstanceGenerator {
 						].toList
 					if (!rules.empty){
 						var rule=rules.get(0)
-						builder.append(param.name.toFirstLower)
+						builder.append("'").append(param.name.toFirstLower).append("'")
 						builder.append(" : ")
 						builder.append(generateRule(rule,connection.component.name))
 						builder.append(",")
@@ -240,7 +240,11 @@ class PyroComponentInstanceGenerator {
 	
 
 	def generateSwitchInstances(List<EnvironmentConnections> connections){
-		'''«FOR connection : connections»self.components.update({ "«TransformationUtility.generateEnvCompName(connection)»" : Switch«connection.component.inports.get(0).interfaceRealization.interface.name.toFirstUpper»()})«ENDFOR»'''
+		'''
+		«FOR connection : connections»
+		self.components.update({ "«TransformationUtility.generateEnvCompName(connection)»" : Switch«connection.component.inports.get(0).interfaceRealization.interface.name.toFirstUpper»()})
+		«ENDFOR»
+		'''
 	}
 	
 	

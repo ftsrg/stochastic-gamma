@@ -23,7 +23,6 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 
 	protected EnvironmentLanguageGrammarAccess grammarAccess;
 	protected AbstractElementAlias match_AnalysisComponent___CommercialAtKeyword_7_0_ConditionsKeyword_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q;
-	protected AbstractElementAlias match_AnalysisComponent___CommercialAtKeyword_8_0_ConfigurationKeyword_8_1_LeftCurlyBracketKeyword_8_2_RightCurlyBracketKeyword_8_4__q;
 	protected AbstractElementAlias match_AnalysisComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
 	protected AbstractElementAlias match_AssignablePrimaryExpression_LeftParenthesisKeyword_1_0_a;
 	protected AbstractElementAlias match_AssignablePrimaryExpression_LeftParenthesisKeyword_1_0_p;
@@ -55,13 +54,13 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	protected AbstractElementAlias match_ExpressionLanguagePrimaryExpression_LeftParenthesisKeyword_2_0_p;
 	protected AbstractElementAlias match_ExpressionPackage___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
 	protected AbstractElementAlias match_FittedGaussianProcess_GPKeyword_0_0_or___GaussKeyword_0_1_0_ProcessKeyword_0_1_1__;
+	protected AbstractElementAlias match_ImportanceSampling_MCMC___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_ImportanceSamplingKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7___or___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_MCMCKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7__;
 	protected AbstractElementAlias match_LambdaDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
 	protected AbstractElementAlias match_NotExpression_ExclamationMarkKeyword_1_0_1_or_NotKeyword_1_0_0;
 	protected AbstractElementAlias match_ParenthesesTrigger_LeftParenthesisKeyword_0_a;
 	protected AbstractElementAlias match_ParenthesesTrigger_LeftParenthesisKeyword_0_p;
 	protected AbstractElementAlias match_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1;
 	protected AbstractElementAlias match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
-	protected AbstractElementAlias match_RequirementComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q;
@@ -81,7 +80,6 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (EnvironmentLanguageGrammarAccess) access;
 		match_AnalysisComponent___CommercialAtKeyword_7_0_ConditionsKeyword_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getCommercialAtKeyword_7_0()), new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getConditionsKeyword_7_1()), new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getLeftCurlyBracketKeyword_7_2()), new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getRightCurlyBracketKeyword_7_4()));
-		match_AnalysisComponent___CommercialAtKeyword_8_0_ConfigurationKeyword_8_1_LeftCurlyBracketKeyword_8_2_RightCurlyBracketKeyword_8_4__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getCommercialAtKeyword_8_0()), new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getConfigurationKeyword_8_1()), new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getLeftCurlyBracketKeyword_8_2()), new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getRightCurlyBracketKeyword_8_4()));
 		match_AnalysisComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getAnalysisComponentAccess().getRightParenthesisKeyword_2_2()));
 		match_AssignablePrimaryExpression_LeftParenthesisKeyword_1_0_a = new TokenAlias(true, true, grammarAccess.getAssignablePrimaryExpressionAccess().getLeftParenthesisKeyword_1_0());
 		match_AssignablePrimaryExpression_LeftParenthesisKeyword_1_0_p = new TokenAlias(true, false, grammarAccess.getAssignablePrimaryExpressionAccess().getLeftParenthesisKeyword_1_0());
@@ -113,13 +111,13 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 		match_ExpressionLanguagePrimaryExpression_LeftParenthesisKeyword_2_0_p = new TokenAlias(true, false, grammarAccess.getExpressionLanguagePrimaryExpressionAccess().getLeftParenthesisKeyword_2_0());
 		match_ExpressionPackage___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getExpressionPackageAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getExpressionPackageAccess().getRightParenthesisKeyword_2_2()));
 		match_FittedGaussianProcess_GPKeyword_0_0_or___GaussKeyword_0_1_0_ProcessKeyword_0_1_1__ = new AlternativeAlias(false, false, new GroupAlias(false, false, new TokenAlias(false, false, grammarAccess.getFittedGaussianProcessAccess().getGaussKeyword_0_1_0()), new TokenAlias(false, false, grammarAccess.getFittedGaussianProcessAccess().getProcessKeyword_0_1_1())), new TokenAlias(false, false, grammarAccess.getFittedGaussianProcessAccess().getGPKeyword_0_0()));
+		match_ImportanceSampling_MCMC___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_ImportanceSamplingKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7___or___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_MCMCKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7__ = new AlternativeAlias(false, false, new GroupAlias(false, false, new TokenAlias(false, false, grammarAccess.getImportanceSamplingAccess().getCommercialAtKeyword_0()), new TokenAlias(false, false, grammarAccess.getImportanceSamplingAccess().getConfigurationKeyword_1()), new TokenAlias(false, false, grammarAccess.getImportanceSamplingAccess().getLeftParenthesisKeyword_2()), new TokenAlias(false, false, grammarAccess.getImportanceSamplingAccess().getImportanceSamplingKeyword_3()), new TokenAlias(false, false, grammarAccess.getImportanceSamplingAccess().getRightParenthesisKeyword_4()), new TokenAlias(false, false, grammarAccess.getImportanceSamplingAccess().getLeftCurlyBracketKeyword_5()), new TokenAlias(false, false, grammarAccess.getImportanceSamplingAccess().getRightCurlyBracketKeyword_7())), new GroupAlias(false, false, new TokenAlias(false, false, grammarAccess.getMCMCAccess().getCommercialAtKeyword_0()), new TokenAlias(false, false, grammarAccess.getMCMCAccess().getConfigurationKeyword_1()), new TokenAlias(false, false, grammarAccess.getMCMCAccess().getLeftParenthesisKeyword_2()), new TokenAlias(false, false, grammarAccess.getMCMCAccess().getMCMCKeyword_3()), new TokenAlias(false, false, grammarAccess.getMCMCAccess().getRightParenthesisKeyword_4()), new TokenAlias(false, false, grammarAccess.getMCMCAccess().getLeftCurlyBracketKeyword_5()), new TokenAlias(false, false, grammarAccess.getMCMCAccess().getRightCurlyBracketKeyword_7())));
 		match_LambdaDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getLambdaDeclarationAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getLambdaDeclarationAccess().getRightParenthesisKeyword_2_2()));
 		match_NotExpression_ExclamationMarkKeyword_1_0_1_or_NotKeyword_1_0_0 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getNotExpressionAccess().getExclamationMarkKeyword_1_0_1()), new TokenAlias(false, false, grammarAccess.getNotExpressionAccess().getNotKeyword_1_0_0()));
 		match_ParenthesesTrigger_LeftParenthesisKeyword_0_a = new TokenAlias(true, true, grammarAccess.getParenthesesTriggerAccess().getLeftParenthesisKeyword_0());
 		match_ParenthesesTrigger_LeftParenthesisKeyword_0_p = new TokenAlias(true, false, grammarAccess.getParenthesesTriggerAccess().getLeftParenthesisKeyword_0());
 		match_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0()), new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_1()));
 		match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getRightParenthesisKeyword_2_2()));
-		match_RequirementComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getRequirementComponentAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getRequirementComponentAccess().getRightParenthesisKeyword_2_2()));
 		match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q = new TokenAlias(false, true, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getCommaKeyword_4_1_1_0());
 		match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getLeftParenthesisKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getRightParenthesisKeyword_3_2()));
 		match_ScheduledAsynchronousCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getLeftSquareBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getRightSquareBracketKeyword_4_2()));
@@ -150,8 +148,6 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
 			if (match_AnalysisComponent___CommercialAtKeyword_7_0_ConditionsKeyword_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q.equals(syntax))
 				emit_AnalysisComponent___CommercialAtKeyword_7_0_ConditionsKeyword_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_AnalysisComponent___CommercialAtKeyword_8_0_ConfigurationKeyword_8_1_LeftCurlyBracketKeyword_8_2_RightCurlyBracketKeyword_8_4__q.equals(syntax))
-				emit_AnalysisComponent___CommercialAtKeyword_8_0_ConfigurationKeyword_8_1_LeftCurlyBracketKeyword_8_2_RightCurlyBracketKeyword_8_4__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_AnalysisComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q.equals(syntax))
 				emit_AnalysisComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_AssignablePrimaryExpression_LeftParenthesisKeyword_1_0_a.equals(syntax))
@@ -214,6 +210,8 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 				emit_ExpressionPackage___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_FittedGaussianProcess_GPKeyword_0_0_or___GaussKeyword_0_1_0_ProcessKeyword_0_1_1__.equals(syntax))
 				emit_FittedGaussianProcess_GPKeyword_0_0_or___GaussKeyword_0_1_0_ProcessKeyword_0_1_1__(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_ImportanceSampling_MCMC___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_ImportanceSamplingKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7___or___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_MCMCKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7__.equals(syntax))
+				emit_ImportanceSampling_MCMC___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_ImportanceSamplingKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7___or___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_MCMCKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7__(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_LambdaDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q.equals(syntax))
 				emit_LambdaDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_NotExpression_ExclamationMarkKeyword_1_0_1_or_NotKeyword_1_0_0.equals(syntax))
@@ -226,8 +224,6 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 				emit_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q.equals(syntax))
 				emit_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_RequirementComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q.equals(syntax))
-				emit_RequirementComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q.equals(syntax))
 				emit_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q.equals(syntax))
@@ -266,31 +262,11 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	 *     ('@' 'Conditions' '{' '}')?
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     aspect+=AnalysisAspect (ambiguity) '@' 'Configuration' '{' 'simulation' 'number' '=' simulationNumber=INTEGER
-	 *     aspect+=AnalysisAspect (ambiguity) '@' 'Configuration' '{' 'simulation' 'time' '=' simulationTime=DOUBLE
-	 *     aspect+=AnalysisAspect (ambiguity) '@' 'Configuration' '{' 'warmup' 'time' '=' warmupTime=DOUBLE
-	 *     aspect+=AnalysisAspect (ambiguity) '@' 'Configuration' '{' endcondition+=EndCondition
-	 *     aspect+=AnalysisAspect (ambiguity) ('@' 'Configuration' '{' '}')? '}' (rule end)
+	 *     aspect+=AnalysisAspect (ambiguity) analysismethod=AnalysisMethod
 	 
 	 * </pre>
 	 */
 	protected void emit_AnalysisComponent___CommercialAtKeyword_7_0_ConditionsKeyword_7_1_LeftCurlyBracketKeyword_7_2_RightCurlyBracketKeyword_7_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * <pre>
-	 * Ambiguous syntax:
-	 *     ('@' 'Configuration' '{' '}')?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     aspect+=AnalysisAspect ('@' 'Conditions' '{' '}')? (ambiguity) '}' (rule end)
-	 *     conditions+=AnalysisCondition '}' (ambiguity) '}' (rule end)
-	 *     priorydistribution+=PrioryDistribution '}' (ambiguity) '}' (rule end)
-	 
-	 * </pre>
-	 */
-	protected void emit_AnalysisComponent___CommercialAtKeyword_8_0_ConfigurationKeyword_8_1_LeftCurlyBracketKeyword_8_2_RightCurlyBracketKeyword_8_4__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -963,6 +939,39 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	/**
 	 * <pre>
 	 * Ambiguous syntax:
+	 *     (
+	  *         (
+	  *             '@' 
+	  *             'Configuration' 
+	  *             '(' 
+	  *             'ImportanceSampling' 
+	  *             ')' 
+	  *             '{' 
+	  *             '}'
+	  *         ) | 
+	  *         (
+	  *             '@' 
+	  *             'Configuration' 
+	  *             '(' 
+	  *             'MCMC' 
+	  *             ')' 
+	  *             '{' 
+	  *             '}'
+	  *         )
+	  *     )
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     (rule start) (ambiguity) (rule start)
+	 
+	 * </pre>
+	 */
+	protected void emit_ImportanceSampling_MCMC___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_ImportanceSamplingKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7___or___CommercialAtKeyword_0_ConfigurationKeyword_1_LeftParenthesisKeyword_2_MCMCKeyword_3_RightParenthesisKeyword_4_LeftCurlyBracketKeyword_5_RightCurlyBracketKeyword_7__(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
 	 *     ('(' ')')?
 	 *
 	 * This ambiguous syntax occurs at:
@@ -1050,20 +1059,6 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	 * </pre>
 	 */
 	protected void emit_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
-		acceptNodes(transition, nodes);
-	}
-	
-	/**
-	 * <pre>
-	 * Ambiguous syntax:
-	 *     ('(' ')')?
-	 *
-	 * This ambiguous syntax occurs at:
-	 *     name=ID (ambiguity) '{' 'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
-	 
-	 * </pre>
-	 */
-	protected void emit_RequirementComponent___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

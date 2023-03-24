@@ -220,6 +220,51 @@ public interface AnalysisFactory extends EFactory {
 	EndCondition createEndCondition();
 
 	/**
+	 * Returns a new object of class '<em>Importance Sampling</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Importance Sampling</em>'.
+	 * @generated
+	 */
+	ImportanceSampling createImportanceSampling();
+
+	/**
+	 * Returns a new object of class '<em>MCMC</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>MCMC</em>'.
+	 * @generated
+	 */
+	MCMC createMCMC();
+
+	/**
+	 * Returns a new object of class '<em>SVI</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>SVI</em>'.
+	 * @generated
+	 */
+	SVI createSVI();
+
+	/**
+	 * Returns a new object of class '<em>NUTS</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>NUTS</em>'.
+	 * @generated
+	 */
+	NUTS createNUTS();
+
+	/**
+	 * Returns a new object of class '<em>HMC</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>HMC</em>'.
+	 * @generated
+	 */
+	HMC createHMC();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -21,8 +21,8 @@ stochastic async IoTSystemParametric (delayMean:decimal) [
 
 analysis ServiceAvailability {
 	in stochastic component system : IoTSystemParametric(sample(uniform from=0.1, to=1.0))
-	probability of event [system]:Failures->newEvent;
-	@Configuration{
-		end event [system]:CarLeave->newEvent raised
+	probability of event system.Failures.newEvent;
+	@Configuration(ImportanceSampling){
+		end condition raised event system.CarLeave.newEvent
 	}
 }

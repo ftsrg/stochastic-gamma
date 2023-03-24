@@ -17,6 +17,7 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.AnalysisPackage;
 import hu.bme.mit.gamma.environment.analysis.ComponentPortEventReference;
 import hu.bme.mit.gamma.environment.analysis.MeanParameter;
@@ -230,7 +231,13 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 			}
 			if (context instanceof ComponentPortEventReference ) {
 				ComponentPortEventReference ref=(ComponentPortEventReference) context;
-				AnalysisComponent component = (AnalysisComponent) context.eContainer().eContainer();
+				AnalysisComponent component;
+				if (context.eContainer().eContainer() instanceof AnalysisComponent) {
+					component = (AnalysisComponent) context.eContainer().eContainer();
+				}
+				if (context.eContainer().eContainer() instanceof AnalysisMethod) {
+					component = (AnalysisComponent) context.eContainer().eContainer().eContainer();
+				}
 				AbstractEnvironmentCompositeComponentInstance envComponent = getRecursiveInstance(ref.getComponent());
 				if(reference==AnalysisPackage.Literals.COMPONENT_PORT_EVENT_REFERENCE__PORT) {
 					Collection<Port> ports = new HashSet<>();

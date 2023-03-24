@@ -23,7 +23,7 @@ class PyroComponentClassGenerator {
 	new(String packageName){
 		this.packageName=packageName
 		expEval=ExpressionEvaluator.INSTANCE;
-		distGenerator = new PyroDistGenerator(packageName)
+		distGenerator = new PyroDistGenerator
 	}
 	
 	def generateInterface(Interface i)
@@ -220,7 +220,6 @@ class PyroComponentClassGenerator {
 
 
 					def generateEvents(self):
-						self.events.clear()
 						pass
 
 					@JOverride

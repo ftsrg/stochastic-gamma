@@ -18,10 +18,10 @@ class AnalysisTransformation {
 	var logger = Logger.getLogger("GammaLogger")
 	val futil=FileUtil.INSTANCE
 	
-	def transformandrun(Resource resource,URI uri,String packageName,List<String> uriList,String BasePackage){
+	def transformandrun(Resource resource,URI uri,String packageName,List<String> uriList,String basePackage){
 		
-		var pyGenURI=BasePackage+File.separator+"simulator-gen"+File.separator+"simulator.py"
-		var gatewayGenURI=BasePackage+File.separator+"gateway-gen"+File.separator+"javaenv"+File.separator+"DetModelEntryPoint.java"
+		var pyGenURI=basePackage+File.separator+"simulator-gen"+File.separator+"simulator.py"
+		var gatewayGenURI=basePackage+File.separator+"gateway-gen"+File.separator+"javaenv"+File.separator+"DetModelEntryPoint.java"
 		
 		var pythonGenerator = new PyroSimulatorGenerator()
 		var javaGenerator= new JavaEntryClassGenerator()
@@ -29,7 +29,7 @@ class AnalysisTransformation {
 		var acomp=pck.components.filter[e|e instanceof AnalysisComponent].get(0) as AnalysisComponent
 		logger.log(Level.INFO, "Python Simulator URI: " + pyGenURI)
 		logger.log(Level.INFO, "Java Simulator URI: " + gatewayGenURI)
-		futil.saveString(pyGenURI, pythonGenerator.generate(acomp,packageName).toString )
+		futil.saveString(pyGenURI, pythonGenerator.generate(acomp,packageName,basePackage).toString )
 		futil.saveString(gatewayGenURI,javaGenerator.generate(acomp,packageName).toString)
 
         
