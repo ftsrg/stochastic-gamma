@@ -9,7 +9,6 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: hu.bme.mit.gamma.environment.model,
- hu.bme.mit.gamma.environment.model.derivedfeatures,
  hu.bme.mit.gamma.environment.model.impl,
  hu.bme.mit.gamma.environment.model.util,
  hu.bme.mit.gamma.environment.model.utils

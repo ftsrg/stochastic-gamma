@@ -6,13 +6,7 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated hu.bme.mit.gamma.environment.model -->
-      <package
-            uri="www.mit.bme.hu/gamma/environment/Model"
-            class="hu.bme.mit.gamma.environment.model.model.ModelPackage"
-            genModel="model/environment.genmodel"/>
-   </extension>
+
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated environment -->

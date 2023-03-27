@@ -47,7 +47,7 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 		handleValidationResultMessage(environmentModelValidator.checkComponentSepratation(component));
 	}
 	
-	// Expressions
+	// Expressions 
 	
 	@Check
 	public void checkArgumentTypes(ArgumentedElement element) {

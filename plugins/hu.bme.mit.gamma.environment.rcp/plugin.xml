@@ -7,10 +7,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.ui.ide.workbench"
-            name="hu.bme.mit.gamma.environment.rcp">
+            name="Stochastic Gamma">
          <property
                name="appName"
-               value="hu.bme.mit.gamma.environment.rcp">
+               value="Stochastic Gamma">
          </property>
          <property
                name="aboutImage"

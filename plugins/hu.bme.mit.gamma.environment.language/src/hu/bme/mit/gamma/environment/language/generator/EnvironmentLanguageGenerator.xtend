@@ -7,9 +7,6 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
-import hu.bme.mit.gamma.statechart.interface_.Package
-import hu.bme.mit.gamma.environment.model.EnvironmentExternSimulation
-import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent
 
 /**
  * Generates code from your model files on save.

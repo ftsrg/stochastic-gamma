@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="hu.bme.mit.gamma.environment.rcp" uid="hu.bme.mit.gamma.environment.rcp.product" id="hu.bme.mit.gamma.environment.rcp.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="Stochastic Gamma" uid="hu.bme.mit.gamma.environment.rcp.product" id="hu.bme.mit.gamma.environment.rcp.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/hu.bme.mit.gamma.environment.rcp/icons/about.png"/>
@@ -30,11 +30,11 @@ This software is currently under development.  If you encounter a bug or a malfu
       startupMessageRect="7,316,700,20"
       startupForegroundColor="000000" />
    <launcher name="stochastic-gamma">
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="/hu.bme.mit.gamma.environment.rcp/icons/gamma-256.ico"/>
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17</windows>
@@ -519,6 +519,8 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <property name="org.eclipse.ui/defaultPerspectiveId" value="hu.bme.mit.gamma.environment.ui.perspective" />
+      <property name="osgi.instance.area.default" value="@user.home/workspace-stochastic-gamma" />
+      <property name="osgi.requiredJavaVersion" value="17" />
    </configurations>
 
    <preferencesInfo>

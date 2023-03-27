@@ -1,4 +1,4 @@
-package hu.bme.mit.gamma.environment.model.derivedfeatures;
+package hu.bme.mit.gamma.environment.model.utils;
 
 import java.util.ArrayList;
 import java.util.List;import org.eclipse.emf.ecore.EObject;
@@ -145,19 +145,25 @@ public class EnvironmentModelDerivedFeatures extends StatechartModelDerivedFeatu
 	}
 	
 	public static List<? extends ComponentInstance> getScheduledInstances(Component component) {
-		if (component instanceof EnvironmentSynchronousCompositeComponent synchronousComponent) {
+		if (component instanceof EnvironmentSynchronousCompositeComponent) {
+			EnvironmentSynchronousCompositeComponent synchronousComponent=(EnvironmentSynchronousCompositeComponent)component;
 			return getScheduledInstances(synchronousComponent);
-		} else if (component instanceof EnvironmentCascadeCompositeComponent synchronousComponent) {
+		} else if (component instanceof EnvironmentCascadeCompositeComponent) {
+			EnvironmentCascadeCompositeComponent synchronousComponent=(EnvironmentCascadeCompositeComponent)component;
 			return getScheduledInstances(synchronousComponent);
-		} else if (component instanceof EnvironmentAsynchronousCompositeComponent asynchronousComponent) {
+		} else if (component instanceof EnvironmentAsynchronousCompositeComponent) {
+			EnvironmentAsynchronousCompositeComponent asynchronousComponent=(EnvironmentAsynchronousCompositeComponent)component;
 			return getScheduledInstances(asynchronousComponent);
 		}
-		if (component instanceof EnvironmentSynchronousCompositeComponent synchronousComponent) {
+		if (component instanceof AbstractSynchronousCompositeComponent) {
+			AbstractSynchronousCompositeComponent synchronousComponent=(AbstractSynchronousCompositeComponent)component;
 			return getScheduledInstances(synchronousComponent);
-		} else if (component instanceof AbstractAsynchronousCompositeComponent asynchronousComponent) {
+		} else if (component instanceof AbstractAsynchronousCompositeComponent) {
+			AbstractAsynchronousCompositeComponent asynchronousComponent=(AbstractAsynchronousCompositeComponent)component;
 			return getScheduledInstances(asynchronousComponent);
 		}
-		else if (component instanceof AsynchronousAdapter asynchronusAdapter) {
+		else if (component instanceof AsynchronousAdapter) {
+			AsynchronousAdapter asynchronusAdapter=(AsynchronousAdapter)component;
 			return List.of(asynchronusAdapter.getWrappedComponent());
 		}
 		throw new IllegalArgumentException("Not known component: " + component);

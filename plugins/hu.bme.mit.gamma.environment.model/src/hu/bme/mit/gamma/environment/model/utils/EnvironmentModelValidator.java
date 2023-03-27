@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance;
-import hu.bme.mit.gamma.environment.model.derivedfeatures.EnvironmentModelDerivedFeatures;
 import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.expression.model.ExpressionModelPackage;
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration;
@@ -924,9 +923,11 @@ public class EnvironmentModelValidator extends StatechartModelValidator {
 			EventReference target = eventPassing.getTarget();
 			if (target != null) {
 				EventReference source = eventPassing.getSource();
-				if (source instanceof AnyPortEventReference sourceReference) {
+				if (source instanceof AnyPortEventReference) {
+					AnyPortEventReference sourceReference=(AnyPortEventReference)source;
 					Port sourcePort = sourceReference.getPort();
-					if (target instanceof AnyPortEventReference targetReference) {
+					if (target instanceof AnyPortEventReference) {
+						AnyPortEventReference targetReference =(AnyPortEventReference)target;
 						Port targetPort = targetReference.getPort();
 						if (!StatechartModelDerivedFeatures.isEventPassingCompatible(sourcePort, targetPort)) {
 							validationResultMessages.add(new ValidationResultMessage(ValidationResult.ERROR,
@@ -938,9 +939,11 @@ public class EnvironmentModelValidator extends StatechartModelValidator {
 								"In the case of any port event references, the target must also be an any port event reference",
 								new ReferenceInfo(CompositeModelPackage.Literals.EVENT_PASSING__TARGET)));
 					}
-				} else if (source instanceof PortEventReference sourceReference) {
+				} else if (source instanceof PortEventReference) {
+					PortEventReference sourceReference=(PortEventReference)source;
 					Event sourceEvent = sourceReference.getEvent();
-					if (target instanceof PortEventReference targetReference) {
+					if (target instanceof PortEventReference) {
+						PortEventReference targetReference= (PortEventReference) target;
 						Event targetEvent = targetReference.getEvent();
 						if (StatechartModelDerivedFeatures.isEventPassingCompatible(sourceEvent, targetEvent)) {
 							validationResultMessages.add(new ValidationResultMessage(ValidationResult.ERROR,

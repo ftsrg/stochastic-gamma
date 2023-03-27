@@ -20,8 +20,7 @@ Require-Bundle: org.eclipse.xtext,
  hu.bme.mit.gamma.expression.language;bundle-version="2.2.1",
  hu.bme.mit.gamma.environment.analysis.model;bundle-version="0.1.0",
  hu.bme.mit.gamma.statechart.model,
- hu.bme.mit.gamma.trace.environment.transformation;bundle-version="2.5.1",
- hu.bme.mit.gamma.environment.analysis.transformation;bundle-version="1.0.0"
+ hu.bme.mit.gamma.trace.environment.transformation;bundle-version="2.5.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: hu.bme.mit.gamma.environment.language,
  hu.bme.mit.gamma.environment.language.generator,

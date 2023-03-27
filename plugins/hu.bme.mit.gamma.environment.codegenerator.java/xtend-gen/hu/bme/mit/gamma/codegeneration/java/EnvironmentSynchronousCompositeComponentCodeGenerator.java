@@ -9,7 +9,7 @@ import hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponent;
 import hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent;
 import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance;
-import hu.bme.mit.gamma.environment.model.derivedfeatures.EnvironmentModelDerivedFeatures;
+import hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures;
 import hu.bme.mit.gamma.expression.derivedfeatures.ExpressionModelDerivedFeatures;
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration;
 import hu.bme.mit.gamma.statechart.composite.AbstractSynchronousCompositeComponent;

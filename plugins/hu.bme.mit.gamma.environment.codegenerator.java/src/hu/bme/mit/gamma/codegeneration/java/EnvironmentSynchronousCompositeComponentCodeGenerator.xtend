@@ -12,7 +12,7 @@ import hu.bme.mit.gamma.statechart.statechart.StatechartDefinition
 import java.util.Collections
 import hu.bme.mit.gamma.codegenerator.*
 import hu.bme.mit.gamma.codegenerator.utils.*
-import static extension hu.bme.mit.gamma.environment.model.derivedfeatures.EnvironmentModelDerivedFeatures.*
+import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
 import static extension hu.bme.mit.gamma.statechart.util.StatechartUtil.*
 import static extension hu.bme.mit.gamma.codegeneration.java.TypeTransformer.*
 import hu.bme.mit.gamma.codegeneration.java.util.Namings
