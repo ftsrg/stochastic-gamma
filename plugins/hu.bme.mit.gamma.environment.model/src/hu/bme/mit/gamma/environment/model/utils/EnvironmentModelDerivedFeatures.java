@@ -20,6 +20,7 @@ import hu.bme.mit.gamma.statechart.composite.AsynchronousComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstanceReferenceExpression;
+import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.InstancePortReference;
 import hu.bme.mit.gamma.statechart.composite.ScheduledAsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponentInstance;
@@ -28,6 +29,30 @@ import hu.bme.mit.gamma.statechart.interface_.Component;
 import hu.bme.mit.gamma.statechart.interface_.Port;
 
 public class EnvironmentModelDerivedFeatures extends StatechartModelDerivedFeatures {
+	
+	public static List<EnvironmentComponentInstance> getEnvironmentComponents (CompositeComponent composite){
+		List<EnvironmentComponentInstance> components=new ArrayList();
+		if (composite instanceof EnvironmentSynchronousCompositeComponent) {
+			EnvironmentSynchronousCompositeComponent synchronousComponent=(EnvironmentSynchronousCompositeComponent)composite;
+			components.addAll(synchronousComponent.getEnvironmentComponents());
+		} else if (composite instanceof EnvironmentCascadeCompositeComponent) {
+			EnvironmentCascadeCompositeComponent synchronousComponent=(EnvironmentCascadeCompositeComponent)composite;
+			components.addAll(synchronousComponent.getEnvironmentComponents());
+		} else if (composite instanceof EnvironmentAsynchronousCompositeComponent) {
+			EnvironmentAsynchronousCompositeComponent asynchronousComponent=(EnvironmentAsynchronousCompositeComponent)composite;
+			components.addAll(asynchronousComponent.getEnvironmentComponents());
+		}
+		if (composite instanceof AbstractSynchronousCompositeComponent) {
+			AbstractSynchronousCompositeComponent synchronousComponent=(AbstractSynchronousCompositeComponent)composite;
+		} else if (composite instanceof AbstractAsynchronousCompositeComponent) {
+			AbstractAsynchronousCompositeComponent asynchronousComponent=(AbstractAsynchronousCompositeComponent)composite;
+		}
+		else if (composite instanceof AsynchronousAdapter) {
+			AsynchronousAdapter asynchronusAdapter=(AsynchronousAdapter)composite;
+		}
+		return components;
+	}
+	
 	public static Component getDerivedType(ComponentInstance instance) {
 		if (instance instanceof SynchronousComponentInstance) {
 			SynchronousComponentInstance synchronousInstance = (SynchronousComponentInstance) instance;

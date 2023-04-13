@@ -5107,67 +5107,126 @@ ruleUniformRandomVariable returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='uniform'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getUniformRandomVariableAccess().getUniformKeyword_0());
-		}
-		otherlv_1='from'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getUniformRandomVariableAccess().getFromKeyword_1());
-		}
-		otherlv_2='='
-		{
-			newLeafNode(otherlv_2, grammarAccess.getUniformRandomVariableAccess().getEqualsSignKeyword_2());
-		}
 		(
+			otherlv_0='uniform'
+			{
+				newLeafNode(otherlv_0, grammarAccess.getUniformRandomVariableAccess().getUniformKeyword_0_0());
+			}
+			otherlv_1='from'
+			{
+				newLeafNode(otherlv_1, grammarAccess.getUniformRandomVariableAccess().getFromKeyword_0_1());
+			}
+			otherlv_2='='
+			{
+				newLeafNode(otherlv_2, grammarAccess.getUniformRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getUniformRandomVariableAccess().getLowerBoundExpressionParserRuleCall_3_0());
-				}
-				lv_lowerBound_3_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getUniformRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getUniformRandomVariableAccess().getLowerBoundExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"lowerBound",
-						lv_lowerBound_3_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_lowerBound_3_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getUniformRandomVariableRule());
+						}
+						set(
+							$current,
+							"lowerBound",
+							lv_lowerBound_3_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getUniformRandomVariableAccess().getCommaKeyword_0_4());
+			}
+			otherlv_5='to'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getUniformRandomVariableAccess().getToKeyword_0_5());
+			}
+			otherlv_6='='
+			{
+				newLeafNode(otherlv_6, grammarAccess.getUniformRandomVariableAccess().getEqualsSignKeyword_0_6());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getUniformRandomVariableAccess().getUpperBoundExpressionParserRuleCall_0_7_0());
+					}
+					lv_upperBound_7_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getUniformRandomVariableRule());
+						}
+						set(
+							$current,
+							"upperBound",
+							lv_upperBound_7_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
 		)
-		otherlv_4=','
-		{
-			newLeafNode(otherlv_4, grammarAccess.getUniformRandomVariableAccess().getCommaKeyword_4());
-		}
-		otherlv_5='to'
-		{
-			newLeafNode(otherlv_5, grammarAccess.getUniformRandomVariableAccess().getToKeyword_5());
-		}
-		otherlv_6='='
-		{
-			newLeafNode(otherlv_6, grammarAccess.getUniformRandomVariableAccess().getEqualsSignKeyword_6());
-		}
+		    |
 		(
+			otherlv_8='Uniform'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getUniformRandomVariableAccess().getUniformKeyword_1_0());
+			}
+			otherlv_9='('
+			{
+				newLeafNode(otherlv_9, grammarAccess.getUniformRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getUniformRandomVariableAccess().getUpperBoundExpressionParserRuleCall_7_0());
-				}
-				lv_upperBound_7_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getUniformRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getUniformRandomVariableAccess().getLowerBoundExpressionParserRuleCall_1_2_0());
 					}
-					set(
-						$current,
-						"upperBound",
-						lv_upperBound_7_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_lowerBound_10_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getUniformRandomVariableRule());
+						}
+						set(
+							$current,
+							"lowerBound",
+							lv_lowerBound_10_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+			otherlv_11=','
+			{
+				newLeafNode(otherlv_11, grammarAccess.getUniformRandomVariableAccess().getCommaKeyword_1_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getUniformRandomVariableAccess().getUpperBoundExpressionParserRuleCall_1_4_0());
+					}
+					lv_upperBound_12_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getUniformRandomVariableRule());
+						}
+						set(
+							$current,
+							"upperBound",
+							lv_upperBound_12_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_13=')'
+			{
+				newLeafNode(otherlv_13, grammarAccess.getUniformRandomVariableAccess().getRightParenthesisKeyword_1_5());
+			}
 		)
 	)
 ;
@@ -5188,67 +5247,126 @@ ruleLogNormalRandomVariable returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='lognormal'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getLogNormalRandomVariableAccess().getLognormalKeyword_0());
-		}
-		otherlv_1='mean'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getLogNormalRandomVariableAccess().getMeanKeyword_1());
-		}
-		otherlv_2='='
-		{
-			newLeafNode(otherlv_2, grammarAccess.getLogNormalRandomVariableAccess().getEqualsSignKeyword_2());
-		}
 		(
+			otherlv_0='lognormal'
+			{
+				newLeafNode(otherlv_0, grammarAccess.getLogNormalRandomVariableAccess().getLognormalKeyword_0_0());
+			}
+			otherlv_1='mean'
+			{
+				newLeafNode(otherlv_1, grammarAccess.getLogNormalRandomVariableAccess().getMeanKeyword_0_1());
+			}
+			otherlv_2='='
+			{
+				newLeafNode(otherlv_2, grammarAccess.getLogNormalRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getLogNormalRandomVariableAccess().getMeanExpressionParserRuleCall_3_0());
-				}
-				lv_mean_3_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getLogNormalRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getLogNormalRandomVariableAccess().getMeanExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"mean",
-						lv_mean_3_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_mean_3_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getLogNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"mean",
+							lv_mean_3_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getLogNormalRandomVariableAccess().getCommaKeyword_0_4());
+			}
+			otherlv_5='scale'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getLogNormalRandomVariableAccess().getScaleKeyword_0_5());
+			}
+			otherlv_6='='
+			{
+				newLeafNode(otherlv_6, grammarAccess.getLogNormalRandomVariableAccess().getEqualsSignKeyword_0_6());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getLogNormalRandomVariableAccess().getScaleExpressionParserRuleCall_0_7_0());
+					}
+					lv_scale_7_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getLogNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_7_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
 		)
-		otherlv_4=','
-		{
-			newLeafNode(otherlv_4, grammarAccess.getLogNormalRandomVariableAccess().getCommaKeyword_4());
-		}
-		otherlv_5='scale'
-		{
-			newLeafNode(otherlv_5, grammarAccess.getLogNormalRandomVariableAccess().getScaleKeyword_5());
-		}
-		otherlv_6='='
-		{
-			newLeafNode(otherlv_6, grammarAccess.getLogNormalRandomVariableAccess().getEqualsSignKeyword_6());
-		}
+		    |
 		(
+			otherlv_8='LogNormal'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getLogNormalRandomVariableAccess().getLogNormalKeyword_1_0());
+			}
+			otherlv_9='('
+			{
+				newLeafNode(otherlv_9, grammarAccess.getLogNormalRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getLogNormalRandomVariableAccess().getScaleExpressionParserRuleCall_7_0());
-				}
-				lv_scale_7_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getLogNormalRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getLogNormalRandomVariableAccess().getMeanExpressionParserRuleCall_1_2_0());
 					}
-					set(
-						$current,
-						"scale",
-						lv_scale_7_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_mean_10_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getLogNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"mean",
+							lv_mean_10_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+			otherlv_11=','
+			{
+				newLeafNode(otherlv_11, grammarAccess.getLogNormalRandomVariableAccess().getCommaKeyword_1_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getLogNormalRandomVariableAccess().getScaleExpressionParserRuleCall_1_4_0());
+					}
+					lv_scale_12_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getLogNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_12_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_13=')'
+			{
+				newLeafNode(otherlv_13, grammarAccess.getLogNormalRandomVariableAccess().getRightParenthesisKeyword_1_5());
+			}
 		)
 	)
 ;
@@ -5269,67 +5387,126 @@ ruleBetaRandomVariable returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='beta'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getBetaRandomVariableAccess().getBetaKeyword_0());
-		}
-		otherlv_1='alpha'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getBetaRandomVariableAccess().getAlphaKeyword_1());
-		}
-		otherlv_2='='
-		{
-			newLeafNode(otherlv_2, grammarAccess.getBetaRandomVariableAccess().getEqualsSignKeyword_2());
-		}
 		(
+			otherlv_0='beta'
+			{
+				newLeafNode(otherlv_0, grammarAccess.getBetaRandomVariableAccess().getBetaKeyword_0_0());
+			}
+			otherlv_1='alpha'
+			{
+				newLeafNode(otherlv_1, grammarAccess.getBetaRandomVariableAccess().getAlphaKeyword_0_1());
+			}
+			otherlv_2='='
+			{
+				newLeafNode(otherlv_2, grammarAccess.getBetaRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getBetaRandomVariableAccess().getAphaExpressionParserRuleCall_3_0());
-				}
-				lv_apha_3_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getBetaRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getBetaRandomVariableAccess().getAphaExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"apha",
-						lv_apha_3_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_apha_3_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getBetaRandomVariableRule());
+						}
+						set(
+							$current,
+							"apha",
+							lv_apha_3_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getBetaRandomVariableAccess().getCommaKeyword_0_4());
+			}
+			otherlv_5='beta'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getBetaRandomVariableAccess().getBetaKeyword_0_5());
+			}
+			otherlv_6='='
+			{
+				newLeafNode(otherlv_6, grammarAccess.getBetaRandomVariableAccess().getEqualsSignKeyword_0_6());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getBetaRandomVariableAccess().getBetaExpressionParserRuleCall_0_7_0());
+					}
+					lv_beta_7_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getBetaRandomVariableRule());
+						}
+						set(
+							$current,
+							"beta",
+							lv_beta_7_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
 		)
-		otherlv_4=','
-		{
-			newLeafNode(otherlv_4, grammarAccess.getBetaRandomVariableAccess().getCommaKeyword_4());
-		}
-		otherlv_5='beta'
-		{
-			newLeafNode(otherlv_5, grammarAccess.getBetaRandomVariableAccess().getBetaKeyword_5());
-		}
-		otherlv_6='='
-		{
-			newLeafNode(otherlv_6, grammarAccess.getBetaRandomVariableAccess().getEqualsSignKeyword_6());
-		}
+		    |
 		(
+			otherlv_8='Beta'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getBetaRandomVariableAccess().getBetaKeyword_1_0());
+			}
+			otherlv_9='('
+			{
+				newLeafNode(otherlv_9, grammarAccess.getBetaRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getBetaRandomVariableAccess().getBetaExpressionParserRuleCall_7_0());
-				}
-				lv_beta_7_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getBetaRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getBetaRandomVariableAccess().getAphaExpressionParserRuleCall_1_2_0());
 					}
-					set(
-						$current,
-						"beta",
-						lv_beta_7_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_apha_10_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getBetaRandomVariableRule());
+						}
+						set(
+							$current,
+							"apha",
+							lv_apha_10_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+			otherlv_11=','
+			{
+				newLeafNode(otherlv_11, grammarAccess.getBetaRandomVariableAccess().getCommaKeyword_1_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getBetaRandomVariableAccess().getBetaExpressionParserRuleCall_1_4_0());
+					}
+					lv_beta_12_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getBetaRandomVariableRule());
+						}
+						set(
+							$current,
+							"beta",
+							lv_beta_12_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_13=')'
+			{
+				newLeafNode(otherlv_13, grammarAccess.getBetaRandomVariableAccess().getRightParenthesisKeyword_1_5());
+			}
 		)
 	)
 ;
@@ -5351,73 +5528,132 @@ ruleParetoRandomVariable returns [EObject current=null]
 }:
 	(
 		(
-			otherlv_0='pareto'
-			{
-				newLeafNode(otherlv_0, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0());
-			}
-			    |
-			otherlv_1='Pareto'
-			{
-				newLeafNode(otherlv_1, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_1());
-			}
-		)
-		otherlv_2='alpha'
-		{
-			newLeafNode(otherlv_2, grammarAccess.getParetoRandomVariableAccess().getAlphaKeyword_1());
-		}
-		otherlv_3='='
-		{
-			newLeafNode(otherlv_3, grammarAccess.getParetoRandomVariableAccess().getEqualsSignKeyword_2());
-		}
-		(
 			(
+				otherlv_0='pareto'
 				{
-					newCompositeNode(grammarAccess.getParetoRandomVariableAccess().getAlphaExpressionParserRuleCall_3_0());
+					newLeafNode(otherlv_0, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_0());
 				}
-				lv_alpha_4_0=ruleExpression
+				    |
+				otherlv_1='Pareto'
 				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getParetoRandomVariableRule());
-					}
-					set(
-						$current,
-						"alpha",
-						lv_alpha_4_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
+					newLeafNode(otherlv_1, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_1());
 				}
 			)
-		)
-		otherlv_5=','
-		{
-			newLeafNode(otherlv_5, grammarAccess.getParetoRandomVariableAccess().getCommaKeyword_4());
-		}
-		otherlv_6='scale'
-		{
-			newLeafNode(otherlv_6, grammarAccess.getParetoRandomVariableAccess().getScaleKeyword_5());
-		}
-		otherlv_7='='
-		{
-			newLeafNode(otherlv_7, grammarAccess.getParetoRandomVariableAccess().getEqualsSignKeyword_6());
-		}
-		(
+			otherlv_2='alpha'
+			{
+				newLeafNode(otherlv_2, grammarAccess.getParetoRandomVariableAccess().getAlphaKeyword_0_1());
+			}
+			otherlv_3='='
+			{
+				newLeafNode(otherlv_3, grammarAccess.getParetoRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getParetoRandomVariableAccess().getScaleExpressionParserRuleCall_7_0());
-				}
-				lv_scale_8_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getParetoRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getParetoRandomVariableAccess().getAlphaExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"scale",
-						lv_scale_8_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_alpha_4_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getParetoRandomVariableRule());
+						}
+						set(
+							$current,
+							"alpha",
+							lv_alpha_4_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+			otherlv_5=','
+			{
+				newLeafNode(otherlv_5, grammarAccess.getParetoRandomVariableAccess().getCommaKeyword_0_4());
+			}
+			otherlv_6='scale'
+			{
+				newLeafNode(otherlv_6, grammarAccess.getParetoRandomVariableAccess().getScaleKeyword_0_5());
+			}
+			otherlv_7='='
+			{
+				newLeafNode(otherlv_7, grammarAccess.getParetoRandomVariableAccess().getEqualsSignKeyword_0_6());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getParetoRandomVariableAccess().getScaleExpressionParserRuleCall_0_7_0());
+					}
+					lv_scale_8_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getParetoRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_8_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)
+		    |
+		(
+			otherlv_9='Pareto'
+			{
+				newLeafNode(otherlv_9, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_1_0());
+			}
+			otherlv_10='('
+			{
+				newLeafNode(otherlv_10, grammarAccess.getParetoRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getParetoRandomVariableAccess().getAlphaExpressionParserRuleCall_1_2_0());
+					}
+					lv_alpha_11_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getParetoRandomVariableRule());
+						}
+						set(
+							$current,
+							"alpha",
+							lv_alpha_11_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_12=','
+			{
+				newLeafNode(otherlv_12, grammarAccess.getParetoRandomVariableAccess().getCommaKeyword_1_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getParetoRandomVariableAccess().getScaleExpressionParserRuleCall_1_4_0());
+					}
+					lv_scale_13_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getParetoRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_13_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_14=')'
+			{
+				newLeafNode(otherlv_14, grammarAccess.getParetoRandomVariableAccess().getRightParenthesisKeyword_1_5());
+			}
 		)
 	)
 ;
@@ -5438,67 +5674,126 @@ ruleNormalRandomVariable returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='normal'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getNormalRandomVariableAccess().getNormalKeyword_0());
-		}
-		otherlv_1='mean'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getNormalRandomVariableAccess().getMeanKeyword_1());
-		}
-		otherlv_2='='
-		{
-			newLeafNode(otherlv_2, grammarAccess.getNormalRandomVariableAccess().getEqualsSignKeyword_2());
-		}
 		(
+			otherlv_0='normal'
+			{
+				newLeafNode(otherlv_0, grammarAccess.getNormalRandomVariableAccess().getNormalKeyword_0_0());
+			}
+			otherlv_1='mean'
+			{
+				newLeafNode(otherlv_1, grammarAccess.getNormalRandomVariableAccess().getMeanKeyword_0_1());
+			}
+			otherlv_2='='
+			{
+				newLeafNode(otherlv_2, grammarAccess.getNormalRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getNormalRandomVariableAccess().getMeanExpressionParserRuleCall_3_0());
-				}
-				lv_mean_3_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getNormalRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getNormalRandomVariableAccess().getMeanExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"mean",
-						lv_mean_3_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_mean_3_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"mean",
+							lv_mean_3_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getNormalRandomVariableAccess().getCommaKeyword_0_4());
+			}
+			otherlv_5='scale'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getNormalRandomVariableAccess().getScaleKeyword_0_5());
+			}
+			otherlv_6='='
+			{
+				newLeafNode(otherlv_6, grammarAccess.getNormalRandomVariableAccess().getEqualsSignKeyword_0_6());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getNormalRandomVariableAccess().getScaleExpressionParserRuleCall_0_7_0());
+					}
+					lv_scale_7_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_7_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
 		)
-		otherlv_4=','
-		{
-			newLeafNode(otherlv_4, grammarAccess.getNormalRandomVariableAccess().getCommaKeyword_4());
-		}
-		otherlv_5='scale'
-		{
-			newLeafNode(otherlv_5, grammarAccess.getNormalRandomVariableAccess().getScaleKeyword_5());
-		}
-		otherlv_6='='
-		{
-			newLeafNode(otherlv_6, grammarAccess.getNormalRandomVariableAccess().getEqualsSignKeyword_6());
-		}
+		    |
 		(
+			otherlv_8='Normal'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getNormalRandomVariableAccess().getNormalKeyword_1_0());
+			}
+			otherlv_9='('
+			{
+				newLeafNode(otherlv_9, grammarAccess.getNormalRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getNormalRandomVariableAccess().getScaleExpressionParserRuleCall_7_0());
-				}
-				lv_scale_7_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getNormalRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getNormalRandomVariableAccess().getMeanExpressionParserRuleCall_1_2_0());
 					}
-					set(
-						$current,
-						"scale",
-						lv_scale_7_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_mean_10_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"mean",
+							lv_mean_10_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+			otherlv_11=','
+			{
+				newLeafNode(otherlv_11, grammarAccess.getNormalRandomVariableAccess().getCommaKeyword_1_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getNormalRandomVariableAccess().getScaleExpressionParserRuleCall_1_4_0());
+					}
+					lv_scale_12_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getNormalRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_12_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_13=')'
+			{
+				newLeafNode(otherlv_13, grammarAccess.getNormalRandomVariableAccess().getRightParenthesisKeyword_1_5());
+			}
 		)
 	)
 ;
@@ -5520,73 +5815,132 @@ ruleWeibullRandomVariable returns [EObject current=null]
 }:
 	(
 		(
-			otherlv_0='Weibull'
-			{
-				newLeafNode(otherlv_0, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_0());
-			}
-			    |
-			otherlv_1='weibull'
-			{
-				newLeafNode(otherlv_1, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_1());
-			}
-		)
-		otherlv_2='concentration'
-		{
-			newLeafNode(otherlv_2, grammarAccess.getWeibullRandomVariableAccess().getConcentrationKeyword_1());
-		}
-		otherlv_3='='
-		{
-			newLeafNode(otherlv_3, grammarAccess.getWeibullRandomVariableAccess().getEqualsSignKeyword_2());
-		}
-		(
 			(
+				otherlv_0='Weibull'
 				{
-					newCompositeNode(grammarAccess.getWeibullRandomVariableAccess().getShapeExpressionParserRuleCall_3_0());
+					newLeafNode(otherlv_0, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_0_0());
 				}
-				lv_shape_4_0=ruleExpression
+				    |
+				otherlv_1='weibull'
 				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getWeibullRandomVariableRule());
-					}
-					set(
-						$current,
-						"shape",
-						lv_shape_4_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
+					newLeafNode(otherlv_1, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_0_1());
 				}
 			)
-		)
-		otherlv_5=','
-		{
-			newLeafNode(otherlv_5, grammarAccess.getWeibullRandomVariableAccess().getCommaKeyword_4());
-		}
-		otherlv_6='scale'
-		{
-			newLeafNode(otherlv_6, grammarAccess.getWeibullRandomVariableAccess().getScaleKeyword_5());
-		}
-		otherlv_7='='
-		{
-			newLeafNode(otherlv_7, grammarAccess.getWeibullRandomVariableAccess().getEqualsSignKeyword_6());
-		}
-		(
+			otherlv_2='concentration'
+			{
+				newLeafNode(otherlv_2, grammarAccess.getWeibullRandomVariableAccess().getConcentrationKeyword_0_1());
+			}
+			otherlv_3='='
+			{
+				newLeafNode(otherlv_3, grammarAccess.getWeibullRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getWeibullRandomVariableAccess().getScaleExpressionParserRuleCall_7_0());
-				}
-				lv_scale_8_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getWeibullRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getWeibullRandomVariableAccess().getShapeExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"scale",
-						lv_scale_8_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_shape_4_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getWeibullRandomVariableRule());
+						}
+						set(
+							$current,
+							"shape",
+							lv_shape_4_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+			otherlv_5=','
+			{
+				newLeafNode(otherlv_5, grammarAccess.getWeibullRandomVariableAccess().getCommaKeyword_0_4());
+			}
+			otherlv_6='scale'
+			{
+				newLeafNode(otherlv_6, grammarAccess.getWeibullRandomVariableAccess().getScaleKeyword_0_5());
+			}
+			otherlv_7='='
+			{
+				newLeafNode(otherlv_7, grammarAccess.getWeibullRandomVariableAccess().getEqualsSignKeyword_0_6());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getWeibullRandomVariableAccess().getScaleExpressionParserRuleCall_0_7_0());
+					}
+					lv_scale_8_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getWeibullRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_8_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)
+		    |
+		(
+			otherlv_9='Weibull'
+			{
+				newLeafNode(otherlv_9, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_1_0());
+			}
+			otherlv_10='('
+			{
+				newLeafNode(otherlv_10, grammarAccess.getWeibullRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getWeibullRandomVariableAccess().getShapeExpressionParserRuleCall_1_2_0());
+					}
+					lv_shape_11_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getWeibullRandomVariableRule());
+						}
+						set(
+							$current,
+							"shape",
+							lv_shape_11_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_12=','
+			{
+				newLeafNode(otherlv_12, grammarAccess.getWeibullRandomVariableAccess().getCommaKeyword_1_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getWeibullRandomVariableAccess().getScaleExpressionParserRuleCall_1_4_0());
+					}
+					lv_scale_13_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getWeibullRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_13_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_14=')'
+			{
+				newLeafNode(otherlv_14, grammarAccess.getWeibullRandomVariableAccess().getRightParenthesisKeyword_1_5());
+			}
 		)
 	)
 ;
@@ -5607,67 +5961,126 @@ ruleGammaRandomVariable returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='gamma'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getGammaRandomVariableAccess().getGammaKeyword_0());
-		}
-		otherlv_1='concentration'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getGammaRandomVariableAccess().getConcentrationKeyword_1());
-		}
-		otherlv_2='='
-		{
-			newLeafNode(otherlv_2, grammarAccess.getGammaRandomVariableAccess().getEqualsSignKeyword_2());
-		}
 		(
+			otherlv_0='gamma'
+			{
+				newLeafNode(otherlv_0, grammarAccess.getGammaRandomVariableAccess().getGammaKeyword_0_0());
+			}
+			otherlv_1='concentration'
+			{
+				newLeafNode(otherlv_1, grammarAccess.getGammaRandomVariableAccess().getConcentrationKeyword_0_1());
+			}
+			otherlv_2='='
+			{
+				newLeafNode(otherlv_2, grammarAccess.getGammaRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getGammaRandomVariableAccess().getShapeExpressionParserRuleCall_3_0());
-				}
-				lv_shape_3_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getGammaRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getGammaRandomVariableAccess().getShapeExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"shape",
-						lv_shape_3_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_shape_3_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getGammaRandomVariableRule());
+						}
+						set(
+							$current,
+							"shape",
+							lv_shape_3_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getGammaRandomVariableAccess().getCommaKeyword_0_4());
+			}
+			otherlv_5='rate'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getGammaRandomVariableAccess().getRateKeyword_0_5());
+			}
+			otherlv_6='='
+			{
+				newLeafNode(otherlv_6, grammarAccess.getGammaRandomVariableAccess().getEqualsSignKeyword_0_6());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getGammaRandomVariableAccess().getScaleExpressionParserRuleCall_0_7_0());
+					}
+					lv_scale_7_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getGammaRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_7_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
 		)
-		otherlv_4=','
-		{
-			newLeafNode(otherlv_4, grammarAccess.getGammaRandomVariableAccess().getCommaKeyword_4());
-		}
-		otherlv_5='rate'
-		{
-			newLeafNode(otherlv_5, grammarAccess.getGammaRandomVariableAccess().getRateKeyword_5());
-		}
-		otherlv_6='='
-		{
-			newLeafNode(otherlv_6, grammarAccess.getGammaRandomVariableAccess().getEqualsSignKeyword_6());
-		}
+		    |
 		(
+			otherlv_8='Gamma'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getGammaRandomVariableAccess().getGammaKeyword_1_0());
+			}
+			otherlv_9='('
+			{
+				newLeafNode(otherlv_9, grammarAccess.getGammaRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getGammaRandomVariableAccess().getScaleExpressionParserRuleCall_7_0());
-				}
-				lv_scale_7_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getGammaRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getGammaRandomVariableAccess().getShapeExpressionParserRuleCall_1_2_0());
 					}
-					set(
-						$current,
-						"scale",
-						lv_scale_7_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_shape_10_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getGammaRandomVariableRule());
+						}
+						set(
+							$current,
+							"shape",
+							lv_shape_10_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+			otherlv_11=','
+			{
+				newLeafNode(otherlv_11, grammarAccess.getGammaRandomVariableAccess().getCommaKeyword_1_3());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getGammaRandomVariableAccess().getScaleExpressionParserRuleCall_1_4_0());
+					}
+					lv_scale_12_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getGammaRandomVariableRule());
+						}
+						set(
+							$current,
+							"scale",
+							lv_scale_12_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_13=')'
+			{
+				newLeafNode(otherlv_13, grammarAccess.getGammaRandomVariableAccess().getRightParenthesisKeyword_1_5());
+			}
 		)
 	)
 ;
@@ -5688,36 +6101,72 @@ ruleExponentialRandomVariable returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='exponential'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getExponentialRandomVariableAccess().getExponentialKeyword_0());
-		}
-		otherlv_1='rate'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getExponentialRandomVariableAccess().getRateKeyword_1());
-		}
-		otherlv_2='='
-		{
-			newLeafNode(otherlv_2, grammarAccess.getExponentialRandomVariableAccess().getEqualsSignKeyword_2());
-		}
 		(
+			otherlv_0='exponential'
+			{
+				newLeafNode(otherlv_0, grammarAccess.getExponentialRandomVariableAccess().getExponentialKeyword_0_0());
+			}
+			otherlv_1='rate'
+			{
+				newLeafNode(otherlv_1, grammarAccess.getExponentialRandomVariableAccess().getRateKeyword_0_1());
+			}
+			otherlv_2='='
+			{
+				newLeafNode(otherlv_2, grammarAccess.getExponentialRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getExponentialRandomVariableAccess().getRateExpressionParserRuleCall_3_0());
-				}
-				lv_rate_3_0=ruleExpression
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getExponentialRandomVariableRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getExponentialRandomVariableAccess().getRateExpressionParserRuleCall_0_3_0());
 					}
-					set(
-						$current,
-						"rate",
-						lv_rate_3_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
-				}
+					lv_rate_3_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getExponentialRandomVariableRule());
+						}
+						set(
+							$current,
+							"rate",
+							lv_rate_3_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
 			)
+		)
+		    |
+		(
+			otherlv_4='Exponential'
+			{
+				newLeafNode(otherlv_4, grammarAccess.getExponentialRandomVariableAccess().getExponentialKeyword_1_0());
+			}
+			otherlv_5='('
+			{
+				newLeafNode(otherlv_5, grammarAccess.getExponentialRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getExponentialRandomVariableAccess().getRateExpressionParserRuleCall_1_2_0());
+					}
+					lv_rate_6_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getExponentialRandomVariableRule());
+						}
+						set(
+							$current,
+							"rate",
+							lv_rate_6_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_7=')'
+			{
+				newLeafNode(otherlv_7, grammarAccess.getExponentialRandomVariableAccess().getRightParenthesisKeyword_1_3());
+			}
 		)
 	)
 ;
@@ -5738,36 +6187,79 @@ ruleBernoulliRandomVariable returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		otherlv_0='bernoulli'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getBernoulliRandomVariableAccess().getBernoulliKeyword_0());
-		}
-		otherlv_1='prob'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getBernoulliRandomVariableAccess().getProbKeyword_1());
-		}
-		otherlv_2='='
-		{
-			newLeafNode(otherlv_2, grammarAccess.getBernoulliRandomVariableAccess().getEqualsSignKeyword_2());
-		}
 		(
 			(
+				otherlv_0='bernoulli'
 				{
-					newCompositeNode(grammarAccess.getBernoulliRandomVariableAccess().getProbabilityExpressionParserRuleCall_3_0());
+					newLeafNode(otherlv_0, grammarAccess.getBernoulliRandomVariableAccess().getBernoulliKeyword_0_0_0());
 				}
-				lv_probability_3_0=ruleExpression
+				    |
+				otherlv_1='Bernoulli'
 				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getBernoulliRandomVariableRule());
-					}
-					set(
-						$current,
-						"probability",
-						lv_probability_3_0,
-						"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-					afterParserOrEnumRuleCall();
+					newLeafNode(otherlv_1, grammarAccess.getBernoulliRandomVariableAccess().getBernoulliKeyword_0_0_1());
 				}
 			)
+			otherlv_2='prob'
+			{
+				newLeafNode(otherlv_2, grammarAccess.getBernoulliRandomVariableAccess().getProbKeyword_0_1());
+			}
+			otherlv_3='='
+			{
+				newLeafNode(otherlv_3, grammarAccess.getBernoulliRandomVariableAccess().getEqualsSignKeyword_0_2());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getBernoulliRandomVariableAccess().getProbabilityExpressionParserRuleCall_0_3_0());
+					}
+					lv_probability_4_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getBernoulliRandomVariableRule());
+						}
+						set(
+							$current,
+							"probability",
+							lv_probability_4_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)
+		    |
+		(
+			otherlv_5='Bernoulli'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getBernoulliRandomVariableAccess().getBernoulliKeyword_1_0());
+			}
+			otherlv_6='('
+			{
+				newLeafNode(otherlv_6, grammarAccess.getBernoulliRandomVariableAccess().getLeftParenthesisKeyword_1_1());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getBernoulliRandomVariableAccess().getProbabilityExpressionParserRuleCall_1_2_0());
+					}
+					lv_probability_7_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getBernoulliRandomVariableRule());
+						}
+						set(
+							$current,
+							"probability",
+							lv_probability_7_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_8=')'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getBernoulliRandomVariableAccess().getRightParenthesisKeyword_1_3());
+			}
 		)
 	)
 ;

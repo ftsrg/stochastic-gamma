@@ -3476,447 +3476,791 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	public class UniformRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.UniformRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cUniformKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cFromKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cLowerBoundAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cLowerBoundExpressionParserRuleCall_3_0 = (RuleCall)cLowerBoundAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cToKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cUpperBoundAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cUpperBoundExpressionParserRuleCall_7_0 = (RuleCall)cUpperBoundAssignment_7.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Keyword cUniformKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Keyword cFromKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cLowerBoundAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cLowerBoundExpressionParserRuleCall_0_3_0 = (RuleCall)cLowerBoundAssignment_0_3.eContents().get(0);
+		private final Keyword cCommaKeyword_0_4 = (Keyword)cGroup_0.eContents().get(4);
+		private final Keyword cToKeyword_0_5 = (Keyword)cGroup_0.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_0_6 = (Keyword)cGroup_0.eContents().get(6);
+		private final Assignment cUpperBoundAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cUpperBoundExpressionParserRuleCall_0_7_0 = (RuleCall)cUpperBoundAssignment_0_7.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cUniformKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cLowerBoundAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cLowerBoundExpressionParserRuleCall_1_2_0 = (RuleCall)cLowerBoundAssignment_1_2.eContents().get(0);
+		private final Keyword cCommaKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Assignment cUpperBoundAssignment_1_4 = (Assignment)cGroup_1.eContents().get(4);
+		private final RuleCall cUpperBoundExpressionParserRuleCall_1_4_0 = (RuleCall)cUpperBoundAssignment_1_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_5 = (Keyword)cGroup_1.eContents().get(5);
 		
 		//UniformRandomVariable returns StochasticModel::UniformRandomVariable:
-		//    "uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression
+		//    ("uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression) |("Uniform" "("lowerBound=Expression "," upperBound=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//"uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression
-		public Group getGroup() { return cGroup; }
+		//("uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression) |("Uniform" "("lowerBound=Expression "," upperBound=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//("uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression)
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//"uniform"
-		public Keyword getUniformKeyword_0() { return cUniformKeyword_0; }
+		public Keyword getUniformKeyword_0_0() { return cUniformKeyword_0_0; }
 		
 		//"from"
-		public Keyword getFromKeyword_1() { return cFromKeyword_1; }
+		public Keyword getFromKeyword_0_1() { return cFromKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//lowerBound=Expression
-		public Assignment getLowerBoundAssignment_3() { return cLowerBoundAssignment_3; }
+		public Assignment getLowerBoundAssignment_0_3() { return cLowerBoundAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getLowerBoundExpressionParserRuleCall_3_0() { return cLowerBoundExpressionParserRuleCall_3_0; }
+		public RuleCall getLowerBoundExpressionParserRuleCall_0_3_0() { return cLowerBoundExpressionParserRuleCall_0_3_0; }
 		
 		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_0_4() { return cCommaKeyword_0_4; }
 		
 		//'to'
-		public Keyword getToKeyword_5() { return cToKeyword_5; }
+		public Keyword getToKeyword_0_5() { return cToKeyword_0_5; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_0_6() { return cEqualsSignKeyword_0_6; }
 		
 		//upperBound=Expression
-		public Assignment getUpperBoundAssignment_7() { return cUpperBoundAssignment_7; }
+		public Assignment getUpperBoundAssignment_0_7() { return cUpperBoundAssignment_0_7; }
 		
 		//Expression
-		public RuleCall getUpperBoundExpressionParserRuleCall_7_0() { return cUpperBoundExpressionParserRuleCall_7_0; }
+		public RuleCall getUpperBoundExpressionParserRuleCall_0_7_0() { return cUpperBoundExpressionParserRuleCall_0_7_0; }
+		
+		//("Uniform" "("lowerBound=Expression "," upperBound=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Uniform"
+		public Keyword getUniformKeyword_1_0() { return cUniformKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//lowerBound=Expression
+		public Assignment getLowerBoundAssignment_1_2() { return cLowerBoundAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getLowerBoundExpressionParserRuleCall_1_2_0() { return cLowerBoundExpressionParserRuleCall_1_2_0; }
+		
+		//","
+		public Keyword getCommaKeyword_1_3() { return cCommaKeyword_1_3; }
+		
+		//upperBound=Expression
+		public Assignment getUpperBoundAssignment_1_4() { return cUpperBoundAssignment_1_4; }
+		
+		//Expression
+		public RuleCall getUpperBoundExpressionParserRuleCall_1_4_0() { return cUpperBoundExpressionParserRuleCall_1_4_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_5() { return cRightParenthesisKeyword_1_5; }
 	}
 	public class LogNormalRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.LogNormalRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cLognormalKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cMeanKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cMeanAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cMeanExpressionParserRuleCall_3_0 = (RuleCall)cMeanAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cScaleKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cScaleAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cScaleExpressionParserRuleCall_7_0 = (RuleCall)cScaleAssignment_7.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Keyword cLognormalKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Keyword cMeanKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cMeanAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cMeanExpressionParserRuleCall_0_3_0 = (RuleCall)cMeanAssignment_0_3.eContents().get(0);
+		private final Keyword cCommaKeyword_0_4 = (Keyword)cGroup_0.eContents().get(4);
+		private final Keyword cScaleKeyword_0_5 = (Keyword)cGroup_0.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_0_6 = (Keyword)cGroup_0.eContents().get(6);
+		private final Assignment cScaleAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cScaleExpressionParserRuleCall_0_7_0 = (RuleCall)cScaleAssignment_0_7.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cLogNormalKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cMeanAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cMeanExpressionParserRuleCall_1_2_0 = (RuleCall)cMeanAssignment_1_2.eContents().get(0);
+		private final Keyword cCommaKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Assignment cScaleAssignment_1_4 = (Assignment)cGroup_1.eContents().get(4);
+		private final RuleCall cScaleExpressionParserRuleCall_1_4_0 = (RuleCall)cScaleAssignment_1_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_5 = (Keyword)cGroup_1.eContents().get(5);
 		
 		//LogNormalRandomVariable returns StochasticModel::LogNormalRandomVariable:
-		//    'lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression
+		//    ('lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression )|("LogNormal" "("mean=Expression "," scale=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression
-		public Group getGroup() { return cGroup; }
+		//('lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression )|("LogNormal" "("mean=Expression "," scale=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//('lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression )
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//'lognormal'
-		public Keyword getLognormalKeyword_0() { return cLognormalKeyword_0; }
+		public Keyword getLognormalKeyword_0_0() { return cLognormalKeyword_0_0; }
 		
 		//'mean'
-		public Keyword getMeanKeyword_1() { return cMeanKeyword_1; }
+		public Keyword getMeanKeyword_0_1() { return cMeanKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//mean=Expression
-		public Assignment getMeanAssignment_3() { return cMeanAssignment_3; }
+		public Assignment getMeanAssignment_0_3() { return cMeanAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getMeanExpressionParserRuleCall_3_0() { return cMeanExpressionParserRuleCall_3_0; }
+		public RuleCall getMeanExpressionParserRuleCall_0_3_0() { return cMeanExpressionParserRuleCall_0_3_0; }
 		
 		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_0_4() { return cCommaKeyword_0_4; }
 		
 		//'scale'
-		public Keyword getScaleKeyword_5() { return cScaleKeyword_5; }
+		public Keyword getScaleKeyword_0_5() { return cScaleKeyword_0_5; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_0_6() { return cEqualsSignKeyword_0_6; }
 		
 		//scale=Expression
-		public Assignment getScaleAssignment_7() { return cScaleAssignment_7; }
+		public Assignment getScaleAssignment_0_7() { return cScaleAssignment_0_7; }
 		
 		//Expression
-		public RuleCall getScaleExpressionParserRuleCall_7_0() { return cScaleExpressionParserRuleCall_7_0; }
+		public RuleCall getScaleExpressionParserRuleCall_0_7_0() { return cScaleExpressionParserRuleCall_0_7_0; }
+		
+		//("LogNormal" "("mean=Expression "," scale=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"LogNormal"
+		public Keyword getLogNormalKeyword_1_0() { return cLogNormalKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//mean=Expression
+		public Assignment getMeanAssignment_1_2() { return cMeanAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getMeanExpressionParserRuleCall_1_2_0() { return cMeanExpressionParserRuleCall_1_2_0; }
+		
+		//","
+		public Keyword getCommaKeyword_1_3() { return cCommaKeyword_1_3; }
+		
+		//scale=Expression
+		public Assignment getScaleAssignment_1_4() { return cScaleAssignment_1_4; }
+		
+		//Expression
+		public RuleCall getScaleExpressionParserRuleCall_1_4_0() { return cScaleExpressionParserRuleCall_1_4_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_5() { return cRightParenthesisKeyword_1_5; }
 	}
 	public class BetaRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.BetaRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cBetaKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cAlphaKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cAphaAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cAphaExpressionParserRuleCall_3_0 = (RuleCall)cAphaAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cBetaKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cBetaAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cBetaExpressionParserRuleCall_7_0 = (RuleCall)cBetaAssignment_7.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Keyword cBetaKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Keyword cAlphaKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cAphaAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cAphaExpressionParserRuleCall_0_3_0 = (RuleCall)cAphaAssignment_0_3.eContents().get(0);
+		private final Keyword cCommaKeyword_0_4 = (Keyword)cGroup_0.eContents().get(4);
+		private final Keyword cBetaKeyword_0_5 = (Keyword)cGroup_0.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_0_6 = (Keyword)cGroup_0.eContents().get(6);
+		private final Assignment cBetaAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cBetaExpressionParserRuleCall_0_7_0 = (RuleCall)cBetaAssignment_0_7.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cBetaKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cAphaAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cAphaExpressionParserRuleCall_1_2_0 = (RuleCall)cAphaAssignment_1_2.eContents().get(0);
+		private final Keyword cCommaKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Assignment cBetaAssignment_1_4 = (Assignment)cGroup_1.eContents().get(4);
+		private final RuleCall cBetaExpressionParserRuleCall_1_4_0 = (RuleCall)cBetaAssignment_1_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_5 = (Keyword)cGroup_1.eContents().get(5);
 		
 		//BetaRandomVariable returns StochasticModel::BetaRandomVariable:
-		//    'beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression
+		//    ('beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression )|("Beta" "("apha=Expression "," beta=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression
-		public Group getGroup() { return cGroup; }
+		//('beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression )|("Beta" "("apha=Expression "," beta=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//('beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression )
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//'beta'
-		public Keyword getBetaKeyword_0() { return cBetaKeyword_0; }
+		public Keyword getBetaKeyword_0_0() { return cBetaKeyword_0_0; }
 		
 		//'alpha'
-		public Keyword getAlphaKeyword_1() { return cAlphaKeyword_1; }
+		public Keyword getAlphaKeyword_0_1() { return cAlphaKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//apha=Expression
-		public Assignment getAphaAssignment_3() { return cAphaAssignment_3; }
+		public Assignment getAphaAssignment_0_3() { return cAphaAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getAphaExpressionParserRuleCall_3_0() { return cAphaExpressionParserRuleCall_3_0; }
+		public RuleCall getAphaExpressionParserRuleCall_0_3_0() { return cAphaExpressionParserRuleCall_0_3_0; }
 		
 		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_0_4() { return cCommaKeyword_0_4; }
 		
 		//'beta'
-		public Keyword getBetaKeyword_5() { return cBetaKeyword_5; }
+		public Keyword getBetaKeyword_0_5() { return cBetaKeyword_0_5; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_0_6() { return cEqualsSignKeyword_0_6; }
 		
 		//beta=Expression
-		public Assignment getBetaAssignment_7() { return cBetaAssignment_7; }
+		public Assignment getBetaAssignment_0_7() { return cBetaAssignment_0_7; }
 		
 		//Expression
-		public RuleCall getBetaExpressionParserRuleCall_7_0() { return cBetaExpressionParserRuleCall_7_0; }
+		public RuleCall getBetaExpressionParserRuleCall_0_7_0() { return cBetaExpressionParserRuleCall_0_7_0; }
+		
+		//("Beta" "("apha=Expression "," beta=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Beta"
+		public Keyword getBetaKeyword_1_0() { return cBetaKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//apha=Expression
+		public Assignment getAphaAssignment_1_2() { return cAphaAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getAphaExpressionParserRuleCall_1_2_0() { return cAphaExpressionParserRuleCall_1_2_0; }
+		
+		//","
+		public Keyword getCommaKeyword_1_3() { return cCommaKeyword_1_3; }
+		
+		//beta=Expression
+		public Assignment getBetaAssignment_1_4() { return cBetaAssignment_1_4; }
+		
+		//Expression
+		public RuleCall getBetaExpressionParserRuleCall_1_4_0() { return cBetaExpressionParserRuleCall_1_4_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_5() { return cRightParenthesisKeyword_1_5; }
 	}
 	public class ParetoRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.ParetoRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
-		private final Keyword cParetoKeyword_0_0 = (Keyword)cAlternatives_0.eContents().get(0);
-		private final Keyword cParetoKeyword_0_1 = (Keyword)cAlternatives_0.eContents().get(1);
-		private final Keyword cAlphaKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cAlphaAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cAlphaExpressionParserRuleCall_3_0 = (RuleCall)cAlphaAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cScaleKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cScaleAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cScaleExpressionParserRuleCall_7_0 = (RuleCall)cScaleAssignment_7.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Alternatives cAlternatives_0_0 = (Alternatives)cGroup_0.eContents().get(0);
+		private final Keyword cParetoKeyword_0_0_0 = (Keyword)cAlternatives_0_0.eContents().get(0);
+		private final Keyword cParetoKeyword_0_0_1 = (Keyword)cAlternatives_0_0.eContents().get(1);
+		private final Keyword cAlphaKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cAlphaAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cAlphaExpressionParserRuleCall_0_3_0 = (RuleCall)cAlphaAssignment_0_3.eContents().get(0);
+		private final Keyword cCommaKeyword_0_4 = (Keyword)cGroup_0.eContents().get(4);
+		private final Keyword cScaleKeyword_0_5 = (Keyword)cGroup_0.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_0_6 = (Keyword)cGroup_0.eContents().get(6);
+		private final Assignment cScaleAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cScaleExpressionParserRuleCall_0_7_0 = (RuleCall)cScaleAssignment_0_7.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cParetoKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cAlphaAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cAlphaExpressionParserRuleCall_1_2_0 = (RuleCall)cAlphaAssignment_1_2.eContents().get(0);
+		private final Keyword cCommaKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Assignment cScaleAssignment_1_4 = (Assignment)cGroup_1.eContents().get(4);
+		private final RuleCall cScaleExpressionParserRuleCall_1_4_0 = (RuleCall)cScaleAssignment_1_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_5 = (Keyword)cGroup_1.eContents().get(5);
 		
 		//ParetoRandomVariable returns StochasticModel::ParetoRandomVariable:
-		//    ('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression
+		//    (('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression )|("Pareto" "("alpha=Expression "," scale=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression
-		public Group getGroup() { return cGroup; }
+		//(('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression )|("Pareto" "("alpha=Expression "," scale=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//(('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression )
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//('pareto' | 'Pareto')
-		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
 		
 		//'pareto'
-		public Keyword getParetoKeyword_0_0() { return cParetoKeyword_0_0; }
+		public Keyword getParetoKeyword_0_0_0() { return cParetoKeyword_0_0_0; }
 		
 		//'Pareto'
-		public Keyword getParetoKeyword_0_1() { return cParetoKeyword_0_1; }
+		public Keyword getParetoKeyword_0_0_1() { return cParetoKeyword_0_0_1; }
 		
 		//'alpha'
-		public Keyword getAlphaKeyword_1() { return cAlphaKeyword_1; }
+		public Keyword getAlphaKeyword_0_1() { return cAlphaKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//alpha=Expression
-		public Assignment getAlphaAssignment_3() { return cAlphaAssignment_3; }
+		public Assignment getAlphaAssignment_0_3() { return cAlphaAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getAlphaExpressionParserRuleCall_3_0() { return cAlphaExpressionParserRuleCall_3_0; }
+		public RuleCall getAlphaExpressionParserRuleCall_0_3_0() { return cAlphaExpressionParserRuleCall_0_3_0; }
 		
 		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_0_4() { return cCommaKeyword_0_4; }
 		
 		//'scale'
-		public Keyword getScaleKeyword_5() { return cScaleKeyword_5; }
+		public Keyword getScaleKeyword_0_5() { return cScaleKeyword_0_5; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_0_6() { return cEqualsSignKeyword_0_6; }
 		
 		//scale=Expression
-		public Assignment getScaleAssignment_7() { return cScaleAssignment_7; }
+		public Assignment getScaleAssignment_0_7() { return cScaleAssignment_0_7; }
 		
 		//Expression
-		public RuleCall getScaleExpressionParserRuleCall_7_0() { return cScaleExpressionParserRuleCall_7_0; }
+		public RuleCall getScaleExpressionParserRuleCall_0_7_0() { return cScaleExpressionParserRuleCall_0_7_0; }
+		
+		//("Pareto" "("alpha=Expression "," scale=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Pareto"
+		public Keyword getParetoKeyword_1_0() { return cParetoKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//alpha=Expression
+		public Assignment getAlphaAssignment_1_2() { return cAlphaAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getAlphaExpressionParserRuleCall_1_2_0() { return cAlphaExpressionParserRuleCall_1_2_0; }
+		
+		//","
+		public Keyword getCommaKeyword_1_3() { return cCommaKeyword_1_3; }
+		
+		//scale=Expression
+		public Assignment getScaleAssignment_1_4() { return cScaleAssignment_1_4; }
+		
+		//Expression
+		public RuleCall getScaleExpressionParserRuleCall_1_4_0() { return cScaleExpressionParserRuleCall_1_4_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_5() { return cRightParenthesisKeyword_1_5; }
 	}
 	public class NormalRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.NormalRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cNormalKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cMeanKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cMeanAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cMeanExpressionParserRuleCall_3_0 = (RuleCall)cMeanAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cScaleKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cScaleAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cScaleExpressionParserRuleCall_7_0 = (RuleCall)cScaleAssignment_7.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Keyword cNormalKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Keyword cMeanKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cMeanAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cMeanExpressionParserRuleCall_0_3_0 = (RuleCall)cMeanAssignment_0_3.eContents().get(0);
+		private final Keyword cCommaKeyword_0_4 = (Keyword)cGroup_0.eContents().get(4);
+		private final Keyword cScaleKeyword_0_5 = (Keyword)cGroup_0.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_0_6 = (Keyword)cGroup_0.eContents().get(6);
+		private final Assignment cScaleAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cScaleExpressionParserRuleCall_0_7_0 = (RuleCall)cScaleAssignment_0_7.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cNormalKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cMeanAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cMeanExpressionParserRuleCall_1_2_0 = (RuleCall)cMeanAssignment_1_2.eContents().get(0);
+		private final Keyword cCommaKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Assignment cScaleAssignment_1_4 = (Assignment)cGroup_1.eContents().get(4);
+		private final RuleCall cScaleExpressionParserRuleCall_1_4_0 = (RuleCall)cScaleAssignment_1_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_5 = (Keyword)cGroup_1.eContents().get(5);
 		
 		//NormalRandomVariable returns StochasticModel::NormalRandomVariable:
-		//    'normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression
+		//    (('normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression ))|("Normal" "("mean=Expression "," scale=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression
-		public Group getGroup() { return cGroup; }
+		//(('normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression ))|("Normal" "("mean=Expression "," scale=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//(('normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression ))
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//'normal'
-		public Keyword getNormalKeyword_0() { return cNormalKeyword_0; }
+		public Keyword getNormalKeyword_0_0() { return cNormalKeyword_0_0; }
 		
 		//'mean'
-		public Keyword getMeanKeyword_1() { return cMeanKeyword_1; }
+		public Keyword getMeanKeyword_0_1() { return cMeanKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//mean=Expression
-		public Assignment getMeanAssignment_3() { return cMeanAssignment_3; }
+		public Assignment getMeanAssignment_0_3() { return cMeanAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getMeanExpressionParserRuleCall_3_0() { return cMeanExpressionParserRuleCall_3_0; }
+		public RuleCall getMeanExpressionParserRuleCall_0_3_0() { return cMeanExpressionParserRuleCall_0_3_0; }
 		
 		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_0_4() { return cCommaKeyword_0_4; }
 		
 		//'scale'
-		public Keyword getScaleKeyword_5() { return cScaleKeyword_5; }
+		public Keyword getScaleKeyword_0_5() { return cScaleKeyword_0_5; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_0_6() { return cEqualsSignKeyword_0_6; }
 		
 		//scale=Expression
-		public Assignment getScaleAssignment_7() { return cScaleAssignment_7; }
+		public Assignment getScaleAssignment_0_7() { return cScaleAssignment_0_7; }
 		
 		//Expression
-		public RuleCall getScaleExpressionParserRuleCall_7_0() { return cScaleExpressionParserRuleCall_7_0; }
+		public RuleCall getScaleExpressionParserRuleCall_0_7_0() { return cScaleExpressionParserRuleCall_0_7_0; }
+		
+		//("Normal" "("mean=Expression "," scale=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Normal"
+		public Keyword getNormalKeyword_1_0() { return cNormalKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//mean=Expression
+		public Assignment getMeanAssignment_1_2() { return cMeanAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getMeanExpressionParserRuleCall_1_2_0() { return cMeanExpressionParserRuleCall_1_2_0; }
+		
+		//","
+		public Keyword getCommaKeyword_1_3() { return cCommaKeyword_1_3; }
+		
+		//scale=Expression
+		public Assignment getScaleAssignment_1_4() { return cScaleAssignment_1_4; }
+		
+		//Expression
+		public RuleCall getScaleExpressionParserRuleCall_1_4_0() { return cScaleExpressionParserRuleCall_1_4_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_5() { return cRightParenthesisKeyword_1_5; }
 	}
 	public class WeibullRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.WeibullRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
-		private final Keyword cWeibullKeyword_0_0 = (Keyword)cAlternatives_0.eContents().get(0);
-		private final Keyword cWeibullKeyword_0_1 = (Keyword)cAlternatives_0.eContents().get(1);
-		private final Keyword cConcentrationKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cShapeAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cShapeExpressionParserRuleCall_3_0 = (RuleCall)cShapeAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cScaleKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cScaleAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cScaleExpressionParserRuleCall_7_0 = (RuleCall)cScaleAssignment_7.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Alternatives cAlternatives_0_0 = (Alternatives)cGroup_0.eContents().get(0);
+		private final Keyword cWeibullKeyword_0_0_0 = (Keyword)cAlternatives_0_0.eContents().get(0);
+		private final Keyword cWeibullKeyword_0_0_1 = (Keyword)cAlternatives_0_0.eContents().get(1);
+		private final Keyword cConcentrationKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cShapeAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cShapeExpressionParserRuleCall_0_3_0 = (RuleCall)cShapeAssignment_0_3.eContents().get(0);
+		private final Keyword cCommaKeyword_0_4 = (Keyword)cGroup_0.eContents().get(4);
+		private final Keyword cScaleKeyword_0_5 = (Keyword)cGroup_0.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_0_6 = (Keyword)cGroup_0.eContents().get(6);
+		private final Assignment cScaleAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cScaleExpressionParserRuleCall_0_7_0 = (RuleCall)cScaleAssignment_0_7.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cWeibullKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cShapeAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cShapeExpressionParserRuleCall_1_2_0 = (RuleCall)cShapeAssignment_1_2.eContents().get(0);
+		private final Keyword cCommaKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Assignment cScaleAssignment_1_4 = (Assignment)cGroup_1.eContents().get(4);
+		private final RuleCall cScaleExpressionParserRuleCall_1_4_0 = (RuleCall)cScaleAssignment_1_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_5 = (Keyword)cGroup_1.eContents().get(5);
 		
 		//WeibullRandomVariable returns StochasticModel::WeibullRandomVariable:
-		//    ('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression
+		//    (('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression)|("Weibull" "("shape=Expression "," scale=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression
-		public Group getGroup() { return cGroup; }
+		//(('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression)|("Weibull" "("shape=Expression "," scale=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//(('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression)
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//('Weibull' | 'weibull')
-		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
 		
 		//'Weibull'
-		public Keyword getWeibullKeyword_0_0() { return cWeibullKeyword_0_0; }
+		public Keyword getWeibullKeyword_0_0_0() { return cWeibullKeyword_0_0_0; }
 		
 		//'weibull'
-		public Keyword getWeibullKeyword_0_1() { return cWeibullKeyword_0_1; }
+		public Keyword getWeibullKeyword_0_0_1() { return cWeibullKeyword_0_0_1; }
 		
 		//'concentration'
-		public Keyword getConcentrationKeyword_1() { return cConcentrationKeyword_1; }
+		public Keyword getConcentrationKeyword_0_1() { return cConcentrationKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//shape=Expression
-		public Assignment getShapeAssignment_3() { return cShapeAssignment_3; }
+		public Assignment getShapeAssignment_0_3() { return cShapeAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getShapeExpressionParserRuleCall_3_0() { return cShapeExpressionParserRuleCall_3_0; }
+		public RuleCall getShapeExpressionParserRuleCall_0_3_0() { return cShapeExpressionParserRuleCall_0_3_0; }
 		
 		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_0_4() { return cCommaKeyword_0_4; }
 		
 		//'scale'
-		public Keyword getScaleKeyword_5() { return cScaleKeyword_5; }
+		public Keyword getScaleKeyword_0_5() { return cScaleKeyword_0_5; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_0_6() { return cEqualsSignKeyword_0_6; }
 		
 		//scale=Expression
-		public Assignment getScaleAssignment_7() { return cScaleAssignment_7; }
+		public Assignment getScaleAssignment_0_7() { return cScaleAssignment_0_7; }
 		
 		//Expression
-		public RuleCall getScaleExpressionParserRuleCall_7_0() { return cScaleExpressionParserRuleCall_7_0; }
+		public RuleCall getScaleExpressionParserRuleCall_0_7_0() { return cScaleExpressionParserRuleCall_0_7_0; }
+		
+		//("Weibull" "("shape=Expression "," scale=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Weibull"
+		public Keyword getWeibullKeyword_1_0() { return cWeibullKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//shape=Expression
+		public Assignment getShapeAssignment_1_2() { return cShapeAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getShapeExpressionParserRuleCall_1_2_0() { return cShapeExpressionParserRuleCall_1_2_0; }
+		
+		//","
+		public Keyword getCommaKeyword_1_3() { return cCommaKeyword_1_3; }
+		
+		//scale=Expression
+		public Assignment getScaleAssignment_1_4() { return cScaleAssignment_1_4; }
+		
+		//Expression
+		public RuleCall getScaleExpressionParserRuleCall_1_4_0() { return cScaleExpressionParserRuleCall_1_4_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_5() { return cRightParenthesisKeyword_1_5; }
 	}
 	public class GammaRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.GammaRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cGammaKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cConcentrationKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cShapeAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cShapeExpressionParserRuleCall_3_0 = (RuleCall)cShapeAssignment_3.eContents().get(0);
-		private final Keyword cCommaKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cRateKeyword_5 = (Keyword)cGroup.eContents().get(5);
-		private final Keyword cEqualsSignKeyword_6 = (Keyword)cGroup.eContents().get(6);
-		private final Assignment cScaleAssignment_7 = (Assignment)cGroup.eContents().get(7);
-		private final RuleCall cScaleExpressionParserRuleCall_7_0 = (RuleCall)cScaleAssignment_7.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Keyword cGammaKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Keyword cConcentrationKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cShapeAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cShapeExpressionParserRuleCall_0_3_0 = (RuleCall)cShapeAssignment_0_3.eContents().get(0);
+		private final Keyword cCommaKeyword_0_4 = (Keyword)cGroup_0.eContents().get(4);
+		private final Keyword cRateKeyword_0_5 = (Keyword)cGroup_0.eContents().get(5);
+		private final Keyword cEqualsSignKeyword_0_6 = (Keyword)cGroup_0.eContents().get(6);
+		private final Assignment cScaleAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cScaleExpressionParserRuleCall_0_7_0 = (RuleCall)cScaleAssignment_0_7.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cGammaKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cShapeAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cShapeExpressionParserRuleCall_1_2_0 = (RuleCall)cShapeAssignment_1_2.eContents().get(0);
+		private final Keyword cCommaKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
+		private final Assignment cScaleAssignment_1_4 = (Assignment)cGroup_1.eContents().get(4);
+		private final RuleCall cScaleExpressionParserRuleCall_1_4_0 = (RuleCall)cScaleAssignment_1_4.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_5 = (Keyword)cGroup_1.eContents().get(5);
 		
 		//GammaRandomVariable returns StochasticModel::GammaRandomVariable:
-		//    'gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression
+		//    ('gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression)|("Gamma" "("shape=Expression "," scale=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression
-		public Group getGroup() { return cGroup; }
+		//('gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression)|("Gamma" "("shape=Expression "," scale=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//('gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression)
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//'gamma'
-		public Keyword getGammaKeyword_0() { return cGammaKeyword_0; }
+		public Keyword getGammaKeyword_0_0() { return cGammaKeyword_0_0; }
 		
 		//'concentration'
-		public Keyword getConcentrationKeyword_1() { return cConcentrationKeyword_1; }
+		public Keyword getConcentrationKeyword_0_1() { return cConcentrationKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//shape=Expression
-		public Assignment getShapeAssignment_3() { return cShapeAssignment_3; }
+		public Assignment getShapeAssignment_0_3() { return cShapeAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getShapeExpressionParserRuleCall_3_0() { return cShapeExpressionParserRuleCall_3_0; }
+		public RuleCall getShapeExpressionParserRuleCall_0_3_0() { return cShapeExpressionParserRuleCall_0_3_0; }
 		
 		//','
-		public Keyword getCommaKeyword_4() { return cCommaKeyword_4; }
+		public Keyword getCommaKeyword_0_4() { return cCommaKeyword_0_4; }
 		
 		//'rate'
-		public Keyword getRateKeyword_5() { return cRateKeyword_5; }
+		public Keyword getRateKeyword_0_5() { return cRateKeyword_0_5; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_6() { return cEqualsSignKeyword_6; }
+		public Keyword getEqualsSignKeyword_0_6() { return cEqualsSignKeyword_0_6; }
 		
 		//scale=Expression
-		public Assignment getScaleAssignment_7() { return cScaleAssignment_7; }
+		public Assignment getScaleAssignment_0_7() { return cScaleAssignment_0_7; }
 		
 		//Expression
-		public RuleCall getScaleExpressionParserRuleCall_7_0() { return cScaleExpressionParserRuleCall_7_0; }
+		public RuleCall getScaleExpressionParserRuleCall_0_7_0() { return cScaleExpressionParserRuleCall_0_7_0; }
+		
+		//("Gamma" "("shape=Expression "," scale=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Gamma"
+		public Keyword getGammaKeyword_1_0() { return cGammaKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//shape=Expression
+		public Assignment getShapeAssignment_1_2() { return cShapeAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getShapeExpressionParserRuleCall_1_2_0() { return cShapeExpressionParserRuleCall_1_2_0; }
+		
+		//","
+		public Keyword getCommaKeyword_1_3() { return cCommaKeyword_1_3; }
+		
+		//scale=Expression
+		public Assignment getScaleAssignment_1_4() { return cScaleAssignment_1_4; }
+		
+		//Expression
+		public RuleCall getScaleExpressionParserRuleCall_1_4_0() { return cScaleExpressionParserRuleCall_1_4_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_5() { return cRightParenthesisKeyword_1_5; }
 	}
 	public class ExponentialRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.ExponentialRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cExponentialKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cRateKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cRateAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cRateExpressionParserRuleCall_3_0 = (RuleCall)cRateAssignment_3.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Keyword cExponentialKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Keyword cRateKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cRateAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cRateExpressionParserRuleCall_0_3_0 = (RuleCall)cRateAssignment_0_3.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cExponentialKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cRateAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cRateExpressionParserRuleCall_1_2_0 = (RuleCall)cRateAssignment_1_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
 		
 		//ExponentialRandomVariable returns StochasticModel::ExponentialRandomVariable:
-		//    'exponential' 'rate' '=' rate=Expression
+		//    ('exponential' 'rate' '=' rate=Expression) |("Exponential" "("rate=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'exponential' 'rate' '=' rate=Expression
-		public Group getGroup() { return cGroup; }
+		//('exponential' 'rate' '=' rate=Expression) |("Exponential" "("rate=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//('exponential' 'rate' '=' rate=Expression)
+		public Group getGroup_0() { return cGroup_0; }
 		
 		//'exponential'
-		public Keyword getExponentialKeyword_0() { return cExponentialKeyword_0; }
+		public Keyword getExponentialKeyword_0_0() { return cExponentialKeyword_0_0; }
 		
 		//'rate'
-		public Keyword getRateKeyword_1() { return cRateKeyword_1; }
+		public Keyword getRateKeyword_0_1() { return cRateKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//rate=Expression
-		public Assignment getRateAssignment_3() { return cRateAssignment_3; }
+		public Assignment getRateAssignment_0_3() { return cRateAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getRateExpressionParserRuleCall_3_0() { return cRateExpressionParserRuleCall_3_0; }
+		public RuleCall getRateExpressionParserRuleCall_0_3_0() { return cRateExpressionParserRuleCall_0_3_0; }
+		
+		//("Exponential" "("rate=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Exponential"
+		public Keyword getExponentialKeyword_1_0() { return cExponentialKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//rate=Expression
+		public Assignment getRateAssignment_1_2() { return cRateAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getRateExpressionParserRuleCall_1_2_0() { return cRateExpressionParserRuleCall_1_2_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_3() { return cRightParenthesisKeyword_1_3; }
 	}
 	public class BernoulliRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.BernoulliRandomVariable");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cBernoulliKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Keyword cProbKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cProbabilityAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cProbabilityExpressionParserRuleCall_3_0 = (RuleCall)cProbabilityAssignment_3.eContents().get(0);
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Alternatives cAlternatives_0_0 = (Alternatives)cGroup_0.eContents().get(0);
+		private final Keyword cBernoulliKeyword_0_0_0 = (Keyword)cAlternatives_0_0.eContents().get(0);
+		private final Keyword cBernoulliKeyword_0_0_1 = (Keyword)cAlternatives_0_0.eContents().get(1);
+		private final Keyword cProbKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cProbabilityAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cProbabilityExpressionParserRuleCall_0_3_0 = (RuleCall)cProbabilityAssignment_0_3.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Keyword cBernoulliKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cProbabilityAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
+		private final RuleCall cProbabilityExpressionParserRuleCall_1_2_0 = (RuleCall)cProbabilityAssignment_1_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
 		
 		//BernoulliRandomVariable returns StochasticModel::BernoulliRandomVariable:
-		//    'bernoulli' 'prob' '=' probability=Expression
+		//    (('bernoulli'|'Bernoulli') 'prob' '=' probability=Expression) |("Bernoulli" "("probability=Expression ")")
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'bernoulli' 'prob' '=' probability=Expression
-		public Group getGroup() { return cGroup; }
+		//(('bernoulli'|'Bernoulli') 'prob' '=' probability=Expression) |("Bernoulli" "("probability=Expression ")")
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//(('bernoulli'|'Bernoulli') 'prob' '=' probability=Expression)
+		public Group getGroup_0() { return cGroup_0; }
+		
+		//('bernoulli'|'Bernoulli')
+		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
 		
 		//'bernoulli'
-		public Keyword getBernoulliKeyword_0() { return cBernoulliKeyword_0; }
+		public Keyword getBernoulliKeyword_0_0_0() { return cBernoulliKeyword_0_0_0; }
+		
+		//'Bernoulli'
+		public Keyword getBernoulliKeyword_0_0_1() { return cBernoulliKeyword_0_0_1; }
 		
 		//'prob'
-		public Keyword getProbKeyword_1() { return cProbKeyword_1; }
+		public Keyword getProbKeyword_0_1() { return cProbKeyword_0_1; }
 		
 		//'='
-		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+		public Keyword getEqualsSignKeyword_0_2() { return cEqualsSignKeyword_0_2; }
 		
 		//probability=Expression
-		public Assignment getProbabilityAssignment_3() { return cProbabilityAssignment_3; }
+		public Assignment getProbabilityAssignment_0_3() { return cProbabilityAssignment_0_3; }
 		
 		//Expression
-		public RuleCall getProbabilityExpressionParserRuleCall_3_0() { return cProbabilityExpressionParserRuleCall_3_0; }
+		public RuleCall getProbabilityExpressionParserRuleCall_0_3_0() { return cProbabilityExpressionParserRuleCall_0_3_0; }
+		
+		//("Bernoulli" "("probability=Expression ")")
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//"Bernoulli"
+		public Keyword getBernoulliKeyword_1_0() { return cBernoulliKeyword_1_0; }
+		
+		//"("
+		public Keyword getLeftParenthesisKeyword_1_1() { return cLeftParenthesisKeyword_1_1; }
+		
+		//probability=Expression
+		public Assignment getProbabilityAssignment_1_2() { return cProbabilityAssignment_1_2; }
+		
+		//Expression
+		public RuleCall getProbabilityExpressionParserRuleCall_1_2_0() { return cProbabilityExpressionParserRuleCall_1_2_0; }
+		
+		//")"
+		public Keyword getRightParenthesisKeyword_1_3() { return cRightParenthesisKeyword_1_3; }
 	}
 	public class FittedExponentialRandomVariableElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.FittedExponentialRandomVariable");
@@ -5618,7 +5962,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//UniformRandomVariable returns StochasticModel::UniformRandomVariable:
-	//    "uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression
+	//    ("uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression) |("Uniform" "("lowerBound=Expression "," upperBound=Expression ")")
 	//;
 	public UniformRandomVariableElements getUniformRandomVariableAccess() {
 		return pUniformRandomVariable;
@@ -5629,7 +5973,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//LogNormalRandomVariable returns StochasticModel::LogNormalRandomVariable:
-	//    'lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression
+	//    ('lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression )|("LogNormal" "("mean=Expression "," scale=Expression ")")
 	//;
 	public LogNormalRandomVariableElements getLogNormalRandomVariableAccess() {
 		return pLogNormalRandomVariable;
@@ -5640,7 +5984,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//BetaRandomVariable returns StochasticModel::BetaRandomVariable:
-	//    'beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression
+	//    ('beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression )|("Beta" "("apha=Expression "," beta=Expression ")")
 	//;
 	public BetaRandomVariableElements getBetaRandomVariableAccess() {
 		return pBetaRandomVariable;
@@ -5651,7 +5995,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//ParetoRandomVariable returns StochasticModel::ParetoRandomVariable:
-	//    ('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression
+	//    (('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression )|("Pareto" "("alpha=Expression "," scale=Expression ")")
 	//;
 	public ParetoRandomVariableElements getParetoRandomVariableAccess() {
 		return pParetoRandomVariable;
@@ -5662,7 +6006,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//NormalRandomVariable returns StochasticModel::NormalRandomVariable:
-	//    'normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression
+	//    (('normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression ))|("Normal" "("mean=Expression "," scale=Expression ")")
 	//;
 	public NormalRandomVariableElements getNormalRandomVariableAccess() {
 		return pNormalRandomVariable;
@@ -5673,7 +6017,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//WeibullRandomVariable returns StochasticModel::WeibullRandomVariable:
-	//    ('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression
+	//    (('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression)|("Weibull" "("shape=Expression "," scale=Expression ")")
 	//;
 	public WeibullRandomVariableElements getWeibullRandomVariableAccess() {
 		return pWeibullRandomVariable;
@@ -5684,7 +6028,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//GammaRandomVariable returns StochasticModel::GammaRandomVariable:
-	//    'gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression
+	//    ('gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression)|("Gamma" "("shape=Expression "," scale=Expression ")")
 	//;
 	public GammaRandomVariableElements getGammaRandomVariableAccess() {
 		return pGammaRandomVariable;
@@ -5695,7 +6039,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//ExponentialRandomVariable returns StochasticModel::ExponentialRandomVariable:
-	//    'exponential' 'rate' '=' rate=Expression
+	//    ('exponential' 'rate' '=' rate=Expression) |("Exponential" "("rate=Expression ")")
 	//;
 	public ExponentialRandomVariableElements getExponentialRandomVariableAccess() {
 		return pExponentialRandomVariable;
@@ -5706,7 +6050,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//BernoulliRandomVariable returns StochasticModel::BernoulliRandomVariable:
-	//    'bernoulli' 'prob' '=' probability=Expression
+	//    (('bernoulli'|'Bernoulli') 'prob' '=' probability=Expression) |("Bernoulli" "("probability=Expression ")")
 	//;
 	public BernoulliRandomVariableElements getBernoulliRandomVariableAccess() {
 		return pBernoulliRandomVariable;

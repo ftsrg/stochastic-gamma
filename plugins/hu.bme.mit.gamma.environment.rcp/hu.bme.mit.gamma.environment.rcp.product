@@ -36,6 +36,7 @@ This software is currently under development.  If you encounter a bug or a malfu
       </win>
    </launcher>
 
+
    <vm>
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17</windows>
    </vm>
@@ -125,6 +126,8 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.environment.language.ui"/>
       <plugin id="hu.bme.mit.gamma.environment.language.ui.tests"/>
       <plugin id="hu.bme.mit.gamma.environment.model"/>
+      <plugin id="hu.bme.mit.gamma.environment.plantuml.textprovider"/>
+      <plugin id="hu.bme.mit.gamma.environment.plantuml.transformation"/>
       <plugin id="hu.bme.mit.gamma.environment.rcp"/>
       <plugin id="hu.bme.mit.gamma.environment.stochastic.model"/>
       <plugin id="hu.bme.mit.gamma.environment.ui"/>
@@ -213,9 +216,12 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="javax.xml"/>
       <plugin id="net.sourceforge.plantuml.eclipse"/>
       <plugin id="net.sourceforge.plantuml.eclipse.imagecontrol"/>
+      <plugin id="net.sourceforge.plantuml.ecore"/>
+      <plugin id="net.sourceforge.plantuml.jdt"/>
       <plugin id="net.sourceforge.plantuml.lib"/>
       <plugin id="net.sourceforge.plantuml.lib.elk" fragment="true"/>
       <plugin id="net.sourceforge.plantuml.lib.jlatexmath" fragment="true"/>
+      <plugin id="net.sourceforge.plantuml.svg"/>
       <plugin id="net.sourceforge.plantuml.text"/>
       <plugin id="org.antlr.runtime"/>
       <plugin id="org.aopalliance"/>
@@ -524,7 +530,8 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    </configurations>
 
    <preferencesInfo>
-      <targetfile overwrite="false"/>
+      <sourcefile path="\\d1wficdc09.europe.prestagroup.com\HOME\Active\Budapest\students\simon.nagy\Desktop\test_eclipse_conf.epf"/>
+      <targetfile overwrite="false" path="/hu.bme.mit.gamma.environment.rcp/plugin_customization.ini"/>
    </preferencesInfo>
 
    <cssInfo>

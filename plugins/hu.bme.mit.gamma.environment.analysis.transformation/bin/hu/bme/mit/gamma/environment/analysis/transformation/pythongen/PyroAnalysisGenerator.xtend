@@ -70,7 +70,7 @@ class PyroAnalysisGenerator {
 			finally:
 				print("shutting down JVM...")
 				shutdownJVM()
-			print ("anylsis is finished successfully")
+			print ("analysis is finished successfully")
 		'''
 	}
 	
@@ -89,7 +89,7 @@ class PyroAnalysisGenerator {
 		throw new UnsupportedOperationException("Only importance sampling and MCMC supported yet.")
 	}
 	
-	dispatch def generateMCMCKernel(NUTS kernel)'''kernel=pyro.infer.NUTS(model=simulate)'''
-	dispatch def generateMCMCKernel(HMC kernel)'''kernel=pyro.infer.HMC(model=simulate)'''
+	dispatch def generateMCMCKernel(NUTS kernel)'''pyro.infer.NUTS(model=simulate)'''
+	dispatch def generateMCMCKernel(HMC kernel)'''pyro.infer.HMC(model=simulate)'''
 	
 }

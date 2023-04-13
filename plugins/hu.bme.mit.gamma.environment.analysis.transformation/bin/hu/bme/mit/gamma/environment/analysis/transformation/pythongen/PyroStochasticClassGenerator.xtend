@@ -38,7 +38,7 @@ class StochasticEventGenerator():
 		self.components=dict()
 		«FOR arg : analysis_component.analyzedComponent.arguments SEPARATOR ","»
 			«IF arg instanceof StochasticExpression»
-				self.«analysis_component.analyzedComponent.type.parameterDeclarations.get(param_cntr).name»=torch.tensor([0.0])
+				self.«analysis_component.analyzedComponent.type.parameterDeclarations.get(param_cntr).name»=torch.tensor([0.000001])
 				#«param_cntr++»
 			«ENDIF»
 		«ENDFOR»
@@ -55,7 +55,7 @@ class StochasticEventGenerator():
 			dist.reset()
 		«FOR arg : analysis_component.analyzedComponent.arguments SEPARATOR ","»
 			«IF arg instanceof StochasticExpression»
-				self.«analysis_component.analyzedComponent.type.parameterDeclarations.get(param_cntr).name»[0]=pyro.sample("param_«(param_cntr).toString»",«(arg.randomvariable).generateDitribution»)
+				self.«analysis_component.analyzedComponent.type.parameterDeclarations.get(param_cntr).name»[0]=pyro.sample("param_«(param_cntr).toString»",«(arg.randomvariable).generateDitribution»).detach()
 			«ENDIF»
 			#«param_cntr++»
 		«ENDFOR»

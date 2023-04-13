@@ -38,7 +38,7 @@
          </property>
          <property
                name="preferenceCustomization"
-               value="plugin_customization.ini">
+               value="platform:/plugin/hu.bme.mit.gamma.environment.rcp/plugin_customization.ini">
          </property>
       </product>
    </extension>

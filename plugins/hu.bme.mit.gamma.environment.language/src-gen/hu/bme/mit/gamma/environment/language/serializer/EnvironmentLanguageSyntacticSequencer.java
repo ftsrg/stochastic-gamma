@@ -36,6 +36,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	protected AbstractElementAlias match_AsynchronousStatechartDefinition___LeftParenthesisKeyword_5_0_RightParenthesisKeyword_5_2__q;
 	protected AbstractElementAlias match_AsynchronousStatechartDefinition___LeftSquareBracketKeyword_6_0_RightSquareBracketKeyword_6_2__q;
 	protected AbstractElementAlias match_AtomicExpression_ExpressionLanguagePrimaryExpression___LeftParenthesisKeyword_2_0_LeftParenthesisKeyword_2_0_a__q;
+	protected AbstractElementAlias match_BernoulliRandomVariable_BernoulliKeyword_0_0_0_or_BernoulliKeyword_0_0_1;
 	protected AbstractElementAlias match_CascadeCompositeComponent_CommaKeyword_4_1_1_0_q;
 	protected AbstractElementAlias match_CascadeCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q;
 	protected AbstractElementAlias match_CascadeCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q;
@@ -59,7 +60,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	protected AbstractElementAlias match_NotExpression_ExclamationMarkKeyword_1_0_1_or_NotKeyword_1_0_0;
 	protected AbstractElementAlias match_ParenthesesTrigger_LeftParenthesisKeyword_0_a;
 	protected AbstractElementAlias match_ParenthesesTrigger_LeftParenthesisKeyword_0_p;
-	protected AbstractElementAlias match_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1;
+	protected AbstractElementAlias match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1;
 	protected AbstractElementAlias match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q;
@@ -74,7 +75,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	protected AbstractElementAlias match_SynchronousStatechartDefinition___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q;
 	protected AbstractElementAlias match_SynchronousStatechartDefinition___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q;
 	protected AbstractElementAlias match_Transition_SolidusKeyword_7_2_0_q;
-	protected AbstractElementAlias match_WeibullRandomVariable_WeibullKeyword_0_0_or_WeibullKeyword_0_1;
+	protected AbstractElementAlias match_WeibullRandomVariable_WeibullKeyword_0_0_0_or_WeibullKeyword_0_0_1;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
@@ -93,6 +94,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 		match_AsynchronousStatechartDefinition___LeftParenthesisKeyword_5_0_RightParenthesisKeyword_5_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftParenthesisKeyword_5_0()), new TokenAlias(false, false, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightParenthesisKeyword_5_2()));
 		match_AsynchronousStatechartDefinition___LeftSquareBracketKeyword_6_0_RightSquareBracketKeyword_6_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftSquareBracketKeyword_6_0()), new TokenAlias(false, false, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightSquareBracketKeyword_6_2()));
 		match_AtomicExpression_ExpressionLanguagePrimaryExpression___LeftParenthesisKeyword_2_0_LeftParenthesisKeyword_2_0_a__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getAtomicExpressionAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(true, true, grammarAccess.getExpressionLanguagePrimaryExpressionAccess().getLeftParenthesisKeyword_2_0()));
+		match_BernoulliRandomVariable_BernoulliKeyword_0_0_0_or_BernoulliKeyword_0_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getBernoulliRandomVariableAccess().getBernoulliKeyword_0_0_0()), new TokenAlias(false, false, grammarAccess.getBernoulliRandomVariableAccess().getBernoulliKeyword_0_0_1()));
 		match_CascadeCompositeComponent_CommaKeyword_4_1_1_0_q = new TokenAlias(false, true, grammarAccess.getCascadeCompositeComponentAccess().getCommaKeyword_4_1_1_0());
 		match_CascadeCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCascadeCompositeComponentAccess().getLeftParenthesisKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getCascadeCompositeComponentAccess().getRightParenthesisKeyword_3_2()));
 		match_CascadeCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getCascadeCompositeComponentAccess().getLeftSquareBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getCascadeCompositeComponentAccess().getRightSquareBracketKeyword_4_2()));
@@ -116,7 +118,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 		match_NotExpression_ExclamationMarkKeyword_1_0_1_or_NotKeyword_1_0_0 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getNotExpressionAccess().getExclamationMarkKeyword_1_0_1()), new TokenAlias(false, false, grammarAccess.getNotExpressionAccess().getNotKeyword_1_0_0()));
 		match_ParenthesesTrigger_LeftParenthesisKeyword_0_a = new TokenAlias(true, true, grammarAccess.getParenthesesTriggerAccess().getLeftParenthesisKeyword_0());
 		match_ParenthesesTrigger_LeftParenthesisKeyword_0_p = new TokenAlias(true, false, grammarAccess.getParenthesesTriggerAccess().getLeftParenthesisKeyword_0());
-		match_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0()), new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_1()));
+		match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_0()), new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_1()));
 		match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getRightParenthesisKeyword_2_2()));
 		match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q = new TokenAlias(false, true, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getCommaKeyword_4_1_1_0());
 		match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getLeftParenthesisKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getRightParenthesisKeyword_3_2()));
@@ -131,7 +133,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 		match_SynchronousStatechartDefinition___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getSynchronousStatechartDefinitionAccess().getLeftParenthesisKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getSynchronousStatechartDefinitionAccess().getRightParenthesisKeyword_3_2()));
 		match_SynchronousStatechartDefinition___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getSynchronousStatechartDefinitionAccess().getLeftSquareBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getSynchronousStatechartDefinitionAccess().getRightSquareBracketKeyword_4_2()));
 		match_Transition_SolidusKeyword_7_2_0_q = new TokenAlias(false, true, grammarAccess.getTransitionAccess().getSolidusKeyword_7_2_0());
-		match_WeibullRandomVariable_WeibullKeyword_0_0_or_WeibullKeyword_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_0()), new TokenAlias(false, false, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_1()));
+		match_WeibullRandomVariable_WeibullKeyword_0_0_0_or_WeibullKeyword_0_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_0_0()), new TokenAlias(false, false, grammarAccess.getWeibullRandomVariableAccess().getWeibullKeyword_0_0_1()));
 	}
 	
 	@Override
@@ -174,6 +176,8 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 				emit_AsynchronousStatechartDefinition___LeftSquareBracketKeyword_6_0_RightSquareBracketKeyword_6_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_AtomicExpression_ExpressionLanguagePrimaryExpression___LeftParenthesisKeyword_2_0_LeftParenthesisKeyword_2_0_a__q.equals(syntax))
 				emit_AtomicExpression_ExpressionLanguagePrimaryExpression___LeftParenthesisKeyword_2_0_LeftParenthesisKeyword_2_0_a__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_BernoulliRandomVariable_BernoulliKeyword_0_0_0_or_BernoulliKeyword_0_0_1.equals(syntax))
+				emit_BernoulliRandomVariable_BernoulliKeyword_0_0_0_or_BernoulliKeyword_0_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_CascadeCompositeComponent_CommaKeyword_4_1_1_0_q.equals(syntax))
 				emit_CascadeCompositeComponent_CommaKeyword_4_1_1_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_CascadeCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q.equals(syntax))
@@ -220,8 +224,8 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 				emit_ParenthesesTrigger_LeftParenthesisKeyword_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ParenthesesTrigger_LeftParenthesisKeyword_0_p.equals(syntax))
 				emit_ParenthesesTrigger_LeftParenthesisKeyword_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1.equals(syntax))
-				emit_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1.equals(syntax))
+				emit_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q.equals(syntax))
 				emit_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q.equals(syntax))
@@ -250,8 +254,8 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 				emit_SynchronousStatechartDefinition___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_Transition_SolidusKeyword_7_2_0_q.equals(syntax))
 				emit_Transition_SolidusKeyword_7_2_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
-			else if (match_WeibullRandomVariable_WeibullKeyword_0_0_or_WeibullKeyword_0_1.equals(syntax))
-				emit_WeibullRandomVariable_WeibullKeyword_0_0_or_WeibullKeyword_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_WeibullRandomVariable_WeibullKeyword_0_0_0_or_WeibullKeyword_0_0_1.equals(syntax))
+				emit_WeibullRandomVariable_WeibullKeyword_0_0_0_or_WeibullKeyword_0_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else acceptNodes(getLastNavigableState(), syntaxNodes);
 		}
 	}
@@ -508,6 +512,20 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	 * </pre>
 	 */
 	protected void emit_AtomicExpression_ExpressionLanguagePrimaryExpression___LeftParenthesisKeyword_2_0_LeftParenthesisKeyword_2_0_a__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
+	 *     'bernoulli' | 'Bernoulli'
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     (rule start) (ambiguity) 'prob' '=' probability=Expression
+	 
+	 * </pre>
+	 */
+	protected void emit_BernoulliRandomVariable_BernoulliKeyword_0_0_0_or_BernoulliKeyword_0_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -1044,7 +1062,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	 
 	 * </pre>
 	 */
-	protected void emit_ParetoRandomVariable_ParetoKeyword_0_0_or_ParetoKeyword_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -1309,7 +1327,7 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	 
 	 * </pre>
 	 */
-	protected void emit_WeibullRandomVariable_WeibullKeyword_0_0_or_WeibullKeyword_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_WeibullRandomVariable_WeibullKeyword_0_0_0_or_WeibullKeyword_0_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

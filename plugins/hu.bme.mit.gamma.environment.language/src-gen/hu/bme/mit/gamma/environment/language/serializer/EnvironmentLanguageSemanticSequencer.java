@@ -1184,17 +1184,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     BernoulliRandomVariable returns BernoulliRandomVariable
 	 *
 	 * Constraint:
-	 *     probability=Expression
+	 *     (probability=Expression | probability=Expression)
 	 * </pre>
 	 */
 	protected void sequence_BernoulliRandomVariable(ISerializationContext context, BernoulliRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.BERNOULLI_RANDOM_VARIABLE__PROBABILITY) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.BERNOULLI_RANDOM_VARIABLE__PROBABILITY));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getBernoulliRandomVariableAccess().getProbabilityExpressionParserRuleCall_3_0(), semanticObject.getProbability());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1207,20 +1201,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     BetaRandomVariable returns BetaRandomVariable
 	 *
 	 * Constraint:
-	 *     (apha=Expression beta=Expression)
+	 *     ((apha=Expression beta=Expression) | (apha=Expression beta=Expression))
 	 * </pre>
 	 */
 	protected void sequence_BetaRandomVariable(ISerializationContext context, BetaRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.BETA_RANDOM_VARIABLE__APHA) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.BETA_RANDOM_VARIABLE__APHA));
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.BETA_RANDOM_VARIABLE__BETA) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.BETA_RANDOM_VARIABLE__BETA));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getBetaRandomVariableAccess().getAphaExpressionParserRuleCall_3_0(), semanticObject.getApha());
-		feeder.accept(grammarAccess.getBetaRandomVariableAccess().getBetaExpressionParserRuleCall_7_0(), semanticObject.getBeta());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1569,17 +1554,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     ExponentialRandomVariable returns ExponentialRandomVariable
 	 *
 	 * Constraint:
-	 *     rate=Expression
+	 *     (rate=Expression | rate=Expression)
 	 * </pre>
 	 */
 	protected void sequence_ExponentialRandomVariable(ISerializationContext context, ExponentialRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.EXPONENTIAL_RANDOM_VARIABLE__RATE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.EXPONENTIAL_RANDOM_VARIABLE__RATE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getExponentialRandomVariableAccess().getRateExpressionParserRuleCall_3_0(), semanticObject.getRate());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1721,20 +1700,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     GammaRandomVariable returns GammaRandomVariable
 	 *
 	 * Constraint:
-	 *     (shape=Expression scale=Expression)
+	 *     ((shape=Expression scale=Expression) | (shape=Expression scale=Expression))
 	 * </pre>
 	 */
 	protected void sequence_GammaRandomVariable(ISerializationContext context, GammaRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.GAMMA_RANDOM_VARIABLE__SHAPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.GAMMA_RANDOM_VARIABLE__SHAPE));
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.GAMMA_RANDOM_VARIABLE__SCALE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.GAMMA_RANDOM_VARIABLE__SCALE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getGammaRandomVariableAccess().getShapeExpressionParserRuleCall_3_0(), semanticObject.getShape());
-		feeder.accept(grammarAccess.getGammaRandomVariableAccess().getScaleExpressionParserRuleCall_7_0(), semanticObject.getScale());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1823,20 +1793,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     LogNormalRandomVariable returns LogNormalRandomVariable
 	 *
 	 * Constraint:
-	 *     (mean=Expression scale=Expression)
+	 *     ((mean=Expression scale=Expression) | (mean=Expression scale=Expression))
 	 * </pre>
 	 */
 	protected void sequence_LogNormalRandomVariable(ISerializationContext context, LogNormalRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.LOG_NORMAL_RANDOM_VARIABLE__MEAN) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.LOG_NORMAL_RANDOM_VARIABLE__MEAN));
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.LOG_NORMAL_RANDOM_VARIABLE__SCALE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.LOG_NORMAL_RANDOM_VARIABLE__SCALE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getLogNormalRandomVariableAccess().getMeanExpressionParserRuleCall_3_0(), semanticObject.getMean());
-		feeder.accept(grammarAccess.getLogNormalRandomVariableAccess().getScaleExpressionParserRuleCall_7_0(), semanticObject.getScale());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -1956,20 +1917,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     NormalRandomVariable returns NormalRandomVariable
 	 *
 	 * Constraint:
-	 *     (mean=Expression scale=Expression)
+	 *     ((mean=Expression scale=Expression) | (mean=Expression scale=Expression))
 	 * </pre>
 	 */
 	protected void sequence_NormalRandomVariable(ISerializationContext context, NormalRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.NORMAL_RANDOM_VARIABLE__MEAN) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.NORMAL_RANDOM_VARIABLE__MEAN));
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.NORMAL_RANDOM_VARIABLE__SCALE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.NORMAL_RANDOM_VARIABLE__SCALE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getNormalRandomVariableAccess().getMeanExpressionParserRuleCall_3_0(), semanticObject.getMean());
-		feeder.accept(grammarAccess.getNormalRandomVariableAccess().getScaleExpressionParserRuleCall_7_0(), semanticObject.getScale());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -2104,20 +2056,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     ParetoRandomVariable returns ParetoRandomVariable
 	 *
 	 * Constraint:
-	 *     (alpha=Expression scale=Expression)
+	 *     ((alpha=Expression scale=Expression) | (alpha=Expression scale=Expression))
 	 * </pre>
 	 */
 	protected void sequence_ParetoRandomVariable(ISerializationContext context, ParetoRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.PARETO_RANDOM_VARIABLE__ALPHA) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.PARETO_RANDOM_VARIABLE__ALPHA));
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.PARETO_RANDOM_VARIABLE__SCALE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.PARETO_RANDOM_VARIABLE__SCALE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getParetoRandomVariableAccess().getAlphaExpressionParserRuleCall_3_0(), semanticObject.getAlpha());
-		feeder.accept(grammarAccess.getParetoRandomVariableAccess().getScaleExpressionParserRuleCall_7_0(), semanticObject.getScale());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -2449,20 +2392,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     UniformRandomVariable returns UniformRandomVariable
 	 *
 	 * Constraint:
-	 *     (lowerBound=Expression upperBound=Expression)
+	 *     ((lowerBound=Expression upperBound=Expression) | (lowerBound=Expression upperBound=Expression))
 	 * </pre>
 	 */
 	protected void sequence_UniformRandomVariable(ISerializationContext context, UniformRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.UNIFORM_RANDOM_VARIABLE__LOWER_BOUND) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.UNIFORM_RANDOM_VARIABLE__LOWER_BOUND));
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.UNIFORM_RANDOM_VARIABLE__UPPER_BOUND) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.UNIFORM_RANDOM_VARIABLE__UPPER_BOUND));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getUniformRandomVariableAccess().getLowerBoundExpressionParserRuleCall_3_0(), semanticObject.getLowerBound());
-		feeder.accept(grammarAccess.getUniformRandomVariableAccess().getUpperBoundExpressionParserRuleCall_7_0(), semanticObject.getUpperBound());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -2475,20 +2409,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     WeibullRandomVariable returns WeibullRandomVariable
 	 *
 	 * Constraint:
-	 *     (shape=Expression scale=Expression)
+	 *     ((shape=Expression scale=Expression) | (shape=Expression scale=Expression))
 	 * </pre>
 	 */
 	protected void sequence_WeibullRandomVariable(ISerializationContext context, WeibullRandomVariable semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.WEIBULL_RANDOM_VARIABLE__SHAPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.WEIBULL_RANDOM_VARIABLE__SHAPE));
-			if (transientValues.isValueTransient(semanticObject, StochasticPackage.Literals.WEIBULL_RANDOM_VARIABLE__SCALE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, StochasticPackage.Literals.WEIBULL_RANDOM_VARIABLE__SCALE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getWeibullRandomVariableAccess().getShapeExpressionParserRuleCall_3_0(), semanticObject.getShape());
-		feeder.accept(grammarAccess.getWeibullRandomVariableAccess().getScaleExpressionParserRuleCall_7_0(), semanticObject.getScale());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

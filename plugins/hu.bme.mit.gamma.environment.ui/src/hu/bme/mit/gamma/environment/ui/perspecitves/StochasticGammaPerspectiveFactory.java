@@ -18,6 +18,7 @@ import org.eclipse.help.ui.internal.views.HelpView;
 public class StochasticGammaPerspectiveFactory  implements IPerspectiveFactory  {
     private static final String VIEW_ID ="hu.bme.mit.gamma.environment.ui.StochasticGammaView";
     private static final String PLANTUML_ID = "net.sourceforge.plantuml.eclipse.views.PlantUmlView";
+    private static final String PLANTUML_SVG_ID = "net.sourceforge.plantuml.eclipse.views.PlantUmlSvgView";
     private static final String BOTTOM = "bottom";
     
 	@Override
@@ -39,6 +40,7 @@ public class StochasticGammaPerspectiveFactory  implements IPerspectiveFactory  
 		bottom.addView(IPageLayout.ID_TASK_LIST);
 		bottom.addView(IPageLayout.ID_PROGRESS_VIEW);
 		bottom.addView(PLANTUML_ID);
+		bottom.addView(PLANTUML_SVG_ID);
 			/*
 				URL url = new URL("https://github.com/ftsrg/gamma");
 				PlatformUI.getWorkbench().getBrowserSupport().createBrowser("hu.bme.mit.gamma.environment").openURL(url);

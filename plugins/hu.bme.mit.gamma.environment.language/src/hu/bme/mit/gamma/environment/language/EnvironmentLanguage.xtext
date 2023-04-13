@@ -460,42 +460,40 @@ DiscreteRandomVariable returns StochasticModel::DiscreteRandomVariable:
 ;
 
 UniformRandomVariable returns StochasticModel::UniformRandomVariable: 
-	"uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression
+	("uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression) |("Uniform" "("lowerBound=Expression "," upperBound=Expression ")")
 ;
 
 LogNormalRandomVariable returns StochasticModel::LogNormalRandomVariable:
-	'lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression  
+	('lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression )|("LogNormal" "("mean=Expression "," scale=Expression ")")
 ;
 
 BetaRandomVariable returns StochasticModel::BetaRandomVariable: 
-	'beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression
+	('beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression )|("Beta" "("apha=Expression "," beta=Expression ")")
 ;
 
 ParetoRandomVariable returns StochasticModel::ParetoRandomVariable: 
-	('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression
+	(('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression )|("Pareto" "("alpha=Expression "," scale=Expression ")")
 ;
 
-
-
 NormalRandomVariable returns StochasticModel::NormalRandomVariable: 
-	'normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression 
+	(('normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression ))|("Normal" "("mean=Expression "," scale=Expression ")")
 ;
 
 WeibullRandomVariable returns StochasticModel::WeibullRandomVariable: 
-	('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression
+	(('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression)|("Weibull" "("shape=Expression "," scale=Expression ")")
 ;
 
 GammaRandomVariable returns StochasticModel::GammaRandomVariable: 
-	'gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression
+	('gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression)|("Gamma" "("shape=Expression "," scale=Expression ")")
 ;
 
 
 ExponentialRandomVariable returns StochasticModel::ExponentialRandomVariable: 
-	'exponential' 'rate' '=' rate=Expression 
+	('exponential' 'rate' '=' rate=Expression) |("Exponential" "("rate=Expression ")")
 ;
 
 BernoulliRandomVariable returns StochasticModel::BernoulliRandomVariable: 
-	'bernoulli' 'prob' '=' probability=Expression 
+	(('bernoulli'|'Bernoulli') 'prob' '=' probability=Expression) |("Bernoulli" "("probability=Expression ")")
 ;
 
 
@@ -511,22 +509,17 @@ FittedGammaRandomVariable returns StochasticModel::FittedGammaRandomVariable:
 	'fitted' 'gamma' 'lr' '=' lr=DOUBLE ',' 'source' '=' source=DataSource
 ;
 
-
-
 CategoricalProbabaility returns StochasticModel::CategoricalProbabaility: 
 	probability=Expression
 ;
-
 
 DiracProcess returns StochasticModel::DiracProcess: 
 	"Dirac" "source" "=" source=DataSource
 ;
 
-
 FittedGaussianProcess returns StochasticModel::FittedGaussianProcess: 
 	("GP"|"Gauss" "Process") "kernel" "="kernel=Kernel ("," "lr" "=" lr=DOUBLE)? "," "source" "="source=DataSource
 ;
-
 
 Kernel returns StochasticModel::Kernel: 
 	 BrownianKernel | LinearKernel | RBFKernel | PeriodicKernel |SumKernel 

@@ -14,9 +14,13 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ICoreRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
@@ -142,11 +146,23 @@ public class AnalysisTransformationHandler extends CommandHandler {
 			java.net.URI loc = file.getLocationURI();
 			String packageName = file.getProject().getName().toLowerCase();
 			analysis.transformandrun(resource, loc, packageName, uris, BasePackageURI);
-
 			logger.log(Level.INFO, "The Python code generation has been finished.----------------");
 
 		} catch (Exception e) {
 			DialogUtil.showErrorWithStackTrace(e.getMessage(), e);
+			e.printStackTrace();
+			logger.log(Level.SEVERE, "The Python code generation encountered an exception.-----------");
+			logger.log(Level.SEVERE, e.getCause().toString());
+			logger.log(Level.SEVERE, e.getStackTrace().toString());
+			logger.log(Level.SEVERE, e.getMessage());
+			return;
+		}
+		try {
+			logger.log(Level.INFO, "Refresh and build project");
+			file.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			logger.log(Level.INFO, "Build project");
+			file.getProject().build(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (CoreException e) {
 			e.printStackTrace();
 			logger.log(Level.SEVERE, "The Python code generation encountered an exception.-----------");
 			logger.log(Level.SEVERE, e.getCause().toString());

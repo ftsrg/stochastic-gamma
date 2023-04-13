@@ -79,7 +79,7 @@ public class PyroStochasticClassGenerator {
               _builder.append("self.");
               String _name = analysis_component.getAnalyzedComponent().getType().getParameterDeclarations().get((param_cntr).intValue()).getName();
               _builder.append(_name, "\t\t");
-              _builder.append("=torch.tensor([0.0])");
+              _builder.append("=torch.tensor([0.000001])");
               _builder.newLineIfNotEmpty();
               _builder.append("\t\t");
               _builder.append("#");
@@ -145,7 +145,7 @@ public class PyroStochasticClassGenerator {
               _builder.append("\",");
               CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(((StochasticExpression)arg_1).getRandomvariable());
               _builder.append(_generateDitribution, "\t\t");
-              _builder.append(")");
+              _builder.append(").detach()");
               _builder.newLineIfNotEmpty();
             }
           }

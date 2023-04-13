@@ -172,7 +172,7 @@ public class PyroAnalysisGenerator {
     _builder.append("shutdownJVM()");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("print (\"anylsis is finished successfully\")");
+    _builder.append("print (\"analysis is finished successfully\")");
     _builder.newLine();
     return _builder;
   }
@@ -215,13 +215,13 @@ public class PyroAnalysisGenerator {
 
   protected CharSequence _generateMCMCKernel(final NUTS kernel) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("kernel=pyro.infer.NUTS(model=simulate)");
+    _builder.append("pyro.infer.NUTS(model=simulate)");
     return _builder;
   }
 
   protected CharSequence _generateMCMCKernel(final HMC kernel) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("kernel=pyro.infer.HMC(model=simulate)");
+    _builder.append("pyro.infer.HMC(model=simulate)");
     return _builder;
   }
 
