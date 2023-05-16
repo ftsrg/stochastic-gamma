@@ -379,16 +379,17 @@ public class PyroComponentInstanceGenerator {
           if (_isEmpty_1) {
             builder.append("None");
           } else {
-            Collection<String> _get = connection.outCalls.get(port);
-            for (final String call : _get) {
+            final Function1<EventDeclaration, Event> _function = (EventDeclaration e) -> {
+              return e.getEvent();
+            };
+            List<Event> _map = ListExtensions.<EventDeclaration, Event>map(port.getInterfaceRealization().getInterface().getEvents(), _function);
+            for (final Event event : _map) {
               {
-                final Function1<EventDeclaration, Event> _function = (EventDeclaration e) -> {
-                  return e.getEvent();
-                };
-                List<Event> _map = ListExtensions.<EventDeclaration, Event>map(port.getInterfaceRealization().getInterface().getEvents(), _function);
-                for (final Event event : _map) {
+                builder.append("\'").append(StringExtensions.toFirstUpper(event.getName())).append("\' : [");
+                Collection<String> _get = connection.outCalls.get(port);
+                for (final String call : _get) {
                   {
-                    builder.append("\'").append(StringExtensions.toFirstUpper(event.getName())).append("\' : (lambda:");
+                    builder.append("(lambda:");
                     int _compareTo = Character.valueOf(call.charAt(0)).compareTo(Character.valueOf('_'));
                     boolean _equals = (_compareTo == 0);
                     if (_equals) {
@@ -400,16 +401,17 @@ public class PyroComponentInstanceGenerator {
                     builder.append(TransformationUtility.generateFuncParams(event)).append(")),");
                   }
                 }
-                builder.append(",");
+                builder.append("],");
               }
             }
+            builder.append(",");
           }
           builder.append("}, ");
         }
       }
     }
     builder.append("}");
-    return builder.toString().replaceAll(",,", ",").replaceAll(",}", "}").replaceAll(", }", "}");
+    return builder.toString().replaceAll(",,", ",").replaceAll(",}", "}").replaceAll(", }", "}").replaceAll(",]", "]").replaceAll(", ]", "]");
   }
 
   public CharSequence generateCallsOld(final EnvironmentConnections connection) {

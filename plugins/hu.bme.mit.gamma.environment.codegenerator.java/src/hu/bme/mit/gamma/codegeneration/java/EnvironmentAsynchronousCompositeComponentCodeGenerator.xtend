@@ -110,12 +110,12 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			
 			«envUtil.registerFunc»
 			
-			public boolean isEmpty(){
-				return «FOR comp : component.instances SEPARATOR " && " » «comp.name».isEmpty() «ENDFOR» «IF component instanceof EnvironmentAsynchronousCompositeComponent » «IF !component.environmentComponents.empty»&& «ENDIF» «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR» «ENDIF»;
+			public boolean isEventQueueEmpty(){
+				return «FOR comp : component.instances SEPARATOR " && " » «comp.name».isEventQueueEmpty() «ENDFOR» «IF component instanceof EnvironmentAsynchronousCompositeComponent » «IF !component.environmentComponents.empty»&& «ENDIF» «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR» «ENDIF»;
 			}
 			
 			public void schedule(){
-				while(!isEmpty()){
+				while(!isEventQueueEmpty()){
 					«FOR inst : component.instances»
 						«inst.name».schedule();
 					«ENDFOR»

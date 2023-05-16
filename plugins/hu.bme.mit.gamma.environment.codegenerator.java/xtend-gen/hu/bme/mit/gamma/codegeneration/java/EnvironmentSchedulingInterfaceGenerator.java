@@ -34,7 +34,7 @@ public class EnvironmentSchedulingInterfaceGenerator {
     _builder.append("public void schedule();");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("public boolean isEmpty();");
+    _builder.append("public boolean isEventQueueEmpty();");
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();

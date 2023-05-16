@@ -19,7 +19,7 @@ class EnvironmentSchedulingInterfaceGenerator {
 	 	
 	 	public interface «envUtil.schedulingInterfaceName» {
 	 		public void schedule();
-	 		public boolean isEmpty();
+	 		public boolean isEventQueueEmpty();
 	 	}
 	 	
 	 	'''

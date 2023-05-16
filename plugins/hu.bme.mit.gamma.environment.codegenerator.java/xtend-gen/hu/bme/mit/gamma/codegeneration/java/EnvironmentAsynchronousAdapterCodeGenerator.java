@@ -214,7 +214,7 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.append("\t");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("public boolean isEmpty(){");
+      _builder.append("public boolean isEventQueueEmpty(){");
       _builder.newLine();
       _builder.append("\t\t");
       _builder.append("return __asyncQueue.isEmpty();");

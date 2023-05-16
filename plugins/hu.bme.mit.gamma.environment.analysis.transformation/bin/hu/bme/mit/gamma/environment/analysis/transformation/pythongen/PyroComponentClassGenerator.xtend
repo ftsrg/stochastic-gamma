@@ -59,13 +59,15 @@ class PyroComponentClassGenerator {
 				self.portevents=portevents
 				self.simulator=simulator
 				ports=list(self.calls.keys())
+				
 				#iterating through ports
 				for port in ports:
 					pevents=self.portevents[port]
 					#iterating through events
 					for pevent in pevents:
-						rule=self.rules[port][pevent]
-						self.simulator.dists.append(rule)
+						if pevent in self.rules[port]:
+							rule=self.rules[port][pevent]
+							self.simulator.dists.append(rule)
 
 			def generateEvents(self):
 				ports=list(self.calls.keys())
@@ -74,19 +76,21 @@ class PyroComponentClassGenerator {
 					pevents=self.portevents[port]
 					#iterating through events
 					for pevent in pevents:
-						rule=self.rules[port][pevent]
-						call=self.calls[port][pevent]
-						time=rule.calc(port+"."+pevent,0.0)
-						if time>=0:
-							#iterating through port connections
-							self.simulator.events.append(Event(self,time,call))
+						if pevent in self.rules[port] and pevent in self.calls[port]:
+							rule=self.rules[port][pevent]
+							calls=self.calls[port][pevent]
+							time=rule.calc(port+"."+pevent,0.0)
+							if time>=0:
+								#iterating through port connections
+								for call in calls:
+									self.simulator.events.append(Event(self,time,call))
 		'''
 	}
 	
 	def generatePeriodicEventSourceClass(){
 		'''
 		class PeriodicEventSource():
-			def __init__(self,name,calls,rules,portevents,simulator):
+			def configure(self,name,calls,rules,portevents,simulator):
 				self.name=name
 				self.calls=calls
 				self.rules=rules
@@ -98,8 +102,9 @@ class PyroComponentClassGenerator {
 					pevents=self.portevents[port]
 					#iterating through events
 					for pevent in pevents:
-						rule=self.rules[port][pevent]
-						self.simulator.dists.append(rule)
+						if pevent in self.rules[port] and pevent in self.calls[port]:
+							rule=self.rules[port][pevent]
+							self.simulator.dists.append(rule)
 
 			def generateEvents(self):
 				ports=list(self.calls.keys())
@@ -108,14 +113,16 @@ class PyroComponentClassGenerator {
 					pevents=self.portevents[port]
 					#iterating through events
 					for pevent in pevents:
-						call=self.calls[port][pevent]
-						rule=self.rules[port][pevent]
-						simulationtime=0.0
-						while simulationtime < simTime:
-							simulationtime=simulationtime+rule.calc(port+"."+pevent,simulationtime)
-							#iterating through port connections
-							self.simulator.events.append(Event(self,simulationtime,call))
-														
+						if pevent in self.rules[port] and pevent in self.calls[port]:
+							calls=self.calls[port][pevent]
+							rule=self.rules[port][pevent]
+							simulationtime=0.0
+							while simulationtime < simTime:
+								simulationtime=simulationtime+rule.calc(port+"."+pevent,simulationtime)
+								#iterating through port connections
+								for call in calls:
+									self.simulator.events.append(Event(self,simulationtime,call))
+		
 
 		'''
 	}
@@ -145,8 +152,9 @@ class PyroComponentClassGenerator {
 						pevents=rules[port].keys()
 						#iterating through events
 						for pevent in pevents:
-							rule=rules[port][pevent]
-							simulator.dists.append(rule)
+							if pevent in self.rules[port]:
+								rule=rules[port][pevent]
+								simulator.dists.append(rule)
 
 
 
@@ -156,7 +164,6 @@ class PyroComponentClassGenerator {
 					#definition of the interface functions
 
 				@JOverride
-				def isEmpty(self):
 					return (len(self.events)==0)
 
 				@JOverride
@@ -227,7 +234,7 @@ class PyroComponentClassGenerator {
 						pass
 
 					@JOverride
-					def isEmpty(self):
+					def isEventQueueEmpty(self):
 						return True
 
 					#definition of the interface functions
@@ -286,7 +293,7 @@ class PyroComponentClassGenerator {
 						self.events.clear()
 
 					@JOverride
-					def isEmpty(self):
+					def isEventQueueEmpty(self):
 						return (len(self.events)==0)
 					
 					

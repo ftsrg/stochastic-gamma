@@ -23,6 +23,10 @@ import java.util.List
 import java.util.ArrayList
 import hu.bme.mit.gamma.expression.util.TypeSerializer
 import hu.bme.mit.gamma.expression.model.EnumerationTypeDefinition
+import hu.bme.mit.gamma.expression.model.RecordTypeDefinition
+import hu.bme.mit.gamma.expression.model.FunctionTypeDefinition
+import hu.bme.mit.gamma.expression.model.FunctionDeclaration
+import hu.bme.mit.gamma.action.model.ProcedureDeclaration
 
 class InterfaceToPlantUmlTransformer {
 	
@@ -30,12 +34,16 @@ class InterfaceToPlantUmlTransformer {
 	protected final List<EnumerationTypeDefinition> enums
 	protected extension ExpressionSerializer expressionSerializer = ExpressionSerializer.INSTANCE
 	protected extension TypeSerializer typeSerializer = TypeSerializer.INSTANCE
+	protected final List<RecordTypeDefinition> structs
+	protected final List<FunctionDeclaration> funcs
 	
 	protected  List<Interface>  externalParents=new ArrayList()
 	
-	new(List<Interface> interfaces,List<EnumerationTypeDefinition> enums) {
+	new(List<Interface> interfaces,List<EnumerationTypeDefinition> enums,List<RecordTypeDefinition> structs,List<FunctionDeclaration> funcs) {
 		this.interfaces = interfaces
 		this.enums=enums
+		this.structs=structs
+		this.funcs=funcs
 	}
 	//
 	
@@ -48,6 +56,26 @@ class InterfaceToPlantUmlTransformer {
 				«FOR item : _enum.literals»
 					«item.name»
 				«ENDFOR»
+			}
+		«ENDFOR»
+		
+		«FOR struct : structs»
+			struct «struct.serialize» {
+				«FOR field : struct.fieldDeclarations»
+					{field} «field.name» : «field.type.serialize»
+				«ENDFOR»
+			}
+		«ENDFOR»
+
+		«FOR func : funcs»
+			protocol «func.name» {
+				«FOR param : func.parameterDeclarations»
+					{field} «param.name» : «param.type.serialize»
+				«ENDFOR»
+				«IF func instanceof ProcedureDeclaration»
+					....
+					returns «func.type.serialize»
+				«ENDIF»
 			}
 		«ENDFOR»
 		

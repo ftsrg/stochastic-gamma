@@ -188,9 +188,10 @@ class PyroComponentInstanceGenerator {
 				if (connection.outCalls.get(port).empty){
 					builder.append("None")
 				} else {
-					for (String call : connection.outCalls.get(port)){
-						for (Event event : port.interfaceRealization.interface.events.map[e|e.event]){
-							builder.append("'").append(event.name.toFirstUpper) .append("' : (lambda:")
+					for (Event event : port.interfaceRealization.interface.events.map[e|e.event]){
+						builder.append("'").append(event.name.toFirstUpper).append("' : [")
+						for (String call : connection.outCalls.get(port)){
+							builder.append("(lambda:")
 							if(call.charAt(0).compareTo('_')==0){
 								builder.append(call.replaceFirst("\\_",""))
 							} else {
@@ -199,14 +200,15 @@ class PyroComponentInstanceGenerator {
 							builder.append(".raise").append(event.name.toFirstUpper).append("(")
 							builder.append(TransformationUtility.generateFuncParams(event)).append(")),")
 						}
-						builder.append(",")
+						builder.append("],")
 					}
+					builder.append(",")
 				}
 				builder.append("}, ")
 			}
 		}
 		builder.append("}")
-		return builder.toString.replaceAll(",,",",").replaceAll(",}","}").replaceAll(", }","}")
+		return builder.toString.replaceAll(",,",",").replaceAll(",}","}").replaceAll(", }","}").replaceAll(",]","]").replaceAll(", ]","]")
 	}
 	
 	def generateCallsOld(EnvironmentConnections connection){

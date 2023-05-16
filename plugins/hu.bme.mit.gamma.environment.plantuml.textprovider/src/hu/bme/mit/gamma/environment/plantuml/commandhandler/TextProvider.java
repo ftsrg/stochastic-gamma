@@ -30,6 +30,8 @@ import hu.bme.mit.gamma.environment.plantuml.transformation.StatechartToPlantUml
 import hu.bme.mit.gamma.environment.plantuml.transformation.TraceToPlantUmlTransformer;
 import hu.bme.mit.gamma.expression.model.EnumerableTypeDefinition;
 import hu.bme.mit.gamma.expression.model.EnumerationTypeDefinition;
+import hu.bme.mit.gamma.expression.model.FunctionDeclaration;
+import hu.bme.mit.gamma.expression.model.RecordTypeDefinition;
 import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
 import hu.bme.mit.gamma.statechart.interface_.Component;
 import hu.bme.mit.gamma.statechart.interface_.Package;
@@ -102,6 +104,7 @@ public class TextProvider extends AbstractDiagramIntentProvider {
 	}
 	
 	private String getComponentPlantUmlCode(Resource resource) {
+		 
 		if (!resource.getContents().isEmpty()) {
 			Package _package = (Package) resource.getContents().get(0);
 			List<Component> components = _package.getComponents();
@@ -122,7 +125,12 @@ public class TextProvider extends AbstractDiagramIntentProvider {
 						.filter( typeDecalration -> typeDecalration.getType() instanceof EnumerationTypeDefinition )
 						.map(typeDecalration -> (EnumerationTypeDefinition) typeDecalration.getType())
 						.collect(Collectors.toList());
-				InterfaceToPlantUmlTransformer transformer = new InterfaceToPlantUmlTransformer(_package.getInterfaces(),enums);
+				List<RecordTypeDefinition> structs = _package.getTypeDeclarations().stream()
+						.filter( typeDecalration -> typeDecalration.getType() instanceof RecordTypeDefinition )
+						.map(typeDecalration -> (RecordTypeDefinition) typeDecalration.getType())
+						.collect(Collectors.toList());
+				List<FunctionDeclaration> funcs = _package.getFunctionDeclarations();
+				InterfaceToPlantUmlTransformer transformer = new InterfaceToPlantUmlTransformer(_package.getInterfaces(),enums,structs,funcs);
 				return transformer.execute();
 			}
 		}

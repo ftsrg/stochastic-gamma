@@ -83,59 +83,64 @@ class CompositeToPlantUmlTransformer {
 		</style>
 		
 		skinparam shadowing false
-		skinparam linetype ortho
+		'skinparam linetype ortho
 		!theme plain
 		'left to right direction
-		skinparam nodesep 30
-		skinparam ranksep 30
+		skinparam nodesep 40
+		skinparam ranksep 70
 		skinparam defaultTextAlignment center
 		skinparam ComponentStereotypeFontSize 10
 		skinparam HeaderFontSize 12
-		skinparam padding 5
+		skinparam padding 2
 		skinparam componentStyle rectangle
 		
 		component "«composite.name»"<<«composite.kindString»>> {
 			
 			«FOR component : composite.derivedComponents»
-				component "<size:12>«component.name»" as «component.name»  {
+				component "<size:12>«component.name»:\n<size:12>«component.derivedType.name»" as «component.name»  {
 					«FOR port : component.derivedType.allPorts»
-						«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-							portin "«port.name»" as «component.name»__«port.name»
-						«ENDIF»
-						«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-							portout "«port.name»" as «component.name»__«port.name»
+						«IF true»
+							«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
+								portin "«port.name»:\n ~«port.interface.name» " as «component.name»__«port.name»
+							«ENDIF»
+							«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
+								portout "«port.name»:\n «port.interface.name»" as «component.name»__«port.name»
+							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
 				}
 			«ENDFOR»
 
 			«FOR component : composite.environmentComponents»
-				component "<size:12>«component.name»" as «component.name» <<Stochastic «envType(component as ElementaryEnvironmentComponentInstance)»>>{
+				component "<size:12>«component.name»\n----\n«FOR rule : (component as ElementaryEnvironmentComponentInstance).behaviorRules»«IF rule instanceof StochasticRule»<size:10>«FOR filter : rule.filter»«filterType(filter)» «ENDFOR»: «generateDitribution(rule.stochasticModel)»\n«ENDIF»«ENDFOR»" as «component.name» <<Stochastic «envType(component as ElementaryEnvironmentComponentInstance)»>>{
 					«FOR port : (component as ElementaryEnvironmentComponentInstance).inports»
-						portin "«port.name»" as «component.name»__«port.name»
+						«IF true»
+							portin "«port.name»\n ~«port.interface.name»" as «component.name»__«port.name»
+						«ENDIF»
 					«ENDFOR»
 					«FOR port : (component as ElementaryEnvironmentComponentInstance).outports»
-						portout "«port.name»" as «component.name»__«port.name»
+						«IF true»
+							portout "«port.name»:\n «port.interface.name»" as «component.name»__«port.name»
+						«ENDIF»
 					«ENDFOR»
-					note "«FOR rule : (component as ElementaryEnvironmentComponentInstance).behaviorRules»«IF rule instanceof StochasticRule»«FOR filter : rule.filter»«filterType(filter)» «ENDFOR»: «generateDitribution(rule.stochasticModel)»\n«ENDIF»«ENDFOR»" as N«noteCNTR++»
 				}
 			«ENDFOR»
 			
 			«FOR port : composite.ports»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-					portin «port.name»
+					portin "«port.name»\n ~«port.interface.name»" as «port.name»
 				«ENDIF»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-					portout «port.name»
+					portout "«port.name»:\n «port.interface.name»" as «port.name»
 				«ENDIF»
 			«ENDFOR»
 			
 			«FOR binding : composite.portBindings»
 				«IF binding.instancePortReference.port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-					«binding.compositeSystemPort.name» <... «binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name»
+					«binding.compositeSystemPort.name» . «binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name»
 				«ENDIF»
 				«IF binding.instancePortReference.port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-					«binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name» ...> «binding.compositeSystemPort.name»
+					«binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name» .. «binding.compositeSystemPort.name»
 				«ENDIF»
 				'«composite.name» "«binding.compositeSystemPort.name»" #.# "«binding.instancePortReference.port.name»" «binding.instancePortReference.instance.name»
 			«ENDFOR»
@@ -143,7 +148,7 @@ class CompositeToPlantUmlTransformer {
 			
 			«FOR channel : composite.channels»
 				«FOR requiredPort : channel.requiredPorts»
-					«channel.providedPort.instance.name»__«channel.providedPort.port.name» -0)- «requiredPort.instance.name»__«requiredPort.port.name» : "«requiredPort.port.interface.name»" 
+					«channel.providedPort.instance.name»__«channel.providedPort.port.name» ---> «requiredPort.instance.name»__«requiredPort.port.name» 
 				«ENDFOR»
 			«ENDFOR»
 		}
@@ -206,7 +211,7 @@ class CompositeToPlantUmlTransformer {
 			
 			«FOR channel : composite.channels»
 				«FOR requiredPort : channel.requiredPorts»
-					«channel.providedPort.instance.name» "«channel.providedPort.port.name»" #---0)--# "«requiredPort.port.name»" «requiredPort.instance.name» : "<size:10>//«requiredPort.port.interface.name»//" 
+					«channel.providedPort.instance.name» "«channel.providedPort.port.name»" #--0)--# "«requiredPort.port.name»" «requiredPort.instance.name» : "<size:10>//«requiredPort.port.interface.name»//" 
 				«ENDFOR»
 			«ENDFOR»
 		}

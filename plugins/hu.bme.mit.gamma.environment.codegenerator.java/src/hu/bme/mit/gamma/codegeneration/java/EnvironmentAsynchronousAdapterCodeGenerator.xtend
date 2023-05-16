@@ -66,7 +66,7 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 				}
 			«ENDIF»
 			
-			public boolean isEmpty(){
+			public boolean isEventQueueEmpty(){
 				return __asyncQueue.isEmpty();
 			}
 			

@@ -98,7 +98,7 @@ public class ElementaryEnvironmentComponentUtility {
       _builder.append("envMap.get(\"");
       String _name = component.getName();
       _builder.append(_name);
-      _builder.append("\").isEmpty()");
+      _builder.append("\").isEventQueueEmpty()");
       return _builder.toString();
     } else {
       return "true";

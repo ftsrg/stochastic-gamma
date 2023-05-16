@@ -51,7 +51,7 @@ class ElementaryEnvironmentComponentUtility {
 	
 	def getIsEmptyCall(ElementaryEnvironmentComponentInstance component){
 		if (component instanceof EnvironmentSwitch || component instanceof EnvironmentSample){
-			return '''envMap.get("«component.name»").isEmpty()'''
+			return '''envMap.get("«component.name»").isEventQueueEmpty()'''
 		}else {
 			return "true";
 		}

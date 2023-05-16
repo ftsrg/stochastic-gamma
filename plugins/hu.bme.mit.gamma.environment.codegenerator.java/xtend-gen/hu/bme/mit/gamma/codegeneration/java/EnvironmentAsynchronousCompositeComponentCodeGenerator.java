@@ -256,7 +256,7 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("public boolean isEmpty(){");
+    _builder.append("public boolean isEventQueueEmpty(){");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("return ");
@@ -272,7 +272,7 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         _builder.append(" ");
         String _name_2 = comp.getName();
         _builder.append(_name_2, "\t\t");
-        _builder.append(".isEmpty() ");
+        _builder.append(".isEventQueueEmpty() ");
       }
     }
     _builder.append(" ");
@@ -316,7 +316,7 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     _builder.append("public void schedule(){");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("while(!isEmpty()){");
+    _builder.append("while(!isEventQueueEmpty()){");
     _builder.newLine();
     {
       List<ComponentInstance> _instances_1 = StatechartModelDerivedFeatures.getInstances(component);
