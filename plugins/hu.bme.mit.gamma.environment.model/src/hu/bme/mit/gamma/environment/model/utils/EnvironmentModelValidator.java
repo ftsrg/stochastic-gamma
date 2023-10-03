@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance;
+import hu.bme.mit.gamma.environment.model.EnvironmentModelPackage;
 import hu.bme.mit.gamma.expression.model.Expression;
 import hu.bme.mit.gamma.expression.model.ExpressionModelPackage;
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration;
@@ -72,6 +73,50 @@ public class EnvironmentModelValidator extends StatechartModelValidator {
 		super.typeDeterminator = ExpressionTypeDeterminator.INSTANCE; // For state reference
 		super.expressionUtil = StatechartUtil.INSTANCE; // For getDeclaration
 	}
+	
+	
+
+	public Collection<ValidationResultMessage> checkBroadcastChannelInterfaces(BroadcastChannel channel){
+		Collection<ValidationResultMessage> validationResultMessages = new ArrayList<ValidationResultMessage>();
+		try {
+			if ((channel.getProvidedPort() != null) && (channel.getRequiredPorts()!=null) ) {
+				if (!channel.getRequiredPorts().isEmpty()) {
+					for (InstancePortReference requiredPort : channel.getRequiredPorts()) {
+						if (!channel.getProvidedPort().getPort().getInterfaceRealization().getInterface().equals(
+								requiredPort.getPort().getInterfaceRealization().getInterface())) {
+							validationResultMessages.add(new ValidationResultMessage(ValidationResult.WARNING,
+									"Channel interfaces must have the same type!",
+									new ReferenceInfo(CompositeModelPackage.Literals.CHANNEL__PROVIDED_PORT)));
+						}
+					}
+				}
+
+			}
+		} catch (Exception exception) {
+			System.out.println(exception.getMessage());
+			System.out.println(exception.getCause());
+			exception.printStackTrace();
+		}
+		return validationResultMessages;
+	}
+	
+	
+	public Collection<ValidationResultMessage> checkSimpleChannelInterfaces(SimpleChannel channel){
+		Collection<ValidationResultMessage> validationResultMessages = new ArrayList<ValidationResultMessage>();
+		try {
+			if (channel.getProvidedPort().getPort().getInterfaceRealization().getInterface().equals(
+					channel.getRequiredPort().getPort().getInterfaceRealization().getInterface())) {
+				validationResultMessages.add(new ValidationResultMessage(ValidationResult.WARNING,
+						"Channel interfaces must have the same type!",
+						new ReferenceInfo(CompositeModelPackage.Literals.CHANNEL__PROVIDED_PORT)));
+			}
+		} catch (Exception exception) {
+			System.out.println(exception.getMessage());
+			System.out.println(exception.getCause());
+			exception.printStackTrace();
+		}
+		return validationResultMessages;
+	}
 
 	public Collection<ValidationResultMessage> checkName(Package _package) {
 		Collection<ValidationResultMessage> validationResultMessages = new ArrayList<ValidationResultMessage>();
@@ -88,6 +133,8 @@ public class EnvironmentModelValidator extends StatechartModelValidator {
 		}
 		return validationResultMessages;
 	}
+	
+	
 
 	public Collection<ValidationResultMessage> checkCircularDependencies(Component component) {
 		Collection<ValidationResultMessage> validationResultMessages = new ArrayList<ValidationResultMessage>();

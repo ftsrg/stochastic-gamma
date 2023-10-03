@@ -86,14 +86,14 @@
     <genClasses image="false" ecoreClass="analysis.ecore#//ExactAnalysisMethod"/>
     <genClasses image="false" ecoreClass="analysis.ecore#//SimulationAnalysisMethod">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/endcondition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/warmupTime"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/simulationTime"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/simulationNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/simulationNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/warmupTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/simulationTime"/>
     </genClasses>
     <genClasses ecoreClass="analysis.ecore#//ImportanceSampling"/>
     <genClasses ecoreClass="analysis.ecore#//MCMC">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//MCMC/kernel"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//MCMC/warmupStepNum"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference analysis.ecore#//MCMC/warmupStepNum"/>
     </genClasses>
     <genClasses ecoreClass="analysis.ecore#//SVI"/>
     <genClasses image="false" ecoreClass="analysis.ecore#//MCMCKernel"/>

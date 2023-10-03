@@ -86,8 +86,13 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAlternatives_9(), "rule__AsynchronousStatechartDefinition__Alternatives_9");
 			builder.put(grammarAccess.getComponentAnnotationAccess().getAlternatives(), "rule__ComponentAnnotation__Alternatives");
 			builder.put(grammarAccess.getStatechartContractAnnotationAccess().getAlternatives(), "rule__StatechartContractAnnotation__Alternatives");
+			builder.put(grammarAccess.getScenarioAllowedWaitingAnnotationAccess().getAlternatives_1(), "rule__ScenarioAllowedWaitingAnnotation__Alternatives_1");
+			builder.put(grammarAccess.getRunUponExternalEventAnnotationAccess().getAlternatives_1(), "rule__RunUponExternalEventAnnotation__Alternatives_1");
+			builder.put(grammarAccess.getRunUponExternalEventOrInternalTimeoutAnnotationAccess().getAlternatives_1(), "rule__RunUponExternalEventOrInternalTimeoutAnnotation__Alternatives_1");
 			builder.put(grammarAccess.getStateNodeAccess().getAlternatives(), "rule__StateNode__Alternatives");
 			builder.put(grammarAccess.getStateAnnotationAccess().getAlternatives(), "rule__StateAnnotation__Alternatives");
+			builder.put(grammarAccess.getSpecialStateAnnotationAccess().getAlternatives_1(), "rule__SpecialStateAnnotation__Alternatives_1");
+			builder.put(grammarAccess.getVariableBindingAccess().getAlternatives(), "rule__VariableBinding__Alternatives");
 			builder.put(grammarAccess.getPseudoStateAccess().getAlternatives(), "rule__PseudoState__Alternatives");
 			builder.put(grammarAccess.getEntryStateAccess().getAlternatives(), "rule__EntryState__Alternatives");
 			builder.put(grammarAccess.getSynchronousComponentAccess().getAlternatives(), "rule__SynchronousComponent__Alternatives");
@@ -326,6 +331,7 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMissionPhaseAnnotationAccess().getGroup(), "rule__MissionPhaseAnnotation__Group__0");
 			builder.put(grammarAccess.getWrapperComponentAnnotationAccess().getGroup(), "rule__WrapperComponentAnnotation__Group__0");
 			builder.put(grammarAccess.getRunUponExternalEventAnnotationAccess().getGroup(), "rule__RunUponExternalEventAnnotation__Group__0");
+			builder.put(grammarAccess.getRunUponExternalEventOrInternalTimeoutAnnotationAccess().getGroup(), "rule__RunUponExternalEventOrInternalTimeoutAnnotation__Group__0");
 			builder.put(grammarAccess.getRegionAccess().getGroup(), "rule__Region__Group__0");
 			builder.put(grammarAccess.getTransitionAccess().getGroup(), "rule__Transition__Group__0");
 			builder.put(grammarAccess.getTransitionAccess().getGroup_2(), "rule__Transition__Group_2__0");
@@ -347,7 +353,8 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getStateContractAnnotationAccess().getGroup_5_2(), "rule__StateContractAnnotation__Group_5_2__0");
 			builder.put(grammarAccess.getMissionPhaseStateAnnotationAccess().getGroup(), "rule__MissionPhaseStateAnnotation__Group__0");
 			builder.put(grammarAccess.getMissionPhaseStateAnnotationAccess().getGroup_4(), "rule__MissionPhaseStateAnnotation__Group_4__0");
-			builder.put(grammarAccess.getVariableBindingAccess().getGroup(), "rule__VariableBinding__Group__0");
+			builder.put(grammarAccess.getVariableBindingAccess().getGroup_0(), "rule__VariableBinding__Group_0__0");
+			builder.put(grammarAccess.getVariableBindingAccess().getGroup_1(), "rule__VariableBinding__Group_1__0");
 			builder.put(grammarAccess.getInstanceVariableReferenceAccess().getGroup(), "rule__InstanceVariableReference__Group__0");
 			builder.put(grammarAccess.getMergeStateAccess().getGroup(), "rule__MergeState__Group__0");
 			builder.put(grammarAccess.getChoiceStateAccess().getGroup(), "rule__ChoiceState__Group__0");
@@ -443,6 +450,9 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getComponentInstanceVariableReferenceExpressionAccess().getGroup(), "rule__ComponentInstanceVariableReferenceExpression__Group__0");
 			builder.put(grammarAccess.getComponentInstanceEventReferenceExpressionAccess().getGroup(), "rule__ComponentInstanceEventReferenceExpression__Group__0");
 			builder.put(grammarAccess.getComponentInstanceEventParameterReferenceExpressionAccess().getGroup(), "rule__ComponentInstanceEventParameterReferenceExpression__Group__0");
+			builder.put(grammarAccess.getComponentInstanceReflectiveElementReferenceExpressionAccess().getGroup(), "rule__ComponentInstanceReflectiveElementReferenceExpression__Group__0");
+			builder.put(grammarAccess.getComponentInstanceReflectiveElementReferenceExpressionAccess().getGroup_2(), "rule__ComponentInstanceReflectiveElementReferenceExpression__Group_2__0");
+			builder.put(grammarAccess.getComponentInstanceReflectiveElementReferenceExpressionAccess().getGroup_3(), "rule__ComponentInstanceReflectiveElementReferenceExpression__Group_3__0");
 			builder.put(grammarAccess.getProcedureDeclarationAccess().getGroup(), "rule__ProcedureDeclaration__Group__0");
 			builder.put(grammarAccess.getProcedureDeclarationAccess().getGroup_2(), "rule__ProcedureDeclaration__Group_2__0");
 			builder.put(grammarAccess.getProcedureDeclarationAccess().getGroup_2_1(), "rule__ProcedureDeclaration__Group_2_1__0");
@@ -487,6 +497,7 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getTransientVariableDeclarationAnnotationAccess().getGroup(), "rule__TransientVariableDeclarationAnnotation__Group__0");
 			builder.put(grammarAccess.getResettableVariableDeclarationAnnotationAccess().getGroup(), "rule__ResettableVariableDeclarationAnnotation__Group__0");
 			builder.put(grammarAccess.getUnremovableVariableDeclarationAnnotationAccess().getGroup(), "rule__UnremovableVariableDeclarationAnnotation__Group__0");
+			builder.put(grammarAccess.getInjectedVariableDeclarationAnnotationAccess().getGroup(), "rule__InjectedVariableDeclarationAnnotation__Group__0");
 			builder.put(grammarAccess.getLambdaDeclarationAccess().getGroup(), "rule__LambdaDeclaration__Group__0");
 			builder.put(grammarAccess.getLambdaDeclarationAccess().getGroup_2(), "rule__LambdaDeclaration__Group_2__0");
 			builder.put(grammarAccess.getLambdaDeclarationAccess().getGroup_2_1(), "rule__LambdaDeclaration__Group_2_1__0");
@@ -855,8 +866,10 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMissionPhaseStateAnnotationAccess().getComponentAssignment_4_1(), "rule__MissionPhaseStateAnnotation__ComponentAssignment_4_1");
 			builder.put(grammarAccess.getMissionPhaseStateAnnotationAccess().getPortBindingsAssignment_4_3(), "rule__MissionPhaseStateAnnotation__PortBindingsAssignment_4_3");
 			builder.put(grammarAccess.getMissionPhaseStateAnnotationAccess().getVariableBindingsAssignment_4_4(), "rule__MissionPhaseStateAnnotation__VariableBindingsAssignment_4_4");
-			builder.put(grammarAccess.getVariableBindingAccess().getStatechartVariableAssignment_1(), "rule__VariableBinding__StatechartVariableAssignment_1");
-			builder.put(grammarAccess.getVariableBindingAccess().getInstanceVariableReferenceAssignment_3(), "rule__VariableBinding__InstanceVariableReferenceAssignment_3");
+			builder.put(grammarAccess.getVariableBindingAccess().getStatechartVariableAssignment_0_1(), "rule__VariableBinding__StatechartVariableAssignment_0_1");
+			builder.put(grammarAccess.getVariableBindingAccess().getInstanceVariableReferenceAssignment_0_3(), "rule__VariableBinding__InstanceVariableReferenceAssignment_0_3");
+			builder.put(grammarAccess.getVariableBindingAccess().getStatechartVariableAssignment_1_1(), "rule__VariableBinding__StatechartVariableAssignment_1_1");
+			builder.put(grammarAccess.getVariableBindingAccess().getInstanceVariableReferenceAssignment_1_3(), "rule__VariableBinding__InstanceVariableReferenceAssignment_1_3");
 			builder.put(grammarAccess.getInstanceVariableReferenceAccess().getInstanceAssignment_0(), "rule__InstanceVariableReference__InstanceAssignment_0");
 			builder.put(grammarAccess.getInstanceVariableReferenceAccess().getVariableAssignment_2(), "rule__InstanceVariableReference__VariableAssignment_2");
 			builder.put(grammarAccess.getMergeStateAccess().getNameAssignment_1(), "rule__MergeState__NameAssignment_1");
@@ -989,6 +1002,9 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getComponentInstanceEventParameterReferenceExpressionAccess().getPortAssignment_3(), "rule__ComponentInstanceEventParameterReferenceExpression__PortAssignment_3");
 			builder.put(grammarAccess.getComponentInstanceEventParameterReferenceExpressionAccess().getEventAssignment_5(), "rule__ComponentInstanceEventParameterReferenceExpression__EventAssignment_5");
 			builder.put(grammarAccess.getComponentInstanceEventParameterReferenceExpressionAccess().getParameterDeclarationAssignment_7(), "rule__ComponentInstanceEventParameterReferenceExpression__ParameterDeclarationAssignment_7");
+			builder.put(grammarAccess.getComponentInstanceReflectiveElementReferenceExpressionAccess().getInstanceAssignment_1(), "rule__ComponentInstanceReflectiveElementReferenceExpression__InstanceAssignment_1");
+			builder.put(grammarAccess.getComponentInstanceReflectiveElementReferenceExpressionAccess().getIdentifierAssignment_2_1(), "rule__ComponentInstanceReflectiveElementReferenceExpression__IdentifierAssignment_2_1");
+			builder.put(grammarAccess.getComponentInstanceReflectiveElementReferenceExpressionAccess().getIdentifierAssignment_3_1(), "rule__ComponentInstanceReflectiveElementReferenceExpression__IdentifierAssignment_3_1");
 			builder.put(grammarAccess.getProcedureDeclarationAccess().getNameAssignment_1(), "rule__ProcedureDeclaration__NameAssignment_1");
 			builder.put(grammarAccess.getProcedureDeclarationAccess().getParameterDeclarationsAssignment_2_1_0(), "rule__ProcedureDeclaration__ParameterDeclarationsAssignment_2_1_0");
 			builder.put(grammarAccess.getProcedureDeclarationAccess().getParameterDeclarationsAssignment_2_1_1_1(), "rule__ProcedureDeclaration__ParameterDeclarationsAssignment_2_1_1_1");

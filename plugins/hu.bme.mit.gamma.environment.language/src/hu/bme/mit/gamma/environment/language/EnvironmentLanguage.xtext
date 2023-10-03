@@ -104,20 +104,20 @@ SimulationAnalysisMethod returns AnalysisModel::SimulationAnalysisMethod:
 ImportanceSampling returns AnalysisModel::ImportanceSampling: 
 	'@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
 			((endcondition+=EndCondition)|
-			("simulation" "time" "=" simulationTime=DOUBLE)|
-			("simulation" "number" "=" simulationNumber=INTEGER)|
-			("warmup" "time" "=" warmupTime=DOUBLE))*
+			("simulation" "time" "=" simulationTime=Expression)|
+			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+			("warmup" "time" "=" warmupTime=Expression))*
 		'}'
 ;
 
 MCMC returns AnalysisModel::MCMC: 
 	'@' 'Configuration' '(' 'MCMC' ')' '{'
 			((endcondition+=EndCondition)|
-			("simulation" "time" "=" simulationTime=DOUBLE)|
-			("simulation" "number" "=" simulationNumber=INTEGER)|
-			("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+			("simulation" "time" "=" simulationTime=Expression)|
+			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+			("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)|
 			("kernel" "=" kernel=MCMCKernel)|
-			("warmup" "time" "=" warmupTime=DOUBLE))*
+			("warmup" "time" "=" warmupTime=Expression))*
 		'}'
 ;
 

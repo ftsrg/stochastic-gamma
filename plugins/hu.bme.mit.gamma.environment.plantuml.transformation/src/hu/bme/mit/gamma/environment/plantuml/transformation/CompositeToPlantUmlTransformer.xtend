@@ -74,7 +74,7 @@ class CompositeToPlantUmlTransformer {
 			return "asynchronous"
 		}
 	}
-		def String execute2() '''
+		def String execute() '''
 		@startuml
 		<style>
 		title {
@@ -86,12 +86,13 @@ class CompositeToPlantUmlTransformer {
 		'skinparam linetype ortho
 		!theme plain
 		'left to right direction
-		skinparam nodesep 40
-		skinparam ranksep 70
+		top to bottom direction
+		skinparam nodesep 60
+		skinparam ranksep 30
 		skinparam defaultTextAlignment center
 		skinparam ComponentStereotypeFontSize 10
 		skinparam HeaderFontSize 12
-		skinparam padding 2
+		skinparam padding 1
 		skinparam componentStyle rectangle
 		
 		component "«composite.name»"<<«composite.kindString»>> {
@@ -128,7 +129,7 @@ class CompositeToPlantUmlTransformer {
 			
 			«FOR port : composite.ports»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-					portin "«port.name»\n ~«port.interface.name»" as «port.name»
+					portin "«port.name»:\n ~«port.interface.name»" as «port.name»
 				«ENDIF»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
 					portout "«port.name»:\n «port.interface.name»" as «port.name»
@@ -137,10 +138,10 @@ class CompositeToPlantUmlTransformer {
 			
 			«FOR binding : composite.portBindings»
 				«IF binding.instancePortReference.port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-					«binding.compositeSystemPort.name» . «binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name»
+					«binding.compositeSystemPort.name» .d.> «binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name»
 				«ENDIF»
 				«IF binding.instancePortReference.port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-					«binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name» .. «binding.compositeSystemPort.name»
+					«binding.instancePortReference.instance.name»__«binding.instancePortReference.port.name» .d.> «binding.compositeSystemPort.name»
 				«ENDIF»
 				'«composite.name» "«binding.compositeSystemPort.name»" #.# "«binding.instancePortReference.port.name»" «binding.instancePortReference.instance.name»
 			«ENDFOR»
@@ -148,7 +149,13 @@ class CompositeToPlantUmlTransformer {
 			
 			«FOR channel : composite.channels»
 				«FOR requiredPort : channel.requiredPorts»
-					«channel.providedPort.instance.name»__«channel.providedPort.port.name» ---> «requiredPort.instance.name»__«requiredPort.port.name» 
+					«IF (!channel.providedPort.port.outputEvents.empty) && (channel.providedPort.port.inputEvents.empty)»
+						«channel.providedPort.instance.name»__«channel.providedPort.port.name» ----> «requiredPort.instance.name»__«requiredPort.port.name»
+					«ELSEIF (channel.providedPort.port.outputEvents.empty) && (!channel.providedPort.port.inputEvents.empty)»
+						«channel.providedPort.instance.name»__«channel.providedPort.port.name» <---- «requiredPort.instance.name»__«requiredPort.port.name»
+					«ELSE»
+						«channel.providedPort.instance.name»__«channel.providedPort.port.name» <----> «requiredPort.instance.name»__«requiredPort.port.name»
+					«ENDIF»
 				«ENDFOR»
 			«ENDFOR»
 		}
@@ -156,7 +163,7 @@ class CompositeToPlantUmlTransformer {
 
 		@enduml
 	'''
-	def String execute() '''
+	def String execute2() '''
 		@startuml
 		skinparam shadowing false
 		!theme plain

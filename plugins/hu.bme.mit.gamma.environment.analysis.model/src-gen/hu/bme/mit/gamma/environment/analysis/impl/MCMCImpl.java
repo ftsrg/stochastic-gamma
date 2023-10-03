@@ -6,8 +6,7 @@ import hu.bme.mit.gamma.environment.analysis.AnalysisPackage;
 import hu.bme.mit.gamma.environment.analysis.MCMC;
 import hu.bme.mit.gamma.environment.analysis.MCMCKernel;
 
-import java.math.BigInteger;
-
+import hu.bme.mit.gamma.expression.model.IntegerLiteralExpression;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -42,24 +41,14 @@ public class MCMCImpl extends SimulationAnalysisMethodImpl implements MCMC {
 	protected MCMCKernel kernel;
 
 	/**
-	 * The default value of the '{@link #getWarmupStepNum() <em>Warmup Step Num</em>}' attribute.
+	 * The cached value of the '{@link #getWarmupStepNum() <em>Warmup Step Num</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getWarmupStepNum()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final BigInteger WARMUP_STEP_NUM_EDEFAULT = new BigInteger("0");
-
-	/**
-	 * The cached value of the '{@link #getWarmupStepNum() <em>Warmup Step Num</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getWarmupStepNum()
-	 * @generated
-	 * @ordered
-	 */
-	protected BigInteger warmupStepNum = WARMUP_STEP_NUM_EDEFAULT;
+	protected IntegerLiteralExpression warmupStepNum;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -128,7 +117,7 @@ public class MCMCImpl extends SimulationAnalysisMethodImpl implements MCMC {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BigInteger getWarmupStepNum() {
+	public IntegerLiteralExpression getWarmupStepNum() {
 		return warmupStepNum;
 	}
 
@@ -137,11 +126,33 @@ public class MCMCImpl extends SimulationAnalysisMethodImpl implements MCMC {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setWarmupStepNum(BigInteger newWarmupStepNum) {
-		BigInteger oldWarmupStepNum = warmupStepNum;
+	public NotificationChain basicSetWarmupStepNum(IntegerLiteralExpression newWarmupStepNum, NotificationChain msgs) {
+		IntegerLiteralExpression oldWarmupStepNum = warmupStepNum;
 		warmupStepNum = newWarmupStepNum;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.MCMC__WARMUP_STEP_NUM, oldWarmupStepNum, warmupStepNum));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AnalysisPackage.MCMC__WARMUP_STEP_NUM, oldWarmupStepNum, newWarmupStepNum);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWarmupStepNum(IntegerLiteralExpression newWarmupStepNum) {
+		if (newWarmupStepNum != warmupStepNum) {
+			NotificationChain msgs = null;
+			if (warmupStepNum != null)
+				msgs = ((InternalEObject)warmupStepNum).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.MCMC__WARMUP_STEP_NUM, null, msgs);
+			if (newWarmupStepNum != null)
+				msgs = ((InternalEObject)newWarmupStepNum).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.MCMC__WARMUP_STEP_NUM, null, msgs);
+			msgs = basicSetWarmupStepNum(newWarmupStepNum, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.MCMC__WARMUP_STEP_NUM, newWarmupStepNum, newWarmupStepNum));
 	}
 
 	/**
@@ -154,6 +165,8 @@ public class MCMCImpl extends SimulationAnalysisMethodImpl implements MCMC {
 		switch (featureID) {
 			case AnalysisPackage.MCMC__KERNEL:
 				return basicSetKernel(null, msgs);
+			case AnalysisPackage.MCMC__WARMUP_STEP_NUM:
+				return basicSetWarmupStepNum(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -186,7 +199,7 @@ public class MCMCImpl extends SimulationAnalysisMethodImpl implements MCMC {
 				setKernel((MCMCKernel)newValue);
 				return;
 			case AnalysisPackage.MCMC__WARMUP_STEP_NUM:
-				setWarmupStepNum((BigInteger)newValue);
+				setWarmupStepNum((IntegerLiteralExpression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -204,7 +217,7 @@ public class MCMCImpl extends SimulationAnalysisMethodImpl implements MCMC {
 				setKernel((MCMCKernel)null);
 				return;
 			case AnalysisPackage.MCMC__WARMUP_STEP_NUM:
-				setWarmupStepNum(WARMUP_STEP_NUM_EDEFAULT);
+				setWarmupStepNum((IntegerLiteralExpression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -221,25 +234,9 @@ public class MCMCImpl extends SimulationAnalysisMethodImpl implements MCMC {
 			case AnalysisPackage.MCMC__KERNEL:
 				return kernel != null;
 			case AnalysisPackage.MCMC__WARMUP_STEP_NUM:
-				return WARMUP_STEP_NUM_EDEFAULT == null ? warmupStepNum != null : !WARMUP_STEP_NUM_EDEFAULT.equals(warmupStepNum);
+				return warmupStepNum != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (warmupStepNum: ");
-		result.append(warmupStepNum);
-		result.append(')');
-		return result.toString();
 	}
 
 } //MCMCImpl

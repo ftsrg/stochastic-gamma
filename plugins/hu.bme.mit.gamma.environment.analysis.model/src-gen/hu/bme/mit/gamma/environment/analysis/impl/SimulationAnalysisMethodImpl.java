@@ -6,8 +6,8 @@ import hu.bme.mit.gamma.environment.analysis.AnalysisPackage;
 import hu.bme.mit.gamma.environment.analysis.EndCondition;
 import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod;
 
-import java.math.BigInteger;
-
+import hu.bme.mit.gamma.expression.model.Expression;
+import hu.bme.mit.gamma.expression.model.IntegerLiteralExpression;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -32,9 +32,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl#getEndcondition <em>Endcondition</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl#getSimulationNumber <em>Simulation Number</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl#getWarmupTime <em>Warmup Time</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl#getSimulationTime <em>Simulation Time</em>}</li>
- *   <li>{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationAnalysisMethodImpl#getSimulationNumber <em>Simulation Number</em>}</li>
  * </ul>
  *
  * @generated
@@ -51,64 +51,34 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 	protected EList<EndCondition> endcondition;
 
 	/**
-	 * The default value of the '{@link #getWarmupTime() <em>Warmup Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getWarmupTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double WARMUP_TIME_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getWarmupTime() <em>Warmup Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getWarmupTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected double warmupTime = WARMUP_TIME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSimulationTime() <em>Simulation Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSimulationTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double SIMULATION_TIME_EDEFAULT = 1.0;
-
-	/**
-	 * The cached value of the '{@link #getSimulationTime() <em>Simulation Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSimulationTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected double simulationTime = SIMULATION_TIME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSimulationNumber() <em>Simulation Number</em>}' attribute.
+	 * The cached value of the '{@link #getSimulationNumber() <em>Simulation Number</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSimulationNumber()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final BigInteger SIMULATION_NUMBER_EDEFAULT = new BigInteger("100");
+	protected IntegerLiteralExpression simulationNumber;
 
 	/**
-	 * The cached value of the '{@link #getSimulationNumber() <em>Simulation Number</em>}' attribute.
+	 * The cached value of the '{@link #getWarmupTime() <em>Warmup Time</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSimulationNumber()
+	 * @see #getWarmupTime()
 	 * @generated
 	 * @ordered
 	 */
-	protected BigInteger simulationNumber = SIMULATION_NUMBER_EDEFAULT;
+	protected Expression warmupTime;
+
+	/**
+	 * The cached value of the '{@link #getSimulationTime() <em>Simulation Time</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSimulationTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected Expression simulationTime;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -146,7 +116,7 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getWarmupTime() {
+	public Expression getWarmupTime() {
 		return warmupTime;
 	}
 
@@ -155,11 +125,14 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setWarmupTime(double newWarmupTime) {
-		double oldWarmupTime = warmupTime;
+	public NotificationChain basicSetWarmupTime(Expression newWarmupTime, NotificationChain msgs) {
+		Expression oldWarmupTime = warmupTime;
 		warmupTime = newWarmupTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME, oldWarmupTime, warmupTime));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME, oldWarmupTime, newWarmupTime);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -167,7 +140,26 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getSimulationTime() {
+	public void setWarmupTime(Expression newWarmupTime) {
+		if (newWarmupTime != warmupTime) {
+			NotificationChain msgs = null;
+			if (warmupTime != null)
+				msgs = ((InternalEObject)warmupTime).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME, null, msgs);
+			if (newWarmupTime != null)
+				msgs = ((InternalEObject)newWarmupTime).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME, null, msgs);
+			msgs = basicSetWarmupTime(newWarmupTime, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME, newWarmupTime, newWarmupTime));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getSimulationTime() {
 		return simulationTime;
 	}
 
@@ -176,11 +168,14 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSimulationTime(double newSimulationTime) {
-		double oldSimulationTime = simulationTime;
+	public NotificationChain basicSetSimulationTime(Expression newSimulationTime, NotificationChain msgs) {
+		Expression oldSimulationTime = simulationTime;
 		simulationTime = newSimulationTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME, oldSimulationTime, simulationTime));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME, oldSimulationTime, newSimulationTime);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -188,7 +183,26 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BigInteger getSimulationNumber() {
+	public void setSimulationTime(Expression newSimulationTime) {
+		if (newSimulationTime != simulationTime) {
+			NotificationChain msgs = null;
+			if (simulationTime != null)
+				msgs = ((InternalEObject)simulationTime).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME, null, msgs);
+			if (newSimulationTime != null)
+				msgs = ((InternalEObject)newSimulationTime).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME, null, msgs);
+			msgs = basicSetSimulationTime(newSimulationTime, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME, newSimulationTime, newSimulationTime));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IntegerLiteralExpression getSimulationNumber() {
 		return simulationNumber;
 	}
 
@@ -197,11 +211,33 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSimulationNumber(BigInteger newSimulationNumber) {
-		BigInteger oldSimulationNumber = simulationNumber;
+	public NotificationChain basicSetSimulationNumber(IntegerLiteralExpression newSimulationNumber, NotificationChain msgs) {
+		IntegerLiteralExpression oldSimulationNumber = simulationNumber;
 		simulationNumber = newSimulationNumber;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER, oldSimulationNumber, simulationNumber));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER, oldSimulationNumber, newSimulationNumber);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSimulationNumber(IntegerLiteralExpression newSimulationNumber) {
+		if (newSimulationNumber != simulationNumber) {
+			NotificationChain msgs = null;
+			if (simulationNumber != null)
+				msgs = ((InternalEObject)simulationNumber).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER, null, msgs);
+			if (newSimulationNumber != null)
+				msgs = ((InternalEObject)newSimulationNumber).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER, null, msgs);
+			msgs = basicSetSimulationNumber(newSimulationNumber, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER, newSimulationNumber, newSimulationNumber));
 	}
 
 	/**
@@ -214,6 +250,12 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 		switch (featureID) {
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__ENDCONDITION:
 				return ((InternalEList<?>)getEndcondition()).basicRemove(otherEnd, msgs);
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
+				return basicSetSimulationNumber(null, msgs);
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME:
+				return basicSetWarmupTime(null, msgs);
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME:
+				return basicSetSimulationTime(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -228,12 +270,12 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 		switch (featureID) {
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__ENDCONDITION:
 				return getEndcondition();
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
+				return getSimulationNumber();
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME:
 				return getWarmupTime();
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME:
 				return getSimulationTime();
-			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
-				return getSimulationNumber();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -251,14 +293,14 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 				getEndcondition().clear();
 				getEndcondition().addAll((Collection<? extends EndCondition>)newValue);
 				return;
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
+				setSimulationNumber((IntegerLiteralExpression)newValue);
+				return;
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME:
-				setWarmupTime((Double)newValue);
+				setWarmupTime((Expression)newValue);
 				return;
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME:
-				setSimulationTime((Double)newValue);
-				return;
-			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
-				setSimulationNumber((BigInteger)newValue);
+				setSimulationTime((Expression)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -275,14 +317,14 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__ENDCONDITION:
 				getEndcondition().clear();
 				return;
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
+				setSimulationNumber((IntegerLiteralExpression)null);
+				return;
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME:
-				setWarmupTime(WARMUP_TIME_EDEFAULT);
+				setWarmupTime((Expression)null);
 				return;
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME:
-				setSimulationTime(SIMULATION_TIME_EDEFAULT);
-				return;
-			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
-				setSimulationNumber(SIMULATION_NUMBER_EDEFAULT);
+				setSimulationTime((Expression)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -298,34 +340,14 @@ public abstract class SimulationAnalysisMethodImpl extends AnalysisMethodImpl im
 		switch (featureID) {
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__ENDCONDITION:
 				return endcondition != null && !endcondition.isEmpty();
-			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME:
-				return warmupTime != WARMUP_TIME_EDEFAULT;
-			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME:
-				return simulationTime != SIMULATION_TIME_EDEFAULT;
 			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER:
-				return SIMULATION_NUMBER_EDEFAULT == null ? simulationNumber != null : !SIMULATION_NUMBER_EDEFAULT.equals(simulationNumber);
+				return simulationNumber != null;
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__WARMUP_TIME:
+				return warmupTime != null;
+			case AnalysisPackage.SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME:
+				return simulationTime != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (warmupTime: ");
-		result.append(warmupTime);
-		result.append(", simulationTime: ");
-		result.append(simulationTime);
-		result.append(", simulationNumber: ");
-		result.append(simulationNumber);
-		result.append(')');
-		return result.toString();
 	}
 
 } //SimulationAnalysisMethodImpl

@@ -81,22 +81,6 @@ public class EnvironmentModelDerivedFeatures extends StatechartModelDerivedFeatu
 		throw new IllegalArgumentException("Not known type: " + instance);
 	}
 	public static List<Port> getTypePorts(ComponentInstance instance) {
-		if (instance instanceof SynchronousComponentInstance) {
-			SynchronousComponentInstance synchronousInstance = (SynchronousComponentInstance) instance;
-			return synchronousInstance.getType().getPorts();
-		}
-		if (instance instanceof AsynchronousComponentInstance) {
-			AsynchronousComponentInstance asynchronousInstance = (AsynchronousComponentInstance) instance;
-			if (asynchronousInstance.getType() instanceof AsynchronousAdapter) {
-				AsynchronousAdapter adapter = (AsynchronousAdapter) asynchronousInstance.getType();
-				List<Port> ports=new ArrayList<>();
-				ports.addAll(adapter.getPorts());
-				ports.addAll(adapter.getWrappedComponent().getType().getPorts());
-				return ports;
-			}else {
-				return asynchronousInstance.getType().getPorts();
-			}
-		}
 		if (instance instanceof EnvironmentAsynchronousCompositeComponentInstance) {
 			EnvironmentAsynchronousCompositeComponentInstance asynchronousInstance = (EnvironmentAsynchronousCompositeComponentInstance) instance;
 			return asynchronousInstance.getType().getPorts();
@@ -115,6 +99,22 @@ public class EnvironmentModelDerivedFeatures extends StatechartModelDerivedFeatu
 			ports.addAll(envInstace.getInports());
 			ports.addAll(envInstace.getOutports());
 			return ports;
+		}
+		if (instance instanceof SynchronousComponentInstance) {
+			SynchronousComponentInstance synchronousInstance = (SynchronousComponentInstance) instance;
+			return synchronousInstance.getType().getPorts();
+		}
+		if (instance instanceof AsynchronousComponentInstance) {
+			AsynchronousComponentInstance asynchronousInstance = (AsynchronousComponentInstance) instance;
+			if (asynchronousInstance.getType() instanceof AsynchronousAdapter) {
+				AsynchronousAdapter adapter = (AsynchronousAdapter) asynchronousInstance.getType();
+				List<Port> ports=new ArrayList<>();
+				ports.addAll(adapter.getPorts());
+				ports.addAll(adapter.getWrappedComponent().getType().getPorts());
+				return ports;
+			}else {
+				return asynchronousInstance.getType().getPorts();
+			}
 		}
 		throw new IllegalArgumentException("Not known type: " + instance);
 	}

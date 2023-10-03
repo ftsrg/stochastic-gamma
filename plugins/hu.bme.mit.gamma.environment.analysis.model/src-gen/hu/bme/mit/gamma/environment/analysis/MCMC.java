@@ -2,7 +2,7 @@
  */
 package hu.bme.mit.gamma.environment.analysis;
 
-import java.math.BigInteger;
+import hu.bme.mit.gamma.expression.model.IntegerLiteralExpression;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,26 +45,25 @@ public interface MCMC extends SimulationAnalysisMethod {
 	void setKernel(MCMCKernel value);
 
 	/**
-	 * Returns the value of the '<em><b>Warmup Step Num</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
+	 * Returns the value of the '<em><b>Warmup Step Num</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Warmup Step Num</em>' attribute.
-	 * @see #setWarmupStepNum(BigInteger)
+	 * @return the value of the '<em>Warmup Step Num</em>' containment reference.
+	 * @see #setWarmupStepNum(IntegerLiteralExpression)
 	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getMCMC_WarmupStepNum()
-	 * @model default="0" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	BigInteger getWarmupStepNum();
+	IntegerLiteralExpression getWarmupStepNum();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.MCMC#getWarmupStepNum <em>Warmup Step Num</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.MCMC#getWarmupStepNum <em>Warmup Step Num</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Warmup Step Num</em>' attribute.
+	 * @param value the new value of the '<em>Warmup Step Num</em>' containment reference.
 	 * @see #getWarmupStepNum()
 	 * @generated
 	 */
-	void setWarmupStepNum(BigInteger value);
+	void setWarmupStepNum(IntegerLiteralExpression value);
 
 } // MCMC

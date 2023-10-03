@@ -9,6 +9,10 @@ import hu.bme.mit.gamma.statechart.interface_.Interface
 import java.util.List
 import hu.bme.mit.gamma.environment.analysis.transformation.util.EnvironmentConnections
 import hu.bme.mit.gamma.codegeneration.java.util.ElementaryEnvironmentComponentUtility
+import hu.bme.mit.gamma.environment.model.utils.EnvironmentModelValidator
+
+import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
+import hu.bme.mit.gamma.statechart.interface_.EventDirection
 
 class PyroComponentClassGenerator {
 	
@@ -152,9 +156,11 @@ class PyroComponentClassGenerator {
 						pevents=rules[port].keys()
 						#iterating through events
 						for pevent in pevents:
-							if pevent in self.rules[port]:
-								rule=rules[port][pevent]
-								simulator.dists.append(rule)
+							if pevent in rules[port].keys():
+								params=rules[port][pevent].keys()
+								for param in params:
+									rule=rules[port][pevent][param]
+									simulator.dists.append(rule)
 
 
 
@@ -164,6 +170,7 @@ class PyroComponentClassGenerator {
 					#definition of the interface functions
 
 				@JOverride
+				def isEventQueueEmpty(self):
 					return (len(self.events)==0)
 
 				@JOverride
@@ -172,24 +179,24 @@ class PyroComponentClassGenerator {
 						event.callEvent()
 					self.events.clear()
 
-				«FOR event : i.events»
+				«FOR event : sample.outports.get(0).outputEvents»
 			
 				@JOverride
-				def raise«event.event.name.toFirstUpper»(self,«TransformationUtility.generateFuncParams(event.event)»):
-					«FOR param : event.event.parameterDeclarations»
-						if "«param.name.toFirstLower»" in self.rules["«event.event.name.toFirstUpper»"].keys():
-							«param.name.toFirstLower» = self.rules["«event.event.name.toFirstUpper»"]["«param.name.toFirstLower»"].calc(self.port+"."+"«event.event.name.toFirstUpper»::«param.name»",self.simulator.time)
+				def raise«event.name.toFirstUpper»(self,«TransformationUtility.generateFuncParams(event)»):
+					«FOR param : event.parameterDeclarations»
+						if "«param.name.toFirstLower»" in self.rules["«event.name.toFirstUpper»"].keys():
+							«param.name.toFirstLower» = self.rules["«event.name.toFirstUpper»"]["«param.name.toFirstLower»"].calc(self.port+"."+"«event.name.toFirstUpper»::«param.name»",self.simulator.time)
 					«ENDFOR»
 					
-					«event.event.parameterDeclarations.get(0).name.toFirstLower»=self.rules["«event.event.name.toFirstUpper»"].calc(self.port+"."+"«event.event.name.toFirstUpper»",self.simulator.time)
-					#«event.event.parameterDeclarations.get(0).type»
+					#«event.parameterDeclarations.get(0).name.toFirstLower»=self.rules["«event.name.toFirstUpper»"].calc(self.port+"."+"«event.name.toFirstUpper»",self.simulator.time)
+					#«event.parameterDeclarations.get(0).type»
 					self.event_cntr=self.event_cntr+1
 					for call in self.calls:
 						if IESC_SYNC:
-							callEvent=lambda:call.raise«event.event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event.event)»);
+							callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
 							self.events.append(Event(self,self.simulator.time,callEvent))
 						else:
-							call.raise«event.event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event.event)»)
+							call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 				«ENDFOR»
 			
 			#«generateInterfaceSubClass(i)»
@@ -238,15 +245,15 @@ class PyroComponentClassGenerator {
 						return True
 
 					#definition of the interface functions
-					«FOR event : i.events»
+					«FOR event : i.allEvents.filter[e | e.direction==EventDirection.OUT]»
 					
 					@JOverride
-					def raise«event.event.name.toFirstUpper»(self,«TransformationUtility.generateFuncParams(event.event)»):
-						time=self.rules["«event.event.name.toFirstUpper»"].calc(self.port+"."+"«event.event.name.toFirstUpper»",self.simulator.time)
+					def raise«event.name.toFirstUpper»(self,«TransformationUtility.generateFuncParams(event)»):
+						time=self.rules["«event.name.toFirstUpper»"].calc(self.port+"."+"«event.name.toFirstUpper»",self.simulator.time)
 						self.event_cntr=self.event_cntr+1
 						failureTime=abs(time)+self.simulator.time
 						for callitem in self.calls:
-							callEvent=lambda:callitem.raise«event.event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event.event)»);
+							callEvent=lambda:callitem.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
 							self.simulator.events.append(Event(self,failureTime,callEvent))
 					«ENDFOR»
 				#«generateInterfaceSubClass(i)»
@@ -298,20 +305,20 @@ class PyroComponentClassGenerator {
 					
 					
 					#definition of the interface functions
-					«FOR event : i.events»
+					«FOR event : i.allEvents.filter[e | e.direction==EventDirection.OUT]»
 				
 					@JOverride
-					def raise«event.event.name.toFirstUpper»(self,«TransformationUtility.generateFuncParams(event.event)»):
+					def raise«event.name.toFirstUpper»(self,«TransformationUtility.generateFuncParams(event)»):
 						port=self.portarray[self.categorical.calc()]
-						eventcalls=self.calls[port]#["«event.event.name.toFirstUpper»"]
+						eventcalls=self.calls[port]#["«event.name.toFirstUpper»"]
 						self.event_cntr=self.event_cntr+1
 						for call in eventcalls:
 							if call is not None:
 								if IESC_SYNC:
-									callEvent=lambda:call.raise«event.event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event.event)»);
+									callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
 									self.events.append(Event(self,self.simulator.time,callEvent))
 								else:
-									call.raise«event.event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event.event)»)
+									call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 					«ENDFOR»
 				#«generateInterfaceSubClass(i)»
 				'''

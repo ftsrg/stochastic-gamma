@@ -46,8 +46,8 @@ DEBUG=False
 BUILD=False
 IESC_SYNC=False
 
-simTime=«Double.toString(analysismethod.simulationTime)»
-simNumber=«analysismethod.simulationNumber.toString»
+simTime=«Double.toString(expEval.evaluateDecimal(analysismethod.simulationTime))»
+simNumber=«expEval.evaluateInteger(analysismethod.simulationNumber)»
 
 «analysisGen.generateMarginalVisualisation()»
 
@@ -164,7 +164,12 @@ def state2num(state):
 				# insert the event into the deterministic evaluator
 				stochmodel.time = event.eventTime
 				
-				# print debug information
+				if stochmodel.time > simTime :
+					if DEBUG:
+						print("Out of time")
+					break
+				
+				# print debug event information
 				if DEBUG:
 					print(event.eventSource.name + ' at time: ' + str(stochmodel.time))
 					
@@ -178,6 +183,9 @@ def state2num(state):
 				
 				«FOR endCondition : analysismethod.endcondition»
 					if detmodel.monitorOf«generateEndConditionName(endCondition)».state != "run":
+						# print debug end condition information
+						if DEBUG:
+							print("«generateEndConditionName(endCondition)» : ", detmodel.monitorOf«generateEndConditionName(endCondition)».state)
 						break
 				«ENDFOR»
 			

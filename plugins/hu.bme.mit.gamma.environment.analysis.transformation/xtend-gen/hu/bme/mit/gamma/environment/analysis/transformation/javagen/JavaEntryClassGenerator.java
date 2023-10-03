@@ -209,14 +209,10 @@ public class JavaEntryClassGenerator {
       _builder.append("\t\t\t");
       _builder.append("}");
       _builder.newLine();
-      _builder.append("\t\t\t");
       _builder.newLine();
       _builder.append("\t\t\t");
-      _builder.append("public void reset(");
-      CharSequence _generateDetmodelParamsReset = TransformationUtility.generateDetmodelParamsReset(component);
-      _builder.append(_generateDetmodelParamsReset, "\t\t\t");
-      _builder.append(") {");
-      _builder.newLineIfNotEmpty();
+      _builder.append("public void reset() {");
+      _builder.newLine();
       _builder.append("\t\t\t\t");
       _builder.append("/*");
       _builder.newLine();

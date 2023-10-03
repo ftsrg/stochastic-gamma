@@ -121,6 +121,7 @@ import hu.bme.mit.gamma.expression.model.IfThenElseExpression;
 import hu.bme.mit.gamma.expression.model.ImplyExpression;
 import hu.bme.mit.gamma.expression.model.InequalityExpression;
 import hu.bme.mit.gamma.expression.model.InfinityExpression;
+import hu.bme.mit.gamma.expression.model.InjectedVariableDeclarationAnnotation;
 import hu.bme.mit.gamma.expression.model.IntegerLiteralExpression;
 import hu.bme.mit.gamma.expression.model.IntegerRangeLiteralExpression;
 import hu.bme.mit.gamma.expression.model.IntegerRangeTypeDefinition;
@@ -161,6 +162,7 @@ import hu.bme.mit.gamma.statechart.composite.CascadeCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstanceEventParameterReferenceExpression;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstanceEventReferenceExpression;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstanceReferenceExpression;
+import hu.bme.mit.gamma.statechart.composite.ComponentInstanceReflectiveElementReferenceExpression;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstanceStateReferenceExpression;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstanceVariableReferenceExpression;
 import hu.bme.mit.gamma.statechart.composite.CompositeModelPackage;
@@ -216,6 +218,7 @@ import hu.bme.mit.gamma.statechart.statechart.PortEventReference;
 import hu.bme.mit.gamma.statechart.statechart.RaiseEventAction;
 import hu.bme.mit.gamma.statechart.statechart.Region;
 import hu.bme.mit.gamma.statechart.statechart.RunUponExternalEventAnnotation;
+import hu.bme.mit.gamma.statechart.statechart.RunUponExternalEventOrInternalTimeoutAnnotation;
 import hu.bme.mit.gamma.statechart.statechart.SetTimeoutAction;
 import hu.bme.mit.gamma.statechart.statechart.ShallowHistoryState;
 import hu.bme.mit.gamma.statechart.statechart.State;
@@ -351,6 +354,9 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 					return; 
 				}
 				else break;
+			case CompositeModelPackage.COMPONENT_INSTANCE_REFLECTIVE_ELEMENT_REFERENCE_EXPRESSION:
+				sequence_ComponentInstanceReflectiveElementReferenceExpression(context, (ComponentInstanceReflectiveElementReferenceExpression) semanticObject); 
+				return; 
 			case CompositeModelPackage.COMPONENT_INSTANCE_STATE_REFERENCE_EXPRESSION:
 				sequence_ComponentInstanceStateReferenceExpression(context, (ComponentInstanceStateReferenceExpression) semanticObject); 
 				return; 
@@ -725,6 +731,9 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 			case ExpressionModelPackage.INFINITY_EXPRESSION:
 				sequence_InfinityExpression(context, (InfinityExpression) semanticObject); 
 				return; 
+			case ExpressionModelPackage.INJECTED_VARIABLE_DECLARATION_ANNOTATION:
+				sequence_InjectedVariableDeclarationAnnotation(context, (InjectedVariableDeclarationAnnotation) semanticObject); 
+				return; 
 			case ExpressionModelPackage.INTEGER_LITERAL_EXPRESSION:
 				sequence_IntegerLiteralExpression(context, (IntegerLiteralExpression) semanticObject); 
 				return; 
@@ -1003,6 +1012,9 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 				return; 
 			case StatechartModelPackage.RUN_UPON_EXTERNAL_EVENT_ANNOTATION:
 				sequence_RunUponExternalEventAnnotation(context, (RunUponExternalEventAnnotation) semanticObject); 
+				return; 
+			case StatechartModelPackage.RUN_UPON_EXTERNAL_EVENT_OR_INTERNAL_TIMEOUT_ANNOTATION:
+				sequence_RunUponExternalEventOrInternalTimeoutAnnotation(context, (RunUponExternalEventOrInternalTimeoutAnnotation) semanticObject); 
 				return; 
 			case StatechartModelPackage.SET_TIMEOUT_ACTION:
 				sequence_SetTimeoutAction(context, (SetTimeoutAction) semanticObject); 
@@ -1731,7 +1743,7 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 *     ImportanceSampling returns ImportanceSampling
 	 *
 	 * Constraint:
-	 *     (endcondition+=EndCondition | simulationTime=DOUBLE | simulationNumber=INTEGER | warmupTime=DOUBLE)+
+	 *     (endcondition+=EndCondition | simulationTime=Expression | simulationNumber=IntegerLiteralExpression | warmupTime=Expression)+
 	 * </pre>
 	 */
 	protected void sequence_ImportanceSampling(ISerializationContext context, ImportanceSampling semanticObject) {
@@ -1811,11 +1823,11 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	 * Constraint:
 	 *     (
 	 *         endcondition+=EndCondition | 
-	 *         simulationTime=DOUBLE | 
-	 *         simulationNumber=INTEGER | 
-	 *         warmupStepNum=INTEGER | 
+	 *         simulationTime=Expression | 
+	 *         simulationNumber=IntegerLiteralExpression | 
+	 *         warmupStepNum=IntegerLiteralExpression | 
 	 *         kernel=MCMCKernel | 
-	 *         warmupTime=DOUBLE
+	 *         warmupTime=Expression
 	 *     )+
 	 * </pre>
 	 */

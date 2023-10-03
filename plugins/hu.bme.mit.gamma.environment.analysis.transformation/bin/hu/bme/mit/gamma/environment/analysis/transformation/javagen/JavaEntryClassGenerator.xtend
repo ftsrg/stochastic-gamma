@@ -70,8 +70,8 @@ class JavaEntryClassGenerator {
 							detModel.get«endCondition.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateEndConditionName(endCondition)»);
 						«ENDFOR»
 					}
-					
-					public void reset(«TransformationUtility.generateDetmodelParamsReset(component)») {
+
+					public void reset() {
 						/*
 						detModel=null;
 						System.gc();

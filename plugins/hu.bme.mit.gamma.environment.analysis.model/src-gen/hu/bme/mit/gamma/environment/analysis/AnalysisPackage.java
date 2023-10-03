@@ -1475,31 +1475,31 @@ public interface AnalysisPackage extends EPackage {
 	int SIMULATION_ANALYSIS_METHOD__ENDCONDITION = ANALYSIS_METHOD_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Number</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATION_ANALYSIS_METHOD__WARMUP_TIME = ANALYSIS_METHOD_FEATURE_COUNT + 1;
+	int SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER = ANALYSIS_METHOD_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Warmup Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = ANALYSIS_METHOD_FEATURE_COUNT + 2;
+	int SIMULATION_ANALYSIS_METHOD__WARMUP_TIME = ANALYSIS_METHOD_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER = ANALYSIS_METHOD_FEATURE_COUNT + 3;
+	int SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = ANALYSIS_METHOD_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Simulation Analysis Method</em>' class.
@@ -1539,7 +1539,16 @@ public interface AnalysisPackage extends EPackage {
 	int IMPORTANCE_SAMPLING__ENDCONDITION = SIMULATION_ANALYSIS_METHOD__ENDCONDITION;
 
 	/**
-	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Number</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1548,22 +1557,13 @@ public interface AnalysisPackage extends EPackage {
 	int IMPORTANCE_SAMPLING__WARMUP_TIME = SIMULATION_ANALYSIS_METHOD__WARMUP_TIME;
 
 	/**
-	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int IMPORTANCE_SAMPLING__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
-
-	/**
-	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORTANCE_SAMPLING__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
 
 	/**
 	 * The number of structural features of the '<em>Importance Sampling</em>' class.
@@ -1603,7 +1603,16 @@ public interface AnalysisPackage extends EPackage {
 	int MCMC__ENDCONDITION = SIMULATION_ANALYSIS_METHOD__ENDCONDITION;
 
 	/**
-	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Number</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1612,22 +1621,13 @@ public interface AnalysisPackage extends EPackage {
 	int MCMC__WARMUP_TIME = SIMULATION_ANALYSIS_METHOD__WARMUP_TIME;
 
 	/**
-	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int MCMC__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
-
-	/**
-	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MCMC__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
 
 	/**
 	 * The feature id for the '<em><b>Kernel</b></em>' containment reference.
@@ -1639,7 +1639,7 @@ public interface AnalysisPackage extends EPackage {
 	int MCMC__KERNEL = SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Warmup Step Num</b></em>' attribute.
+	 * The feature id for the '<em><b>Warmup Step Num</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1685,7 +1685,16 @@ public interface AnalysisPackage extends EPackage {
 	int SVI__ENDCONDITION = SIMULATION_ANALYSIS_METHOD__ENDCONDITION;
 
 	/**
-	 * The feature id for the '<em><b>Warmup Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Number</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1694,22 +1703,13 @@ public interface AnalysisPackage extends EPackage {
 	int SVI__WARMUP_TIME = SIMULATION_ANALYSIS_METHOD__WARMUP_TIME;
 
 	/**
-	 * The feature id for the '<em><b>Simulation Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Simulation Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SVI__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
-
-	/**
-	 * The feature id for the '<em><b>Simulation Number</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SVI__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
 
 	/**
 	 * The number of structural features of the '<em>SVI</em>' class.
@@ -2434,37 +2434,37 @@ public interface AnalysisPackage extends EPackage {
 	EReference getSimulationAnalysisMethod_Endcondition();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime <em>Warmup Time</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime <em>Warmup Time</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Warmup Time</em>'.
+	 * @return the meta object for the containment reference '<em>Warmup Time</em>'.
 	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime()
 	 * @see #getSimulationAnalysisMethod()
 	 * @generated
 	 */
-	EAttribute getSimulationAnalysisMethod_WarmupTime();
+	EReference getSimulationAnalysisMethod_WarmupTime();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime <em>Simulation Time</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime <em>Simulation Time</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Simulation Time</em>'.
+	 * @return the meta object for the containment reference '<em>Simulation Time</em>'.
 	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime()
 	 * @see #getSimulationAnalysisMethod()
 	 * @generated
 	 */
-	EAttribute getSimulationAnalysisMethod_SimulationTime();
+	EReference getSimulationAnalysisMethod_SimulationTime();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Simulation Number</em>'.
+	 * @return the meta object for the containment reference '<em>Simulation Number</em>'.
 	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber()
 	 * @see #getSimulationAnalysisMethod()
 	 * @generated
 	 */
-	EAttribute getSimulationAnalysisMethod_SimulationNumber();
+	EReference getSimulationAnalysisMethod_SimulationNumber();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.ImportanceSampling <em>Importance Sampling</em>}'.
@@ -2498,15 +2498,15 @@ public interface AnalysisPackage extends EPackage {
 	EReference getMCMC_Kernel();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.MCMC#getWarmupStepNum <em>Warmup Step Num</em>}'.
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.MCMC#getWarmupStepNum <em>Warmup Step Num</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Warmup Step Num</em>'.
+	 * @return the meta object for the containment reference '<em>Warmup Step Num</em>'.
 	 * @see hu.bme.mit.gamma.environment.analysis.MCMC#getWarmupStepNum()
 	 * @see #getMCMC()
 	 * @generated
 	 */
-	EAttribute getMCMC_WarmupStepNum();
+	EReference getMCMC_WarmupStepNum();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.SVI <em>SVI</em>}'.
@@ -3104,28 +3104,28 @@ public interface AnalysisPackage extends EPackage {
 		EReference SIMULATION_ANALYSIS_METHOD__ENDCONDITION = eINSTANCE.getSimulationAnalysisMethod_Endcondition();
 
 		/**
-		 * The meta object literal for the '<em><b>Warmup Time</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Warmup Time</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SIMULATION_ANALYSIS_METHOD__WARMUP_TIME = eINSTANCE.getSimulationAnalysisMethod_WarmupTime();
+		EReference SIMULATION_ANALYSIS_METHOD__WARMUP_TIME = eINSTANCE.getSimulationAnalysisMethod_WarmupTime();
 
 		/**
-		 * The meta object literal for the '<em><b>Simulation Time</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Simulation Time</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = eINSTANCE.getSimulationAnalysisMethod_SimulationTime();
+		EReference SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = eINSTANCE.getSimulationAnalysisMethod_SimulationTime();
 
 		/**
-		 * The meta object literal for the '<em><b>Simulation Number</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Simulation Number</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER = eINSTANCE.getSimulationAnalysisMethod_SimulationNumber();
+		EReference SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER = eINSTANCE.getSimulationAnalysisMethod_SimulationNumber();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.ImportanceSamplingImpl <em>Importance Sampling</em>}' class.
@@ -3156,12 +3156,12 @@ public interface AnalysisPackage extends EPackage {
 		EReference MCMC__KERNEL = eINSTANCE.getMCMC_Kernel();
 
 		/**
-		 * The meta object literal for the '<em><b>Warmup Step Num</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Warmup Step Num</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MCMC__WARMUP_STEP_NUM = eINSTANCE.getMCMC_WarmupStepNum();
+		EReference MCMC__WARMUP_STEP_NUM = eINSTANCE.getMCMC_WarmupStepNum();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.SVIImpl <em>SVI</em>}' class.

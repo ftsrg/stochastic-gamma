@@ -86,12 +86,22 @@ public class EnvironmentLanguageValidator extends AbstractEnvironmentLanguageVal
 		if (instance instanceof EnvironmentComponentInstance) return; //no validation needed
 		handleValidationResultMessage(environmentModelValidator.checkComponentInstanceArguments(instance));
 	}
-	
+
 	@Check
 	public void checkPortBinding(Port port) {
 		//if (port.eContainer() instanceof AbstractEnvironmentCompositeComponent) return; //todo: add validation
 		//if (port.eContainer()  instanceof EnvironmentComponentInstance) return; //todo: add validation
 		handleValidationResultMessage(environmentModelValidator.checkPortBinding(port));
+	}
+
+	@Check
+	public void checkSimpleChannelInterfaces(SimpleChannel channel) {
+		handleValidationResultMessage(environmentModelValidator.checkSimpleChannelInterfaces(channel));
+	}
+
+	@Check
+	public void checkBroadcastChannelInterfaces(BroadcastChannel channel) {
+		handleValidationResultMessage(environmentModelValidator.checkBroadcastChannelInterfaces(channel));
 	}
 	
 	@Check

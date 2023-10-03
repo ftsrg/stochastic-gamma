@@ -1,5 +1,6 @@
 package hu.bme.mit.gamma.environment.analysis.transformation.pythongen;
 
+import com.google.common.base.Objects;
 import hu.bme.mit.gamma.codegeneration.java.util.ElementaryEnvironmentComponentUtility;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.EnvironmentConnections;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility;
@@ -10,7 +11,9 @@ import hu.bme.mit.gamma.environment.model.EnvironmentSwitch;
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration;
 import hu.bme.mit.gamma.expression.model.Type;
 import hu.bme.mit.gamma.expression.util.ExpressionEvaluator;
-import hu.bme.mit.gamma.statechart.interface_.EventDeclaration;
+import hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures;
+import hu.bme.mit.gamma.statechart.interface_.Event;
+import hu.bme.mit.gamma.statechart.interface_.EventDirection;
 import hu.bme.mit.gamma.statechart.interface_.Interface;
 import java.util.List;
 import java.util.Set;
@@ -392,12 +395,18 @@ public class PyroComponentClassGenerator {
         _builder.append("for pevent in pevents:");
         _builder.newLine();
         _builder.append("\t\t\t\t");
-        _builder.append("if pevent in self.rules[port]:");
+        _builder.append("if pevent in rules[port].keys():");
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
-        _builder.append("rule=rules[port][pevent]");
+        _builder.append("params=rules[port][pevent].keys()");
         _builder.newLine();
         _builder.append("\t\t\t\t\t");
+        _builder.append("for param in params:");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t");
+        _builder.append("rule=rules[port][pevent][param]");
+        _builder.newLine();
+        _builder.append("\t\t\t\t\t\t");
         _builder.append("simulator.dists.append(rule)");
         _builder.newLine();
         _builder.newLine();
@@ -418,6 +427,9 @@ public class PyroComponentClassGenerator {
         _builder.newLine();
         _builder.append("\t");
         _builder.append("@JOverride");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("def isEventQueueEmpty(self):");
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("return (len(self.events)==0)");
@@ -440,30 +452,30 @@ public class PyroComponentClassGenerator {
         _builder.newLine();
         _builder.newLine();
         {
-          EList<EventDeclaration> _events = i.getEvents();
-          for(final EventDeclaration event : _events) {
+          List<Event> _outputEvents = StatechartModelDerivedFeatures.getOutputEvents(sample.getOutports().get(0));
+          for(final Event event : _outputEvents) {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("@JOverride");
             _builder.newLine();
             _builder.append("\t");
             _builder.append("def raise");
-            String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
+            String _firstUpper_1 = StringExtensions.toFirstUpper(event.getName());
             _builder.append(_firstUpper_1, "\t");
             _builder.append("(self,");
-            CharSequence _generateFuncParams = TransformationUtility.generateFuncParams(event.getEvent());
+            CharSequence _generateFuncParams = TransformationUtility.generateFuncParams(event);
             _builder.append(_generateFuncParams, "\t");
             _builder.append("):");
             _builder.newLineIfNotEmpty();
             {
-              EList<ParameterDeclaration> _parameterDeclarations = event.getEvent().getParameterDeclarations();
+              EList<ParameterDeclaration> _parameterDeclarations = event.getParameterDeclarations();
               for(final ParameterDeclaration param : _parameterDeclarations) {
                 _builder.append("\t\t");
                 _builder.append("if \"");
                 String _firstLower = StringExtensions.toFirstLower(param.getName());
                 _builder.append(_firstLower, "\t\t");
                 _builder.append("\" in self.rules[\"");
-                String _firstUpper_2 = StringExtensions.toFirstUpper(event.getEvent().getName());
+                String _firstUpper_2 = StringExtensions.toFirstUpper(event.getName());
                 _builder.append(_firstUpper_2, "\t\t");
                 _builder.append("\"].keys():");
                 _builder.newLineIfNotEmpty();
@@ -472,13 +484,13 @@ public class PyroComponentClassGenerator {
                 String _firstLower_1 = StringExtensions.toFirstLower(param.getName());
                 _builder.append(_firstLower_1, "\t\t\t");
                 _builder.append(" = self.rules[\"");
-                String _firstUpper_3 = StringExtensions.toFirstUpper(event.getEvent().getName());
+                String _firstUpper_3 = StringExtensions.toFirstUpper(event.getName());
                 _builder.append(_firstUpper_3, "\t\t\t");
                 _builder.append("\"][\"");
                 String _firstLower_2 = StringExtensions.toFirstLower(param.getName());
                 _builder.append(_firstLower_2, "\t\t\t");
                 _builder.append("\"].calc(self.port+\".\"+\"");
-                String _firstUpper_4 = StringExtensions.toFirstUpper(event.getEvent().getName());
+                String _firstUpper_4 = StringExtensions.toFirstUpper(event.getName());
                 _builder.append(_firstUpper_4, "\t\t\t");
                 _builder.append("::");
                 String _name = param.getName();
@@ -490,19 +502,20 @@ public class PyroComponentClassGenerator {
             _builder.append("\t\t");
             _builder.newLine();
             _builder.append("\t\t");
-            String _firstLower_3 = StringExtensions.toFirstLower(event.getEvent().getParameterDeclarations().get(0).getName());
+            _builder.append("#");
+            String _firstLower_3 = StringExtensions.toFirstLower(event.getParameterDeclarations().get(0).getName());
             _builder.append(_firstLower_3, "\t\t");
             _builder.append("=self.rules[\"");
-            String _firstUpper_5 = StringExtensions.toFirstUpper(event.getEvent().getName());
+            String _firstUpper_5 = StringExtensions.toFirstUpper(event.getName());
             _builder.append(_firstUpper_5, "\t\t");
             _builder.append("\"].calc(self.port+\".\"+\"");
-            String _firstUpper_6 = StringExtensions.toFirstUpper(event.getEvent().getName());
+            String _firstUpper_6 = StringExtensions.toFirstUpper(event.getName());
             _builder.append(_firstUpper_6, "\t\t");
             _builder.append("\",self.simulator.time)");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
             _builder.append("#");
-            Type _type = event.getEvent().getParameterDeclarations().get(0).getType();
+            Type _type = event.getParameterDeclarations().get(0).getType();
             _builder.append(_type, "\t\t");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
@@ -516,10 +529,10 @@ public class PyroComponentClassGenerator {
             _builder.newLine();
             _builder.append("\t\t\t\t");
             _builder.append("callEvent=lambda:call.raise");
-            String _firstUpper_7 = StringExtensions.toFirstUpper(event.getEvent().getName());
+            String _firstUpper_7 = StringExtensions.toFirstUpper(event.getName());
             _builder.append(_firstUpper_7, "\t\t\t\t");
             _builder.append("(");
-            CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event.getEvent());
+            CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event);
             _builder.append(_generateFuncParams_1, "\t\t\t\t");
             _builder.append(");");
             _builder.newLineIfNotEmpty();
@@ -531,10 +544,10 @@ public class PyroComponentClassGenerator {
             _builder.newLine();
             _builder.append("\t\t\t\t");
             _builder.append("call.raise");
-            String _firstUpper_8 = StringExtensions.toFirstUpper(event.getEvent().getName());
+            String _firstUpper_8 = StringExtensions.toFirstUpper(event.getName());
             _builder.append(_firstUpper_8, "\t\t\t\t");
             _builder.append("(");
-            CharSequence _generateFuncParams_2 = TransformationUtility.generateFuncParams(event.getEvent());
+            CharSequence _generateFuncParams_2 = TransformationUtility.generateFuncParams(event);
             _builder.append(_generateFuncParams_2, "\t\t\t\t");
             _builder.append(")");
             _builder.newLineIfNotEmpty();
@@ -656,8 +669,12 @@ public class PyroComponentClassGenerator {
       _builder.append("#definition of the interface functions");
       _builder.newLine();
       {
-        EList<EventDeclaration> _events = i.getEvents();
-        for(final EventDeclaration event : _events) {
+        final Function1<Event, Boolean> _function_2 = (Event e) -> {
+          EventDirection _direction = StatechartModelDerivedFeatures.getDirection(e);
+          return Boolean.valueOf(Objects.equal(_direction, EventDirection.OUT));
+        };
+        Iterable<Event> _filter = IterableExtensions.<Event>filter(StatechartModelDerivedFeatures.getAllEvents(i), _function_2);
+        for(final Event event : _filter) {
           _builder.append("\t");
           _builder.newLine();
           _builder.append("\t");
@@ -665,20 +682,20 @@ public class PyroComponentClassGenerator {
           _builder.newLine();
           _builder.append("\t");
           _builder.append("def raise");
-          String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_1 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_1, "\t");
           _builder.append("(self,");
-          CharSequence _generateFuncParams = TransformationUtility.generateFuncParams(event.getEvent());
+          CharSequence _generateFuncParams = TransformationUtility.generateFuncParams(event);
           _builder.append(_generateFuncParams, "\t");
           _builder.append("):");
           _builder.newLineIfNotEmpty();
           _builder.append("\t");
           _builder.append("\t");
           _builder.append("time=self.rules[\"");
-          String _firstUpper_2 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_2 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_2, "\t\t");
           _builder.append("\"].calc(self.port+\".\"+\"");
-          String _firstUpper_3 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_3 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_3, "\t\t");
           _builder.append("\",self.simulator.time)");
           _builder.newLineIfNotEmpty();
@@ -697,10 +714,10 @@ public class PyroComponentClassGenerator {
           _builder.append("\t");
           _builder.append("\t\t");
           _builder.append("callEvent=lambda:callitem.raise");
-          String _firstUpper_4 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_4 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_4, "\t\t\t");
           _builder.append("(");
-          CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event.getEvent());
+          CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event);
           _builder.append(_generateFuncParams_1, "\t\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
@@ -822,18 +839,22 @@ public class PyroComponentClassGenerator {
       _builder.append("#definition of the interface functions");
       _builder.newLine();
       {
-        EList<EventDeclaration> _events = i.getEvents();
-        for(final EventDeclaration event : _events) {
+        final Function1<Event, Boolean> _function_2 = (Event e) -> {
+          EventDirection _direction = StatechartModelDerivedFeatures.getDirection(e);
+          return Boolean.valueOf(Objects.equal(_direction, EventDirection.OUT));
+        };
+        Iterable<Event> _filter = IterableExtensions.<Event>filter(StatechartModelDerivedFeatures.getAllEvents(i), _function_2);
+        for(final Event event : _filter) {
           _builder.newLine();
           _builder.append("\t");
           _builder.append("@JOverride");
           _builder.newLine();
           _builder.append("\t");
           _builder.append("def raise");
-          String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_1 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_1, "\t");
           _builder.append("(self,");
-          CharSequence _generateFuncParams = TransformationUtility.generateFuncParams(event.getEvent());
+          CharSequence _generateFuncParams = TransformationUtility.generateFuncParams(event);
           _builder.append(_generateFuncParams, "\t");
           _builder.append("):");
           _builder.newLineIfNotEmpty();
@@ -842,7 +863,7 @@ public class PyroComponentClassGenerator {
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("eventcalls=self.calls[port]#[\"");
-          String _firstUpper_2 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_2 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_2, "\t\t");
           _builder.append("\"]");
           _builder.newLineIfNotEmpty();
@@ -860,10 +881,10 @@ public class PyroComponentClassGenerator {
           _builder.newLine();
           _builder.append("\t\t\t\t\t");
           _builder.append("callEvent=lambda:call.raise");
-          String _firstUpper_3 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_3 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_3, "\t\t\t\t\t");
           _builder.append("(");
-          CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event.getEvent());
+          CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event);
           _builder.append(_generateFuncParams_1, "\t\t\t\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
@@ -875,10 +896,10 @@ public class PyroComponentClassGenerator {
           _builder.newLine();
           _builder.append("\t\t\t\t\t");
           _builder.append("call.raise");
-          String _firstUpper_4 = StringExtensions.toFirstUpper(event.getEvent().getName());
+          String _firstUpper_4 = StringExtensions.toFirstUpper(event.getName());
           _builder.append(_firstUpper_4, "\t\t\t\t\t");
           _builder.append("(");
-          CharSequence _generateFuncParams_2 = TransformationUtility.generateFuncParams(event.getEvent());
+          CharSequence _generateFuncParams_2 = TransformationUtility.generateFuncParams(event);
           _builder.append(_generateFuncParams_2, "\t\t\t\t\t");
           _builder.append(")");
           _builder.newLineIfNotEmpty();

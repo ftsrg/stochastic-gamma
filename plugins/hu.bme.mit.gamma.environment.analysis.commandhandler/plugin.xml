@@ -11,7 +11,7 @@
              icon="icons/gamma-icon-16.png">
      	<!-- Generate Stochastic Gamma code -->	
        <command commandId="hu.bme.mit.gamma.environment.analysis.transformation"
-              label="Analysis Transformation"
+              label="Generate Probabilistic Program"
               style="push">
            <visibleWhen
                  checkEnabled="false">

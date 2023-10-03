@@ -59,7 +59,8 @@ class StochasticEventGenerator():
 			«ENDIF»
 			#«param_cntr++»
 		«ENDFOR»
-		self.detmodel.reset(«TransformationUtility.generateDetmodelParamsNew(analysis_component)»)
+		self.detmodel.reset()
+		"""self.detmodel.reset(«TransformationUtility.generateDetmodelParamsNew(analysis_component)»)"""
 
 	def generateEvents(self):
 		for component in list(self.components.values()):

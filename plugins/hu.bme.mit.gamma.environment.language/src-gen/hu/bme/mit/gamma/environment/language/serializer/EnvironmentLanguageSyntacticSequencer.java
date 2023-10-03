@@ -62,9 +62,13 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	protected AbstractElementAlias match_ParenthesesTrigger_LeftParenthesisKeyword_0_p;
 	protected AbstractElementAlias match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1;
 	protected AbstractElementAlias match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
+	protected AbstractElementAlias match_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1;
+	protected AbstractElementAlias match_RunUponExternalEventOrInternalTimeoutAnnotation_RunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0_or_RunUponExternalEventOrInternalTimeoutKeyword_1_1;
+	protected AbstractElementAlias match_ScenarioAllowedWaitingAnnotation_ScenarioAllowedWaitAnnotationKeyword_1_0_or_ScenarioAllowedWaitKeyword_1_1;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q;
 	protected AbstractElementAlias match_ScheduledAsynchronousCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q;
+	protected AbstractElementAlias match_SpecialStateAnnotation_SpecialStateAnnotationKeyword_1_0_or_SpecialStateKeyword_1_1;
 	protected AbstractElementAlias match_State___EntryKeyword_3_1_0_1_0_SolidusKeyword_3_1_0_1_1__q;
 	protected AbstractElementAlias match_State___ExitKeyword_3_1_0_2_0_SolidusKeyword_3_1_0_2_1__q;
 	protected AbstractElementAlias match_State___LeftCurlyBracketKeyword_3_0___EntryKeyword_3_1_0_1_0_SolidusKeyword_3_1_0_1_1__q___ExitKeyword_3_1_0_2_0_SolidusKeyword_3_1_0_2_1__q_RightCurlyBracketKeyword_3_2__q;
@@ -120,9 +124,13 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 		match_ParenthesesTrigger_LeftParenthesisKeyword_0_p = new TokenAlias(true, false, grammarAccess.getParenthesesTriggerAccess().getLeftParenthesisKeyword_0());
 		match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_0()), new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_1()));
 		match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getRightParenthesisKeyword_2_2()));
+		match_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getRunUponExternalEventAnnotationAccess().getRunUponExternalEventAnnotationKeyword_1_0()), new TokenAlias(false, false, grammarAccess.getRunUponExternalEventAnnotationAccess().getRunUponExternalEventKeyword_1_1()));
+		match_RunUponExternalEventOrInternalTimeoutAnnotation_RunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0_or_RunUponExternalEventOrInternalTimeoutKeyword_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getRunUponExternalEventOrInternalTimeoutAnnotationAccess().getRunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0()), new TokenAlias(false, false, grammarAccess.getRunUponExternalEventOrInternalTimeoutAnnotationAccess().getRunUponExternalEventOrInternalTimeoutKeyword_1_1()));
+		match_ScenarioAllowedWaitingAnnotation_ScenarioAllowedWaitAnnotationKeyword_1_0_or_ScenarioAllowedWaitKeyword_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getScenarioAllowedWaitingAnnotationAccess().getScenarioAllowedWaitAnnotationKeyword_1_0()), new TokenAlias(false, false, grammarAccess.getScenarioAllowedWaitingAnnotationAccess().getScenarioAllowedWaitKeyword_1_1()));
 		match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q = new TokenAlias(false, true, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getCommaKeyword_4_1_1_0());
 		match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getLeftParenthesisKeyword_3_0()), new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getRightParenthesisKeyword_3_2()));
 		match_ScheduledAsynchronousCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getLeftSquareBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getScheduledAsynchronousCompositeComponentAccess().getRightSquareBracketKeyword_4_2()));
+		match_SpecialStateAnnotation_SpecialStateAnnotationKeyword_1_0_or_SpecialStateKeyword_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getSpecialStateAnnotationAccess().getSpecialStateAnnotationKeyword_1_0()), new TokenAlias(false, false, grammarAccess.getSpecialStateAnnotationAccess().getSpecialStateKeyword_1_1()));
 		match_State___EntryKeyword_3_1_0_1_0_SolidusKeyword_3_1_0_1_1__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getStateAccess().getEntryKeyword_3_1_0_1_0()), new TokenAlias(false, false, grammarAccess.getStateAccess().getSolidusKeyword_3_1_0_1_1()));
 		match_State___ExitKeyword_3_1_0_2_0_SolidusKeyword_3_1_0_2_1__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getStateAccess().getExitKeyword_3_1_0_2_0()), new TokenAlias(false, false, grammarAccess.getStateAccess().getSolidusKeyword_3_1_0_2_1()));
 		match_State___LeftCurlyBracketKeyword_3_0___EntryKeyword_3_1_0_1_0_SolidusKeyword_3_1_0_1_1__q___ExitKeyword_3_1_0_2_0_SolidusKeyword_3_1_0_2_1__q_RightCurlyBracketKeyword_3_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getStateAccess().getLeftCurlyBracketKeyword_3_0()), new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getStateAccess().getEntryKeyword_3_1_0_1_0()), new TokenAlias(false, false, grammarAccess.getStateAccess().getSolidusKeyword_3_1_0_1_1())), new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getStateAccess().getExitKeyword_3_1_0_2_0()), new TokenAlias(false, false, grammarAccess.getStateAccess().getSolidusKeyword_3_1_0_2_1())), new TokenAlias(false, false, grammarAccess.getStateAccess().getRightCurlyBracketKeyword_3_2()));
@@ -228,12 +236,20 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 				emit_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q.equals(syntax))
 				emit_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1.equals(syntax))
+				emit_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_RunUponExternalEventOrInternalTimeoutAnnotation_RunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0_or_RunUponExternalEventOrInternalTimeoutKeyword_1_1.equals(syntax))
+				emit_RunUponExternalEventOrInternalTimeoutAnnotation_RunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0_or_RunUponExternalEventOrInternalTimeoutKeyword_1_1(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_ScenarioAllowedWaitingAnnotation_ScenarioAllowedWaitAnnotationKeyword_1_0_or_ScenarioAllowedWaitKeyword_1_1.equals(syntax))
+				emit_ScenarioAllowedWaitingAnnotation_ScenarioAllowedWaitAnnotationKeyword_1_0_or_ScenarioAllowedWaitKeyword_1_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q.equals(syntax))
 				emit_ScheduledAsynchronousCompositeComponent_CommaKeyword_4_1_1_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q.equals(syntax))
 				emit_ScheduledAsynchronousCompositeComponent___LeftParenthesisKeyword_3_0_RightParenthesisKeyword_3_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ScheduledAsynchronousCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q.equals(syntax))
 				emit_ScheduledAsynchronousCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_SpecialStateAnnotation_SpecialStateAnnotationKeyword_1_0_or_SpecialStateKeyword_1_1.equals(syntax))
+				emit_SpecialStateAnnotation_SpecialStateAnnotationKeyword_1_0_or_SpecialStateKeyword_1_1(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_State___EntryKeyword_3_1_0_1_0_SolidusKeyword_3_1_0_1_1__q.equals(syntax))
 				emit_State___EntryKeyword_3_1_0_1_0_SolidusKeyword_3_1_0_1_1__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_State___ExitKeyword_3_1_0_2_0_SolidusKeyword_3_1_0_2_1__q.equals(syntax))
@@ -1083,6 +1099,48 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	/**
 	 * <pre>
 	 * Ambiguous syntax:
+	 *     '@RunUponExternalEventAnnotation' | '@RunUponExternalEvent'
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     (rule start) (ambiguity) (rule start)
+	 
+	 * </pre>
+	 */
+	protected void emit_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
+	 *     '@RunUponExternalEventOrInternalTimeoutAnnotation' | '@RunUponExternalEventOrInternalTimeout'
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     (rule start) (ambiguity) (rule start)
+	 
+	 * </pre>
+	 */
+	protected void emit_RunUponExternalEventOrInternalTimeoutAnnotation_RunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0_or_RunUponExternalEventOrInternalTimeoutKeyword_1_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
+	 *     '@ScenarioAllowedWaitAnnotation' | '@ScenarioAllowedWait'
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     (rule start) (ambiguity) '=' lowerLimit=Expression
+	 
+	 * </pre>
+	 */
+	protected void emit_ScenarioAllowedWaitingAnnotation_ScenarioAllowedWaitAnnotationKeyword_1_0_or_ScenarioAllowedWaitKeyword_1_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
 	 *     ','?
 	 *
 	 * This ambiguous syntax occurs at:
@@ -1136,6 +1194,20 @@ public class EnvironmentLanguageSyntacticSequencer extends AbstractSyntacticSequ
 	 * </pre>
 	 */
 	protected void emit_ScheduledAsynchronousCompositeComponent___LeftSquareBracketKeyword_4_0_RightSquareBracketKeyword_4_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
+	 *     '@SpecialStateAnnotation' | '@SpecialState'
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     (rule start) (ambiguity) kind=SpecialStateKind
+	 
+	 * </pre>
+	 */
+	protected void emit_SpecialStateAnnotation_SpecialStateAnnotationKeyword_1_0_or_SpecialStateKeyword_1_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

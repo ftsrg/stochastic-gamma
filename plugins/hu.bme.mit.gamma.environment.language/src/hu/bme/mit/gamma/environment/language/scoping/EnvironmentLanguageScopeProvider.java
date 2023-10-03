@@ -37,6 +37,7 @@ import hu.bme.mit.gamma.environment.model.EnvironmentCascadeCompositeComponentIn
 import hu.bme.mit.gamma.environment.model.EnvironmentComponentInstance;
 import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponent;
 import hu.bme.mit.gamma.environment.model.EnvironmentSynchronousCompositeComponentInstance;
+import hu.bme.mit.gamma.environment.model.EventFilter;
 import hu.bme.mit.gamma.environment.model.ParameterFilter;
 import hu.bme.mit.gamma.environment.model.PortFilter;
 import hu.bme.mit.gamma.environment.model.StochasticRule;
@@ -81,6 +82,7 @@ import hu.bme.mit.gamma.statechart.statechart.StateNode;
 import hu.bme.mit.gamma.statechart.statechart.StatechartDefinition;
 import hu.bme.mit.gamma.statechart.statechart.StatechartModelPackage;
 import hu.bme.mit.gamma.statechart.statechart.Transition;
+import hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures;
 
 
 public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopeProvider{
@@ -95,6 +97,15 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 		// Statechart
 
 		try {
+			
+			if (context instanceof PortEventReference && reference == StatechartModelPackage.Literals.PORT_EVENT_REFERENCE__EVENT ) {
+				PortEventReference ref=(PortEventReference ) context;
+				if (context.eContainer() instanceof EventFilter) {
+					ElementaryEnvironmentComponentInstance comp=(ElementaryEnvironmentComponentInstance) context.eContainer().eContainer().eContainer();
+					return Scopes.scopeFor(StatechartModelDerivedFeatures.getOutputEvents(ref.getPort()));
+				}				
+			}
+			
 			// Adaptive
 			if (context instanceof AdaptiveContractAnnotation &&
 					reference == ContractModelPackage.Literals.ADAPTIVE_CONTRACT_ANNOTATION__MONITORED_COMPONENT) {
@@ -123,6 +134,9 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 					return Scopes.scopeFor(statechart.getVariableDeclarations());
 				}
 			}
+			
+			
+			
 			// Transitions
 			if (context instanceof Transition && (reference == StatechartModelPackage.Literals.TRANSITION__SOURCE_STATE
 					|| reference == StatechartModelPackage.Literals.TRANSITION__TARGET_STATE)) {
@@ -401,14 +415,23 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 				Set<AsynchronousComponent> components = StatechartModelDerivedFeatures.getAllAsynchronousComponents(_package);
 				components.remove(context.eContainer());
 				return Scopes.scopeFor(components);
-			}		
-			// Asynchronous adapter-specific rules
+			}
+			
+			// Reference the events of the elementary environment components
 			if (context instanceof PortEventReference && reference == StatechartModelPackage.Literals.PORT_EVENT_REFERENCE__PORT ||
 				context instanceof AnyPortEventReference && reference == StatechartModelPackage.Literals.ANY_PORT_EVENT_REFERENCE__PORT) {
 				if (context.eContainer() instanceof StochasticRule) {
 					ElementaryEnvironmentComponentInstance comp=(ElementaryEnvironmentComponentInstance) context.eContainer().eContainer();
 					return Scopes.scopeFor(comp.getOutports());
-				}else {
+				}				
+			}
+
+
+			
+			// Asynchronous adapter-specific rules
+			if (context instanceof PortEventReference && reference == StatechartModelPackage.Literals.PORT_EVENT_REFERENCE__PORT ||
+				context instanceof AnyPortEventReference && reference == StatechartModelPackage.Literals.ANY_PORT_EVENT_REFERENCE__PORT) {
+				if (! (context.eContainer() instanceof StochasticRule)) {
 					AsynchronousAdapter wrapper = ecoreUtil.getContainerOfType(context, AsynchronousAdapter.class);
 					if (wrapper != null) {
 						// Derived feature "allPorts" does not work all the time

@@ -922,8 +922,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSimulationAnalysisMethod_WarmupTime() {
-		return (EAttribute)simulationAnalysisMethodEClass.getEStructuralFeatures().get(1);
+	public EReference getSimulationAnalysisMethod_WarmupTime() {
+		return (EReference)simulationAnalysisMethodEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -931,8 +931,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSimulationAnalysisMethod_SimulationTime() {
-		return (EAttribute)simulationAnalysisMethodEClass.getEStructuralFeatures().get(2);
+	public EReference getSimulationAnalysisMethod_SimulationTime() {
+		return (EReference)simulationAnalysisMethodEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -940,8 +940,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSimulationAnalysisMethod_SimulationNumber() {
-		return (EAttribute)simulationAnalysisMethodEClass.getEStructuralFeatures().get(3);
+	public EReference getSimulationAnalysisMethod_SimulationNumber() {
+		return (EReference)simulationAnalysisMethodEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -976,8 +976,8 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMCMC_WarmupStepNum() {
-		return (EAttribute)mcmcEClass.getEStructuralFeatures().get(1);
+	public EReference getMCMC_WarmupStepNum() {
+		return (EReference)mcmcEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1132,15 +1132,15 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 
 		simulationAnalysisMethodEClass = createEClass(SIMULATION_ANALYSIS_METHOD);
 		createEReference(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__ENDCONDITION);
-		createEAttribute(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__WARMUP_TIME);
-		createEAttribute(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME);
-		createEAttribute(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER);
+		createEReference(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER);
+		createEReference(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__WARMUP_TIME);
+		createEReference(simulationAnalysisMethodEClass, SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME);
 
 		importanceSamplingEClass = createEClass(IMPORTANCE_SAMPLING);
 
 		mcmcEClass = createEClass(MCMC);
 		createEReference(mcmcEClass, MCMC__KERNEL);
-		createEAttribute(mcmcEClass, MCMC__WARMUP_STEP_NUM);
+		createEReference(mcmcEClass, MCMC__WARMUP_STEP_NUM);
 
 		sviEClass = createEClass(SVI);
 
@@ -1304,15 +1304,15 @@ public class AnalysisPackageImpl extends EPackageImpl implements AnalysisPackage
 
 		initEClass(simulationAnalysisMethodEClass, SimulationAnalysisMethod.class, "SimulationAnalysisMethod", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSimulationAnalysisMethod_Endcondition(), this.getEndCondition(), null, "endcondition", null, 0, -1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSimulationAnalysisMethod_WarmupTime(), ecorePackage.getEDouble(), "warmupTime", "0.0", 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSimulationAnalysisMethod_SimulationTime(), ecorePackage.getEDouble(), "simulationTime", "1.0", 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSimulationAnalysisMethod_SimulationNumber(), ecorePackage.getEBigInteger(), "simulationNumber", "100", 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSimulationAnalysisMethod_SimulationNumber(), theExpressionModelPackage.getIntegerLiteralExpression(), null, "simulationNumber", null, 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSimulationAnalysisMethod_WarmupTime(), theExpressionModelPackage.getExpression(), null, "warmupTime", null, 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSimulationAnalysisMethod_SimulationTime(), theExpressionModelPackage.getExpression(), null, "simulationTime", null, 1, 1, SimulationAnalysisMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importanceSamplingEClass, ImportanceSampling.class, "ImportanceSampling", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(mcmcEClass, hu.bme.mit.gamma.environment.analysis.MCMC.class, "MCMC", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMCMC_Kernel(), this.getMCMCKernel(), null, "kernel", null, 1, 1, hu.bme.mit.gamma.environment.analysis.MCMC.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMCMC_WarmupStepNum(), ecorePackage.getEBigInteger(), "warmupStepNum", "0", 1, 1, hu.bme.mit.gamma.environment.analysis.MCMC.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMCMC_WarmupStepNum(), theExpressionModelPackage.getIntegerLiteralExpression(), null, "warmupStepNum", null, 1, 1, hu.bme.mit.gamma.environment.analysis.MCMC.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sviEClass, hu.bme.mit.gamma.environment.analysis.SVI.class, "SVI", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

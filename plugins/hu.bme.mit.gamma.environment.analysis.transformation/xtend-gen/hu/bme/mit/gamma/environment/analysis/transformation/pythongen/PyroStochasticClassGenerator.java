@@ -157,10 +157,13 @@ public class PyroStochasticClassGenerator {
         }
       }
       _builder.append("\t\t");
-      _builder.append("self.detmodel.reset(");
+      _builder.append("self.detmodel.reset()");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("\"\"\"self.detmodel.reset(");
       CharSequence _generateDetmodelParamsNew = TransformationUtility.generateDetmodelParamsNew(analysis_component);
       _builder.append(_generateDetmodelParamsNew, "\t\t");
-      _builder.append(")");
+      _builder.append(")\"\"\"");
       _builder.newLineIfNotEmpty();
       _builder.newLine();
       _builder.append("\t");

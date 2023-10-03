@@ -128,6 +128,8 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.environment.plantuml.textprovider"/>
       <plugin id="hu.bme.mit.gamma.environment.plantuml.transformation"/>
       <plugin id="hu.bme.mit.gamma.environment.rcp"/>
+      <plugin id="hu.bme.mit.gamma.environment.simulator"/>
+      <plugin id="hu.bme.mit.gamma.environment.simulator.commandhandler"/>
       <plugin id="hu.bme.mit.gamma.environment.stochastic.model"/>
       <plugin id="hu.bme.mit.gamma.environment.ui"/>
       <plugin id="hu.bme.mit.gamma.environment.ui.intro"/>
@@ -136,20 +138,24 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.expression.language.ide"/>
       <plugin id="hu.bme.mit.gamma.expression.language.ui"/>
       <plugin id="hu.bme.mit.gamma.expression.model"/>
+      <plugin id="hu.bme.mit.gamma.fei.language"/>
+      <plugin id="hu.bme.mit.gamma.fei.language.ide"/>
+      <plugin id="hu.bme.mit.gamma.fei.language.ui"/>
+      <plugin id="hu.bme.mit.gamma.fei.model"/>
+      <plugin id="hu.bme.mit.gamma.fei.xsap.transformation"/>
       <plugin id="hu.bme.mit.gamma.genmodel.commandhandler"/>
       <plugin id="hu.bme.mit.gamma.genmodel.language"/>
       <plugin id="hu.bme.mit.gamma.genmodel.language.ide"/>
       <plugin id="hu.bme.mit.gamma.genmodel.language.ui"/>
       <plugin id="hu.bme.mit.gamma.genmodel.model"/>
       <plugin id="hu.bme.mit.gamma.language.util"/>
-      <plugin id="hu.bme.mit.gamma.logictable.importer"/>
+      <plugin id="hu.bme.mit.gamma.logictable.transformation"/>
       <plugin id="hu.bme.mit.gamma.logictable.transformation.commandhandler"/>
       <plugin id="hu.bme.mit.gamma.lowlevel.xsts.transformation"/>
       <plugin id="hu.bme.mit.gamma.lowlevel.xsts.transformation.traceability"/>
-      <plugin id="hu.bme.mit.gamma.plugintemplate"/>
-      <plugin id="hu.bme.mit.gamma.plugintemplate.transformation"/>
-      <plugin id="hu.bme.mit.gamma.plugintemplate.transformation.traceability"/>
+      <plugin id="hu.bme.mit.gamma.nuxmv.verification"/>
       <plugin id="hu.bme.mit.gamma.promela.verification"/>
+      <plugin id="hu.bme.mit.gamma.property.concretization.commandhandler"/>
       <plugin id="hu.bme.mit.gamma.property.language"/>
       <plugin id="hu.bme.mit.gamma.property.language.ide"/>
       <plugin id="hu.bme.mit.gamma.property.language.ui"/>
@@ -157,7 +163,6 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.querygenerator"/>
       <plugin id="hu.bme.mit.gamma.querygenerator.gui"/>
       <plugin id="hu.bme.mit.gamma.querygenerator.gui.commandhandler"/>
-      <plugin id="hu.bme.mit.gamma.rcp"/>
       <plugin id="hu.bme.mit.gamma.scenario.language"/>
       <plugin id="hu.bme.mit.gamma.scenario.language.ide"/>
       <plugin id="hu.bme.mit.gamma.scenario.language.ui"/>
@@ -201,8 +206,11 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.validation"/>
       <plugin id="hu.bme.mit.gamma.validation.validation"/>
       <plugin id="hu.bme.mit.gamma.verification.util"/>
+      <plugin id="hu.bme.mit.gamma.xsts.codegeneration.c"/>
+      <plugin id="hu.bme.mit.gamma.xsts.codegeneration.c.commandhandler"/>
       <plugin id="hu.bme.mit.gamma.xsts.codegeneration.java"/>
       <plugin id="hu.bme.mit.gamma.xsts.model"/>
+      <plugin id="hu.bme.mit.gamma.xsts.nuxmv.transformation"/>
       <plugin id="hu.bme.mit.gamma.xsts.promela.transformation"/>
       <plugin id="hu.bme.mit.gamma.xsts.transformation"/>
       <plugin id="hu.bme.mit.gamma.xsts.transformation.util"/>
@@ -293,10 +301,22 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.e4.ui.workbench.renderers.swt"/>
       <plugin id="org.eclipse.e4.ui.workbench.swt"/>
       <plugin id="org.eclipse.e4.ui.workbench3"/>
+      <plugin id="org.eclipse.egit"/>
+      <plugin id="org.eclipse.egit.core"/>
+      <plugin id="org.eclipse.egit.doc"/>
+      <plugin id="org.eclipse.egit.ui"/>
       <plugin id="org.eclipse.emf.codegen"/>
       <plugin id="org.eclipse.emf.codegen.ecore"/>
       <plugin id="org.eclipse.emf.common"/>
       <plugin id="org.eclipse.emf.common.ui"/>
+      <plugin id="org.eclipse.emf.compare.egit"/>
+      <plugin id="org.eclipse.emf.compare.egit.source"/>
+      <plugin id="org.eclipse.emf.compare.egit.ui"/>
+      <plugin id="org.eclipse.emf.compare.egit.ui.source"/>
+      <plugin id="org.eclipse.emf.compare.ide.ui.tests.git" fragment="true"/>
+      <plugin id="org.eclipse.emf.compare.ide.ui.tests.git.framework"/>
+      <plugin id="org.eclipse.emf.compare.ide.ui.tests.git.framework.source"/>
+      <plugin id="org.eclipse.emf.compare.ide.ui.tests.git.source"/>
       <plugin id="org.eclipse.emf.ecore"/>
       <plugin id="org.eclipse.emf.ecore.change"/>
       <plugin id="org.eclipse.emf.ecore.edit"/>
@@ -370,6 +390,12 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.jface.text"/>
+      <plugin id="org.eclipse.jgit"/>
+      <plugin id="org.eclipse.jgit.archive"/>
+      <plugin id="org.eclipse.jgit.gpg.bc" fragment="true"/>
+      <plugin id="org.eclipse.jgit.http.apache"/>
+      <plugin id="org.eclipse.jgit.ssh.apache"/>
+      <plugin id="org.eclipse.jgit.ssh.apache.agent" fragment="true"/>
       <plugin id="org.eclipse.ltk.core.refactoring"/>
       <plugin id="org.eclipse.ltk.ui.refactoring"/>
       <plugin id="org.eclipse.m2e.archetype.common"/>
@@ -393,6 +419,13 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.team.core"/>
       <plugin id="org.eclipse.team.ui"/>
       <plugin id="org.eclipse.text"/>
+      <plugin id="org.eclipse.tm.terminal.connector.local"/>
+      <plugin id="org.eclipse.tm.terminal.connector.process"/>
+      <plugin id="org.eclipse.tm.terminal.connector.ssh"/>
+      <plugin id="org.eclipse.tm.terminal.connector.telnet"/>
+      <plugin id="org.eclipse.tm.terminal.control"/>
+      <plugin id="org.eclipse.tm.terminal.view.core"/>
+      <plugin id="org.eclipse.tm.terminal.view.ui"/>
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.browser"/>
       <plugin id="org.eclipse.ui.console"/>

@@ -422,36 +422,36 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cTimeKeyword_6_1_1 = (Keyword)cGroup_6_1.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_6_1_2 = (Keyword)cGroup_6_1.eContents().get(2);
 		private final Assignment cSimulationTimeAssignment_6_1_3 = (Assignment)cGroup_6_1.eContents().get(3);
-		private final RuleCall cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0 = (RuleCall)cSimulationTimeAssignment_6_1_3.eContents().get(0);
+		private final RuleCall cSimulationTimeExpressionParserRuleCall_6_1_3_0 = (RuleCall)cSimulationTimeAssignment_6_1_3.eContents().get(0);
 		private final Group cGroup_6_2 = (Group)cAlternatives_6.eContents().get(2);
 		private final Keyword cSimulationKeyword_6_2_0 = (Keyword)cGroup_6_2.eContents().get(0);
 		private final Keyword cNumberKeyword_6_2_1 = (Keyword)cGroup_6_2.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_6_2_2 = (Keyword)cGroup_6_2.eContents().get(2);
 		private final Assignment cSimulationNumberAssignment_6_2_3 = (Assignment)cGroup_6_2.eContents().get(3);
-		private final RuleCall cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0 = (RuleCall)cSimulationNumberAssignment_6_2_3.eContents().get(0);
+		private final RuleCall cSimulationNumberIntegerLiteralExpressionParserRuleCall_6_2_3_0 = (RuleCall)cSimulationNumberAssignment_6_2_3.eContents().get(0);
 		private final Group cGroup_6_3 = (Group)cAlternatives_6.eContents().get(3);
 		private final Keyword cWarmupKeyword_6_3_0 = (Keyword)cGroup_6_3.eContents().get(0);
 		private final Keyword cTimeKeyword_6_3_1 = (Keyword)cGroup_6_3.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_6_3_2 = (Keyword)cGroup_6_3.eContents().get(2);
 		private final Assignment cWarmupTimeAssignment_6_3_3 = (Assignment)cGroup_6_3.eContents().get(3);
-		private final RuleCall cWarmupTimeDOUBLETerminalRuleCall_6_3_3_0 = (RuleCall)cWarmupTimeAssignment_6_3_3.eContents().get(0);
+		private final RuleCall cWarmupTimeExpressionParserRuleCall_6_3_3_0 = (RuleCall)cWarmupTimeAssignment_6_3_3.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//ImportanceSampling returns AnalysisModel::ImportanceSampling:
 		//    '@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
 		//            ((endcondition+=EndCondition)|
-		//            ("simulation" "time" "=" simulationTime=DOUBLE)|
-		//            ("simulation" "number" "=" simulationNumber=INTEGER)|
-		//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//            ("simulation" "time" "=" simulationTime=Expression)|
+		//            ("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+		//            ("warmup" "time" "=" warmupTime=Expression))*
 		//        '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
 		//        ((endcondition+=EndCondition)|
-		//        ("simulation" "time" "=" simulationTime=DOUBLE)|
-		//        ("simulation" "number" "=" simulationNumber=INTEGER)|
-		//        ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//        ("simulation" "time" "=" simulationTime=Expression)|
+		//        ("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+		//        ("warmup" "time" "=" warmupTime=Expression))*
 		//    '}'
 		public Group getGroup() { return cGroup; }
 		
@@ -474,9 +474,9 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 		
 		//((endcondition+=EndCondition)|
-		//("simulation" "time" "=" simulationTime=DOUBLE)|
-		//("simulation" "number" "=" simulationNumber=INTEGER)|
-		//("warmup" "time" "=" warmupTime=DOUBLE))*
+		//("simulation" "time" "=" simulationTime=Expression)|
+		//("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+		//("warmup" "time" "=" warmupTime=Expression))*
 		public Alternatives getAlternatives_6() { return cAlternatives_6; }
 		
 		//(endcondition+=EndCondition)
@@ -485,7 +485,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//EndCondition
 		public RuleCall getEndconditionEndConditionParserRuleCall_6_0_0() { return cEndconditionEndConditionParserRuleCall_6_0_0; }
 		
-		//("simulation" "time" "=" simulationTime=DOUBLE)
+		//("simulation" "time" "=" simulationTime=Expression)
 		public Group getGroup_6_1() { return cGroup_6_1; }
 		
 		//"simulation"
@@ -497,13 +497,13 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"="
 		public Keyword getEqualsSignKeyword_6_1_2() { return cEqualsSignKeyword_6_1_2; }
 		
-		//simulationTime=DOUBLE
+		//simulationTime=Expression
 		public Assignment getSimulationTimeAssignment_6_1_3() { return cSimulationTimeAssignment_6_1_3; }
 		
-		//DOUBLE
-		public RuleCall getSimulationTimeDOUBLETerminalRuleCall_6_1_3_0() { return cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0; }
+		//Expression
+		public RuleCall getSimulationTimeExpressionParserRuleCall_6_1_3_0() { return cSimulationTimeExpressionParserRuleCall_6_1_3_0; }
 		
-		//("simulation" "number" "=" simulationNumber=INTEGER)
+		//("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)
 		public Group getGroup_6_2() { return cGroup_6_2; }
 		
 		//"simulation"
@@ -515,13 +515,13 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"="
 		public Keyword getEqualsSignKeyword_6_2_2() { return cEqualsSignKeyword_6_2_2; }
 		
-		//simulationNumber=INTEGER
+		//simulationNumber=IntegerLiteralExpression
 		public Assignment getSimulationNumberAssignment_6_2_3() { return cSimulationNumberAssignment_6_2_3; }
 		
-		//INTEGER
-		public RuleCall getSimulationNumberINTEGERTerminalRuleCall_6_2_3_0() { return cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0; }
+		//IntegerLiteralExpression
+		public RuleCall getSimulationNumberIntegerLiteralExpressionParserRuleCall_6_2_3_0() { return cSimulationNumberIntegerLiteralExpressionParserRuleCall_6_2_3_0; }
 		
-		//("warmup" "time" "=" warmupTime=DOUBLE)
+		//("warmup" "time" "=" warmupTime=Expression)
 		public Group getGroup_6_3() { return cGroup_6_3; }
 		
 		//"warmup"
@@ -533,11 +533,11 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"="
 		public Keyword getEqualsSignKeyword_6_3_2() { return cEqualsSignKeyword_6_3_2; }
 		
-		//warmupTime=DOUBLE
+		//warmupTime=Expression
 		public Assignment getWarmupTimeAssignment_6_3_3() { return cWarmupTimeAssignment_6_3_3; }
 		
-		//DOUBLE
-		public RuleCall getWarmupTimeDOUBLETerminalRuleCall_6_3_3_0() { return cWarmupTimeDOUBLETerminalRuleCall_6_3_3_0; }
+		//Expression
+		public RuleCall getWarmupTimeExpressionParserRuleCall_6_3_3_0() { return cWarmupTimeExpressionParserRuleCall_6_3_3_0; }
 		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
@@ -559,20 +559,20 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cTimeKeyword_6_1_1 = (Keyword)cGroup_6_1.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_6_1_2 = (Keyword)cGroup_6_1.eContents().get(2);
 		private final Assignment cSimulationTimeAssignment_6_1_3 = (Assignment)cGroup_6_1.eContents().get(3);
-		private final RuleCall cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0 = (RuleCall)cSimulationTimeAssignment_6_1_3.eContents().get(0);
+		private final RuleCall cSimulationTimeExpressionParserRuleCall_6_1_3_0 = (RuleCall)cSimulationTimeAssignment_6_1_3.eContents().get(0);
 		private final Group cGroup_6_2 = (Group)cAlternatives_6.eContents().get(2);
 		private final Keyword cSimulationKeyword_6_2_0 = (Keyword)cGroup_6_2.eContents().get(0);
 		private final Keyword cNumberKeyword_6_2_1 = (Keyword)cGroup_6_2.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_6_2_2 = (Keyword)cGroup_6_2.eContents().get(2);
 		private final Assignment cSimulationNumberAssignment_6_2_3 = (Assignment)cGroup_6_2.eContents().get(3);
-		private final RuleCall cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0 = (RuleCall)cSimulationNumberAssignment_6_2_3.eContents().get(0);
+		private final RuleCall cSimulationNumberIntegerLiteralExpressionParserRuleCall_6_2_3_0 = (RuleCall)cSimulationNumberAssignment_6_2_3.eContents().get(0);
 		private final Group cGroup_6_3 = (Group)cAlternatives_6.eContents().get(3);
 		private final Keyword cWarmupKeyword_6_3_0 = (Keyword)cGroup_6_3.eContents().get(0);
 		private final Keyword cStepKeyword_6_3_1 = (Keyword)cGroup_6_3.eContents().get(1);
 		private final Keyword cNumberKeyword_6_3_2 = (Keyword)cGroup_6_3.eContents().get(2);
 		private final Keyword cEqualsSignKeyword_6_3_3 = (Keyword)cGroup_6_3.eContents().get(3);
 		private final Assignment cWarmupStepNumAssignment_6_3_4 = (Assignment)cGroup_6_3.eContents().get(4);
-		private final RuleCall cWarmupStepNumINTEGERTerminalRuleCall_6_3_4_0 = (RuleCall)cWarmupStepNumAssignment_6_3_4.eContents().get(0);
+		private final RuleCall cWarmupStepNumIntegerLiteralExpressionParserRuleCall_6_3_4_0 = (RuleCall)cWarmupStepNumAssignment_6_3_4.eContents().get(0);
 		private final Group cGroup_6_4 = (Group)cAlternatives_6.eContents().get(4);
 		private final Keyword cKernelKeyword_6_4_0 = (Keyword)cGroup_6_4.eContents().get(0);
 		private final Keyword cEqualsSignKeyword_6_4_1 = (Keyword)cGroup_6_4.eContents().get(1);
@@ -583,28 +583,28 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cTimeKeyword_6_5_1 = (Keyword)cGroup_6_5.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_6_5_2 = (Keyword)cGroup_6_5.eContents().get(2);
 		private final Assignment cWarmupTimeAssignment_6_5_3 = (Assignment)cGroup_6_5.eContents().get(3);
-		private final RuleCall cWarmupTimeDOUBLETerminalRuleCall_6_5_3_0 = (RuleCall)cWarmupTimeAssignment_6_5_3.eContents().get(0);
+		private final RuleCall cWarmupTimeExpressionParserRuleCall_6_5_3_0 = (RuleCall)cWarmupTimeAssignment_6_5_3.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//MCMC returns AnalysisModel::MCMC:
 		//    '@' 'Configuration' '(' 'MCMC' ')' '{'
 		//            ((endcondition+=EndCondition)|
-		//            ("simulation" "time" "=" simulationTime=DOUBLE)|
-		//            ("simulation" "number" "=" simulationNumber=INTEGER)|
-		//            ("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+		//            ("simulation" "time" "=" simulationTime=Expression)|
+		//            ("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+		//            ("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)|
 		//            ("kernel" "=" kernel=MCMCKernel)|
-		//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//            ("warmup" "time" "=" warmupTime=Expression))*
 		//        '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'@' 'Configuration' '(' 'MCMC' ')' '{'
 		//        ((endcondition+=EndCondition)|
-		//        ("simulation" "time" "=" simulationTime=DOUBLE)|
-		//        ("simulation" "number" "=" simulationNumber=INTEGER)|
-		//        ("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+		//        ("simulation" "time" "=" simulationTime=Expression)|
+		//        ("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+		//        ("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)|
 		//        ("kernel" "=" kernel=MCMCKernel)|
-		//        ("warmup" "time" "=" warmupTime=DOUBLE))*
+		//        ("warmup" "time" "=" warmupTime=Expression))*
 		//    '}'
 		public Group getGroup() { return cGroup; }
 		
@@ -627,11 +627,11 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
 		
 		//((endcondition+=EndCondition)|
-		//("simulation" "time" "=" simulationTime=DOUBLE)|
-		//("simulation" "number" "=" simulationNumber=INTEGER)|
-		//("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+		//("simulation" "time" "=" simulationTime=Expression)|
+		//("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+		//("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)|
 		//("kernel" "=" kernel=MCMCKernel)|
-		//("warmup" "time" "=" warmupTime=DOUBLE))*
+		//("warmup" "time" "=" warmupTime=Expression))*
 		public Alternatives getAlternatives_6() { return cAlternatives_6; }
 		
 		//(endcondition+=EndCondition)
@@ -640,7 +640,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//EndCondition
 		public RuleCall getEndconditionEndConditionParserRuleCall_6_0_0() { return cEndconditionEndConditionParserRuleCall_6_0_0; }
 		
-		//("simulation" "time" "=" simulationTime=DOUBLE)
+		//("simulation" "time" "=" simulationTime=Expression)
 		public Group getGroup_6_1() { return cGroup_6_1; }
 		
 		//"simulation"
@@ -652,13 +652,13 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"="
 		public Keyword getEqualsSignKeyword_6_1_2() { return cEqualsSignKeyword_6_1_2; }
 		
-		//simulationTime=DOUBLE
+		//simulationTime=Expression
 		public Assignment getSimulationTimeAssignment_6_1_3() { return cSimulationTimeAssignment_6_1_3; }
 		
-		//DOUBLE
-		public RuleCall getSimulationTimeDOUBLETerminalRuleCall_6_1_3_0() { return cSimulationTimeDOUBLETerminalRuleCall_6_1_3_0; }
+		//Expression
+		public RuleCall getSimulationTimeExpressionParserRuleCall_6_1_3_0() { return cSimulationTimeExpressionParserRuleCall_6_1_3_0; }
 		
-		//("simulation" "number" "=" simulationNumber=INTEGER)
+		//("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)
 		public Group getGroup_6_2() { return cGroup_6_2; }
 		
 		//"simulation"
@@ -670,13 +670,13 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"="
 		public Keyword getEqualsSignKeyword_6_2_2() { return cEqualsSignKeyword_6_2_2; }
 		
-		//simulationNumber=INTEGER
+		//simulationNumber=IntegerLiteralExpression
 		public Assignment getSimulationNumberAssignment_6_2_3() { return cSimulationNumberAssignment_6_2_3; }
 		
-		//INTEGER
-		public RuleCall getSimulationNumberINTEGERTerminalRuleCall_6_2_3_0() { return cSimulationNumberINTEGERTerminalRuleCall_6_2_3_0; }
+		//IntegerLiteralExpression
+		public RuleCall getSimulationNumberIntegerLiteralExpressionParserRuleCall_6_2_3_0() { return cSimulationNumberIntegerLiteralExpressionParserRuleCall_6_2_3_0; }
 		
-		//("warmup" "step" "number" "=" warmupStepNum=INTEGER)
+		//("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)
 		public Group getGroup_6_3() { return cGroup_6_3; }
 		
 		//"warmup"
@@ -691,11 +691,11 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"="
 		public Keyword getEqualsSignKeyword_6_3_3() { return cEqualsSignKeyword_6_3_3; }
 		
-		//warmupStepNum=INTEGER
+		//warmupStepNum=IntegerLiteralExpression
 		public Assignment getWarmupStepNumAssignment_6_3_4() { return cWarmupStepNumAssignment_6_3_4; }
 		
-		//INTEGER
-		public RuleCall getWarmupStepNumINTEGERTerminalRuleCall_6_3_4_0() { return cWarmupStepNumINTEGERTerminalRuleCall_6_3_4_0; }
+		//IntegerLiteralExpression
+		public RuleCall getWarmupStepNumIntegerLiteralExpressionParserRuleCall_6_3_4_0() { return cWarmupStepNumIntegerLiteralExpressionParserRuleCall_6_3_4_0; }
 		
 		//("kernel" "=" kernel=MCMCKernel)
 		public Group getGroup_6_4() { return cGroup_6_4; }
@@ -712,7 +712,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//MCMCKernel
 		public RuleCall getKernelMCMCKernelParserRuleCall_6_4_2_0() { return cKernelMCMCKernelParserRuleCall_6_4_2_0; }
 		
-		//("warmup" "time" "=" warmupTime=DOUBLE)
+		//("warmup" "time" "=" warmupTime=Expression)
 		public Group getGroup_6_5() { return cGroup_6_5; }
 		
 		//"warmup"
@@ -724,11 +724,11 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"="
 		public Keyword getEqualsSignKeyword_6_5_2() { return cEqualsSignKeyword_6_5_2; }
 		
-		//warmupTime=DOUBLE
+		//warmupTime=Expression
 		public Assignment getWarmupTimeAssignment_6_5_3() { return cWarmupTimeAssignment_6_5_3; }
 		
-		//DOUBLE
-		public RuleCall getWarmupTimeDOUBLETerminalRuleCall_6_5_3_0() { return cWarmupTimeDOUBLETerminalRuleCall_6_5_3_0; }
+		//Expression
+		public RuleCall getWarmupTimeExpressionParserRuleCall_6_5_3_0() { return cWarmupTimeExpressionParserRuleCall_6_5_3_0; }
 		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_7() { return cRightCurlyBracketKeyword_7; }
@@ -5264,9 +5264,9 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//ImportanceSampling returns AnalysisModel::ImportanceSampling:
 	//    '@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
 	//            ((endcondition+=EndCondition)|
-	//            ("simulation" "time" "=" simulationTime=DOUBLE)|
-	//            ("simulation" "number" "=" simulationNumber=INTEGER)|
-	//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+	//            ("simulation" "time" "=" simulationTime=Expression)|
+	//            ("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+	//            ("warmup" "time" "=" warmupTime=Expression))*
 	//        '}'
 	//;
 	public ImportanceSamplingElements getImportanceSamplingAccess() {
@@ -5280,11 +5280,11 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//MCMC returns AnalysisModel::MCMC:
 	//    '@' 'Configuration' '(' 'MCMC' ')' '{'
 	//            ((endcondition+=EndCondition)|
-	//            ("simulation" "time" "=" simulationTime=DOUBLE)|
-	//            ("simulation" "number" "=" simulationNumber=INTEGER)|
-	//            ("warmup" "step" "number" "=" warmupStepNum=INTEGER)|
+	//            ("simulation" "time" "=" simulationTime=Expression)|
+	//            ("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+	//            ("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)|
 	//            ("kernel" "=" kernel=MCMCKernel)|
-	//            ("warmup" "time" "=" warmupTime=DOUBLE))*
+	//            ("warmup" "time" "=" warmupTime=Expression))*
 	//        '}'
 	//;
 	public MCMCElements getMCMCAccess() {
@@ -6719,7 +6719,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//ComponentAnnotation returns InterfaceModel::ComponentAnnotation:
-	//    WrapperComponentAnnotation | RunUponExternalEventAnnotation
+	//    WrapperComponentAnnotation | RunUponExternalEventAnnotation | RunUponExternalEventOrInternalTimeoutAnnotation
 	//;
 	public StatechartLanguageGrammarAccess.ComponentAnnotationElements getComponentAnnotationAccess() {
 		return gaStatechartLanguage.getComponentAnnotationAccess();
@@ -6779,7 +6779,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	//ScenarioAllowedWaitingAnnotation returns ContractModel::ScenarioAllowedWaitAnnotation:
 	//    {ContractModel::ScenarioAllowedWaitAnnotation}
-	//    '@ScenarioAllowedWaitAnnotation' '=' lowerLimit=Expression '..' upperLimit=Expression
+	//    ('@ScenarioAllowedWaitAnnotation' | '@ScenarioAllowedWait') '=' lowerLimit=Expression '..' upperLimit=Expression
 	//;
 	public StatechartLanguageGrammarAccess.ScenarioAllowedWaitingAnnotationElements getScenarioAllowedWaitingAnnotationAccess() {
 		return gaStatechartLanguage.getScenarioAllowedWaitingAnnotationAccess();
@@ -6845,7 +6845,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//RunUponExternalEventAnnotation returns RunUponExternalEventAnnotation:
-	//    {RunUponExternalEventAnnotation} '@RunUponExternalEventAnnotation'
+	//    {RunUponExternalEventAnnotation} ('@RunUponExternalEventAnnotation' |
+	//        '@RunUponExternalEvent')
 	//;
 	public StatechartLanguageGrammarAccess.RunUponExternalEventAnnotationElements getRunUponExternalEventAnnotationAccess() {
 		return gaStatechartLanguage.getRunUponExternalEventAnnotationAccess();
@@ -6853,6 +6854,18 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	public ParserRule getRunUponExternalEventAnnotationRule() {
 		return getRunUponExternalEventAnnotationAccess().getRule();
+	}
+	
+	//RunUponExternalEventOrInternalTimeoutAnnotation returns RunUponExternalEventOrInternalTimeoutAnnotation:
+	//    {RunUponExternalEventOrInternalTimeoutAnnotation} ('@RunUponExternalEventOrInternalTimeoutAnnotation' |
+	//        '@RunUponExternalEventOrInternalTimeout' )
+	//;
+	public StatechartLanguageGrammarAccess.RunUponExternalEventOrInternalTimeoutAnnotationElements getRunUponExternalEventOrInternalTimeoutAnnotationAccess() {
+		return gaStatechartLanguage.getRunUponExternalEventOrInternalTimeoutAnnotationAccess();
+	}
+	
+	public ParserRule getRunUponExternalEventOrInternalTimeoutAnnotationRule() {
+		return getRunUponExternalEventOrInternalTimeoutAnnotationAccess().getRule();
 	}
 	
 	//Region returns Region:
@@ -6957,7 +6970,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	//SpecialStateAnnotation returns ContractModel::SpecialStateAnnotation :
 	//    {ContractModel::SpecialStateAnnotation}
-	//    '@SpecialStateAnnotation' kind=SpecialStateKind
+	//    ('@SpecialStateAnnotation' | '@SpecialState') kind=SpecialStateKind
 	//;
 	public StatechartLanguageGrammarAccess.SpecialStateAnnotationElements getSpecialStateAnnotationAccess() {
 		return gaStatechartLanguage.getSpecialStateAnnotationAccess();
@@ -7007,7 +7020,10 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//VariableBinding returns PhaseModel::VariableBinding:
-	//    'tie' statechartVariable=[ExpressionModel::VariableDeclaration] '->' instanceVariableReference=InstanceVariableReference
+	//    ('tie' statechartVariable=[ExpressionModel::VariableDeclaration] '->'
+	//        instanceVariableReference=InstanceVariableReference) |
+	//    ('bind' statechartVariable=[ExpressionModel::VariableDeclaration] '='
+	//        instanceVariableReference=InstanceVariableReference)
 	//;
 	public StatechartLanguageGrammarAccess.VariableBindingElements getVariableBindingAccess() {
 		return gaStatechartLanguage.getVariableBindingAccess();
@@ -7721,6 +7737,17 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		return getComponentInstanceEventParameterReferenceExpressionAccess().getRule();
 	}
 	
+	//ComponentInstanceReflectiveElementReferenceExpression returns CompositeModel::ComponentInstanceReflectiveElementReferenceExpression:
+	//    'element' instance=ComponentInstanceReferenceExpression ('.' identifier+=ID) ('::' identifier+=ID)*
+	//;
+	public StatechartLanguageGrammarAccess.ComponentInstanceReflectiveElementReferenceExpressionElements getComponentInstanceReflectiveElementReferenceExpressionAccess() {
+		return gaStatechartLanguage.getComponentInstanceReflectiveElementReferenceExpressionAccess();
+	}
+	
+	public ParserRule getComponentInstanceReflectiveElementReferenceExpressionRule() {
+		return getComponentInstanceReflectiveElementReferenceExpressionAccess().getRule();
+	}
+	
 	//Action returns ActionModel::Action:
 	//    Block |
 	//    Statement
@@ -8138,7 +8165,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//VariableDeclarationAnnotation returns VariableDeclarationAnnotation:
-	//    TransientVariableDeclarationAnnotation | ResettableVariableDeclarationAnnotation
+	//    TransientVariableDeclarationAnnotation | ResettableVariableDeclarationAnnotation |
+	//         UnremovableVariableDeclarationAnnotation | InjectedVariableDeclarationAnnotation
 	//;
 	public ExpressionLanguageGrammarAccess.VariableDeclarationAnnotationElements getVariableDeclarationAnnotationAccess() {
 		return gaExpressionLanguage.getVariableDeclarationAnnotationAccess();
@@ -8179,6 +8207,17 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	public ParserRule getUnremovableVariableDeclarationAnnotationRule() {
 		return getUnremovableVariableDeclarationAnnotationAccess().getRule();
+	}
+	
+	//InjectedVariableDeclarationAnnotation returns InjectedVariableDeclarationAnnotation:
+	//    {InjectedVariableDeclarationAnnotation} '@Injected'
+	//;
+	public ExpressionLanguageGrammarAccess.InjectedVariableDeclarationAnnotationElements getInjectedVariableDeclarationAnnotationAccess() {
+		return gaExpressionLanguage.getInjectedVariableDeclarationAnnotationAccess();
+	}
+	
+	public ParserRule getInjectedVariableDeclarationAnnotationRule() {
+		return getInjectedVariableDeclarationAnnotationAccess().getRule();
 	}
 	
 	//LambdaDeclaration returns LambdaDeclaration:

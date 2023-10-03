@@ -42,7 +42,7 @@ final class GenericStochasticGammaProject {
 	val advanced = check("Custom model name:", false)
 	val advancedGroup = group("Properties")
 	val name = text("Model name:", "The name of the main model", advancedGroup)
-
+	
 	// val path = text("Package:", "mydsl", "The package path to place the files in", advancedGroup)
 	override protected updateVariables() {
 		name.enabled = advanced.value
@@ -65,22 +65,28 @@ final class GenericStochasticGammaProject {
 		generator.generate(new PluginProjectFactory => [
 			projectName = projectInfo.projectName
 			location = projectInfo.locationPath
+			val model_name=name.toString.replaceAll('''\s''',"_").toFirstUpper
+			val pkg_name=model_name.toLowerCase
 			projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
 			builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
 			folders += "src"
 			folders += "src-gen"
 			folders += "gateway-gen"
 			folders += "simulator-gen"
-			addFile('''model/«name.toString».sgcd''', '''
-				package «name»
+			addFile('''model/«pkg_name».sgcd''', '''
+				package «pkg_name»
 				import "interfaces"
-				stochastic async «name.toString.toFirstUpper» [
+				stochastic async «model_name» [
 				] {
 					
 				}
 			''')
 			addFile('''model/interfaces.gcd''', '''
 				package inerfaces
+				
+				interface TestInterface{
+					out event newEvent
+				}
 				
 			''')
 		])

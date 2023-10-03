@@ -107,21 +107,23 @@
       eSuperTypes="#//AnalysisMethod">
     <eStructuralFeatures xsi:type="ecore:EReference" name="endcondition" upperBound="-1"
         eType="#//EndCondition" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="warmupTime" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="0.0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationTime" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1.0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="simulationNumber" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
-        defaultValueLiteral="100"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulationNumber" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//IntegerLiteralExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="warmupTime" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulationTime" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//Expression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportanceSampling" eSuperTypes="#//SimulationAnalysisMethod"/>
   <eClassifiers xsi:type="ecore:EClass" name="MCMC" eSuperTypes="#//SimulationAnalysisMethod">
     <eStructuralFeatures xsi:type="ecore:EReference" name="kernel" lowerBound="1"
         eType="#//MCMCKernel" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="warmupStepNum" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"
-        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="warmupStepNum" lowerBound="1"
+        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//IntegerLiteralExpression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SVI" eSuperTypes="#//SimulationAnalysisMethod"/>
   <eClassifiers xsi:type="ecore:EClass" name="MCMCKernel" abstract="true"/>

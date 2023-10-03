@@ -2,8 +2,8 @@
  */
 package hu.bme.mit.gamma.environment.analysis;
 
-import java.math.BigInteger;
-
+import hu.bme.mit.gamma.expression.model.Expression;
+import hu.bme.mit.gamma.expression.model.IntegerLiteralExpression;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -16,9 +16,9 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getEndcondition <em>Endcondition</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime <em>Warmup Time</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime <em>Simulation Time</em>}</li>
- *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod()
@@ -39,72 +39,69 @@ public interface SimulationAnalysisMethod extends AnalysisMethod {
 	EList<EndCondition> getEndcondition();
 
 	/**
-	 * Returns the value of the '<em><b>Warmup Time</b></em>' attribute.
-	 * The default value is <code>"0.0"</code>.
+	 * Returns the value of the '<em><b>Warmup Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Warmup Time</em>' attribute.
-	 * @see #setWarmupTime(double)
+	 * @return the value of the '<em>Warmup Time</em>' containment reference.
+	 * @see #setWarmupTime(Expression)
 	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod_WarmupTime()
-	 * @model default="0.0" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	double getWarmupTime();
+	Expression getWarmupTime();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime <em>Warmup Time</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime <em>Warmup Time</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Warmup Time</em>' attribute.
+	 * @param value the new value of the '<em>Warmup Time</em>' containment reference.
 	 * @see #getWarmupTime()
 	 * @generated
 	 */
-	void setWarmupTime(double value);
+	void setWarmupTime(Expression value);
 
 	/**
-	 * Returns the value of the '<em><b>Simulation Time</b></em>' attribute.
-	 * The default value is <code>"1.0"</code>.
+	 * Returns the value of the '<em><b>Simulation Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Simulation Time</em>' attribute.
-	 * @see #setSimulationTime(double)
+	 * @return the value of the '<em>Simulation Time</em>' containment reference.
+	 * @see #setSimulationTime(Expression)
 	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod_SimulationTime()
-	 * @model default="1.0" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	double getSimulationTime();
+	Expression getSimulationTime();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime <em>Simulation Time</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime <em>Simulation Time</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Simulation Time</em>' attribute.
+	 * @param value the new value of the '<em>Simulation Time</em>' containment reference.
 	 * @see #getSimulationTime()
 	 * @generated
 	 */
-	void setSimulationTime(double value);
+	void setSimulationTime(Expression value);
 
 	/**
-	 * Returns the value of the '<em><b>Simulation Number</b></em>' attribute.
-	 * The default value is <code>"100"</code>.
+	 * Returns the value of the '<em><b>Simulation Number</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Simulation Number</em>' attribute.
-	 * @see #setSimulationNumber(BigInteger)
+	 * @return the value of the '<em>Simulation Number</em>' containment reference.
+	 * @see #setSimulationNumber(IntegerLiteralExpression)
 	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod_SimulationNumber()
-	 * @model default="100" required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	BigInteger getSimulationNumber();
+	IntegerLiteralExpression getSimulationNumber();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Simulation Number</em>' attribute.
+	 * @param value the new value of the '<em>Simulation Number</em>' containment reference.
 	 * @see #getSimulationNumber()
 	 * @generated
 	 */
-	void setSimulationNumber(BigInteger value);
+	void setSimulationNumber(IntegerLiteralExpression value);
 
 } // SimulationAnalysisMethod

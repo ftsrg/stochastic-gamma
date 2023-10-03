@@ -9,7 +9,7 @@ import hu.bme.mit.gamma.environment.analysis.MCMC;
 import hu.bme.mit.gamma.environment.analysis.MCMCKernel;
 import hu.bme.mit.gamma.environment.analysis.NUTS;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility;
-import java.math.BigInteger;
+import hu.bme.mit.gamma.expression.util.ExpressionEvaluator;
 import java.util.Arrays;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -186,27 +186,37 @@ public class PyroAnalysisGenerator {
   }
 
   protected CharSequence _generateInference(final ImportanceSampling analysisMethod) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("inference=pyro.infer.Importance(model=simulate, num_samples=");
-    BigInteger _simulationNumber = analysisMethod.getSimulationNumber();
-    _builder.append(_simulationNumber);
-    _builder.append(")");
-    return _builder;
+    CharSequence _xblockexpression = null;
+    {
+      ExpressionEvaluator expEval = ExpressionEvaluator.INSTANCE;
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("inference=pyro.infer.Importance(model=simulate, num_samples=");
+      int _evaluateInteger = expEval.evaluateInteger(analysisMethod.getSimulationNumber());
+      _builder.append(_evaluateInteger);
+      _builder.append(")");
+      _xblockexpression = _builder;
+    }
+    return _xblockexpression;
   }
 
   protected CharSequence _generateInference(final MCMC analysisMethod) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("inference=pyro.infer.MCMC(kernel=");
-    CharSequence _generateMCMCKernel = this.generateMCMCKernel(analysisMethod.getKernel());
-    _builder.append(_generateMCMCKernel);
-    _builder.append(", num_samples = ");
-    BigInteger _simulationNumber = analysisMethod.getSimulationNumber();
-    _builder.append(_simulationNumber);
-    _builder.append(", warmup_steps = ");
-    BigInteger _warmupStepNum = analysisMethod.getWarmupStepNum();
-    _builder.append(_warmupStepNum);
-    _builder.append(")");
-    return _builder;
+    CharSequence _xblockexpression = null;
+    {
+      ExpressionEvaluator expEval = ExpressionEvaluator.INSTANCE;
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("inference=pyro.infer.MCMC(kernel=");
+      CharSequence _generateMCMCKernel = this.generateMCMCKernel(analysisMethod.getKernel());
+      _builder.append(_generateMCMCKernel);
+      _builder.append(", num_samples = ");
+      int _evaluateInteger = expEval.evaluateInteger(analysisMethod.getSimulationNumber());
+      _builder.append(_evaluateInteger);
+      _builder.append(", warmup_steps = ");
+      int _evaluateInteger_1 = expEval.evaluateInteger(analysisMethod.getWarmupStepNum());
+      _builder.append(_evaluateInteger_1);
+      _builder.append(")");
+      _xblockexpression = _builder;
+    }
+    return _xblockexpression;
   }
 
   protected CharSequence _generateInference(final AnalysisMethod analysisMethod) {

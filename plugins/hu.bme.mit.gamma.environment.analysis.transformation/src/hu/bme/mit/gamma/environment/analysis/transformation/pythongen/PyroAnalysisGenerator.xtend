@@ -14,6 +14,7 @@ import hu.bme.mit.gamma.environment.analysis.MeanParameter
 import hu.bme.mit.gamma.environment.analysis.MeanTimeBetweenEvents
 
 import static extension hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility.*
+import hu.bme.mit.gamma.expression.util.ExpressionEvaluator
 
 class PyroAnalysisGenerator {
 	
@@ -80,10 +81,12 @@ class PyroAnalysisGenerator {
 	
 	
 	dispatch def generateInference(ImportanceSampling analysisMethod){
-		'''inference=pyro.infer.Importance(model=simulate, num_samples=«analysisMethod.simulationNumber»)'''
+		var expEval=ExpressionEvaluator.INSTANCE;
+		'''inference=pyro.infer.Importance(model=simulate, num_samples=«expEval.evaluateInteger(analysisMethod.simulationNumber)»)'''
 	}
 	dispatch def generateInference(MCMC analysisMethod){
-		'''inference=pyro.infer.MCMC(kernel=«generateMCMCKernel(analysisMethod.kernel)», num_samples = «analysisMethod.simulationNumber», warmup_steps = «analysisMethod.warmupStepNum»)'''
+		var expEval=ExpressionEvaluator.INSTANCE;
+		'''inference=pyro.infer.MCMC(kernel=«generateMCMCKernel(analysisMethod.kernel)», num_samples = «expEval.evaluateInteger(analysisMethod.simulationNumber)», warmup_steps = «expEval.evaluateInteger(analysisMethod.warmupStepNum)»)'''
 	}
 	dispatch def generateInference(AnalysisMethod analysisMethod){
 		throw new UnsupportedOperationException("Only importance sampling and MCMC supported yet.")

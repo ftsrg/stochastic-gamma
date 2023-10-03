@@ -1,3 +1,5 @@
+ ##  Gamma *Javítások*
+ 
  SEPARATOR ", " hiányzik a hu.bme.mit.gamma.codegeneration.java.PortInterfaceGenerator-ban 
  Ha két interface leszármazottja egy interface akkor hibás.
  hiányzik a hu.bme.mit.gamma.codegeneration.java.TypeTransformer protected->public
@@ -11,4 +13,4 @@
 és xsts java code generator-ba is kell ilyen getter 
 			public «gammaStatechart.wrappedStatemachineClassName» get«CLASS_NAME.toFirstUpper»(){
 				return  «CLASS_NAME.toFirstLower»;
-			}
+			} 

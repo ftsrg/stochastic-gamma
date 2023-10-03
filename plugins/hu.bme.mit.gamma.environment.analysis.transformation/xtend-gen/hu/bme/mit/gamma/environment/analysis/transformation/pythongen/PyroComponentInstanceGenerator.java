@@ -16,12 +16,10 @@ import hu.bme.mit.gamma.environment.model.ParameterFilter;
 import hu.bme.mit.gamma.environment.model.PortFilter;
 import hu.bme.mit.gamma.environment.model.SimulationRule;
 import hu.bme.mit.gamma.environment.model.StochasticRule;
-import hu.bme.mit.gamma.environment.stochastic.stochastic.BernoulliRandomVariable;
-import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticModel;
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration;
 import hu.bme.mit.gamma.expression.util.ExpressionEvaluator;
+import hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures;
 import hu.bme.mit.gamma.statechart.interface_.Event;
-import hu.bme.mit.gamma.statechart.interface_.EventDeclaration;
 import hu.bme.mit.gamma.statechart.interface_.Interface;
 import hu.bme.mit.gamma.statechart.interface_.Port;
 import java.util.Arrays;
@@ -33,7 +31,6 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
@@ -73,15 +70,15 @@ public class PyroComponentInstanceGenerator {
     for (final Port port : _outports) {
       {
         builder.append("\'").append(StringExtensions.toFirstUpper(port.getName())).append("\' : {");
-        EList<EventDeclaration> _events = port.getInterfaceRealization().getInterface().getEvents();
-        for (final EventDeclaration event : _events) {
+        List<Event> _outputEvents = StatechartModelDerivedFeatures.getOutputEvents(port);
+        for (final Event event : _outputEvents) {
           {
             final Function1<EnvironmentRule, Boolean> _function = (EnvironmentRule r) -> {
               final Function1<Filter, Boolean> _function_1 = (Filter f) -> {
                 return Boolean.valueOf((f instanceof EventFilter));
               };
               final Function1<Filter, Boolean> _function_2 = (Filter f) -> {
-                return Boolean.valueOf((Objects.equal(((EventFilter) f).getEvent().getEvent(), event.getEvent()) && 
+                return Boolean.valueOf((Objects.equal(((EventFilter) f).getEvent().getEvent(), event) && 
                   Objects.equal(((EventFilter) f).getEvent().getPort(), port)));
               };
               boolean _isEmpty = IterableExtensions.isEmpty(IterableExtensions.<Filter>filter(IterableExtensions.<Filter>filter(r.getFilter(), _function_1), _function_2));
@@ -118,7 +115,7 @@ public class PyroComponentInstanceGenerator {
             boolean _not = (!_isEmpty_2);
             if (_not) {
               rule = rules.get(0);
-              builder.append("\'").append(StringExtensions.toFirstUpper(event.getEvent().getName())).append("\' : ");
+              builder.append("\'").append(StringExtensions.toFirstUpper(event.getName())).append("\' : ");
               builder.append(this.generateRule(rule, connection.component.getName())).append(",");
             }
           }
@@ -130,130 +127,6 @@ public class PyroComponentInstanceGenerator {
     return builder.toString().replaceAll(",,", ",").replaceAll(",}", "}").replaceAll(", }", "}");
   }
 
-  public CharSequence generateRulesOld(final EnvironmentConnections connection) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{");
-    {
-      EList<Port> _outports = connection.component.getOutports();
-      boolean _hasElements = false;
-      for(final Port port : _outports) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(", ", "");
-        }
-        _builder.append("\"");
-        String _firstUpper = StringExtensions.toFirstUpper(port.getName());
-        _builder.append(_firstUpper);
-        _builder.append("\" : {");
-        _builder.newLineIfNotEmpty();
-        {
-          EList<EventDeclaration> _events = port.getInterfaceRealization().getInterface().getEvents();
-          boolean _hasElements_1 = false;
-          for(final EventDeclaration event : _events) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-            } else {
-              _builder.appendImmediate(", ", "\t");
-            }
-            _builder.append("\t");
-            final Function1<EnvironmentRule, Boolean> _function = (EnvironmentRule r) -> {
-              final Function1<Filter, Boolean> _function_1 = (Filter f) -> {
-                return Boolean.valueOf((f instanceof EventFilter));
-              };
-              final Function1<Filter, Boolean> _function_2 = (Filter f) -> {
-                Event _event = ((EventFilter) f).getEvent().getEvent();
-                Event _event_1 = event.getEvent();
-                return Boolean.valueOf(Objects.equal(_event, _event_1));
-              };
-              boolean _isEmpty = IterableExtensions.isEmpty(IterableExtensions.<Filter>filter(IterableExtensions.<Filter>filter(r.getFilter(), _function_1), _function_2));
-              return Boolean.valueOf((!_isEmpty));
-            };
-            List<EnvironmentRule> rules = IterableExtensions.<EnvironmentRule>toList(IterableExtensions.<EnvironmentRule>filter(connection.component.getBehaviorRules(), _function));
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            _builder.append("#");
-            List<EnvironmentRule> _xifexpression = null;
-            boolean _isEmpty = rules.isEmpty();
-            if (_isEmpty) {
-              final Function1<EnvironmentRule, Boolean> _function_1 = (EnvironmentRule r) -> {
-                final Function1<Filter, Boolean> _function_2 = (Filter f) -> {
-                  return Boolean.valueOf((f instanceof PortFilter));
-                };
-                final Function1<Filter, Boolean> _function_3 = (Filter f) -> {
-                  Port _port = ((PortFilter) f).getPort();
-                  return Boolean.valueOf(Objects.equal(_port, port));
-                };
-                boolean _isEmpty_1 = IterableExtensions.isEmpty(IterableExtensions.<Filter>filter(IterableExtensions.<Filter>filter(r.getFilter(), _function_2), _function_3));
-                return Boolean.valueOf((!_isEmpty_1));
-              };
-              _xifexpression = rules = IterableExtensions.<EnvironmentRule>toList(IterableExtensions.<EnvironmentRule>filter(connection.component.getBehaviorRules(), _function_1));
-            }
-            _builder.append(_xifexpression, "\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            _builder.append("#");
-            List<EnvironmentRule> _xifexpression_1 = null;
-            boolean _isEmpty_1 = rules.isEmpty();
-            if (_isEmpty_1) {
-              final Function1<EnvironmentRule, Boolean> _function_2 = (EnvironmentRule r) -> {
-                final Function1<Filter, Boolean> _function_3 = (Filter f) -> {
-                  return Boolean.valueOf((f instanceof ComponentFilter));
-                };
-                boolean _isEmpty_2 = IterableExtensions.isEmpty(IterableExtensions.<Filter>filter(r.getFilter(), _function_3));
-                return Boolean.valueOf((!_isEmpty_2));
-              };
-              _xifexpression_1 = rules = IterableExtensions.<EnvironmentRule>toList(IterableExtensions.<EnvironmentRule>filter(connection.component.getBehaviorRules(), _function_2));
-            }
-            _builder.append(_xifexpression_1, "\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            {
-              boolean _isEmpty_2 = rules.isEmpty();
-              boolean _not = (!_isEmpty_2);
-              if (_not) {
-                EnvironmentRule rule = rules.get(0);
-                _builder.append("\"");
-                String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
-                _builder.append(_firstUpper_1, "\t");
-                _builder.append("\" : ");
-                {
-                  if ((rule instanceof SimulationRule)) {
-                    String _simulationClassName = ((SimulationRule)rule).getSimulation().getSimulationClassName();
-                    _builder.append(_simulationClassName, "\t");
-                    _builder.append("Instance");
-                  } else {
-                    if ((rule instanceof StochasticRule)) {
-                      _builder.newLineIfNotEmpty();
-                      {
-                        if (((connection.component instanceof EnvironmentEventSource) && (((StochasticRule)rule).getStochasticModel() instanceof BernoulliRandomVariable))) {
-                          _builder.append("\t");
-                          StochasticModel _stochasticModel = ((StochasticRule)rule).getStochasticModel();
-                          CharSequence _generateZerotimeStochasticModel = this.distGenerator.generateZerotimeStochasticModel(((BernoulliRandomVariable) _stochasticModel), connection.component.getName());
-                          _builder.append(_generateZerotimeStochasticModel, "\t");
-                        } else {
-                          _builder.newLineIfNotEmpty();
-                          _builder.append("\t");
-                          CharSequence _generateStochasticModel = this.distGenerator.generateStochasticModel(((StochasticRule)rule).getStochasticModel(), connection.component.getName());
-                          _builder.append(_generateStochasticModel, "\t");
-                        }
-                      }
-                    }
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-              }
-            }
-          }
-        }
-        _builder.append("}");
-      }
-    }
-    _builder.append("}");
-    _builder.newLineIfNotEmpty();
-    return _builder;
-  }
-
   public String generateSampleRules(final EnvironmentConnections connection) {
     StringBuilder builder = new StringBuilder();
     builder.append("{");
@@ -261,11 +134,11 @@ public class PyroComponentInstanceGenerator {
     for (final Port port : _outports) {
       {
         builder.append("\'").append(StringExtensions.toFirstUpper(port.getName())).append("\' : {");
-        EList<EventDeclaration> _events = port.getInterfaceRealization().getInterface().getEvents();
-        for (final EventDeclaration event : _events) {
+        List<Event> _outputEvents = StatechartModelDerivedFeatures.getOutputEvents(port);
+        for (final Event event : _outputEvents) {
           {
-            builder.append("\'").append(StringExtensions.toFirstUpper(event.getEvent().getName())).append("\' : {");
-            EList<ParameterDeclaration> _parameterDeclarations = event.getEvent().getParameterDeclarations();
+            builder.append("\'").append(StringExtensions.toFirstUpper(event.getName())).append("\' : {");
+            EList<ParameterDeclaration> _parameterDeclarations = event.getParameterDeclarations();
             for (final ParameterDeclaration param : _parameterDeclarations) {
               {
                 final Function1<EnvironmentRule, Boolean> _function = (EnvironmentRule r) -> {
@@ -273,7 +146,7 @@ public class PyroComponentInstanceGenerator {
                     return Boolean.valueOf((f instanceof EventFilter));
                   };
                   final Function1<Filter, Boolean> _function_2 = (Filter f) -> {
-                    return Boolean.valueOf(((Objects.equal(((ParameterFilter) f).getEvent().getEvent(), event.getEvent()) && 
+                    return Boolean.valueOf(((Objects.equal(((ParameterFilter) f).getEvent().getEvent(), event) && 
                       Objects.equal(((ParameterFilter) f).getEvent().getPort(), port)) && 
                       Objects.equal(((ParameterFilter) f).getParameter(), param)));
                   };
@@ -379,11 +252,8 @@ public class PyroComponentInstanceGenerator {
           if (_isEmpty_1) {
             builder.append("None");
           } else {
-            final Function1<EventDeclaration, Event> _function = (EventDeclaration e) -> {
-              return e.getEvent();
-            };
-            List<Event> _map = ListExtensions.<EventDeclaration, Event>map(port.getInterfaceRealization().getInterface().getEvents(), _function);
-            for (final Event event : _map) {
+            List<Event> _outputEvents = StatechartModelDerivedFeatures.getOutputEvents(port);
+            for (final Event event : _outputEvents) {
               {
                 builder.append("\'").append(StringExtensions.toFirstUpper(event.getName())).append("\' : [");
                 Collection<String> _get = connection.outCalls.get(port);
@@ -412,147 +282,6 @@ public class PyroComponentInstanceGenerator {
     }
     builder.append("}");
     return builder.toString().replaceAll(",,", ",").replaceAll(",}", "}").replaceAll(", }", "}").replaceAll(",]", "]").replaceAll(", ]", "]");
-  }
-
-  public CharSequence generateCallsOld(final EnvironmentConnections connection) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{");
-    {
-      boolean _isEmpty = connection.outCalls.keys().isEmpty();
-      boolean _not = (!_isEmpty);
-      if (_not) {
-        {
-          EList<Port> _outports = connection.component.getOutports();
-          boolean _hasElements = false;
-          for(final Port port : _outports) {
-            if (!_hasElements) {
-              _hasElements = true;
-            } else {
-              _builder.appendImmediate(", ", "");
-            }
-            _builder.newLineIfNotEmpty();
-            _builder.append("\"");
-            String _firstUpper = StringExtensions.toFirstUpper(port.getName());
-            _builder.append(_firstUpper);
-            _builder.append("\" : [");
-            {
-              boolean _isEmpty_1 = connection.outCalls.get(port).isEmpty();
-              if (_isEmpty_1) {
-                _builder.append("None");
-              }
-            }
-            {
-              Collection<String> _get = connection.outCalls.get(port);
-              boolean _hasElements_1 = false;
-              for(final String call : _get) {
-                if (!_hasElements_1) {
-                  _hasElements_1 = true;
-                } else {
-                  _builder.appendImmediate(", ", "");
-                }
-                _builder.newLineIfNotEmpty();
-                {
-                  char _charAt = call.charAt(0);
-                  boolean _equals = Objects.equal(Character.valueOf(_charAt), "_");
-                  if (_equals) {
-                    String _replaceFirst = call.replaceFirst("\\_", "");
-                    _builder.append(_replaceFirst);
-                    _builder.append(" ");
-                  } else {
-                    _builder.append("self.detmodel");
-                    _builder.append(connection.componentCall);
-                    _builder.append(call);
-                  }
-                }
-              }
-            }
-            _builder.append("]");
-          }
-        }
-      }
-    }
-    _builder.append("}");
-    _builder.newLineIfNotEmpty();
-    return _builder;
-  }
-
-  public CharSequence generateCallEventsOld(final EnvironmentConnections connection) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("{");
-    {
-      boolean _isEmpty = connection.outCalls.keys().isEmpty();
-      boolean _not = (!_isEmpty);
-      if (_not) {
-        {
-          EList<Port> _outports = connection.component.getOutports();
-          boolean _hasElements = false;
-          for(final Port port : _outports) {
-            if (!_hasElements) {
-              _hasElements = true;
-            } else {
-              _builder.appendImmediate(", ", "");
-            }
-            _builder.append("\"");
-            String _firstUpper = StringExtensions.toFirstUpper(port.getName());
-            _builder.append(_firstUpper);
-            _builder.append("\" : {");
-            _builder.newLineIfNotEmpty();
-            {
-              Collection<String> _get = connection.outCalls.get(port);
-              boolean _hasElements_1 = false;
-              for(final String call : _get) {
-                if (!_hasElements_1) {
-                  _hasElements_1 = true;
-                } else {
-                  _builder.appendImmediate(", ", "");
-                }
-                {
-                  final Function1<EventDeclaration, Event> _function = (EventDeclaration e) -> {
-                    return e.getEvent();
-                  };
-                  List<Event> _map = ListExtensions.<EventDeclaration, Event>map(port.getInterfaceRealization().getInterface().getEvents(), _function);
-                  boolean _hasElements_2 = false;
-                  for(final Event event : _map) {
-                    if (!_hasElements_2) {
-                      _hasElements_2 = true;
-                    } else {
-                      _builder.appendImmediate(", ", "");
-                    }
-                    _builder.append("\"");
-                    String _firstUpper_1 = StringExtensions.toFirstUpper(event.getName());
-                    _builder.append(_firstUpper_1);
-                    _builder.append("\" : (lambda:");
-                    {
-                      char _charAt = call.charAt(0);
-                      boolean _equals = Objects.equal(Character.valueOf(_charAt), "_");
-                      if (_equals) {
-                        String _replaceAll = call.replaceAll("^\\_", "");
-                        _builder.append(_replaceAll);
-                      } else {
-                        _builder.append("self.detmodel");
-                        _builder.append(connection.componentCall);
-                        _builder.append(call);
-                      }
-                    }
-                    _builder.append(".raise");
-                    String _firstUpper_2 = StringExtensions.toFirstUpper(event.getName());
-                    _builder.append(_firstUpper_2);
-                    _builder.append("(");
-                    CharSequence _generateFuncParams = TransformationUtility.generateFuncParams(event);
-                    _builder.append(_generateFuncParams);
-                    _builder.append("))");
-                  }
-                }
-              }
-            }
-            _builder.append("}");
-          }
-        }
-      }
-    }
-    _builder.append("}");
-    _builder.newLineIfNotEmpty();
-    return _builder;
   }
 
   public CharSequence generatePortArray(final EnvironmentConnections connection) {
@@ -595,16 +324,16 @@ public class PyroComponentInstanceGenerator {
         _builder.append(_firstUpper, "\t");
         _builder.append("\" : [");
         {
-          EList<EventDeclaration> _events = port.getInterfaceRealization().getInterface().getEvents();
+          List<Event> _outputEvents = StatechartModelDerivedFeatures.getOutputEvents(port);
           boolean _hasElements_1 = false;
-          for(final EventDeclaration event : _events) {
+          for(final Event event : _outputEvents) {
             if (!_hasElements_1) {
               _hasElements_1 = true;
             } else {
               _builder.appendImmediate(", ", "\t");
             }
             _builder.append(" \"");
-            String _firstUpper_1 = StringExtensions.toFirstUpper(event.getEvent().getName());
+            String _firstUpper_1 = StringExtensions.toFirstUpper(event.getName());
             _builder.append(_firstUpper_1, "\t");
             _builder.append("\"\t");
           }
@@ -856,8 +585,8 @@ public class PyroComponentInstanceGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("rules = ");
-        String _generateRules = this.generateRules(connection);
-        _builder.append(_generateRules, "\t\t");
+        String _generateSampleRules = this.generateSampleRules(connection);
+        _builder.append(_generateSampleRules, "\t\t");
         _builder.append(",");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
