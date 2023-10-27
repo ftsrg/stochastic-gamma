@@ -210,6 +210,7 @@ def state2num(state):
 							if DEBUG:
 								print("End condition is satisfied: ---------------------------------------------")
 								print("       Out of time")
+								dprint("== Simulation Ends: Time limit is reached ==")
 							break
 						
 						# print debug event information
@@ -249,8 +250,8 @@ def state2num(state):
 					detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
 				«ENDIF»
 				
+
 				# evaluate end condition
-				
 				«generateDebugAspectRegistry(analysis_component.aspect)»
 				
 				«FOR endCondition : analysismethod.endcondition»
@@ -272,6 +273,14 @@ def state2num(state):
 			if DEBUG:
 				print("Simulation is finished! ---------------------------------------------")
 				dsave()
+			
+			if DEBUG: 
+				if len(stochmodel.events) == 0:
+					dprint('hnote over stochmodel ')
+					dprint('no stochastic event')
+					dprint("endnote")				
+				
+			
 			# get the aspects and return from the simulations 
 			«generateSimulationReturn(analysis_component.aspect)»
 		'''

@@ -179,7 +179,7 @@ class PyroComponentClassGenerator {
 				def schedule(self):
 					for event in self.events:
 						event.callEvent()
-					self.events.clear(self.name) :: 
+					self.events.clear(self.name)
 
 				«FOR event : sample.outports.get(0).outputEvents»
 			
@@ -192,14 +192,16 @@ class PyroComponentClassGenerator {
 					
 					#«event.parameterDeclarations.get(0).name.toFirstLower»=self.rules["«event.name.toFirstUpper»"].calc(self.port+"."+"«event.name.toFirstUpper»",self.simulator.time)
 					#«event.parameterDeclarations.get(0).type»
-					if DEBUG:
-						dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper» at {self.simulator.time}')
 					self.event_cntr=self.event_cntr+1
 					for call in self.calls:
 						if IESC_SYNC:
+							if DEBUG:
+								dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper»({[«TransformationUtility.generateFuncParams(event)»]}) at {self.simulator.time}')
 							callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
-							self.events.append(Event(self,self.simulator.time,callEvent,self.port".«event.name.toFirstUpper»"))
+							self.events.append(Event(self,self.simulator.time,callEvent,self.port+".«event.name.toFirstUpper»"))
 						else:
+							if DEBUG:
+								dprint(f'detmodel <-> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper»({[«TransformationUtility.generateFuncParams(event)»]}) at {self.simulator.time}')
 							call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 				«ENDFOR»
 			
@@ -319,13 +321,17 @@ class PyroComponentClassGenerator {
 						eventcalls=self.calls[port]#["«event.name.toFirstUpper»"]
 						self.event_cntr=self.event_cntr+1
 						if DEBUG:
-							dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper» at {self.simulator.time}')
+							dprint(f'detmodel -> stochmodel : {self.name} :: {port}+.«event.name.toFirstUpper» at {self.simulator.time}')
 						for call in eventcalls:
 							if call is not None:
 								if IESC_SYNC:
+									if DEBUG:
+										dprint(f'detmodel -> stochmodel : {self.name} :: {port}+.«event.name.toFirstUpper» at {self.simulator.time}')
 									callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
-									self.events.append(Event(self,self.simulator.time,callEvent,port".«event.name.toFirstUpper»"))
+									self.events.append(Event(self,self.simulator.time,callEvent,self.port+".«event.name.toFirstUpper»"))
 								else:
+									if DEBUG:
+										dprint(f'detmodel <-> stochmodel : {self.name} :: {port}+.«event.name.toFirstUpper» at {self.simulator.time}')
 									call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 					«ENDFOR»
 				#«generateInterfaceSubClass(i)»
