@@ -25,8 +25,17 @@ import org.apache.poi.ss.usermodel.Row
 import java.io.File
 import java.util.Set
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy
+import java.time.LocalDateTime
+import hu.bme.mit.gamma.statechart.interface_.Event
+import static extension hu.bme.mit.gamma.expression.derivedfeatures.ExpressionModelDerivedFeatures.*
+import static extension hu.bme.mit.gamma.expression.util.ExpressionSerializer.*
+import hu.bme.mit.gamma.expression.util.ExpressionSerializer
 
 class TableTransformation {
+	
+	private FileInputStream excelFile=null
+	
+	protected val expSerializer = ExpressionSerializer.INSTANCE
 	
 	def isBlank(Cell cell){
 			if (cell === null || cell.getCellType() == CellType.BLANK){
@@ -158,8 +167,8 @@ class TableTransformation {
 			var found=false
 			for (i : interfaces){
 				if (i.name==ifName){
-					ifList.add(i)
-					found=true
+					ifList.add(i);
+					found=true;
 				}
 			}
 			if(!found){
@@ -169,7 +178,7 @@ class TableTransformation {
 		return ifList
 	}
 	
-	def generate(String file,Set<Interface> interfaces, String fileName, Set<String> interfacePaths){
+	def generate(String file,Set<Interface> interfaces, String fileName, Set<String> interfacePaths) {
 		
 		var inPortNames=new ArrayList<String>()
 		var outPortNames=new ArrayList<String>()
@@ -178,9 +187,9 @@ class TableTransformation {
 		var outPortIfNames=new ArrayList<String>()
 		var inInterfaces=new ArrayList<Interface>()
 		var outInterfaces=new ArrayList<Interface>()
-		
+		var outEvents=new ArrayList<Event>()
         try {
-        	val excelFile=new FileInputStream(file)
+        	excelFile=new FileInputStream(file)
             val workbook = new XSSFWorkbook(excelFile);
             val datatypeSheet = workbook.getSheetAt(0);
             val compName=datatypeSheet.sheetName
@@ -194,39 +203,53 @@ class TableTransformation {
 			outPortIfNames=readOut(ifRow)
 			inInterfaces=convert2IF(inPortIfNames,interfaces)
 			outInterfaces=convert2IF(outPortIfNames,interfaces)
-            
-            return 
-            '''
-            package «fileName»
+			for (k : 0..(outPortNames.length-1)) {
+				outEvents.add(outInterfaces.get(k).events.stream.filter(e| e.event.parameterDeclarations.length>0).toList.get(0).event)
+			}
+            var sct_gen = 
+           '''
+           // automatically generated Gamma statechart
+           // time of model generation: «LocalDateTime.now.toString»
+           // generated from Excel table: «file»
+           
+           package «fileName»
+           
             «FOR ifPackage : interfacePaths»
-            	import "«ifPackage»"
+           		import "«ifPackage»"
             «ENDFOR»
-            statechart «compName.toFirstUpper» [
+           
+           @TransitionPriority=order-based
+           statechart «compName.toFirstUpper» [
             	//Input ports «var i=0»
             	«FOR portName : inPortNames»
             		port «portName» : requires «inPortIfNames.get(i++)»
             	«ENDFOR»
             	//Output ports «i=0»
             	«FOR portName : outPortNames»
-            		port «portName» : provides «inPortIfNames.get(i++)»
+            		port «portName» : provides «outPortIfNames.get(i++)»
             	«ENDFOR»
-            ]{
-            	transition from init_0 to state_0
+           ]{
+            	transition from init_0 to state_0 / «FOR k : 0..(outPortNames.length-1) SEPARATOR ""»raise «outPortNames.get(k)».«outEvents.get(k).name»(«expSerializer.serialize(outEvents.get(k).parameterDeclarations.get(0).type.defaultExpression)»);«ENDFOR»
             	transition from state_0 to c_0 when any
 	            «FOR row : rowIterator.toList»
 					«var cellIterator=row.cellIterator»
-					transition from c_0 to state_0 [«FOR j : 0..inPortNames.length-1 SEPARATOR " and "»«getCondition(inInterfaces.get(j),cellIterator.next,inPortNames.get(j))»«ENDFOR»]/  «FOR j : 0..(outPortNames.length-1) SEPARATOR ""» «getEffect(outInterfaces.get(j),cellIterator.next,outPortNames.get(j))»«ENDFOR»
+						transition from c_0 to state_0 [«FOR j : 0..inPortNames.length-1 SEPARATOR " and "»«getCondition(inInterfaces.get(j),cellIterator.next,inPortNames.get(j))»«ENDFOR»]/  «FOR j : 0..(outPortNames.length-1) SEPARATOR ""» «getEffect(outInterfaces.get(j),cellIterator.next,outPortNames.get(j))»«ENDFOR»
 	            «ENDFOR»
+            	transition from c_0 to state_0 [else] //default "else" transition
             	region main_0 {
             		initial init_0
             		state state_0
             		choice c_0
             	}
-            }
+           }
             '''
+            excelFile.close
+            return sct_gen
         } catch (Exception e) {
             e.printStackTrace();
+            excelFile.close
             DialogUtil.showError(e.message)
+            return e.message
         }
 	}
 	

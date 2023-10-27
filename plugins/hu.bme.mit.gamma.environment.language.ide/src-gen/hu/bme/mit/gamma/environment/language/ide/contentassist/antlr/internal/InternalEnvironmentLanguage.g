@@ -10064,6 +10064,12 @@ rule__TimeUnit__Alternatives
 		('s')
 		{ after(grammarAccess.getTimeUnitAccess().getSECONDEnumLiteralDeclaration_1()); }
 	)
+	|
+	(
+		{ before(grammarAccess.getTimeUnitAccess().getHOUREnumLiteralDeclaration_2()); }
+		('h')
+		{ after(grammarAccess.getTimeUnitAccess().getHOUREnumLiteralDeclaration_2()); }
+	)
 ;
 finally {
 	restoreStackSize(stackSize);

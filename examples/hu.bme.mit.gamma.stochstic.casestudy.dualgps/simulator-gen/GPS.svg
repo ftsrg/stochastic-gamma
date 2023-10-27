@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="232px" preserveAspectRatio="none" style="width:261px;height:232px;background:#FFFFFF;" version="1.1" viewBox="0 0 261 232" width="261px" zoomAndPan="magnify"><defs/><g><rect fill="#F1F1F1" height="27.6094" style="stroke:#F1F1F1;stroke-width:1.0;" width="247" x="7" y="7"/><rect fill="none" height="219.6094" style="stroke:#181818;stroke-width:0.5;" width="247" x="7" y="7"/><line style="stroke:#181818;stroke-width:0.5;" x1="7" x2="254" y1="34.6094" y2="34.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="29" x="116" y="26.5332">GPS</text><ellipse cx="28" cy="71.6094" fill="#222222" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><g id="GPS.operation_"><rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="88" x="56" y="46.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="56" x2="144" y1="74.2188" y2="74.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="66" y="66.1426">operation_</text></g><g id="GPS.failstop"><rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="65" x="67.5" y="166.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="67.5" x2="132.5" y1="194.2188" y2="194.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="77.5" y="186.1426">failstop</text></g><!--MD5=[12d79f68e053a6aca07683b4ef7321b1]
+link *start*GPS to operation_--><g id="link_*start*GPS_operation_"><path d="M38.41,71.6094 C42.02,71.6094 45.62,71.6094 49.23,71.6094 " fill="none" id="*start*GPS-to-operation_" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="54.22,71.6094,45.22,67.6094,49.22,71.6094,45.22,75.6094,54.22,71.6094" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[4ed252c99c04aef22ca2926e7320505a]
+link operation_ to failstop--><g id="link_operation__failstop"><path d="M100,97.0594 C100,115.2494 100,140.2194 100,159.7794 " fill="none" id="operation_-to-failstop" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="100,164.6794,104,155.6794,100,159.6794,96,155.6794,100,164.6794" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="86" x="129.5" y="129.1045">Faults.failure  /</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="143" x="101" y="145.4561">Communication.failstop()</text></g><!--MD5=[4fbfae8712a5c5d4b733b866565caff2]
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state GPS <<squareStyle>> {
+		'region: $$_main_$$
+		[*] -> operation_ 
+		operation_ - -> failstop : Faults.failure  /\nCommunication.failstop()
+		
+		
+	
+	}
+	
+@enduml
+
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state GPS <<squareStyle>> {
+		[*] -> operation_ 
+		operation_ - -> failstop : Faults.failure  /\nCommunication.failstop()
+		
+		
+	
+	}
+	
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(EPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

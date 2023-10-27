@@ -34,6 +34,7 @@ class StochasticEventGenerator():
 		self.time=0.0
 		self.events=[]
 		self.dists=[]
+		self.min_i=0
 		# create Python objects from elementary stochastic components
 		self.components=dict()
 		«FOR arg : analysis_component.analyzedComponent.arguments SEPARATOR ","»
@@ -66,18 +67,21 @@ class StochasticEventGenerator():
 		for component in list(self.components.values()):
 			component.generateEvents()
 
-
+	# shall be called after the getEarliestTime() function
 	def popEvent(self):
-		mintime=10000000000.0
+		event=self.events[self.min_i]
+		self.events.remove(event)
+		return event
+
+	def getEarliestTime(self):
+		mintime=1000000000000000.0
 		min_i=0
 		for i in range (len(self.events)):
 			if self.events[i].eventTime<mintime:
 				min_i=i
 				mintime=self.events[min_i].eventTime
-		event=self.events[min_i]
-		self.events.remove(event)
-		return event
-
+		self.min_i=min_i
+		return mintime-self.time
 
 '''
 	}

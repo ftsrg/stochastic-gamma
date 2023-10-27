@@ -118,7 +118,7 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.newLine();
           _builder.append("\t");
           _builder.append("private ");
-          _builder.append(Namings.YAKINDU_TIMER_INTERFACE, "\t");
+          _builder.append(Namings.UNIFIED_TIMER_INTERFACE, "\t");
           _builder.append(" timerService;");
           _builder.newLineIfNotEmpty();
         }
@@ -253,7 +253,7 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
         boolean _isEmpty_1 = component.getClocks().isEmpty();
         boolean _not_1 = (!_isEmpty_1);
         if (_not_1) {
-          _builder.append("this.timerService = new TimerService();");
+          _builder.append("this.timerService = new VirtualTimerService();");
         }
       }
       _builder.newLineIfNotEmpty();

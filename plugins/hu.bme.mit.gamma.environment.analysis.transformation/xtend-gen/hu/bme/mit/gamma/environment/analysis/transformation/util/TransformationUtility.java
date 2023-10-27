@@ -57,9 +57,13 @@ public class TransformationUtility {
   }
 
   public static String generateEnvCompName(final String componentCall, final ElementaryEnvironmentComponentInstance component) {
-    String _replaceAll = componentCall.replaceAll(".get()", ".");
+    String _replaceAll = componentCall.replaceFirst(".get", "").replaceAll(".get", ".");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("\\(\\)");
+    String _replaceAll_1 = _replaceAll.replaceAll(_builder.toString(), "");
+    String _plus = (_replaceAll_1 + ".");
     String _name = component.getName();
-    return (_replaceAll + _name);
+    return (_plus + _name);
   }
 
   public static String generateAspectName(final AnalysisAspect aspect) {
@@ -77,10 +81,11 @@ public class TransformationUtility {
       }
     }
     String _firstUpper = StringExtensions.toFirstUpper(aspect.getEvent().getPort().getName());
-    String _plus = (name + _firstUpper);
+    String _plus = ((name + "_") + _firstUpper);
+    String _plus_1 = (_plus + "_");
     String _firstUpper_1 = StringExtensions.toFirstUpper(aspect.getEvent().getEvent().getName());
-    String _plus_1 = (_plus + _firstUpper_1);
-    name = _plus_1;
+    String _plus_2 = (_plus_1 + _firstUpper_1);
+    name = _plus_2;
     return name;
   }
 
@@ -96,10 +101,11 @@ public class TransformationUtility {
       }
     }
     String _firstUpper = StringExtensions.toFirstUpper(endCondition.getEvent().getPort().getName());
-    String _plus = (name + _firstUpper);
+    String _plus = ((name + "_") + _firstUpper);
+    String _plus_1 = (_plus + "_");
     String _firstUpper_1 = StringExtensions.toFirstUpper(endCondition.getEvent().getEvent().getName());
-    String _plus_1 = (_plus + _firstUpper_1);
-    name = _plus_1;
+    String _plus_2 = (_plus_1 + _firstUpper_1);
+    name = _plus_2;
     return name;
   }
 
@@ -155,13 +161,91 @@ public class TransformationUtility {
     _builder.newLine();
     {
       for(final AnalysisAspect aspect : aspects) {
-        _builder.append("pyro.deterministic(\"");
-        CharSequence _pyroName = TransformationUtility.pyroName(aspect);
-        _builder.append(_pyroName);
-        _builder.append("\",torch.tensor(");
-        CharSequence _valueCall = TransformationUtility.getValueCall(aspect);
-        _builder.append(_valueCall);
-        _builder.append("))");
+        {
+          if ((aspect instanceof MeanTime)) {
+            _builder.append("# register the time only if the event is raised");
+            _builder.newLine();
+            _builder.append("if str(detmodel.monitorOf");
+            String _generateAspectName = TransformationUtility.generateAspectName(aspect);
+            _builder.append(_generateAspectName);
+            _builder.append(".state) != \"run\" :");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("pyro.deterministic(\"");
+            CharSequence _pyroName = TransformationUtility.pyroName(aspect);
+            _builder.append(_pyroName, "\t");
+            _builder.append("\",torch.tensor(");
+            CharSequence _valueCall = TransformationUtility.getValueCall(aspect);
+            _builder.append(_valueCall, "\t");
+            _builder.append("))");
+            _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("pyro.deterministic(\"");
+            CharSequence _pyroName_1 = TransformationUtility.pyroName(aspect);
+            _builder.append(_pyroName_1);
+            _builder.append("\",torch.tensor(");
+            CharSequence _valueCall_1 = TransformationUtility.getValueCall(aspect);
+            _builder.append(_valueCall_1);
+            _builder.append("))");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      }
+    }
+    return _builder;
+  }
+
+  public static CharSequence generateDebugAspectRegistry(final List<AnalysisAspect> aspects) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("#register the result of the analysis to the Pyro");
+    _builder.newLine();
+    {
+      for(final AnalysisAspect aspect : aspects) {
+        _builder.append("if DEBUG:");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("# register the time only if the event is raised");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("if int(detmodel.monitorOf");
+        String _generateAspectName = TransformationUtility.generateAspectName(aspect);
+        _builder.append(_generateAspectName, "\t");
+        _builder.append(".freq) != ");
+        String _generateAspectName_1 = TransformationUtility.generateAspectName(aspect);
+        _builder.append(_generateAspectName_1, "\t");
+        _builder.append("Freq :");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        String _generateAspectName_2 = TransformationUtility.generateAspectName(aspect);
+        _builder.append(_generateAspectName_2, "\t\t");
+        _builder.append("Freq=int(detmodel.monitorOf");
+        String _generateAspectName_3 = TransformationUtility.generateAspectName(aspect);
+        _builder.append(_generateAspectName_3, "\t\t");
+        _builder.append(".freq)");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("dprint(f\'detmodel -> analysis : \"");
+        String _name = aspect.getEvent().getPort().getName();
+        _builder.append(_name, "\t\t");
+        _builder.append(".");
+        String _name_1 = aspect.getEvent().getEvent().getName();
+        _builder.append(_name_1, "\t\t");
+        _builder.append(" at time {stochmodel.time}\"\')");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    return _builder;
+  }
+
+  public static CharSequence generateDebugAspectVars(final List<AnalysisAspect> aspects) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("# DEBUG variables");
+    _builder.newLine();
+    {
+      for(final AnalysisAspect aspect : aspects) {
+        String _generateAspectName = TransformationUtility.generateAspectName(aspect);
+        _builder.append(_generateAspectName);
+        _builder.append("Freq=0");
         _builder.newLineIfNotEmpty();
       }
     }
@@ -235,7 +319,13 @@ public class TransformationUtility {
     _builder.newLine();
     _builder.append("return ");
     {
+      boolean _hasElements = false;
       for(final AnalysisAspect aspect : aspects) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(", ", "");
+        }
         CharSequence _valueCall = TransformationUtility.getValueCall(aspect);
         _builder.append(_valueCall);
       }

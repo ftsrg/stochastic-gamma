@@ -45,7 +45,7 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 			«ENDFOR»
 			«IF !component.clocks.empty»
 				// Clocks
-				private «YAKINDU_TIMER_INTERFACE» timerService;
+				private «UNIFIED_TIMER_INTERFACE» timerService;
 			«ENDIF»
 			«FOR clock : component.clocks»
 				private final int «clock.name» = «clockId++»;
@@ -72,7 +72,7 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 			
 			public «component.generateComponentClassName»(«FOR parameter : component.parameterDeclarations SEPARATOR ", "»«parameter.name»«ENDFOR») {
 				«component.createInstances»
-				«IF !component.clocks.empty»this.timerService = new TimerService();«ENDIF»
+				«IF !component.clocks.empty»this.timerService = new VirtualTimerService();«ENDIF»
 				init();
 			}
 			

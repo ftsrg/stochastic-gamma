@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="463px" preserveAspectRatio="none" style="width:575px;height:463px;background:#FFFFFF;" version="1.1" viewBox="0 0 575 463" width="575px" zoomAndPan="magnify"><defs/><g><rect fill="#F1F1F1" height="27.6094" style="stroke:#F1F1F1;stroke-width:1.0;" width="561.38" x="7" y="7"/><rect fill="none" height="450.6094" style="stroke:#181818;stroke-width:0.5;" width="561.38" x="7" y="7"/><line style="stroke:#181818;stroke-width:0.5;" x1="7" x2="568.38" y1="34.6094" y2="34.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="33" x="271.19" y="26.5332">Edge</text><g id="elem_BlurryChoice"><polygon fill="#F1F1F1" points="150.38,303.6094,162.38,315.6094,150.38,327.6094,138.38,315.6094,150.38,303.6094" style="stroke:#181818;stroke-width:0.5;"/></g><ellipse cx="116.38" cy="71.6094" fill="#222222" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><g id="Edge.WaitingForCars"><rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="119" x="144.88" y="46.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="144.88" x2="263.88" y1="74.2188" y2="74.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="154.88" y="66.1426">WaitingForCars</text></g><g id="Edge.NotRecognized"><rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="115" x="33.88" y="183.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="33.88" x2="148.88" y1="211.2188" y2="211.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="95" x="43.88" y="203.1426">NotRecognized</text></g><g id="Edge.RecognizedByCamera"><rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="160" x="180.38" y="397.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="180.38" x2="340.38" y1="425.2188" y2="425.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="140" x="190.38" y="417.1426">RecognizedByCamera</text></g><!--MD5=[575ef4a35649fddc11aa9edac3655a0a]
+link *start*Edge to WaitingForCars--><g id="link_*start*Edge_WaitingForCars"><path d="M126.69,71.6094 C130.51,71.6094 134.34,71.6094 138.16,71.6094 " fill="none" id="*start*Edge-to-WaitingForCars" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="143.08,71.6094,134.08,67.6094,138.08,71.6094,134.08,75.6094,143.08,71.6094" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[86d15abccde93e68f980093eb40e84b6]
+link WaitingForCars to NotRecognized--><g id="link_WaitingForCars_NotRecognized"><path d="M144.7,93.9494 C141.56,94.8894 138.44,95.7794 135.38,96.6094 C95.16,107.4794 69.86,82.4394 43.38,114.6094 C28.97,132.1094 34.01,144.9694 43.38,165.6094 C45.55,170.3894 48.56,174.8494 52.03,178.9294 " fill="none" id="WaitingForCars-to-NotRecognized" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="55.27,182.4294,52.1092,173.1015,51.8804,178.7537,46.2282,178.5249,55.27,182.4294" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="137" x="44.38" y="145.6045">TrafficStream.carArrives</text></g><!--MD5=[90af14dac8e29a05a2aa921676ad8dd1]
+link NotRecognized to BlurryChoice--><g id="link_NotRecognized_BlurryChoice"><path d="M42.32,233.9494 C36.33,238.9594 31.04,244.8294 27.38,251.6094 C20.2,264.9094 18,273.7594 27.38,285.6094 C40.42,302.0794 102.79,310.1394 133.38,313.1494 " fill="none" id="NotRecognized-to-BlurryChoice" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="138.23,313.6094,129.6478,308.7776,133.2523,313.1374,128.8926,316.7419,138.23,313.6094" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="111" x="80.38" y="266.1045">Camera.newData  /</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="215" x="28.38" y="282.4561">isblurred := Camera.newData::blurred</text></g><!--MD5=[556636cd5a103aa84862e432cd514200]
+link BlurryChoice to RecognizedByCamera--><g id="link_BlurryChoice_RecognizedByCamera"><path d="M147.72,325.2694 C144.28,338.3294 139.98,363.2894 151.38,379.6094 C157.44,388.2994 165.57,395.1894 174.67,400.6494 " fill="none" id="BlurryChoice-to-RecognizedByCamera" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="178.81,402.9694,172.9048,395.0872,174.4453,400.5303,169.0022,402.0708,178.81,402.9694" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="4" x="252.38" y="360.1045"> </text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="204" x="152.38" y="376.4561">[(Camera.newData::blurred == 0.0)]</text></g><!--MD5=[76ac836b89f7dd0137a313df4eb70af1]
+link BlurryChoice to NotRecognized--><g id="link_BlurryChoice_NotRecognized"><path d="M162.38,315.0294 C183.11,315.0094 225.21,311.5794 244.38,285.6094 C253.35,273.4494 253.54,263.6294 244.38,251.6094 C233.25,237.0094 192.23,226.2294 155.47,219.2494 " fill="none" id="BlurryChoice-to-NotRecognized" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="150.62,218.3494,158.7365,223.9281,155.5357,219.2639,160.1998,216.063,150.62,218.3494" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="4" x="265.38" y="266.1045"> </text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="32" x="251.38" y="282.4561">[else]</text></g><!--MD5=[a295e09ff37d5f19016f636980a491e3]
+link RecognizedByCamera to WaitingForCars--><g id="link_RecognizedByCamera_WaitingForCars"><path d="M340.2,397.1094 C346.91,392.2894 352.84,386.5094 357.38,379.6094 C422.03,281.1594 428.79,208.2694 357.38,114.6094 C346.44,100.2694 306.67,89.6094 270.42,82.6194 " fill="none" id="RecognizedByCamera-to-WaitingForCars" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="265.66,81.7294,273.7608,87.3308,270.5731,82.6577,275.2462,79.4699,265.66,81.7294" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="150" x="408.38" y="266.1045">TrafficStream.carLeaves  /</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="120" x="423.38" y="282.4561">CarLeave.newEvent()</text></g><!--MD5=[77d4204e78fe3803718ead1f2963efa5]
+link NotRecognized to WaitingForCars--><g id="link_NotRecognized_WaitingForCars"><path d="M149.25,190.3994 C161.68,184.3294 173.68,176.2494 182.38,165.6094 C196.62,148.1794 201.95,123.1094 203.81,103.3894 " fill="none" id="NotRecognized-to-WaitingForCars" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="204.19,98.4294,199.5077,107.094,203.8043,103.4145,207.4839,107.7111,204.19,98.4294" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="150" x="202.38" y="129.1045">TrafficStream.carLeaves  /</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="127" x="213.88" y="145.4561">LostImage.newEvent()</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="120" x="217.38" y="161.8076">CarLeave.newEvent()</text></g><!--MD5=[1d47f52718f11cd4d70ba9733ef1b6ea]
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state Edge <<squareStyle>> {
+		'region: $$_main_$$
+		state BlurryChoice <<choice>>
+		[*] -> WaitingForCars 
+		WaitingForCars - -> NotRecognized : TrafficStream.carArrives 
+		NotRecognized - -> BlurryChoice : Camera.newData  /\nisblurred := Camera.newData::blurred
+		BlurryChoice - -> RecognizedByCamera :  \n[(Camera.newData::blurred == 0.0)]
+		BlurryChoice - -> NotRecognized :  \n[else]
+		RecognizedByCamera - -> WaitingForCars : TrafficStream.carLeaves  /\nCarLeave.newEvent()
+		NotRecognized - -> WaitingForCars : TrafficStream.carLeaves  /\nLostImage.newEvent()\nCarLeave.newEvent()
+		
+		
+	
+	}
+	
+@enduml
+
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state Edge <<squareStyle>> {
+		state BlurryChoice <<choice>>
+		[*] -> WaitingForCars 
+		WaitingForCars - -> NotRecognized : TrafficStream.carArrives 
+		NotRecognized - -> BlurryChoice : Camera.newData  /\nisblurred := Camera.newData::blurred
+		BlurryChoice - -> RecognizedByCamera :  \n[(Camera.newData::blurred == 0.0)]
+		BlurryChoice - -> NotRecognized :  \n[else]
+		RecognizedByCamera - -> WaitingForCars : TrafficStream.carLeaves  /\nCarLeave.newEvent()
+		NotRecognized - -> WaitingForCars : TrafficStream.carLeaves  /\nLostImage.newEvent()\nCarLeave.newEvent()
+		
+		
+	
+	}
+	
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(EPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

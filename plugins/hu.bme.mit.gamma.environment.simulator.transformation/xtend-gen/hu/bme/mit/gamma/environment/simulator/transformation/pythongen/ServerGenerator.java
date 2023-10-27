@@ -1,6 +1,12 @@
 package hu.bme.mit.gamma.environment.simulator.transformation.pythongen;
 
+import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer;
+import hu.bme.mit.gamma.environment.analysis.AnalysisAspect;
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod;
+import hu.bme.mit.gamma.environment.analysis.EndCondition;
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod;
+import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility;
 import hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures;
 import hu.bme.mit.gamma.statechart.composite.AsynchronousAdapter;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
@@ -11,6 +17,7 @@ import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition;
 import hu.bme.mit.gamma.statechart.statechart.StatechartDefinition;
 import java.util.LinkedList;
 import java.util.List;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
@@ -64,6 +71,8 @@ public class ServerGenerator {
 
   public String generate(final AnalysisComponent analysisComponent) {
     final LinkedList<String> diagramNames = new LinkedList<String>();
+    AnalysisMethod _analysismethod = analysisComponent.getAnalysismethod();
+    SimulationAnalysisMethod analysismethod = ((SimulationAnalysisMethod) _analysismethod);
     this.generateDiagramNames(analysisComponent.getAnalyzedComponent(), analysisComponent.getName(), diagramNames);
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
@@ -82,6 +91,21 @@ public class ServerGenerator {
     _builder.append("import yaml");
     _builder.newLine();
     _builder.append("from yaml import Loader, Dumper");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("def state2num(state):");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if state==\"run\":");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return 0.0");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("else:");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return 1.0");
     _builder.newLine();
     _builder.newLine();
     _builder.append("with open(\"config.yml\", \"r\") as ymlfile:");
@@ -112,7 +136,24 @@ public class ServerGenerator {
     _builder.append("diagram_svg_dict = dict()");
     _builder.newLine();
     _builder.newLine();
+    _builder.append("elapse_time=0");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("diagram_cmd_key=\"DiagramCMD-\"");
+    _builder.newLine();
+    _builder.append("event_source_cmd_key=\"SourceCMD-\"");
+    _builder.newLine();
+    _builder.append("periodic_source_cmd_key=\"PeriodicCMD-\"");
+    _builder.newLine();
+    _builder.append("elapse_cmd_key=\"ElapseCMD-\"");
+    _builder.newLine();
+    _builder.append("delay_cmd_key=\"DelayCMD-\"");
+    _builder.newLine();
+    _builder.newLine();
     _builder.append("sim_stoch_events=dict()");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("raised_events=list()");
     _builder.newLine();
     _builder.newLine();
     _builder.append("diagram_name_dict = {");
@@ -132,7 +173,7 @@ public class ServerGenerator {
     _builder.append("for diagram in diagram_name_dict.keys():");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("cmd=\"Diagram-\"+diagram.replace(\"::\", \"__\")");
+    _builder.append("cmd=diagram_cmd_key+\"-\"+diagram.replace(\"::\", \"__\")");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("name=diagram_name_dict[diagram]");
@@ -203,7 +244,7 @@ public class ServerGenerator {
     _builder.append("for pevent in pevents:");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("name=\"Failure\"+(component+\".\"+port+\".\"+pevent).replace(\"()\",\".\").replace(\"..\",\".\")");
+    _builder.append("name=event_source_cmd_key+(component+\".\"+port+\".\"+pevent).replace(\"()\",\".\").replace(\"..\",\".\")");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("call=comp.calls[port][pevent]");
@@ -246,7 +287,7 @@ public class ServerGenerator {
     _builder.append("for pevent in pevents:");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("name=\"PFailure\"+(component+\".\"+port+\".\"+pevent).replace(\"()\",\".\").replace(\"..\",\".\")");
+    _builder.append("name=periodic_source_cmd_key+(component+\".\"+port+\".\"+pevent).replace(\"()\",\".\").replace(\"..\",\".\")");
     _builder.newLine();
     _builder.append("\t\t\t\t");
     _builder.append("call=comp.calls[port][pevent]");
@@ -262,7 +303,13 @@ public class ServerGenerator {
     _builder.newLine();
     _builder.append("detmodel.getDetModel().schedule()");
     _builder.newLine();
-    _builder.newLine();
+    {
+      boolean _needTimer = TimingDeterminer.INSTANCE.needTimer(analysisComponent.getAnalyzedComponent().getType());
+      if (_needTimer) {
+        _builder.append("elapse_time=int(detmodel.timer.getEarliestTime())");
+        _builder.newLine();
+      }
+    }
     _builder.append("stochmodel.generateEvents()");
     _builder.newLine();
     _builder.append("stochmodel.events.clear()");
@@ -279,7 +326,7 @@ public class ServerGenerator {
     _builder.append("def send_page(self):");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("global url, svg, cmd");
+    _builder.append("global url, svg, cmd, sim_stoch_events, raised_events,elapse_time");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("command=\"\"");
@@ -297,10 +344,16 @@ public class ServerGenerator {
     _builder.append("detmodel.getDetModel().schedule()");
     _builder.newLine();
     _builder.append("\t\t\t");
+    _builder.append("sim_stoch_events=dict()");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("raised_events=list()");
+    _builder.newLine();
+    _builder.append("\t\t\t");
     _builder.append("print(\"Reset!\")");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("elif \"PFailure\" in self.requestline:");
+    _builder.append("elif periodic_source_cmd_key in self.requestline:");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("command=self.requestline.replace(\"GET /?pfname=\", \"\").replace(\" HTTP/1.1\", \"\")");
@@ -310,6 +363,9 @@ public class ServerGenerator {
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("stochmodel.time=stochmodel.time+1.0");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("raised_events.append(command)");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("failure_calls=pfailure_dict[command]");
@@ -339,10 +395,13 @@ public class ServerGenerator {
     _builder.append("print(\"Event raised successfully!\")");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("elif \"Failure\" in self.requestline:");
+    _builder.append("elif event_source_cmd_key in self.requestline:");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("command=self.requestline.replace(\"GET /?fname=\", \"\").replace(\" HTTP/1.1\", \"\")");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("raised_events.append(command)");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("print(\"Raise event \",command,\"!\")");
@@ -378,10 +437,13 @@ public class ServerGenerator {
     _builder.append("print(\"Event raised successfully!\")");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("elif \"StochEvent\" in self.requestline:");
+    _builder.append("elif delay_cmd_key in self.requestline:");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("eventkey=self.requestline.replace(\"GET /?stname=\", \"\").replace(\" HTTP/1.1\", \"\").replace(\"StochEvent-\",\"\")");
+    _builder.append("eventkey=self.requestline.replace(\"GET /?stname=\", \"\").replace(\" HTTP/1.1\", \"\").replace(delay_cmd_key+\"-\",\"\")");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("raised_events.append(eventkey)");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("event=sim_stoch_events[eventkey]");
@@ -401,8 +463,28 @@ public class ServerGenerator {
     _builder.append("\t\t\t");
     _builder.append("sim_stoch_events.pop(eventkey,None)");
     _builder.newLine();
+    {
+      boolean _needTimer_1 = TimingDeterminer.INSTANCE.needTimer(analysisComponent.getAnalyzedComponent().getType());
+      if (_needTimer_1) {
+        _builder.append("\t\t");
+        _builder.append("elif elapse_cmd_key in self.requestline:");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("print(\"Elapse \"+str(elapse_time) + \' ms at time: \' + str(stochmodel.time))");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("detmodel.timer.elapse(int(elapse_time))");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("detmodel.getDetModel().schedule()");
+        _builder.newLine();
+      }
+    }
     _builder.append("\t\t");
-    _builder.append("elif \"Diagram\" in self.requestline:");
+    _builder.append("elif diagram_cmd_key in self.requestline:");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("command=self.requestline.replace(\"GET /?dname=\", \"\").replace(\" HTTP/1.1\", \"\")");
@@ -414,7 +496,7 @@ public class ServerGenerator {
     _builder.append("svg=diagram_svg_dict[command]");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("cmd=command.replace(\"Diagram-\",\"\")");
+    _builder.append("cmd=command.replace(diagram_cmd_key+\"-\",\"\")");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("print(\"Diagram change: \", command)");
@@ -447,6 +529,18 @@ public class ServerGenerator {
     _builder.append("self.wfile.write(bytes(\"<body>\", \"utf-8\"))");
     _builder.newLine();
     _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<table><tbody><tr><td>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<h3>Simulator commands: </h3>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.append("# Strips the newline character");
     _builder.newLine();
     _builder.append("\t\t");
@@ -464,7 +558,7 @@ public class ServerGenerator {
     _builder.append("for diagram in diagram_name_dict.keys():");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("self.wfile.write(bytes(\"\"\"<option value=\'\"\"\"+\"Diagram-\"+diagram.replace(\"::\",\"__\")+\"\"\"\'> \"\"\"+diagram+\"\"\" </option>\"\"\", \"utf-8\"))");
+    _builder.append("self.wfile.write(bytes(\"\"\"<option value=\'\"\"\"+diagram_cmd_key+\"-\"+diagram.replace(\"::\",\"__\")+\"\"\"\'> \"\"\"+diagram+\"\"\" </option>\"\"\", \"utf-8\"))");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("self.wfile.write(bytes(\"\"\"</select>\"\"\", \"utf-8\"))");
@@ -551,7 +645,7 @@ public class ServerGenerator {
     _builder.append("for stoch_event in sim_stoch_events.keys():\t");
     _builder.newLine();
     _builder.append("\t\t\t");
-    _builder.append("self.wfile.write(bytes(\"\"\"<option value=\'\"\"\"+\"StochEvent-\"+stoch_event+\"\"\"\'>\"\"\"+stoch_event+\"\"\"</option>\"\"\", \"utf-8\"))");
+    _builder.append("self.wfile.write(bytes(\"\"\"<option value=\'\"\"\"+delay_cmd_key+\"-\"+stoch_event+\"\"\"\'>\"\"\"+stoch_event+\"\"\"</option>\"\"\", \"utf-8\"))");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("self.wfile.write(bytes(\"\"\"</select>\"\"\", \"utf-8\"))");
@@ -562,8 +656,29 @@ public class ServerGenerator {
     _builder.append("\t\t");
     _builder.append("self.wfile.write(bytes(\"\"\"</form>\"\"\", \"utf-8\"))");
     _builder.newLine();
-    _builder.newLine();
-    _builder.newLine();
+    {
+      boolean _needTimer_2 = TimingDeterminer.INSTANCE.needTimer(analysisComponent.getAnalyzedComponent().getType());
+      if (_needTimer_2) {
+        _builder.append("\t\t");
+        _builder.append("elapse_time=int(detmodel.timer.getEarliestTime())");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("if elapse_time<8000000000000000000:");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"<form action=\"http://localhost:8080/\"\"\"+elapse_cmd_key+\"\"\"\">\"\"\", \"utf-8\"))");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"<input type=\"submit\" value=\"Elapse time: \"\"\"+elapse_time+\"\"\" ms\">\"\"\", \"utf-8\"))");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"</form>\"\"\", \"utf-8\"))");
+        _builder.newLine();
+      }
+    }
     _builder.append("\t\t");
     _builder.append("self.wfile.write(bytes(\"\"\"<form action=\"http://localhost:8080/ResetDetModel\">\"\"\", \"utf-8\"))");
     _builder.newLine();
@@ -572,6 +687,128 @@ public class ServerGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("self.wfile.write(bytes(\"\"\"</form>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"</td><td>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<h3>Raised events: </h3>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<ol>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("for raised_event in raised_events:");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<li>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("self.wfile.write(bytes(raised_event, \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"</li>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"</ol>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<h3>End conditions: </h3>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<ul>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    {
+      EList<EndCondition> _endcondition = analysismethod.getEndcondition();
+      for(final EndCondition endCondition : _endcondition) {
+        _builder.append("\t\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"<li>\"\"\", \"utf-8\"))");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"");
+        String _generateEndConditionName = TransformationUtility.generateEndConditionName(endCondition);
+        _builder.append(_generateEndConditionName, "\t\t");
+        _builder.append(" : \"\"\"+ str(detmodel.monitorOf");
+        String _generateEndConditionName_1 = TransformationUtility.generateEndConditionName(endCondition);
+        _builder.append(_generateEndConditionName_1, "\t\t");
+        _builder.append(".state), \"utf-8\"))");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"</li>\"\"\", \"utf-8\"))");
+        _builder.newLine();
+      }
+    }
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"</ul>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<h3>Analysis aspects: </h3>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"<ul>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    {
+      EList<AnalysisAspect> _aspect = analysisComponent.getAspect();
+      for(final AnalysisAspect aspect : _aspect) {
+        _builder.append("\t\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"<li>\"\"\", \"utf-8\"))");
+        _builder.newLine();
+        _builder.append("\t\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"");
+        CharSequence _pyroName = TransformationUtility.pyroName(aspect);
+        _builder.append(_pyroName, "\t\t");
+        _builder.append(" : \"\"\"+ str(");
+        CharSequence _valueCall = TransformationUtility.getValueCall(aspect);
+        _builder.append(_valueCall, "\t\t");
+        _builder.append("), \"utf-8\"))");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t");
+        _builder.append("self.wfile.write(bytes(\"\"\"</li>\"\"\", \"utf-8\"))");
+        _builder.newLine();
+      }
+    }
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"</ul>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("self.wfile.write(bytes(\"\"\"</td></tr></tbody></table>\"\"\", \"utf-8\"))");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("state_lines=list()");

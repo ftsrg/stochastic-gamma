@@ -11,10 +11,12 @@ import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationU
 import hu.bme.mit.gamma.environment.analysis.transformation.util.ElementaryComponentCollector
 import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
 
+import static extension hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer.*
 
 import static extension hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility.*
-
+import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
 import static extension hu.bme.mit.gamma.environment.analysis.transformation.pythongen.PyroAnalysisGenerator.*
+import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer
 
 class PyroSimulatorGenerator {
 		
@@ -42,14 +44,22 @@ class PyroSimulatorGenerator {
 
 «generateImports»
 
+# turn on debug mode
 DEBUG=False
+# manually build the java code
 BUILD=False
+# synchronization of elementary stochastic components in synchronous composition
 IESC_SYNC=False
+
+# conversion between the time unit of elementary stochastic components and millisecond
+time_conv=1000000000.0*60*60*1000
 
 simTime=«Double.toString(expEval.evaluateDecimal(analysismethod.simulationTime))»
 simNumber=«expEval.evaluateInteger(analysismethod.simulationNumber)»
 
 «analysisGen.generateMarginalVisualisation()»
+
+«generateDiagPrint»
 
 print('initiating Python-Java connection')
 
@@ -136,6 +146,8 @@ def state2num(state):
 			from jpype import JImplements, JOverride
 			from jpype import *
 			import jpype
+			import hashlib
+			
 		'''
 	}
 	
@@ -147,45 +159,109 @@ def state2num(state):
 			# global objects: stochastic event generator and deterministic evaluator
 			global stochmodel, detmodel
 			
+			«generateDebugAspectVars(analysis_component.aspect)»
 			
 			if DEBUG:
-				print("new sim ---------------------------------")
+				print("New simulation run --------------------------------------------------")
+				dinit()
 			
 			# initialize the stochastic event generator
 			stochmodel.reset()
 			stochmodel.generateEvents()
 			
+			# schedule the asynchronous component
+			detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
+			
+			if DEBUG:
+				print("Initial events: ---------------------------------------------")
+				dprint('note over stochmodel ')
+				dprint('| Source of the event | Name of the event | Time of the event |')
+				for event in stochmodel.events:
+					print("      ESC name: ", event.eventSource.name + "   Event name: " + event.name +'   Time: ' + str(event.eventTime))
+					dprint("|   ", event.eventSource.name + "   | " + event.name +'   | ' + str(event.eventTime)+ ' |')
+				print("Simulation events: ---------------------------------------------")
+				dprint('endnote')
+				#dprint("== Simulation Starts ==")
+			
 			# run the simulator until there are stochastic events available and simulation time is not reached
-			while len(stochmodel.events) > 0 and stochmodel.time < simTime:
+			while len(stochmodel.events) > 0 and stochmodel.time <= simTime:
 				
-				# get the event with the earliest clock
-				event = stochmodel.popEvent()
+
 				
-				# insert the event into the deterministic evaluator
-				stochmodel.time = event.eventTime
-				
-				if stochmodel.time > simTime :
-					if DEBUG:
-						print("Out of time")
-					break
-				
-				# print debug event information
-				if DEBUG:
-					print(event.eventSource.name + ' at time: ' + str(stochmodel.time))
+				«IF TimingDeterminer.INSTANCE.needTimer(analysis_component.analyzedComponent.type)»
+					gamma_time=detmodel.timer.getEarliestTime()
+					stoch_time=(stochmodel.getEarliestTime())*time_conv
+					# if Deterministic Evaluator code has the earliest alarm clock
+					if (float(gamma_time) < stoch_time) and (float(gamma_time)<=(simTime-stochmodel.time)*time_conv):
+						if DEBUG:
+							print("Gamma timed event simulation++++++++++++")
+							dprint(f'detmodel -> detmodel : "Gamma timeout, {str(stochmodel.time)} ms"')
+						detmodel.timer.elapse(gamma_time)
+						detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
+					# if Stochastic Event Generator has the earliest alarm clock
+					else:
+						# get the event with the earliest clock
+						event = stochmodel.popEvent()
+						
+						# insert the event into the deterministic evaluator
+						stochmodel.time = event.eventTime
+						
+						if stochmodel.time > simTime :
+							if DEBUG:
+								print("End condition is satisfied: ---------------------------------------------")
+								print("       Out of time")
+							break
+						
+						# print debug event information
+						if DEBUG:
+							print("      ESC name: ", event.eventSource.name + "   Event name: " + event.name + '   Time: ' + str(event.eventTime))
+							dprint(f'stochmodel -> detmodel : {event.eventSource.name}  ::  {event.name} at {str(event.eventTime)}')
+							
+						# raise the event
+						event.eventCall()
+						
+						# schedule the deterministic evaluator
+						detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
+				«ELSE»
+					# get the event with the earliest clock
+					stochmodel.getEarliestTime()
+					event = stochmodel.popEvent()
 					
-				# raise the event
-				event.eventCall()
-				
-				# schedule the deterministic evaluator
-				detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
+					# insert the event into the deterministic evaluator
+					stochmodel.time = event.eventTime
+					
+					if stochmodel.time > simTime :
+						if DEBUG:
+							print("End condition is satisfied: ---------------------------------------------")
+							print("       Out of time")
+							dprint("== Simulation Ends: Time limit is reached ==")
+						break
+					
+					# print debug event information
+					if DEBUG:
+						print("      ESC name: ", event.eventSource.name + "   Event name: " + event.name + '   Time: ' + str(event.eventTime))
+						dprint(f'stochmodel -> detmodel : "{event.eventSource.name}  ::  {event.name} at {str(event.eventTime)}"')
+						
+					# raise the event
+					event.eventCall()
+					
+					# schedule the deterministic evaluator
+					detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
+				«ENDIF»
 				
 				# evaluate end condition
+				
+				«generateDebugAspectRegistry(analysis_component.aspect)»
 				
 				«FOR endCondition : analysismethod.endcondition»
 					if detmodel.monitorOf«generateEndConditionName(endCondition)».state != "run":
 						# print debug end condition information
 						if DEBUG:
-							print("«generateEndConditionName(endCondition)» : ", detmodel.monitorOf«generateEndConditionName(endCondition)».state)
+							print("End condition is satisfied: ---------------------------------------------")
+							print("      «generateEndConditionName(endCondition)» : ", detmodel.monitorOf«generateEndConditionName(endCondition)».state)
+							dprint('hnote over analysis ')
+							dprint('«generateEndConditionName(endCondition)» is reached')
+							dprint("endnote")
 						break
 				«ENDFOR»
 			
@@ -193,8 +269,48 @@ def state2num(state):
 			
 			«generatePyroConditionRegistry(analysis_component.conditions)»
 			
+			if DEBUG:
+				print("Simulation is finished! ---------------------------------------------")
+				dsave()
 			# get the aspects and return from the simulations 
 			«generateSimulationReturn(analysis_component.aspect)»
+		'''
+	}
+	
+	def generateDiagPrint(){
+		return 
+		'''
+		debug_diag_cntr=0
+		debug_diag=""
+		diag_hashes=set()
+		def dprint(*args, **kwargs):
+			global debug_diag
+			for a in args:
+				debug_diag=debug_diag+str(a)
+			debug_diag=debug_diag+"\n"
+		
+		def dinit():
+			global debug_diag
+			debug_diag="""
+			@startuml
+			participant "Stochastic Models" as stochmodel
+			participant "Deteministic Models" as detmodel
+			participant "Analysis Case" as analysis
+			"""
+		
+		def dsave():
+			global debug_diag, debug_diag_cntr
+			debug_diag=debug_diag+("@enduml")
+			#hash_str=hashlib.md5(debug_diag.encode()).hexdigest()
+			#if hash_str not in diag_hashes:
+			isExist = os.path.exists("debug_diag")
+			if not isExist:
+				os.makedirs("debug_diag")
+			with open(f'debug_diag/diag{debug_diag_cntr}.plantuml', 'w') as f:
+				f.write(debug_diag)
+			debug_diag_cntr=debug_diag_cntr+1
+			print(debug_diag)
+			debug_diag=""
 		'''
 	}
 		

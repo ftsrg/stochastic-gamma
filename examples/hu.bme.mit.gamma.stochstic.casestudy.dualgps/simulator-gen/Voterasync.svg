@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="544px" preserveAspectRatio="none" style="width:942px;height:544px;background:#FFFFFF;" version="1.1" viewBox="0 0 942 544" width="942px" zoomAndPan="magnify"><defs/><g><!--MD5=[514409916c714d76160ed5f67e7590a9]
+cluster Voterasync--><g id="cluster_Voterasync"><rect fill="#FFFFFF" height="486" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="859" x="40.5" y="52.4541"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="879.5" y="57.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="877.5" y="59.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="877.5" y="63.4541"/><text fill="#000000" font-family="Verdana" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="179" x="380.5" y="84.5293">«Asynchronous Adapter»</text><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="139" x="400.5" y="119.5869">Voterasync</text></g><!--MD5=[8cd91a8026ecd064a658212c3b3f8063]
+cluster comp--><g id="cluster_comp"><rect fill="#FFFFFF" height="144" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="262" x="535.5" y="113.4541"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="777.5" y="118.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="775.5" y="120.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="775.5" y="124.4541"/><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="158" x="587.5" y="153.5723">voter : Voter</text></g><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="42" x="19.5" y="253.5146">Faults</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="34.5" y="273.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="59" x="11" y="173.5146">Sensor1</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="34.5" y="193.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="59" x="11" y="72.5146">Sensor2</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="34.5" y="92.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="108" x="827.5" y="26.5146">Communication</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="875.5" y="46.4541"/><!--MD5=[8663701fd408bd3641c0cd72413a1edc]
+entity faultQueue--><g id="elem_faultQueue"><path d="M246.5,264.9541 L347.5,264.9541 C352.5,264.9541 352.5,300.4761 352.5,300.4761 C352.5,300.4761 352.5,335.998 347.5,335.998 L246.5,335.998 C241.5,335.998 241.5,300.4761 241.5,300.4761 C241.5,300.4761 241.5,264.9541 246.5,264.9541 " fill="#FFFFFF" style="stroke:#000000;stroke-width:1.0;"/><path d="M347.5,264.9541 C342.5,264.9541 342.5,300.4761 342.5,300.4761 C342.5,335.998 347.5,335.998 347.5,335.998 " fill="none" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="76" x="251.5" y="289.0293">faultQueue</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="81" x="251.5" y="306.0439">capacity=1,</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="70" x="251.5" y="323.0586">priority=1</text></g><!--MD5=[b9aaae7f73063af2ed37b83e6433e53f]
+entity s1Queue--><g id="elem_s1Queue"><path d="M246.5,163.9541 L347.5,163.9541 C352.5,163.9541 352.5,199.4761 352.5,199.4761 C352.5,199.4761 352.5,234.998 347.5,234.998 L246.5,234.998 C241.5,234.998 241.5,199.4761 241.5,199.4761 C241.5,199.4761 241.5,163.9541 246.5,163.9541 " fill="#FFFFFF" style="stroke:#000000;stroke-width:1.0;"/><path d="M347.5,163.9541 C342.5,163.9541 342.5,199.4761 342.5,199.4761 C342.5,234.998 347.5,234.998 347.5,234.998 " fill="none" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="62" x="251.5" y="188.0293">s1Queue</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="81" x="251.5" y="205.0439">capacity=1,</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="70" x="251.5" y="222.0586">priority=2</text></g><!--MD5=[c99db1761122c2438dfcb7155075f9a8]
+entity s2Queue--><g id="elem_s2Queue"><path d="M246.5,62.9541 L347.5,62.9541 C352.5,62.9541 352.5,98.4761 352.5,98.4761 C352.5,98.4761 352.5,133.998 347.5,133.998 L246.5,133.998 C241.5,133.998 241.5,98.4761 241.5,98.4761 C241.5,98.4761 241.5,62.9541 246.5,62.9541 " fill="#FFFFFF" style="stroke:#000000;stroke-width:1.0;"/><path d="M347.5,62.9541 C342.5,62.9541 342.5,98.4761 342.5,98.4761 C342.5,133.998 347.5,133.998 347.5,133.998 " fill="none" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="62" x="251.5" y="87.0293">s2Queue</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="81" x="251.5" y="104.0439">capacity=1,</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="70" x="251.5" y="121.0586">priority=3</text></g><!--MD5=[3a68d7c547b56375dac91d9bc4fd7026]
+entity Triggers--><g id="elem_Triggers"><rect fill="#FFFFFF" height="156.0586" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="303" x="145.5" y="366.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="58" x="160.5" y="388.5293">Triggers</text><line style="stroke:#000000;stroke-width:1.0;" x1="146.5" x2="447.5" y1="396.4688" y2="396.4688"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="239" x="160.5" y="419.5439">when Faults.Faults.any / run once</text><line style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="146.5" x2="447.5" y1="431.4834" y2="431.4834"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="273" x="160.5" y="454.5586">when Sensor1.Sensor1.any / run once</text><line style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="146.5" x2="447.5" y1="466.498" y2="466.498"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="273" x="160.5" y="489.5732">when Sensor2.Sensor2.any / run once</text><line style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="146.5" x2="447.5" y1="501.5127" y2="501.5127"/></g><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="42" x="532.5" y="282.5293">Faults</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="547.5" y="251.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="59" x="524" y="159.5146">Sensor1</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="547.5" y="179.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="59" x="524" y="87.5146">Sensor2</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="547.5" y="107.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="108" x="743.5" y="98.5146">Communication</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="791.5" y="118.4541"/><!--MD5=[6648c7d351d7e4a315183937b81716f3]
+link comp_Communication to c_Communication--><g id="link_comp_Communication_c_Communication"><path d="M803.96,122.4641 C808.37,120.7241 814.63,117.9241 819.5,114.4541 C840.56,99.4541 860.75,76.7741 871.8,63.4041 " fill="none" id="comp_Communication-to-c_Communication" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="874.74,59.7841,865.9522,64.2309,871.58,63.659,872.152,69.2868,874.74,59.7841" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[ca7b5b8aeaa72bf593ecd403f828e936]
+link c_Faults to faultQueue--><g id="link_c_Faults_faultQueue"><path d="M46.82,279.8941 C70.6,281.8541 168.99,289.9741 234.79,295.4041 " fill="none" id="c_Faults-to-faultQueue" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="239.54,295.7941,230.8898,291.0852,234.5561,295.3931,230.2482,299.0594,239.54,295.7941" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="83.5" y="275.5239">any</text></g><!--MD5=[f5c8c41fc7b256f05bd3212b944cc211]
+link faultQueue to comp_Faults--><g id="link_faultQueue_comp_Faults"><path d="M352.91,291.1741 C414.04,280.8441 508.53,264.8841 541.05,259.3841 " fill="none" id="faultQueue-to-comp_Faults" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="545.83,258.5841,536.2926,256.1271,540.8988,259.4107,537.6151,264.017,545.83,258.5841" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="485.5" y="256.5239">any</text></g><!--MD5=[f746a60ca560855afdbfde3180542d30]
+link c_Sensor1 to s1Queue--><g id="link_c_Sensor1_s1Queue"><path d="M46.82,199.4541 C70.6,199.4541 168.99,199.4541 234.79,199.4541 " fill="none" id="c_Sensor1-to-s1Queue" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="239.54,199.4541,230.54,195.4541,234.54,199.4541,230.54,203.4541,239.54,199.4541" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="83.5" y="191.5239">any</text></g><!--MD5=[926b54fc0fdb921c833812974c3d6d89]
+link s1Queue to comp_Sensor1--><g id="link_s1Queue_comp_Sensor1"><path d="M352.91,196.4341 C414.04,193.0741 508.53,187.8741 541.05,186.0841 " fill="none" id="s1Queue-to-comp_Sensor1" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="545.81,185.8241,536.6059,182.3193,540.8174,186.0959,537.0408,190.3074,545.81,185.8241" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="485.5" y="180.5239">any</text></g><!--MD5=[f420bdda59678b7ca87f62bd7a26fff4]
+link c_Sensor2 to s2Queue--><g id="link_c_Sensor2_s2Queue"><path d="M46.82,98.4541 C70.6,98.4541 168.99,98.4541 234.79,98.4541 " fill="none" id="c_Sensor2-to-s2Queue" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="239.54,98.4541,230.54,94.4541,234.54,98.4541,230.54,102.4541,239.54,98.4541" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="83.5" y="90.5239">any</text></g><!--MD5=[377cbf70d5e83100c15639d8b36c3576]
+link s2Queue to comp_Sensor2--><g id="link_s2Queue_comp_Sensor2"><path d="M352.66,106.4441 C388.61,111.2841 436.75,116.9841 479.5,119.4541 C495.47,120.3741 499.55,120.7341 515.5,119.4541 C523.96,118.7741 533.41,117.2241 540.65,115.8741 " fill="none" id="s2Queue-to-comp_Sensor2" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="545.53,114.9141,535.9301,112.7137,540.6227,115.8727,537.4638,120.5653,545.53,114.9141" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="485.5" y="111.5239">any</text></g><!--MD5=[c5ac1382478c4a9562aec756101005f6]
+@startuml
+skinparam shadowing false
+
+skinparam shadowing false
+!theme plain
+left to right direction
+skinparam nodesep 30
+skinparam ranksep 30
+
+skinparam padding 5
+
+
+skinparam interface<<Invisible>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  stereotypeFontColor Transparent
+}
+
+component "Voterasync"<<Asynchronous Adapter>> {
+	
+portin "Faults" as c_Faults
+portin "Sensor1" as c_Sensor1
+portin "Sensor2" as c_Sensor2
+
+portin "Faults" as c_Faults
+portin "Sensor1" as c_Sensor1
+portin "Sensor2" as c_Sensor2
+
+portout "Communication" as c_Communication
+
+portout "Communication" as c_Communication
+
+		
+component "voter : Voter" as comp {
+	portin "Faults" as comp_Faults
+	portin "Sensor1" as comp_Sensor1
+	portin "Sensor2" as comp_Sensor2
+	portout "Communication" as comp_Communication
+}
+
+
+comp_Communication ...> c_Communication
+
+queue faultQueue  [
+faultQueue
+capacity=1,
+priority=1
+]
+c_Faults ...> faultQueue : "any"
+faultQueue ...> comp_Faults : "any"
+queue s1Queue  [
+s1Queue
+capacity=1,
+priority=2
+]
+c_Sensor1 ...> s1Queue : "any"
+s1Queue ...> comp_Sensor1 : "any"
+queue s2Queue  [
+s2Queue
+capacity=1,
+priority=3
+]
+c_Sensor2 ...> s2Queue : "any"
+s2Queue ...> comp_Sensor2 : "any"
+
+card Triggers[
+Triggers
+- - - -
+when Faults.Faults.any / run once
+....
+when Sensor1.Sensor1.any / run once
+....
+when Sensor2.Sensor2.any / run once
+....
+]
+}
+@enduml
+
+@startuml
+skinparam shadowing false
+
+skinparam shadowing false
+
+
+
+
+
+
+
+<style>
+  root {
+    BackgroundColor white
+    FontColor black
+    FontName Verdana
+    HyperLinkColor blue
+    LineColor black
+    LineThickness 1
+    Margin 5
+  }
+  caption {
+    LineThickness 0
+  }
+  footer {
+    LineThickness 0
+  }
+  header {
+    LineThickness 0
+  }
+  node {
+    MaximumWidth 300
+  }
+  title {
+    FontSize 22
+    LineThickness 0
+  }
+</style>
+
+skinparam ArrowLollipopColor black
+skinparam BackgroundColor white
+skinparam DefaultFontName Verdana
+skinparam DefaultMonospacedFontName Courier
+skinparam LifelineStrategy nosolid
+skinparam ParticipantPadding 10
+skinparam SequenceLifeLineBorderColor black
+skinparam Shadowing false
+skinparam UseBetaStyle true
+
+skinparam Activity {
+  BackgroundColor white
+  BarColor black
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam Boundary {
+  FontColor black
+}
+skinparam Box {
+  Padding 5
+}
+skinparam CircledCharacter {
+  FontColor black
+  FontName Courier
+  Radius 9
+}
+skinparam Class {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassAttribute {
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassStereotype {
+  FontColor black
+  FontName Verdana
+}
+skinparam Footer {
+  FontColor black
+  FontName Verdana
+}
+skinparam Header {
+  FontColor black
+  FontName Verdana
+}
+skinparam Hyperlink {
+  Color blue
+}
+skinparam IconPackage {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPrivate {
+  Color black
+  BackgroundColor white
+}
+skinparam IconProtected {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPublic {
+  Color black
+  BackgroundColor white
+}
+skinparam Note {
+  FontColor black
+  FontName Verdana
+}
+skinparam Object {
+  BorderColor black
+}
+skinparam Package {
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam State {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeA {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeC {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeE {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeI {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeN {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam UseCaseStereoType {
+  FontColor black
+  FontName Verdana
+}
+left to right direction
+skinparam nodesep 30
+skinparam ranksep 30
+
+skinparam padding 5
+
+
+skinparam interface<<Invisible>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  stereotypeFontColor Transparent
+}
+
+component "Voterasync"<<Asynchronous Adapter>> {
+	
+portin "Faults" as c_Faults
+portin "Sensor1" as c_Sensor1
+portin "Sensor2" as c_Sensor2
+
+portin "Faults" as c_Faults
+portin "Sensor1" as c_Sensor1
+portin "Sensor2" as c_Sensor2
+
+portout "Communication" as c_Communication
+
+portout "Communication" as c_Communication
+
+		
+component "voter : Voter" as comp {
+	portin "Faults" as comp_Faults
+	portin "Sensor1" as comp_Sensor1
+	portin "Sensor2" as comp_Sensor2
+	portout "Communication" as comp_Communication
+}
+
+
+comp_Communication ...> c_Communication
+
+queue faultQueue  [
+faultQueue
+capacity=1,
+priority=1
+]
+c_Faults ...> faultQueue : "any"
+faultQueue ...> comp_Faults : "any"
+queue s1Queue  [
+s1Queue
+capacity=1,
+priority=2
+]
+c_Sensor1 ...> s1Queue : "any"
+s1Queue ...> comp_Sensor1 : "any"
+queue s2Queue  [
+s2Queue
+capacity=1,
+priority=3
+]
+c_Sensor2 ...> s2Queue : "any"
+s2Queue ...> comp_Sensor2 : "any"
+
+card Triggers[
+Triggers
+- - - -
+when Faults.Faults.any / run once
+....
+when Sensor1.Sensor1.any / run once
+....
+when Sensor2.Sensor2.any / run once
+....
+]
+}
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(EPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

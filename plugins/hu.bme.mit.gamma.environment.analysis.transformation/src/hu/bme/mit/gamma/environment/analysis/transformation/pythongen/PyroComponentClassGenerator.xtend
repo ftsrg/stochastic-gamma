@@ -84,10 +84,11 @@ class PyroComponentClassGenerator {
 							rule=self.rules[port][pevent]
 							calls=self.calls[port][pevent]
 							time=rule.calc(port+"."+pevent,0.0)
+							ename=port+"."+pevent
 							if time>=0:
 								#iterating through port connections
 								for call in calls:
-									self.simulator.events.append(Event(self,time,call))
+									self.simulator.events.append(Event(self,time,call,ename))
 		'''
 	}
 	
@@ -121,11 +122,12 @@ class PyroComponentClassGenerator {
 							calls=self.calls[port][pevent]
 							rule=self.rules[port][pevent]
 							simulationtime=0.0
+							ename=port+"."+pevent
 							while simulationtime < simTime:
 								simulationtime=simulationtime+rule.calc(port+"."+pevent,simulationtime)
 								#iterating through port connections
 								for call in calls:
-									self.simulator.events.append(Event(self,simulationtime,call))
+									self.simulator.events.append(Event(self,simulationtime,call,ename))
 		
 
 		'''
@@ -177,7 +179,7 @@ class PyroComponentClassGenerator {
 				def schedule(self):
 					for event in self.events:
 						event.callEvent()
-					self.events.clear()
+					self.events.clear(self.name) :: 
 
 				«FOR event : sample.outports.get(0).outputEvents»
 			
@@ -190,11 +192,13 @@ class PyroComponentClassGenerator {
 					
 					#«event.parameterDeclarations.get(0).name.toFirstLower»=self.rules["«event.name.toFirstUpper»"].calc(self.port+"."+"«event.name.toFirstUpper»",self.simulator.time)
 					#«event.parameterDeclarations.get(0).type»
+					if DEBUG:
+						dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper» at {self.simulator.time}')
 					self.event_cntr=self.event_cntr+1
 					for call in self.calls:
 						if IESC_SYNC:
 							callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
-							self.events.append(Event(self,self.simulator.time,callEvent))
+							self.events.append(Event(self,self.simulator.time,callEvent,self.port".«event.name.toFirstUpper»"))
 						else:
 							call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 				«ENDFOR»
@@ -252,9 +256,11 @@ class PyroComponentClassGenerator {
 						time=self.rules["«event.name.toFirstUpper»"].calc(self.port+"."+"«event.name.toFirstUpper»",self.simulator.time)
 						self.event_cntr=self.event_cntr+1
 						failureTime=abs(time)+self.simulator.time
+						if DEBUG:
+							dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}.«event.name.toFirstUpper» at {self.simulator.time}')
 						for callitem in self.calls:
 							callEvent=lambda:callitem.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
-							self.simulator.events.append(Event(self,failureTime,callEvent))
+							self.simulator.events.append(Event(self,failureTime,callEvent,self.port+".«event.name.toFirstUpper»"))
 					«ENDFOR»
 				#«generateInterfaceSubClass(i)»
 				
@@ -312,11 +318,13 @@ class PyroComponentClassGenerator {
 						port=self.portarray[self.categorical.calc()]
 						eventcalls=self.calls[port]#["«event.name.toFirstUpper»"]
 						self.event_cntr=self.event_cntr+1
+						if DEBUG:
+							dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper» at {self.simulator.time}')
 						for call in eventcalls:
 							if call is not None:
 								if IESC_SYNC:
 									callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
-									self.events.append(Event(self,self.simulator.time,callEvent))
+									self.events.append(Event(self,self.simulator.time,callEvent,port".«event.name.toFirstUpper»"))
 								else:
 									call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 					«ENDFOR»
@@ -332,13 +340,11 @@ class PyroComponentClassGenerator {
 	def generateEventClass(){
 		'''
 		class Event():
-			def __init__(self,eventSource,eventTime):
-				self.eventSource=eventSource
-				self.eventTime=eventTime
-			def __init__(self,eventSource,eventTime,eventCall):
+			def __init__(self,eventSource,eventTime,eventCall,name="anonymous"):
 				self.eventSource=eventSource
 				self.eventTime=eventTime
 				self.eventCall=eventCall
+				self.name=name
 		'''
 	}
 	

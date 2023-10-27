@@ -4,7 +4,8 @@ Bundle-Name: Transformation
 Bundle-SymbolicName: hu.bme.mit.gamma.environment.analysis.transformation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: hu.bme.mit.gamma.environment.analysis.transformation,
- hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns
+ hu.bme.mit.gamma.environment.analysis.transformation.reduce.patterns,
+ hu.bme.mit.gamma.environment.analysis.transformation.util
 Require-Bundle: org.eclipse.viatra.query.runtime,
  org.eclipse.viatra.transformation.runtime.emf,
  org.eclipse.viatra.transformation.evm,

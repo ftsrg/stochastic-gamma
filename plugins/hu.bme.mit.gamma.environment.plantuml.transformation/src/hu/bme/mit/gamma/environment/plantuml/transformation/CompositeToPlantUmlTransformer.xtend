@@ -59,6 +59,14 @@ class CompositeToPlantUmlTransformer {
 		this.composite = composite
 	}
 	
+	def addLineBreaks(String str){
+		val c=30
+		if (c>=str.length) {
+			return str
+		}
+		return '''«FOR i : 0..(str.length/c) SEPARATOR "...\\n"»«IF (i+1)*c>str.length»«str.substring(i*c)»«ELSE»«str.substring(i*c,(i+1)*c)»«ENDIF»«ENDFOR»'''
+	}
+	
 	private def getKindString(CompositeComponent composite) {
 		if (composite instanceof EnvironmentSynchronousCompositeComponent) {
 			return "stochastic synchronous"
@@ -87,52 +95,65 @@ class CompositeToPlantUmlTransformer {
 		!theme plain
 		'left to right direction
 		top to bottom direction
-		skinparam nodesep 60
-		skinparam ranksep 30
+		skinparam nodesep 80
+		skinparam ranksep 40
 		skinparam defaultTextAlignment center
 		skinparam ComponentStereotypeFontSize 10
 		skinparam HeaderFontSize 12
 		skinparam padding 1
 		skinparam componentStyle rectangle
 		
-		component "«composite.name»"<<«composite.kindString»>> {
+		skinparam component {
+			borderColor<<Layout12>> white
+			backgroundColor<<Layout12>> white
+			fontColor<<Layout12>> white
+			stereotypeFontColor<<Layout12>> white
+		}
+		
+		component "«composite.name»" as maincomp <<«composite.kindString»>>{ 
+		'component maincomp_h <<Layout12>>{
 			
 			«FOR component : composite.derivedComponents»
 				component "<size:12>«component.name»:\n<size:12>«component.derivedType.name»" as «component.name»  {
 					«FOR port : component.derivedType.allPorts»
 						«IF true»
 							«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-								portin "«port.name»:\n ~«port.interface.name» " as «component.name»__«port.name»
+								portin "«port.name.addLineBreaks»:\n ~«port.interface.name» " as «component.name»__«port.name»
 							«ENDIF»
 							«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-								portout "«port.name»:\n «port.interface.name»" as «component.name»__«port.name»
+								portout "«port.name.addLineBreaks»:\n «port.interface.name»" as «component.name»__«port.name»
 							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
 				}
+				'«component.name» --[hidden]u-> maincomp
+				'«component.name» --[hidden]d-> maincomp
 			«ENDFOR»
 
 			«FOR component : composite.environmentComponents»
 				component "<size:12>«component.name»\n----\n«FOR rule : (component as ElementaryEnvironmentComponentInstance).behaviorRules»«IF rule instanceof StochasticRule»<size:10>«FOR filter : rule.filter»«filterType(filter)» «ENDFOR»: «generateDitribution(rule.stochasticModel)»\n«ENDIF»«ENDFOR»" as «component.name» <<Stochastic «envType(component as ElementaryEnvironmentComponentInstance)»>>{
 					«FOR port : (component as ElementaryEnvironmentComponentInstance).inports»
 						«IF true»
-							portin "«port.name»\n ~«port.interface.name»" as «component.name»__«port.name»
+							portin "«port.name.addLineBreaks»\n ~«port.interface.name»" as «component.name»__«port.name»
 						«ENDIF»
 					«ENDFOR»
 					«FOR port : (component as ElementaryEnvironmentComponentInstance).outports»
 						«IF true»
-							portout "«port.name»:\n «port.interface.name»" as «component.name»__«port.name»
+							portout "«port.name.addLineBreaks»:\n «port.interface.name»" as «component.name»__«port.name»
 						«ENDIF»
 					«ENDFOR»
 				}
+				'«component.name» --[hidden]u-> maincomp
+				'«component.name» --[hidden]d-> maincomp
 			«ENDFOR»
-			
+			'}
+
 			«FOR port : composite.ports»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-					portin "«port.name»:\n ~«port.interface.name»" as «port.name»
+					portin "«port.name.addLineBreaks»:\n ~«port.interface.name»" as «port.name»
 				«ENDIF»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-					portout "«port.name»:\n «port.interface.name»" as «port.name»
+					portout "«port.name.addLineBreaks»:\n «port.interface.name»" as «port.name»
 				«ENDIF»
 			«ENDFOR»
 			
@@ -158,6 +179,7 @@ class CompositeToPlantUmlTransformer {
 					«ENDIF»
 				«ENDFOR»
 			«ENDFOR»
+		
 		}
 		
 

@@ -12,6 +12,10 @@ import hu.bme.mit.gamma.statechart.composite.AsynchronousAdapter
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance
 import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
 import java.util.LinkedList
+import static extension hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility.*
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
+
+import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer
 
 class ServerGenerator {
 	
@@ -33,6 +37,7 @@ class ServerGenerator {
 	
 	def generate(AnalysisComponent analysisComponent){
 		val diagramNames = new LinkedList<String>
+		var analysismethod = analysisComponent.analysismethod as SimulationAnalysisMethod
 		generateDiagramNames(analysisComponent.analyzedComponent,analysisComponent.name,diagramNames)
 		return 
 '''
@@ -45,6 +50,12 @@ import re
 from pathlib import Path
 import yaml
 from yaml import Loader, Dumper
+
+def state2num(state):
+	if state=="run":
+		return 0.0
+	else:
+		return 1.0
 
 with open("config.yml", "r") as ymlfile:
 	config = yaml.load(ymlfile, Loader=Loader)
@@ -61,7 +72,17 @@ diagram_name_dict = dict()
 diagram_url_dict = dict()
 diagram_svg_dict = dict()
 
+elapse_time=0
+
+diagram_cmd_key="DiagramCMD-"
+event_source_cmd_key="SourceCMD-"
+periodic_source_cmd_key="PeriodicCMD-"
+elapse_cmd_key="ElapseCMD-"
+delay_cmd_key="DelayCMD-"
+
 sim_stoch_events=dict()
+
+raised_events=list()
 
 diagram_name_dict = {
 	«FOR diagramName : diagramNames»
@@ -71,7 +92,7 @@ diagram_name_dict = {
 
 
 for diagram in diagram_name_dict.keys():
-	cmd="Diagram-"+diagram.replace("::", "__")
+	cmd=diagram_cmd_key+"-"+diagram.replace("::", "__")
 	name=diagram_name_dict[diagram]
 	diagram_cmd_dict.update({diagram : cmd})
 	diagram_name_dict.update({diagram : name})
@@ -99,7 +120,7 @@ for component in stochmodel.components.keys():
 			pevents=comp.portevents[port]
 			#iterating through events
 			for pevent in pevents:
-				name="Failure"+(component+"."+port+"."+pevent).replace("()",".").replace("..",".")
+				name=event_source_cmd_key+(component+"."+port+"."+pevent).replace("()",".").replace("..",".")
 				call=comp.calls[port][pevent]
 				failure_names.append(name)
 				failure_dict.update({name:call})
@@ -115,14 +136,16 @@ for component in stochmodel.components.keys():
 			pevents=comp.portevents[port]
 			#iterating through events
 			for pevent in pevents:
-				name="PFailure"+(component+"."+port+"."+pevent).replace("()",".").replace("..",".")
+				name=periodic_source_cmd_key+(component+"."+port+"."+pevent).replace("()",".").replace("..",".")
 				call=comp.calls[port][pevent]
 				pfailure_names.append(name)
 				pfailure_dict.update({name:call})
 
 detmodel.reset()
 detmodel.getDetModel().schedule()
-
+«IF TimingDeterminer.INSTANCE.needTimer(analysisComponent.analyzedComponent.type)»
+elapse_time=int(detmodel.timer.getEarliestTime())
+«ENDIF»
 stochmodel.generateEvents()
 stochmodel.events.clear()
 
@@ -131,17 +154,20 @@ cmd=""
 class MyServer(BaseHTTPRequestHandler):
 	
 	def send_page(self):
-		global url, svg, cmd
+		global url, svg, cmd, sim_stoch_events, raised_events,elapse_time
 		command=""
 		print(self.requestline)
 		if "Reset" in self.requestline:
 			detmodel.reset()
 			detmodel.getDetModel().schedule()
+			sim_stoch_events=dict()
+			raised_events=list()
 			print("Reset!")
-		elif "PFailure" in self.requestline:
+		elif periodic_source_cmd_key in self.requestline:
 			command=self.requestline.replace("GET /?pfname=", "").replace(" HTTP/1.1", "")
 			print("Raise event ",command,"!")
 			stochmodel.time=stochmodel.time+1.0
+			raised_events.append(command)
 			failure_calls=pfailure_dict[command]
 			for failure_call in failure_calls:
 				failure_call()
@@ -151,8 +177,9 @@ class MyServer(BaseHTTPRequestHandler):
 				sim_stoch_events[event.eventSource.name.replace("()","_").replace(".","")]=event
 			# evaluate end condition
 			print("Event raised successfully!")
-		elif "Failure" in self.requestline:
+		elif event_source_cmd_key in self.requestline:
 			command=self.requestline.replace("GET /?fname=", "").replace(" HTTP/1.1", "")
+			raised_events.append(command)
 			print("Raise event ",command,"!")
 			stochmodel.time=stochmodel.time+1.0
 			failure_calls=failure_dict[command]
@@ -164,19 +191,26 @@ class MyServer(BaseHTTPRequestHandler):
 				sim_stoch_events[event.eventSource.name.replace("()","_").replace(".","")]=event
 			# evaluate end condition
 			print("Event raised successfully!")
-		elif "StochEvent" in self.requestline:
-			eventkey=self.requestline.replace("GET /?stname=", "").replace(" HTTP/1.1", "").replace("StochEvent-","")
+		elif delay_cmd_key in self.requestline:
+			eventkey=self.requestline.replace("GET /?stname=", "").replace(" HTTP/1.1", "").replace(delay_cmd_key+"-","")
+			raised_events.append(eventkey)
 			event=sim_stoch_events[eventkey]
 			stochmodel.time = event.eventTime
 			print(event.eventSource.name + ' at time: ' + str(stochmodel.time))
 			event.eventCall()
 			detmodel.getDetModel().schedule()
 			sim_stoch_events.pop(eventkey,None)
-		elif "Diagram" in self.requestline:
+		«IF TimingDeterminer.INSTANCE.needTimer(analysisComponent.analyzedComponent.type)»
+		elif elapse_cmd_key in self.requestline:
+			print("Elapse "+str(elapse_time) + ' ms at time: ' + str(stochmodel.time))
+			detmodel.timer.elapse(int(elapse_time))
+			detmodel.getDetModel().schedule()
+		«ENDIF»
+		elif diagram_cmd_key in self.requestline:
 			command=self.requestline.replace("GET /?dname=", "").replace(" HTTP/1.1", "")
 			#url=diagram_url_dict[command]
 			svg=diagram_svg_dict[command]
-			cmd=command.replace("Diagram-","")
+			cmd=command.replace(diagram_cmd_key+"-","")
 			print("Diagram change: ", command)
 		# Using readlines()
 
@@ -188,13 +222,18 @@ class MyServer(BaseHTTPRequestHandler):
 		self.wfile.write(bytes('<html><head><title>Gamma Simulator</title><meta charset="utf-8"></head>', "utf-8"))
 		#self.wfile.write(bytes("""<meta http-equiv="refresh" content="0.5" />""", "utf-8"))
 		self.wfile.write(bytes("<body>", "utf-8"))
+		
+		self.wfile.write(bytes("""<table><tbody><tr><td>""", "utf-8"))
+		
+		self.wfile.write(bytes("""<h3>Simulator commands: </h3>""", "utf-8"))
+		
 		# Strips the newline character
 		self.wfile.write(bytes("""<form action="http://localhost:8080/">""", "utf-8"))
 		
 		self.wfile.write(bytes("""<label for="dname">Choose diagram:</label><br>	""", "utf-8"))
 		self.wfile.write(bytes("""<select name="dname" id="dname">""", "utf-8"))
 		for diagram in diagram_name_dict.keys():
-			self.wfile.write(bytes("""<option value='"""+"Diagram-"+diagram.replace("::","__")+"""'> """+diagram+""" </option>""", "utf-8"))
+			self.wfile.write(bytes("""<option value='"""+diagram_cmd_key+"-"+diagram.replace("::","__")+"""'> """+diagram+""" </option>""", "utf-8"))
 		self.wfile.write(bytes("""</select>""", "utf-8"))
 		self.wfile.write(bytes("""<input type="submit" value="Choose">""", "utf-8"))
 		self.wfile.write(bytes("""</form>""", "utf-8"))
@@ -227,15 +266,64 @@ class MyServer(BaseHTTPRequestHandler):
 		self.wfile.write(bytes("""<select name="stname" id="stname">""", "utf-8"))
 		self.wfile.write(bytes("""<option value='no failure'> no event </option>""", "utf-8"))
 		for stoch_event in sim_stoch_events.keys():	
-			self.wfile.write(bytes("""<option value='"""+"StochEvent-"+stoch_event+"""'>"""+stoch_event+"""</option>""", "utf-8"))
+			self.wfile.write(bytes("""<option value='"""+delay_cmd_key+"-"+stoch_event+"""'>"""+stoch_event+"""</option>""", "utf-8"))
 		self.wfile.write(bytes("""</select>""", "utf-8"))
 		self.wfile.write(bytes("""<input type="submit" value="Insert event!">""", "utf-8"))
 		self.wfile.write(bytes("""</form>""", "utf-8"))
-
-
+		«IF TimingDeterminer.INSTANCE.needTimer(analysisComponent.analyzedComponent.type)»
+		elapse_time=int(detmodel.timer.getEarliestTime())
+		if elapse_time<8000000000000000000:
+			self.wfile.write(bytes("""<form action="http://localhost:8080/"""+elapse_cmd_key+"""">""", "utf-8"))
+			self.wfile.write(bytes("""<input type="submit" value="Elapse time: """+elapse_time+""" ms">""", "utf-8"))
+			self.wfile.write(bytes("""</form>""", "utf-8"))
+		«ENDIF»
 		self.wfile.write(bytes("""<form action="http://localhost:8080/ResetDetModel">""", "utf-8"))
 		self.wfile.write(bytes("""<input type="submit" value="Reset">""", "utf-8"))
 		self.wfile.write(bytes("""</form>""", "utf-8"))
+		
+		
+		self.wfile.write(bytes("""</td><td>""", "utf-8"))
+		
+		
+		self.wfile.write(bytes("""<h3>Raised events: </h3>""", "utf-8"))
+		
+		self.wfile.write(bytes("""<ol>""", "utf-8"))
+		
+		for raised_event in raised_events:
+			self.wfile.write(bytes("""<li>""", "utf-8"))
+			self.wfile.write(bytes(raised_event, "utf-8"))
+			self.wfile.write(bytes("""</li>""", "utf-8"))
+		
+		self.wfile.write(bytes("""</ol>""", "utf-8"))
+
+		self.wfile.write(bytes("""<h3>End conditions: </h3>""", "utf-8"))
+		
+		self.wfile.write(bytes("""<ul>""", "utf-8"))
+		
+		«FOR endCondition : analysismethod.endcondition»
+			self.wfile.write(bytes("""<li>""", "utf-8"))
+			self.wfile.write(bytes("""«generateEndConditionName(endCondition)» : """+ str(detmodel.monitorOf«generateEndConditionName(endCondition)».state), "utf-8"))
+			self.wfile.write(bytes("""</li>""", "utf-8"))
+		«ENDFOR»
+		
+		self.wfile.write(bytes("""</ul>""", "utf-8"))
+		
+		self.wfile.write(bytes("""<h3>Analysis aspects: </h3>""", "utf-8"))
+		
+		self.wfile.write(bytes("""<ul>""", "utf-8"))
+		
+		«FOR aspect : analysisComponent.aspect»
+			self.wfile.write(bytes("""<li>""", "utf-8"))
+			self.wfile.write(bytes("""«aspect.pyroName» : """+ str(«aspect.valueCall»), "utf-8"))
+			self.wfile.write(bytes("""</li>""", "utf-8"))
+		«ENDFOR»
+		
+		self.wfile.write(bytes("""</ul>""", "utf-8"))
+		
+		
+		
+		self.wfile.write(bytes("""</td></tr></tbody></table>""", "utf-8"))
+		
 		state_lines=list()
 		diagram_svg=svg
 		diagram_svg=diagram_svg.replace('lengthAdjust="spacing"','')

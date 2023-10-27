@@ -316,7 +316,7 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     _builder.append("public void schedule(){");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("while(!isEventQueueEmpty()){");
+    _builder.append("do{");
     _builder.newLine();
     {
       List<ComponentInstance> _instances_1 = StatechartModelDerivedFeatures.getInstances(component);
@@ -342,7 +342,7 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
       }
     }
     _builder.append("\t\t");
-    _builder.append("}");
+    _builder.append("}while(!isEventQueueEmpty());");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
@@ -374,7 +374,7 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
             _builder.append(", ", "\t");
           }
         }
-        _builder.append(Namings.YAKINDU_TIMER_INTERFACE, "\t");
+        _builder.append(Namings.UNIFIED_TIMER_INTERFACE, "\t");
         _builder.append(" timer) {");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -895,21 +895,25 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         _builder.newLine();
         _builder.append("\t");
         _builder.append("public void setTimer(");
-        _builder.append(Namings.YAKINDU_TIMER_INTERFACE, "\t");
+        _builder.append(Namings.UNIFIED_TIMER_INTERFACE, "\t");
         _builder.append(" timer) {");
         _builder.newLineIfNotEmpty();
         {
           EList<AsynchronousComponentInstance> _components_4 = component.getComponents();
           for(final AsynchronousComponentInstance instance_7 : _components_4) {
             {
-              boolean _needTimer_2 = this.timingDeterminer.needTimer(instance_7.getType());
-              if (_needTimer_2) {
-                _builder.append("\t");
-                _builder.append("\t");
-                String _name_20 = instance_7.getName();
-                _builder.append(_name_20, "\t\t");
-                _builder.append(".setTimer(timer);");
-                _builder.newLineIfNotEmpty();
+              if ((!(instance_7 instanceof ElementaryEnvironmentComponentInstance))) {
+                {
+                  boolean _needTimer_2 = this.timingDeterminer.needTimer(instance_7.getType());
+                  if (_needTimer_2) {
+                    _builder.append("\t");
+                    _builder.append("\t");
+                    String _name_20 = instance_7.getName();
+                    _builder.append(_name_20, "\t\t");
+                    _builder.append(".setTimer(timer);");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
               }
             }
           }

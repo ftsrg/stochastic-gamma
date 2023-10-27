@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="180px" preserveAspectRatio="none" style="width:450px;height:180px;background:#FFFFFF;" version="1.1" viewBox="0 0 450 180" width="450px" zoomAndPan="magnify"><defs/><g><rect fill="#F1F1F1" height="27.6094" style="stroke:#F1F1F1;stroke-width:1.0;" width="436.5" x="7" y="7"/><rect fill="none" height="167.0694" style="stroke:#181818;stroke-width:0.5;" width="436.5" x="7" y="7"/><line style="stroke:#181818;stroke-width:0.5;" x1="7" x2="443.5" y1="34.6094" y2="34.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="181.25" y="26.5332">CameraDriver</text><g id="CameraDriver.CarIsVisible"><rect fill="#F1F1F1" height="55.2188" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="129" x="305.5" y="46.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="305.5" x2="434.5" y1="74.2188" y2="74.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="74" x="333" y="66.1426">CarIsVisible</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="310.5" y="93.752">entry / car := true</text></g><g id="CameraDriver.CarIsNotVisible"><rect fill="#F1F1F1" height="55.2188" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="134" x="56" y="46.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="56" x2="190" y1="74.2188" y2="74.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="95" x="75.5" y="66.1426">CarIsNotVisible</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="114" x="61" y="93.752">entry / car := false</text></g><ellipse cx="28" cy="74.1094" fill="#222222" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><!--MD5=[a078651315a95d8c0036b50690aeea07]
+link *start*CameraDriver to CarIsNotVisible--><g id="link_*start*CameraDriver_CarIsNotVisible"><path d="M38.39,74.1094 C41.97,74.1094 45.55,74.1094 49.13,74.1094 " fill="none" id="*start*CameraDriver-to-CarIsNotVisible" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="54.06,74.1094,45.06,70.1094,49.06,74.1094,45.06,78.1094,54.06,74.1094" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[1ea45deb7f4563292e05a255aec2ce79]
+link CarIsNotVisible to CarIsVisible--><g id="link_CarIsNotVisible_CarIsVisible"><path d="M190.15,93.6594 C193.21,94.2194 196.26,94.7094 199.25,95.1094 C241.97,100.8894 253.55,101.0694 296.25,95.1094 C297.07,94.9994 297.89,94.8794 298.71,94.7494 " fill="none" id="CarIsNotVisible-to-CarIsVisible" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="303.57,93.9094,294.0233,91.4883,298.642,94.7546,295.3757,99.3732,303.57,93.9094" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="95" x="200.25" y="91.6045">Traffic.carArrives</text></g><!--MD5=[69b492c18a8242d6f20aea967dd80155]
+link CarIsVisible to CarIsNotVisible--><g id="link_CarIsVisible_CarIsNotVisible"><path d="M305.14,74.1094 C271.91,74.1094 231.29,74.1094 196.85,74.1094 " fill="none" id="CarIsVisible-to-CarIsNotVisible" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="192.01,74.1094,201.01,78.1094,197.01,74.1094,201.01,70.1094,192.01,74.1094" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="96" x="199.75" y="67.6045">Traffic.carLeaves</text></g><line style="stroke:#181818;stroke-width:1.5;stroke-dasharray:8.0,10.0;" x1="12" x2="436.5" y1="107.0694" y2="107.0694"/><ellipse cx="28" cy="139.0694" fill="#222222" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><g id="CameraDriver.CONC3283.service"><rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="65" x="56.5" y="114.0694"/><line style="stroke:#181818;stroke-width:0.5;" x1="56.5" x2="121.5" y1="141.6788" y2="141.6788"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="66.5" y="133.6026">service</text></g><!--MD5=[785bf8eebe56f892f2b84682c5ec4e35]
+link *start*CONC3283 to service--><g id="link_*start*CONC3283_service"><path d="M38.48,139.0694 C42.28,139.0694 46.07,139.0694 49.86,139.0694 " fill="none" id="*start*CONC3283-to-service" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="54.73,139.0694,45.73,135.0694,49.73,139.0694,45.73,143.0694,54.73,139.0694" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[c31310ed24f8b3507eaf2a0f86120556]
+link service to service--><g id="link_service_service"><path d="M121.54,129.6994 C131.6,129.8894 139.5,133.0194 139.5,139.0694 C139.5,143.7994 134.68,146.7394 127.77,147.8894 " fill="none" id="service-to-service" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="123.05,148.2994,132.3595,151.5139,128.0316,147.8712,131.6744,143.5433,123.05,148.2994" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="126" x="156.5" y="136.5645">Requests.newEvent  /</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="148" x="145.5" y="152.9161">Images.newData(0.0, car)</text></g><!--MD5=[19158788bf0d8d30eb87c41ca32c6afe]
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state CameraDriver <<squareStyle>> {
+		'region: $$_main_$$
+		CarIsVisible : entry / car := true
+		CarIsNotVisible : entry / car := false
+		[*] -> CarIsNotVisible 
+		CarIsNotVisible -> CarIsVisible : Traffic.carArrives 
+		CarIsVisible -> CarIsNotVisible : Traffic.carLeaves 
+		
+		- -
+		
+		'region: $$_main2_$$
+		[*] -> service 
+		service -> service : Requests.newEvent  /\nImages.newData(0.0, car)
+		
+		
+	
+	}
+	
+@enduml
+
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state CameraDriver <<squareStyle>> {
+		CarIsVisible : entry / car := true
+		CarIsNotVisible : entry / car := false
+		[*] -> CarIsNotVisible 
+		CarIsNotVisible -> CarIsVisible : Traffic.carArrives 
+		CarIsVisible -> CarIsNotVisible : Traffic.carLeaves 
+		
+		- -
+		
+		[*] -> service 
+		service -> service : Requests.newEvent  /\nImages.newData(0.0, car)
+		
+		
+	
+	}
+	
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(EPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,49 @@
+package orion_stoch_env
+
+import "orion_master_adapter"
+import "interfaces"
+
+stochastic async Orion_Environment [
+	port SystemConnStatus : provides ConnectionState 
+]{
+	component orionSystem : Orion_Adapter
+	
+	delay DelayKeepAliveReceiveTimeout_3 port TimoeutKeepAliveReceiveTimeout_3_req  : requires SoftwareTimer -> port TimoeutKeepAliveReceiveTimeout_3  : provides SoftwareTimer {*.*:normal mean=5.0, scale=0.5;}
+	delay DelayKapcsolodik_2             port TimeoutKapcsolodik_2_req              : requires SoftwareTimer -> port TimeoutKapcsolodik_2              : provides SoftwareTimer {*.*:normal mean=5.0, scale=0.5;}
+	delay DelayZarva_0                   port TimeoutZarva_0_req                    : requires SoftwareTimer -> port TimeoutZarva_0                    : provides SoftwareTimer {*.*:normal mean=5.0, scale=0.5;}
+	delay DelayKeepAliveSendTimeout_1    port TimeoutKeepAliveSendTimeout_1_req     : requires SoftwareTimer -> port TimeoutKeepAliveSendTimeout_1     : provides SoftwareTimer {*.*:normal mean=5.0, scale=0.5;}
+	delay DelayKeepAliveReceiveTimeout_4 port TimeoutKeepAliveReceiveTimeout_4_req  : requires SoftwareTimer -> port TimeoutKeepAliveReceiveTimeout_4  : provides SoftwareTimer {*.*:normal mean=5.0, scale=0.5;}
+	delay DelayKapcsolodik_3             port TimeoutKapcsolodik_3_req              : requires SoftwareTimer -> port TimeoutKapcsolodik_3              : provides SoftwareTimer {*.*:normal mean=5.0, scale=0.5;}
+	delay DelayKeepAliveSendTimeout_0    port TimeoutKeepAliveSendTimeout_0_req     : requires SoftwareTimer -> port TimeoutKeepAliveSendTimeout_0     : provides SoftwareTimer {*.*:normal mean=5.0, scale=0.5;}
+	
+	channel [DelayKeepAliveReceiveTimeout_3.TimoeutKeepAliveReceiveTimeout_3] -o)- [orionSystem.TimoeutKeepAliveReceiveTimeout_3]
+	channel [DelayKapcsolodik_2            .TimeoutKapcsolodik_2            ] -o)- [orionSystem.TimeoutKapcsolodik_2            ]
+	channel [DelayZarva_0                  .TimeoutZarva_0                  ] -o)- [orionSystem.TimeoutZarva_0                  ]
+	channel [DelayKeepAliveSendTimeout_1   .TimeoutKeepAliveSendTimeout_1   ] -o)- [orionSystem.TimeoutKeepAliveSendTimeout_1   ]
+	channel [DelayKeepAliveReceiveTimeout_4.TimeoutKeepAliveReceiveTimeout_4] -o)- [orionSystem.TimeoutKeepAliveReceiveTimeout_4]
+	channel [DelayKapcsolodik_3            .TimeoutKapcsolodik_3            ] -o)- [orionSystem.TimeoutKapcsolodik_3            ]
+    channel [DelayKeepAliveSendTimeout_0   .TimeoutKeepAliveSendTimeout_0   ] -o)- [orionSystem.TimeoutKeepAliveSendTimeout_0   ]
+    
+    
+	channel [orionSystem.TimoeutKeepAliveReceiveTimeout_3_req] -o)- [DelayKeepAliveReceiveTimeout_3.TimoeutKeepAliveReceiveTimeout_3_req]
+	channel [orionSystem.TimeoutKapcsolodik_2_req            ] -o)- [DelayKapcsolodik_2            .TimeoutKapcsolodik_2_req            ]
+	channel [orionSystem.TimeoutZarva_0_req                  ] -o)- [DelayZarva_0                  .TimeoutZarva_0_req                  ]
+	channel [orionSystem.TimeoutKeepAliveSendTimeout_1_req   ] -o)- [DelayKeepAliveSendTimeout_1   .TimeoutKeepAliveSendTimeout_1_req   ]
+	channel [orionSystem.TimeoutKeepAliveReceiveTimeout_4_req] -o)- [DelayKeepAliveReceiveTimeout_4.TimeoutKeepAliveReceiveTimeout_4_req]
+	channel [orionSystem.TimeoutKapcsolodik_3_req            ] -o)- [DelayKapcsolodik_3            .TimeoutKapcsolodik_3_req            ]
+    channel [orionSystem.TimeoutKeepAliveSendTimeout_0_req   ] -o)- [DelayKeepAliveSendTimeout_0   .TimeoutKeepAliveSendTimeout_0_req   ]
+
+	bind SystemConnStatus ->orionSystem.SystemStatus
+	
+}
+
+analysis Orion_Performance {
+	in stochastic component orion : Orion_Environment 
+	mean time of event orion.SystemConnStatus.conn ;
+	@Configuration(ImportanceSampling){
+		end condition raised event orion.SystemConnStatus.conn
+		simulation time = 10.0
+		simulation number = 50
+		warmup time = 0.0
+	}
+} 

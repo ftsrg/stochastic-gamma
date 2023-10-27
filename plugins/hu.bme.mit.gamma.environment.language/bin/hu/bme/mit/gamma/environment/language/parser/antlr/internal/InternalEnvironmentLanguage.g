@@ -21149,6 +21149,14 @@ ruleTimeUnit returns [Enumerator current=null]
 				newLeafNode(enumLiteral_1, grammarAccess.getTimeUnitAccess().getSECONDEnumLiteralDeclaration_1());
 			}
 		)
+		    |
+		(
+			enumLiteral_2='h'
+			{
+				$current = grammarAccess.getTimeUnitAccess().getHOUREnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_2, grammarAccess.getTimeUnitAccess().getHOUREnumLiteralDeclaration_2());
+			}
+		)
 	)
 ;
 

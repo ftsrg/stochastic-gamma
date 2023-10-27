@@ -7346,7 +7346,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//enum TimeUnit returns InterfaceModel::TimeUnit:
-	//    MILLISECOND = 'ms' | SECOND = 's'
+	//    MILLISECOND = 'ms' | SECOND = 's' | HOUR = 'h'
 	//;
 	public StatechartLanguageGrammarAccess.TimeUnitElements getTimeUnitAccess() {
 		return gaStatechartLanguage.getTimeUnitAccess();

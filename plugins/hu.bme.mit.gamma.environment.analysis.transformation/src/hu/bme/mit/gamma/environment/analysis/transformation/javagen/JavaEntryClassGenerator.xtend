@@ -12,6 +12,7 @@ import hu.bme.mit.gamma.statechart.interface_.Package
 import hu.bme.mit.gamma.environment.analysis.ObserveCondition
 import hu.bme.mit.gamma.environment.analysis.ObserveParameter
 import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
+import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer
 
 class JavaEntryClassGenerator {
 	
@@ -30,94 +31,107 @@ class JavaEntryClassGenerator {
 		package javaenv;
 		
 		import «packageName».«componentPackageName».«compName»;
+		import «packageName».VirtualTimerService;
+		
 		«FOR a : component.aspect»
 			import «packageName».interfaces.«a.event.port.interfaceRealization.interface.name.toFirstUpper»Interface;
 		«ENDFOR»
-		//import py4j.GatewayServer; great old times...
 		
+		//import py4j.GatewayServer; great old times... :)
+		
+		
+		
+		
+		public class DetModelEntryPoint  {
+			
+			public «compName» detModel=new «compName»(«TransformationUtility.generateDetmodelParamsInit(component)»);
+			«IF TimingDeterminer.INSTANCE.needTimer(component.analyzedComponent.type)»
+				public VirtualTimerService timer=new VirtualTimerService();
+			«ENDIF»
+			«FOR a : component.aspect»
+				public MonitorOf«TransformationUtility.generateAspectName(a)» monitorOf«TransformationUtility.generateAspectName(a)»=new MonitorOf«TransformationUtility.generateAspectName(a)»();
+			«ENDFOR»
+
+			«FOR c : component.conditions»
+				public MonitorOf«TransformationUtility.generateAspectName(c)» monitorOf«TransformationUtility.generateAspectName(c)»=new MonitorOf«TransformationUtility.generateAspectName(c)»();
+			«ENDFOR»
+
+			«FOR endCondition : analysismethod.endcondition»
+				public MonitorOf«TransformationUtility.generateEndConditionName(endCondition)» monitorOf«TransformationUtility.generateEndConditionName(endCondition)»= new MonitorOf«TransformationUtility.generateEndConditionName(endCondition)»();
+			«ENDFOR»
+			
+			
+			public DetModelEntryPoint(){
+				
+				«IF TimingDeterminer.INSTANCE.needTimer(component.analyzedComponent.type)»
+					detModel.setTimer(this.timer);
+				«ENDIF»
 				
 				
+				«FOR a : component.aspect»
+					detModel.get«a.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(a)»);
+				«ENDFOR»
+
+				«FOR c : component.conditions»
+					detModel.get«c.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(c)»);
+				«ENDFOR»
+
+				«FOR endCondition : analysismethod.endcondition»
+					detModel.get«endCondition.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateEndConditionName(endCondition)»);
+				«ENDFOR»
+			}
+
+			public void reset() {
+				«IF TimingDeterminer.INSTANCE.needTimer(component.analyzedComponent.type)»
+					timer.reset();
+				«ENDIF»
+				/*
+				detModel=null;
+				System.gc();
+				detModel=new «compName»(«TransformationUtility.generateDetmodelParamsResetInit(component)»);
+				«FOR a : component.aspect»
+					detModel.get«a.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(a)»);
+				«ENDFOR»
+				«FOR c : component.conditions»
+					detModel.get«c.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(c)»);
+				«ENDFOR»
+				«FOR endCondition : analysismethod.endcondition»
+					detModel.get«endCondition.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateEndConditionName(endCondition)»);
+				«ENDFOR»
+				*/
+				«FOR a : component.aspect»
+					monitorOf«TransformationUtility.generateAspectName(a)».reset();
+				«ENDFOR»											
+				«FOR endCondition : analysismethod.endcondition»
+					monitorOf«TransformationUtility.generateEndConditionName(endCondition)».reset();
+				«ENDFOR»
+				detModel.reset();
 				
-				public class DetModelEntryPoint  {
-					
-					public «compName» detModel=new «compName»(«TransformationUtility.generateDetmodelParamsInit(component)»);
+			}
+			
+			
+			public «compName» getDetModel(){
+				return detModel;
+			}
+			
+			public «compName» get«component.analyzedComponent.name.toFirstUpper»(){
+				return detModel;
+			}   
+
+			«FOR a : component.aspect»
+				«generateMonitor(a)»
+			«ENDFOR»
+
+			«FOR c : component.conditions»
+				«generateMonitor(c)»
+			«ENDFOR»
+
+			«FOR endCondition : analysismethod.endcondition»
+				«generateMonitor(endCondition)»
+			«ENDFOR»
 
 
-					«FOR a : component.aspect»
-						public MonitorOf«TransformationUtility.generateAspectName(a)» monitorOf«TransformationUtility.generateAspectName(a)»=new MonitorOf«TransformationUtility.generateAspectName(a)»();
-					«ENDFOR»
-
-					«FOR c : component.conditions»
-						public MonitorOf«TransformationUtility.generateAspectName(c)» monitorOf«TransformationUtility.generateAspectName(c)»=new MonitorOf«TransformationUtility.generateAspectName(c)»();
-					«ENDFOR»
-
-					«FOR endCondition : analysismethod.endcondition»
-						public MonitorOf«TransformationUtility.generateEndConditionName(endCondition)» monitorOf«TransformationUtility.generateEndConditionName(endCondition)»= new MonitorOf«TransformationUtility.generateEndConditionName(endCondition)»();
-					«ENDFOR»
-					
-					
-					public DetModelEntryPoint(){
-
-						«FOR a : component.aspect»
-							detModel.get«a.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(a)»);
-						«ENDFOR»
-
-						«FOR c : component.conditions»
-							detModel.get«c.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(c)»);
-						«ENDFOR»
-
-						«FOR endCondition : analysismethod.endcondition»
-							detModel.get«endCondition.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateEndConditionName(endCondition)»);
-						«ENDFOR»
-					}
-
-					public void reset() {
-						/*
-						detModel=null;
-						System.gc();
-						detModel=new «compName»(«TransformationUtility.generateDetmodelParamsResetInit(component)»);
-						«FOR a : component.aspect»
-							detModel.get«a.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(a)»);
-						«ENDFOR»
-						«FOR c : component.conditions»
-							detModel.get«c.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateAspectName(c)»);
-						«ENDFOR»
-						«FOR endCondition : analysismethod.endcondition»
-							detModel.get«endCondition.event.port.name.toFirstUpper»().registerListener(monitorOf«TransformationUtility.generateEndConditionName(endCondition)»);
-						«ENDFOR»
-						*/
-						«FOR a : component.aspect»
-							monitorOf«TransformationUtility.generateAspectName(a)».reset();
-						«ENDFOR»											
-						«FOR endCondition : analysismethod.endcondition»
-							monitorOf«TransformationUtility.generateEndConditionName(endCondition)».reset();
-						«ENDFOR»
-						detModel.reset();
-					}
-					
-					
-					public «compName» getDetModel(){
-						return detModel;
-					}
-					
-					public «compName» get«component.analyzedComponent.name.toFirstUpper»(){
-						return detModel;
-					}   
-
-					«FOR a : component.aspect»
-						«generateMonitor(a)»
-					«ENDFOR»
-
-					«FOR c : component.conditions»
-						«generateMonitor(c)»
-					«ENDFOR»
-
-					«FOR endCondition : analysismethod.endcondition»
-						«generateMonitor(endCondition)»
-					«ENDFOR»
-
-
-				}
+		}
 		
 		
 		

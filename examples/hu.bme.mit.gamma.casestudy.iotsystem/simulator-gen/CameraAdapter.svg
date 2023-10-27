@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="369px" preserveAspectRatio="none" style="width:1637px;height:369px;background:#FFFFFF;" version="1.1" viewBox="0 0 1637 369" width="1637px" zoomAndPan="magnify"><defs/><g><!--MD5=[d6758adda0ad53213eda30ea1f3452e9]
+cluster CameraAdapter--><g id="cluster_CameraAdapter"><rect fill="#FFFFFF" height="311" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="1401" x="62" y="52.4541"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1443" y="57.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1441" y="59.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1441" y="63.4541"/><text fill="#000000" font-family="Verdana" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="179" x="673" y="84.5293">«Asynchronous Adapter»</text><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="193" x="666" y="119.5869">CameraAdapter</text></g><!--MD5=[8cd91a8026ecd064a658212c3b3f8063]
+cluster comp--><g id="cluster_comp"><rect fill="#FFFFFF" height="15" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="641" x="738" y="171.4541"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1359" y="176.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1357" y="178.4541"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1357" y="182.4541"/><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="438" x="839.5" y="211.5723">cameraSoftware : CameraSoftware</text></g><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="99" x="12.5" y="169.5146">TrafficSensing</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="56" y="189.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="102" x="11" y="33.5146">SoftwareTimer</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="56" y="53.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="51" x="1419.5" y="26.5146">Images</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="1439" y="46.4541"/><!--MD5=[f64adc95edc3a2870965f1daeb15bc26]
+entity trafficQueue--><g id="elem_trafficQueue"><path d="M321.5,159.9541 L431.5,159.9541 C436.5,159.9541 436.5,195.4761 436.5,195.4761 C436.5,195.4761 436.5,230.998 431.5,230.998 L321.5,230.998 C316.5,230.998 316.5,195.4761 316.5,195.4761 C316.5,195.4761 316.5,159.9541 321.5,159.9541 " fill="#FFFFFF" style="stroke:#000000;stroke-width:1.0;"/><path d="M431.5,159.9541 C426.5,159.9541 426.5,195.4761 426.5,195.4761 C426.5,230.998 431.5,230.998 431.5,230.998 " fill="none" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="85" x="326.5" y="184.0293">trafficQueue</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="90" x="326.5" y="201.0439">capacity=10,</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="70" x="326.5" y="218.0586">priority=1</text></g><!--MD5=[5b4f1071d9e0131a8ecc2ae5cbf704d9]
+entity triggerQueue--><g id="elem_triggerQueue"><path d="M320.5,58.9541 L432.5,58.9541 C437.5,58.9541 437.5,94.4761 437.5,94.4761 C437.5,94.4761 437.5,129.998 432.5,129.998 L320.5,129.998 C315.5,129.998 315.5,94.4761 315.5,94.4761 C315.5,94.4761 315.5,58.9541 320.5,58.9541 " fill="#FFFFFF" style="stroke:#000000;stroke-width:1.0;"/><path d="M432.5,58.9541 C427.5,58.9541 427.5,94.4761 427.5,94.4761 C427.5,129.998 432.5,129.998 432.5,129.998 " fill="none" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="92" x="325.5" y="83.0293">triggerQueue</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="90" x="325.5" y="100.0439">capacity=10,</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="70" x="325.5" y="117.0586">priority=2</text></g><!--MD5=[c9f448cad701e41836c2ebceb3c0822a]
+entity comp_SoftwareTimer--><g id="elem_comp_SoftwareTimer"><ellipse cx="756" cy="94.4541" fill="#FFFFFF" rx="8" ry="8" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="149" x="681.5" y="130.5293">comp_SoftwareTimer</text></g><!--MD5=[3a68d7c547b56375dac91d9bc4fd7026]
+entity Triggers--><g id="elem_Triggers"><rect fill="#FFFFFF" height="86.0293" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="389" x="182" y="261.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="58" x="197" y="283.5293">Triggers</text><line style="stroke:#000000;stroke-width:1.0;" x1="183" x2="570" y1="291.4688" y2="291.4688"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="359" x="197" y="314.5439">when SoftwareTimer.SoftwareTimer.any / run once</text><line style="stroke:#000000;stroke-width:1.0;stroke-dasharray:1.0,2.0;" x1="183" x2="570" y1="326.4834" y2="326.4834"/></g><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="99" x="706.5" y="211.5293">TrafficSensing</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="750" y="180.4541"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="51" x="1335.5" y="145.5146">Images</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="1355" y="165.4541"/><g id="elem_note_Images"><path d="M1483,26.4541 L1483,48.4541 L1451.28,52.4541 L1483,56.4541 L1483,78.0527 A0,0 0 0 0 1483,78.0527 L1630,78.0527 A0,0 0 0 0 1630,78.0527 L1630,36.4541 L1620,26.4541 L1483,26.4541 A0,0 0 0 0 1483,26.4541 " fill="#FFFFFF" style="stroke:#000000;stroke-width:1.0;"/><path d="M1620,26.4541 L1620,36.4541 L1630,36.4541 L1620,26.4541 " fill="#FFFFFF" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="116" x="1494" y="49.5239">$Images_Blurred$</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="93" x="1494" y="65.3232">$Images_Car$</text></g><!--MD5=[b42c7894f7d7c1e9512937bb48416948]
+link comp_Images to c_Images--><g id="link_comp_Images_c_Images"><path d="M1367.36,169.9241 C1371.96,168.3841 1378.52,165.6541 1383,161.4541 C1413.13,133.2441 1432.17,86.7441 1439.96,64.7341 " fill="none" id="comp_Images-to-c_Images" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="1441.53,60.1641,1434.8173,67.371,1439.9018,64.8916,1442.3812,69.9761,1441.53,60.1641" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[2070fe188bf454e4723b2dccf27460fc]
+link c_TrafficSensing to trafficQueue--><g id="link_c_TrafficSensing_trafficQueue"><path d="M68.42,195.4541 C96.62,195.4541 228.31,195.4541 309.8,195.4541 " fill="none" id="c_TrafficSensing-to-trafficQueue" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="314.55,195.4541,305.55,191.4541,309.55,195.4541,305.55,199.4541,314.55,195.4541" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="120" y="187.5239">any</text></g><!--MD5=[303303d883a7a6ed39b3db4b65e31cb5]
+link trafficQueue to comp_TrafficSensing--><g id="link_trafficQueue_comp_TrafficSensing"><path d="M436.9,194.0341 C528.16,191.8641 697.16,187.8341 743.17,186.7341 " fill="none" id="trafficQueue-to-comp_TrafficSensing" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="748.16,186.6141,739.0602,182.8468,743.1617,186.7426,739.2658,190.8441,748.16,186.6141" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="608" y="181.5239">any</text></g><!--MD5=[cae38c7207b23a1e1f9f4f3ca3034190]
+link c_SoftwareTimer to triggerQueue--><g id="link_c_SoftwareTimer_triggerQueue"><path d="M68.42,60.0641 C96.51,63.2041 227.2,77.8441 308.77,86.9841 " fill="none" id="c_SoftwareTimer-to-triggerQueue" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="313.54,87.5141,305.0415,82.5366,308.5711,86.9572,304.1505,90.4869,313.54,87.5141" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="120" y="57.5239">any</text></g><!--MD5=[e468e4dcdd25b8e5f96b3882704b5b36]
+link triggerQueue to comp_SoftwareTimer--><g id="link_triggerQueue_comp_SoftwareTimer"><path d="M437.79,103.0841 C490.6,109.5141 569.4,116.4141 638,111.4541 C675.32,108.7541 718.81,101.2841 740.76,97.2041 " fill="none" id="triggerQueue-to-comp_SoftwareTimer" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="745.61,96.2841,736.0238,94.0247,740.6969,97.2124,737.5092,101.8856,745.61,96.2841" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="24" x="608" y="103.5239">any</text></g><!--MD5=[dca557f22f96c6fd65dfde6987f92fd0]
+@startuml
+skinparam shadowing false
+
+skinparam shadowing false
+!theme plain
+left to right direction
+skinparam nodesep 30
+skinparam ranksep 30
+
+skinparam padding 5
+
+
+skinparam interface<<Invisible>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  stereotypeFontColor Transparent
+}
+
+component "CameraAdapter"<<Asynchronous Adapter>> {
+	
+portin "TrafficSensing" as c_TrafficSensing
+
+portin "SoftwareTimer" as c_SoftwareTimer
+portin "TrafficSensing" as c_TrafficSensing
+
+portout "Images" as c_Images
+
+portout "Images" as c_Images
+
+		
+component "cameraSoftware : CameraSoftware" as comp {
+	portin "TrafficSensing" as comp_TrafficSensing
+	portout "Images" as comp_Images
+}
+
+
+comp_Images ...> c_Images
+
+queue trafficQueue  [
+trafficQueue
+capacity=10,
+priority=1
+]
+c_TrafficSensing ...> trafficQueue : "any"
+trafficQueue ...> comp_TrafficSensing : "any"
+queue triggerQueue  [
+triggerQueue
+capacity=10,
+priority=2
+]
+c_SoftwareTimer ...> triggerQueue : "any"
+triggerQueue ...> comp_SoftwareTimer : "any"
+
+card Triggers[
+Triggers
+- - - -
+when SoftwareTimer.SoftwareTimer.any / run once
+....
+]
+}
+note "$Images_Blurred$\n$Images_Car$" as note_Images
+c_Images .. note_Images
+@enduml
+
+@startuml
+skinparam shadowing false
+
+skinparam shadowing false
+
+
+
+
+
+
+
+<style>
+  root {
+    BackgroundColor white
+    FontColor black
+    FontName Verdana
+    HyperLinkColor blue
+    LineColor black
+    LineThickness 1
+    Margin 5
+  }
+  caption {
+    LineThickness 0
+  }
+  footer {
+    LineThickness 0
+  }
+  header {
+    LineThickness 0
+  }
+  node {
+    MaximumWidth 300
+  }
+  title {
+    FontSize 22
+    LineThickness 0
+  }
+</style>
+
+skinparam ArrowLollipopColor black
+skinparam BackgroundColor white
+skinparam DefaultFontName Verdana
+skinparam DefaultMonospacedFontName Courier
+skinparam LifelineStrategy nosolid
+skinparam ParticipantPadding 10
+skinparam SequenceLifeLineBorderColor black
+skinparam Shadowing false
+skinparam UseBetaStyle true
+
+skinparam Activity {
+  BackgroundColor white
+  BarColor black
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam Boundary {
+  FontColor black
+}
+skinparam Box {
+  Padding 5
+}
+skinparam CircledCharacter {
+  FontColor black
+  FontName Courier
+  Radius 9
+}
+skinparam Class {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassAttribute {
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassStereotype {
+  FontColor black
+  FontName Verdana
+}
+skinparam Footer {
+  FontColor black
+  FontName Verdana
+}
+skinparam Header {
+  FontColor black
+  FontName Verdana
+}
+skinparam Hyperlink {
+  Color blue
+}
+skinparam IconPackage {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPrivate {
+  Color black
+  BackgroundColor white
+}
+skinparam IconProtected {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPublic {
+  Color black
+  BackgroundColor white
+}
+skinparam Note {
+  FontColor black
+  FontName Verdana
+}
+skinparam Object {
+  BorderColor black
+}
+skinparam Package {
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam State {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeA {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeC {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeE {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeI {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeN {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam UseCaseStereoType {
+  FontColor black
+  FontName Verdana
+}
+left to right direction
+skinparam nodesep 30
+skinparam ranksep 30
+
+skinparam padding 5
+
+
+skinparam interface<<Invisible>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  stereotypeFontColor Transparent
+}
+
+component "CameraAdapter"<<Asynchronous Adapter>> {
+	
+portin "TrafficSensing" as c_TrafficSensing
+
+portin "SoftwareTimer" as c_SoftwareTimer
+portin "TrafficSensing" as c_TrafficSensing
+
+portout "Images" as c_Images
+
+portout "Images" as c_Images
+
+		
+component "cameraSoftware : CameraSoftware" as comp {
+	portin "TrafficSensing" as comp_TrafficSensing
+	portout "Images" as comp_Images
+}
+
+
+comp_Images ...> c_Images
+
+queue trafficQueue  [
+trafficQueue
+capacity=10,
+priority=1
+]
+c_TrafficSensing ...> trafficQueue : "any"
+trafficQueue ...> comp_TrafficSensing : "any"
+queue triggerQueue  [
+triggerQueue
+capacity=10,
+priority=2
+]
+c_SoftwareTimer ...> triggerQueue : "any"
+triggerQueue ...> comp_SoftwareTimer : "any"
+
+card Triggers[
+Triggers
+- - - -
+when SoftwareTimer.SoftwareTimer.any / run once
+....
+]
+}
+note "$Images_Blurred$\n$Images_Car$" as note_Images
+c_Images .. note_Images
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(EPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

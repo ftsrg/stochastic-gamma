@@ -13,8 +13,8 @@ stochastic async IoTSystemParametric (delayMean:decimal) [
 	component edge : EdgeAdapter
 	component traffic : RoadTrafficParametric(delayMean)
 	channel [traffic.Cars] -o)- [camera1.TrafficSensing,camera2.TrafficSensing,edge.TrafficStream]
-	channel [camera1.Images] -o)- [edge.Camera]
-	channel [camera2.Images] -o)- [edge.Camera]
+	channel [camera1.OutputData] -o)- [edge.Camera]
+	channel [camera2.OutputData] -o)- [edge.Camera]
 	bind Failures -> edge.LostImage
 	bind CarLeave -> edge.CarLeave
 }
@@ -23,6 +23,9 @@ analysis ServiceAvailability {
 	in stochastic component system : IoTSystemParametric(sample(uniform from=0.1, to=1.0))
 	probability of event system.Failures.newEvent;
 	@Configuration(ImportanceSampling){
+		simulation number = 10
+		simulation time = 10.0
+		warmup time = 0.0
 		end condition raised event system.CarLeave.newEvent
 	}
 }

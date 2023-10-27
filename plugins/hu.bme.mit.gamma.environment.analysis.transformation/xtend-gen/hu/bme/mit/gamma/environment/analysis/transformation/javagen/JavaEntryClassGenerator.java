@@ -1,6 +1,7 @@
 package hu.bme.mit.gamma.environment.analysis.transformation.javagen;
 
 import com.google.common.base.Objects;
+import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer;
 import hu.bme.mit.gamma.environment.analysis.AnalysisAspect;
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
 import hu.bme.mit.gamma.environment.analysis.AnalysisCondition;
@@ -63,6 +64,11 @@ public class JavaEntryClassGenerator {
       _builder.append(compName);
       _builder.append(";");
       _builder.newLineIfNotEmpty();
+      _builder.append("import ");
+      _builder.append(packageName);
+      _builder.append(".VirtualTimerService;");
+      _builder.newLineIfNotEmpty();
+      _builder.newLine();
       {
         EList<AnalysisAspect> _aspect = component.getAspect();
         for(final AnalysisAspect a : _aspect) {
@@ -75,45 +81,48 @@ public class JavaEntryClassGenerator {
           _builder.newLineIfNotEmpty();
         }
       }
-      _builder.append("//import py4j.GatewayServer; great old times...");
+      _builder.newLine();
+      _builder.append("//import py4j.GatewayServer; great old times... :)");
       _builder.newLine();
       _builder.newLine();
-      _builder.append("\t\t");
       _builder.newLine();
-      _builder.append("\t\t");
       _builder.newLine();
-      _builder.append("\t\t");
       _builder.newLine();
-      _builder.append("\t\t");
       _builder.append("public class DetModelEntryPoint  {");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("public ");
-      _builder.append(compName, "\t\t\t");
+      _builder.append(compName, "\t");
       _builder.append(" detModel=new ");
-      _builder.append(compName, "\t\t\t");
+      _builder.append(compName, "\t");
       _builder.append("(");
       CharSequence _generateDetmodelParamsInit = TransformationUtility.generateDetmodelParamsInit(component);
-      _builder.append(_generateDetmodelParamsInit, "\t\t\t");
+      _builder.append(_generateDetmodelParamsInit, "\t");
       _builder.append(");");
       _builder.newLineIfNotEmpty();
-      _builder.newLine();
-      _builder.newLine();
+      {
+        boolean _needTimer = TimingDeterminer.INSTANCE.needTimer(component.getAnalyzedComponent().getType());
+        if (_needTimer) {
+          _builder.append("\t");
+          _builder.append("public VirtualTimerService timer=new VirtualTimerService();");
+          _builder.newLine();
+        }
+      }
       {
         EList<AnalysisAspect> _aspect_1 = component.getAspect();
         for(final AnalysisAspect a_1 : _aspect_1) {
-          _builder.append("\t\t\t");
+          _builder.append("\t");
           _builder.append("public MonitorOf");
           String _generateAspectName = TransformationUtility.generateAspectName(a_1);
-          _builder.append(_generateAspectName, "\t\t\t");
+          _builder.append(_generateAspectName, "\t");
           _builder.append(" monitorOf");
           String _generateAspectName_1 = TransformationUtility.generateAspectName(a_1);
-          _builder.append(_generateAspectName_1, "\t\t\t");
+          _builder.append(_generateAspectName_1, "\t");
           _builder.append("=new MonitorOf");
           String _generateAspectName_2 = TransformationUtility.generateAspectName(a_1);
-          _builder.append(_generateAspectName_2, "\t\t\t");
+          _builder.append(_generateAspectName_2, "\t");
           _builder.append("();");
           _builder.newLineIfNotEmpty();
         }
@@ -122,16 +131,16 @@ public class JavaEntryClassGenerator {
       {
         EList<AnalysisCondition> _conditions = component.getConditions();
         for(final AnalysisCondition c : _conditions) {
-          _builder.append("\t\t\t");
+          _builder.append("\t");
           _builder.append("public MonitorOf");
           String _generateAspectName_3 = TransformationUtility.generateAspectName(c);
-          _builder.append(_generateAspectName_3, "\t\t\t");
+          _builder.append(_generateAspectName_3, "\t");
           _builder.append(" monitorOf");
           String _generateAspectName_4 = TransformationUtility.generateAspectName(c);
-          _builder.append(_generateAspectName_4, "\t\t\t");
+          _builder.append(_generateAspectName_4, "\t");
           _builder.append("=new MonitorOf");
           String _generateAspectName_5 = TransformationUtility.generateAspectName(c);
-          _builder.append(_generateAspectName_5, "\t\t\t");
+          _builder.append(_generateAspectName_5, "\t");
           _builder.append("();");
           _builder.newLineIfNotEmpty();
         }
@@ -140,38 +149,51 @@ public class JavaEntryClassGenerator {
       {
         EList<EndCondition> _endcondition = analysismethod.getEndcondition();
         for(final EndCondition endCondition : _endcondition) {
-          _builder.append("\t\t\t");
+          _builder.append("\t");
           _builder.append("public MonitorOf");
           String _generateEndConditionName = TransformationUtility.generateEndConditionName(endCondition);
-          _builder.append(_generateEndConditionName, "\t\t\t");
+          _builder.append(_generateEndConditionName, "\t");
           _builder.append(" monitorOf");
           String _generateEndConditionName_1 = TransformationUtility.generateEndConditionName(endCondition);
-          _builder.append(_generateEndConditionName_1, "\t\t\t");
+          _builder.append(_generateEndConditionName_1, "\t");
           _builder.append("= new MonitorOf");
           String _generateEndConditionName_2 = TransformationUtility.generateEndConditionName(endCondition);
-          _builder.append(_generateEndConditionName_2, "\t\t\t");
+          _builder.append(_generateEndConditionName_2, "\t");
           _builder.append("();");
           _builder.newLineIfNotEmpty();
         }
       }
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("public DetModelEntryPoint(){");
       _builder.newLine();
+      _builder.append("\t\t");
+      _builder.newLine();
+      {
+        boolean _needTimer_1 = TimingDeterminer.INSTANCE.needTimer(component.getAnalyzedComponent().getType());
+        if (_needTimer_1) {
+          _builder.append("\t\t");
+          _builder.append("detModel.setTimer(this.timer);");
+          _builder.newLine();
+        }
+      }
+      _builder.append("\t\t");
+      _builder.newLine();
+      _builder.append("\t\t");
       _builder.newLine();
       {
         EList<AnalysisAspect> _aspect_2 = component.getAspect();
         for(final AnalysisAspect a_2 : _aspect_2) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("detModel.get");
           String _firstUpper_1 = StringExtensions.toFirstUpper(a_2.getEvent().getPort().getName());
-          _builder.append(_firstUpper_1, "\t\t\t\t");
+          _builder.append(_firstUpper_1, "\t\t");
           _builder.append("().registerListener(monitorOf");
           String _generateAspectName_6 = TransformationUtility.generateAspectName(a_2);
-          _builder.append(_generateAspectName_6, "\t\t\t\t");
+          _builder.append(_generateAspectName_6, "\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
         }
@@ -180,13 +202,13 @@ public class JavaEntryClassGenerator {
       {
         EList<AnalysisCondition> _conditions_1 = component.getConditions();
         for(final AnalysisCondition c_1 : _conditions_1) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("detModel.get");
           String _firstUpper_2 = StringExtensions.toFirstUpper(c_1.getEvent().getPort().getName());
-          _builder.append(_firstUpper_2, "\t\t\t\t");
+          _builder.append(_firstUpper_2, "\t\t");
           _builder.append("().registerListener(monitorOf");
           String _generateAspectName_7 = TransformationUtility.generateAspectName(c_1);
-          _builder.append(_generateAspectName_7, "\t\t\t\t");
+          _builder.append(_generateAspectName_7, "\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
         }
@@ -195,51 +217,59 @@ public class JavaEntryClassGenerator {
       {
         EList<EndCondition> _endcondition_1 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_1 : _endcondition_1) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("detModel.get");
           String _firstUpper_3 = StringExtensions.toFirstUpper(endCondition_1.getEvent().getPort().getName());
-          _builder.append(_firstUpper_3, "\t\t\t\t");
+          _builder.append(_firstUpper_3, "\t\t");
           _builder.append("().registerListener(monitorOf");
           String _generateEndConditionName_3 = TransformationUtility.generateEndConditionName(endCondition_1);
-          _builder.append(_generateEndConditionName_3, "\t\t\t\t");
+          _builder.append(_generateEndConditionName_3, "\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
         }
       }
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("}");
       _builder.newLine();
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("public void reset() {");
       _builder.newLine();
-      _builder.append("\t\t\t\t");
+      {
+        boolean _needTimer_2 = TimingDeterminer.INSTANCE.needTimer(component.getAnalyzedComponent().getType());
+        if (_needTimer_2) {
+          _builder.append("\t\t");
+          _builder.append("timer.reset();");
+          _builder.newLine();
+        }
+      }
+      _builder.append("\t\t");
       _builder.append("/*");
       _builder.newLine();
-      _builder.append("\t\t\t\t");
+      _builder.append("\t\t");
       _builder.append("detModel=null;");
       _builder.newLine();
-      _builder.append("\t\t\t\t");
+      _builder.append("\t\t");
       _builder.append("System.gc();");
       _builder.newLine();
-      _builder.append("\t\t\t\t");
+      _builder.append("\t\t");
       _builder.append("detModel=new ");
-      _builder.append(compName, "\t\t\t\t");
+      _builder.append(compName, "\t\t");
       _builder.append("(");
       CharSequence _generateDetmodelParamsResetInit = TransformationUtility.generateDetmodelParamsResetInit(component);
-      _builder.append(_generateDetmodelParamsResetInit, "\t\t\t\t");
+      _builder.append(_generateDetmodelParamsResetInit, "\t\t");
       _builder.append(");");
       _builder.newLineIfNotEmpty();
       {
         EList<AnalysisAspect> _aspect_3 = component.getAspect();
         for(final AnalysisAspect a_3 : _aspect_3) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("detModel.get");
           String _firstUpper_4 = StringExtensions.toFirstUpper(a_3.getEvent().getPort().getName());
-          _builder.append(_firstUpper_4, "\t\t\t\t");
+          _builder.append(_firstUpper_4, "\t\t");
           _builder.append("().registerListener(monitorOf");
           String _generateAspectName_8 = TransformationUtility.generateAspectName(a_3);
-          _builder.append(_generateAspectName_8, "\t\t\t\t");
+          _builder.append(_generateAspectName_8, "\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
         }
@@ -247,13 +277,13 @@ public class JavaEntryClassGenerator {
       {
         EList<AnalysisCondition> _conditions_2 = component.getConditions();
         for(final AnalysisCondition c_2 : _conditions_2) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("detModel.get");
           String _firstUpper_5 = StringExtensions.toFirstUpper(c_2.getEvent().getPort().getName());
-          _builder.append(_firstUpper_5, "\t\t\t\t");
+          _builder.append(_firstUpper_5, "\t\t");
           _builder.append("().registerListener(monitorOf");
           String _generateAspectName_9 = TransformationUtility.generateAspectName(c_2);
-          _builder.append(_generateAspectName_9, "\t\t\t\t");
+          _builder.append(_generateAspectName_9, "\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
         }
@@ -261,27 +291,27 @@ public class JavaEntryClassGenerator {
       {
         EList<EndCondition> _endcondition_2 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_2 : _endcondition_2) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("detModel.get");
           String _firstUpper_6 = StringExtensions.toFirstUpper(endCondition_2.getEvent().getPort().getName());
-          _builder.append(_firstUpper_6, "\t\t\t\t");
+          _builder.append(_firstUpper_6, "\t\t");
           _builder.append("().registerListener(monitorOf");
           String _generateEndConditionName_4 = TransformationUtility.generateEndConditionName(endCondition_2);
-          _builder.append(_generateEndConditionName_4, "\t\t\t\t");
+          _builder.append(_generateEndConditionName_4, "\t\t");
           _builder.append(");");
           _builder.newLineIfNotEmpty();
         }
       }
-      _builder.append("\t\t\t\t");
+      _builder.append("\t\t");
       _builder.append("*/");
       _builder.newLine();
       {
         EList<AnalysisAspect> _aspect_4 = component.getAspect();
         for(final AnalysisAspect a_4 : _aspect_4) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("monitorOf");
           String _generateAspectName_10 = TransformationUtility.generateAspectName(a_4);
-          _builder.append(_generateAspectName_10, "\t\t\t\t");
+          _builder.append(_generateAspectName_10, "\t\t");
           _builder.append(".reset();");
           _builder.newLineIfNotEmpty();
         }
@@ -289,58 +319,60 @@ public class JavaEntryClassGenerator {
       {
         EList<EndCondition> _endcondition_3 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_3 : _endcondition_3) {
-          _builder.append("\t\t\t\t");
+          _builder.append("\t\t");
           _builder.append("monitorOf");
           String _generateEndConditionName_5 = TransformationUtility.generateEndConditionName(endCondition_3);
-          _builder.append(_generateEndConditionName_5, "\t\t\t\t");
+          _builder.append(_generateEndConditionName_5, "\t\t");
           _builder.append(".reset();");
           _builder.newLineIfNotEmpty();
         }
       }
-      _builder.append("\t\t\t\t");
+      _builder.append("\t\t");
       _builder.append("detModel.reset();");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t\t");
+      _builder.newLine();
+      _builder.append("\t");
       _builder.append("}");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("public ");
-      _builder.append(compName, "\t\t\t");
+      _builder.append(compName, "\t");
       _builder.append(" getDetModel(){");
       _builder.newLineIfNotEmpty();
-      _builder.append("\t\t\t\t");
+      _builder.append("\t\t");
       _builder.append("return detModel;");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("}");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("public ");
-      _builder.append(compName, "\t\t\t");
+      _builder.append(compName, "\t");
       _builder.append(" get");
       String _firstUpper_7 = StringExtensions.toFirstUpper(component.getAnalyzedComponent().getName());
-      _builder.append(_firstUpper_7, "\t\t\t");
+      _builder.append(_firstUpper_7, "\t");
       _builder.append("(){");
       _builder.newLineIfNotEmpty();
-      _builder.append("\t\t\t\t");
+      _builder.append("\t\t");
       _builder.append("return detModel;");
       _builder.newLine();
-      _builder.append("\t\t\t");
+      _builder.append("\t");
       _builder.append("}   ");
       _builder.newLine();
       _builder.newLine();
       {
         EList<AnalysisAspect> _aspect_5 = component.getAspect();
         for(final AnalysisAspect a_5 : _aspect_5) {
-          _builder.append("\t\t\t");
+          _builder.append("\t");
           CharSequence _generateMonitor = this.generateMonitor(a_5);
-          _builder.append(_generateMonitor, "\t\t\t");
+          _builder.append(_generateMonitor, "\t");
           _builder.newLineIfNotEmpty();
         }
       }
@@ -348,9 +380,9 @@ public class JavaEntryClassGenerator {
       {
         EList<AnalysisCondition> _conditions_3 = component.getConditions();
         for(final AnalysisCondition c_3 : _conditions_3) {
-          _builder.append("\t\t\t");
+          _builder.append("\t");
           CharSequence _generateMonitor_1 = this.generateMonitor(c_3);
-          _builder.append(_generateMonitor_1, "\t\t\t");
+          _builder.append(_generateMonitor_1, "\t");
           _builder.newLineIfNotEmpty();
         }
       }
@@ -358,15 +390,14 @@ public class JavaEntryClassGenerator {
       {
         EList<EndCondition> _endcondition_4 = analysismethod.getEndcondition();
         for(final EndCondition endCondition_4 : _endcondition_4) {
-          _builder.append("\t\t\t");
+          _builder.append("\t");
           CharSequence _generateMonitor_2 = this.generateMonitor(endCondition_4);
-          _builder.append(_generateMonitor_2, "\t\t\t");
+          _builder.append(_generateMonitor_2, "\t");
           _builder.newLineIfNotEmpty();
         }
       }
       _builder.newLine();
       _builder.newLine();
-      _builder.append("\t\t");
       _builder.append("}");
       _builder.newLine();
       _builder.newLine();

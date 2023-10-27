@@ -41,7 +41,7 @@ class TransformationUtility {
 	}
 	
 	static def String generateEnvCompName(String componentCall,ElementaryEnvironmentComponentInstance component){
-		return componentCall.replaceAll(".get()",".")+component.name
+		return componentCall.replaceFirst(".get","").replaceAll(".get",".").replaceAll('''\(\)''',"")+"."+component.name
 	}
 	 
 	
@@ -55,7 +55,7 @@ class TransformationUtility {
 			name=name+compRef.component.name.toFirstUpper
 			compRef=compRef.recursivecomponentreference
 		}
-		name=name+aspect.event.port.name.toFirstUpper+aspect.event.event.name.toFirstUpper
+		name=name+"_"+aspect.event.port.name.toFirstUpper+"_"+aspect.event.event.name.toFirstUpper
 		return name
 	}
 	
@@ -66,7 +66,7 @@ class TransformationUtility {
 			name=name+compRef.component.name.toFirstUpper
 			compRef=compRef.recursivecomponentreference
 		}
-		name=name+endCondition.event.port.name.toFirstUpper+endCondition.event.event.name.toFirstUpper
+		name=name+"_"+endCondition.event.port.name.toFirstUpper+"_"+endCondition.event.event.name.toFirstUpper
 		return name
 	}
 	
@@ -95,10 +95,40 @@ class TransformationUtility {
 		
 		#register the result of the analysis to the Pyro
 		«FOR aspect : aspects»
-			pyro.deterministic("«aspect.pyroName»",torch.tensor(«aspect.valueCall»))
+			«IF aspect instanceof MeanTime»
+				# register the time only if the event is raised
+				if str(detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».state) != "run" :
+					pyro.deterministic("«aspect.pyroName»",torch.tensor(«aspect.valueCall»))
+			«ELSE»
+				pyro.deterministic("«aspect.pyroName»",torch.tensor(«aspect.valueCall»))
+			«ENDIF»
 		«ENDFOR»
 		'''
 	}
+	
+	
+	static def generateDebugAspectRegistry(List<AnalysisAspect> aspects){
+''' 
+		#register the result of the analysis to the Pyro
+		«FOR aspect : aspects»
+			if DEBUG:
+				# register the time only if the event is raised
+				if int(detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».freq) != «TransformationUtility.generateAspectName(aspect)»Freq :
+					«TransformationUtility.generateAspectName(aspect)»Freq=int(detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».freq)
+					dprint(f'detmodel -> analysis : "«aspect.event.port.name».«aspect.event.event.name» at time {stochmodel.time}"')
+		«ENDFOR»
+		'''
+	}
+	static def generateDebugAspectVars(List<AnalysisAspect> aspects){
+'''	
+		# DEBUG variables
+		«FOR aspect : aspects»
+		«TransformationUtility.generateAspectName(aspect)»Freq=0
+		«ENDFOR»
+		'''
+	}
+	
+	
 	
 	static def generatePyroConditionRegistry(List<AnalysisCondition> conditions){
 		'''
@@ -130,7 +160,7 @@ class TransformationUtility {
 		'''
 	
 	#return the result of the simulation
-	return «FOR aspect : aspects»«aspect.valueCall»«ENDFOR»
+	return «FOR aspect : aspects SEPARATOR ", "»«aspect.valueCall»«ENDFOR»
 		'''
 	}
 	

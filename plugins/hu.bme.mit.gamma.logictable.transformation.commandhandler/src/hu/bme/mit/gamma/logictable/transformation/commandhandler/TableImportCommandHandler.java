@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import hu.bme.mit.gamma.dialog.DialogUtil;
-import hu.bme.mit.gamma.logictable.importer.TableTransformation;
+import hu.bme.mit.gamma.logictable.transformation.TableTransformation;
 import hu.bme.mit.gamma.statechart.interface_.Interface;
 import hu.bme.mit.gamma.statechart.interface_.Package;
 import hu.bme.mit.gamma.util.FileUtil;
@@ -57,6 +57,8 @@ public class TableImportCommandHandler extends AbstractHandler {
 							if (!p.getInterfaces().isEmpty()) {
 								interfacePaths.add(p.getName());
 								interfaces.addAll(p.getInterfaces());
+								logger.log(Level.INFO,"Interface gcd file found: "+file.getFullPath().toString());
+								logger.log(Level.INFO,"Interface package name: "+p.getName().toString());
 							}
 						}
 		    	   }
@@ -77,11 +79,13 @@ public class TableImportCommandHandler extends AbstractHandler {
 					if ( file.getFileExtension() .equals("xlsx") ||  file.getFileExtension() .equals("xlsx") ||  file.getFileExtension() .equals("xlsx")) {
 						var fname=file.getName().replace("."+file.getFileExtension(), "").toLowerCase();
 						IProject project=file.getProject();
+						interfacePaths.clear();
 						Set<Interface> interfaces=processContainer(project);
 						TableTransformation transformation=new TableTransformation();
 						var futil=FileUtil.INSTANCE;
 						var outURI=file.getProject().getLocation().toString()+File.separator+"model-gen"+File.separator+fname+".gcd";
-						futil.saveString(outURI, transformation.generate(file.getLocation().toFile().toString(), interfaces, fname,interfacePaths));
+						var sct_data = transformation.generate(file.getLocation().toFile().toString(), interfaces, fname, interfacePaths);
+						futil.saveString(outURI, sct_data);
 					}else {
 						DialogUtil.showError("Only Microsoft Excel (xls,xlsm,xlsx) files can be parsed.");
 					}

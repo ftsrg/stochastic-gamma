@@ -28,4 +28,6 @@ Require-Bundle: com.google.guava,
  hu.bme.mit.gamma.xsts.transformation.util;bundle-version="2.9.0",
  hu.bme.mit.gamma.statechart.lowlevel.transformation;bundle-version="2.9.0",
  hu.bme.mit.gamma.lowlevel.xsts.transformation;bundle-version="2.9.0",
- hu.bme.mit.gamma.lowlevel.xsts.transformation.traceability;bundle-version="2.9.0"
+ hu.bme.mit.gamma.lowlevel.xsts.transformation.traceability;bundle-version="2.9.0",
+ hu.bme.mit.gamma.environment.analysis.transformation;bundle-version="1.0.0",
+ hu.bme.mit.gamma.codegeneration.java.util;bundle-version="2.9.0"

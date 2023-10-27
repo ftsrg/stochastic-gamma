@@ -115,7 +115,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			}
 			
 			public void schedule(){
-				while(!isEventQueueEmpty()){
+				do{
 					«FOR inst : component.instances»
 						«inst.name».schedule();
 					«ENDFOR»
@@ -124,10 +124,10 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 							«envUtil.getScheduleCall(inst as ElementaryEnvironmentComponentInstance)»
 						«ENDFOR»
 					«ENDIF»
-				}
+				}while(!isEventQueueEmpty());
 			}
 			«IF component.needTimer»
-				public «component.generateComponentClassName»(«FOR parameter : component.parameterDeclarations SEPARATOR ", " AFTER ", "»«parameter.type.transformType» «parameter.name»«ENDFOR»«Namings.YAKINDU_TIMER_INTERFACE» timer) {
+				public «component.generateComponentClassName»(«FOR parameter : component.parameterDeclarations SEPARATOR ", " AFTER ", "»«parameter.type.transformType» «parameter.name»«ENDFOR»«Namings.UNIFIED_TIMER_INTERFACE» timer) {
 					«component.createInstances»
 					«IF component instanceof EnvironmentAsynchronousCompositeComponent»
 					// Environmental Component instances
@@ -256,10 +256,12 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			
 			«IF component.needTimer»
 				/** Setter for the timer e.g., a virtual timer. */
-				public void setTimer(«Namings.YAKINDU_TIMER_INTERFACE» timer) {
+				public void setTimer(«Namings.UNIFIED_TIMER_INTERFACE» timer) {
 					«FOR instance : component.components»
-						«IF instance.type.needTimer»
-							«instance.name».setTimer(timer);
+						«IF !(instance instanceof ElementaryEnvironmentComponentInstance)»
+							«IF instance.type.needTimer»
+								«instance.name».setTimer(timer);
+							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
 					«IF component instanceof AbstractEnvironmentCompositeComponent»

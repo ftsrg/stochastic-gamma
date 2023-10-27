@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="728px" preserveAspectRatio="none" style="width:750px;height:728px;background:#FFFFFF;" version="1.1" viewBox="0 0 750 728" width="750px" zoomAndPan="magnify"><defs/><g><!--MD5=[340d50be86d014ef59a63fc9efa09748]
+cluster DualGPS--><g id="cluster_DualGPS"><rect fill="#FFFFFF" height="670" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="732" x="12" y="12"/><text fill="#000000" font-family="Verdana" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="193" x="281.5" y="29.0752">«stochastic asynchronous»</text><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="107" x="324.5" y="56.1328">DualGPS</text></g><!--MD5=[e698857bef90279b8df44e5afcb0c883]
+cluster GPS1--><g id="cluster_GPS1"><rect fill="#FFFFFF" height="159" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="78" x="244.5" y="271"/><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="42" x="262.5" y="286.0645">GPS1:</text><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="66" x="250.5" y="300.6484">GPSasync</text></g><!--MD5=[0f68e0ff98cf0dbc7969b09e09e585d4]
+cluster GPS2--><g id="cluster_GPS2"><rect fill="#FFFFFF" height="159" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="91" x="74" y="271"/><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="42" x="98.5" y="286.0645">GPS2:</text><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="66" x="86.5" y="300.6484">GPSasync</text></g><!--MD5=[afe6e1cdb59f90023716ae34c9e1a0fe]
+cluster Voter--><g id="cluster_Voter"><rect fill="#FFFFFF" height="106" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="304" x="149" y="534"/><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="41" x="280.5" y="549.0645">Voter:</text><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="74" x="264" y="563.6484">Voterasync</text></g><!--MD5=[58c11be472e66ca67a5c00f2b486bc30]
+cluster GPS1_Failure--><g id="cluster_GPS1_Failure"><rect fill="#FFFFFF" height="139" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="170" x="304.625" y="28"/><text fill="#000000" font-family="Verdana" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="146" x="316.625" y="45.0752">«Stochastic Source»</text><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="92" x="341.625" y="62.0791">GPS1_Failure</text><line style="stroke:#000000;stroke-width:1.0;" x1="309.625" x2="469.625" y1="69.5986" y2="69.5986"/><text fill="#000000" font-family="Verdana" font-size="10" font-weight="bold" lengthAdjust="spacing" textLength="158" x="310.625" y="84.6523">Faults.* : Exponential(10.0)</text><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="8" x="385.625" y="108.8701"> </text></g><!--MD5=[5db57eae46c91239cdba6695cda8dfbd]
+cluster GPS2_Failure--><g id="cluster_GPS2_Failure"><rect fill="#FFFFFF" height="139" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="208" x="28" y="28"/><text fill="#000000" font-family="Verdana" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="146" x="59" y="45.0752">«Stochastic Source»</text><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="92" x="84" y="62.0791">GPS2_Failure</text><line style="stroke:#000000;stroke-width:1.0;" x1="52" x2="212" y1="69.5986" y2="69.5986"/><text fill="#000000" font-family="Verdana" font-size="10" font-weight="bold" lengthAdjust="spacing" textLength="158" x="53" y="84.6523">Faults.* : Exponential(10.0)</text><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="8" x="128" y="108.8701"> </text></g><!--MD5=[1e427eeb40956a27b8f11fb441d44b8d]
+cluster Voter_Failure--><g id="cluster_Voter_Failure"><rect fill="#FFFFFF" height="139" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="170" x="437.625" y="291"/><text fill="#000000" font-family="Verdana" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="146" x="449.625" y="308.0752">«Stochastic Source»</text><text fill="#000000" font-family="Verdana" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="91" x="475.125" y="325.0791">Voter_Failure</text><line style="stroke:#000000;stroke-width:1.0;" x1="442.625" x2="602.625" y1="332.5986" y2="332.5986"/><text fill="#000000" font-family="Verdana" font-size="10" font-weight="bold" lengthAdjust="spacing" textLength="158" x="443.625" y="347.6523">Faults.* : Exponential(20.0)</text><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="8" x="518.625" y="371.8701"> </text></g><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="114" x="503" y="703.0752">Communication:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="50" x="537.5" y="720.0898">Sensor</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="554" y="676"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="48" x="274" y="232.0459">Faults:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="122" x="237" y="249.0605">~HardwareFailure</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="292" y="265"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="114" x="212" y="451.0752">Communication:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="50" x="246.5" y="468.0898">Sensor</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="263" y="424"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="48" x="108" y="232.0459">Faults:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="122" x="71" y="249.0605">~HardwareFailure</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="126" y="265"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="114" x="90" y="451.0752">Communication:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="50" x="124.5" y="468.0898">Sensor</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="141" y="424"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="48" x="411" y="495.0459">Faults:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="122" x="374" y="512.0605">~HardwareFailure</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="429" y="528"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="65" x="206.5" y="495.0459">Sensor1:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="61" x="208.5" y="512.0605">~Sensor</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="233" y="528"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="65" x="134.5" y="495.0459">Sensor2:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="61" x="136.5" y="512.0605">~Sensor</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="161" y="528"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="114" x="372" y="661.0752">Communication:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="50" x="406.5" y="678.0898">Sensor</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="423" y="634"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="48" x="299" y="188.0752">Faults:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="111" x="270" y="205.0898">HardwareFailure</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="317" y="161"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="48" x="108" y="188.0752">Faults:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="111" x="79" y="205.0898">HardwareFailure</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="126" y="161"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="48" x="437" y="451.0752">Faults:</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="111" x="408" y="468.0898">HardwareFailure</text><rect fill="#FFFFFF" height="12" style="stroke:#000000;stroke-width:1.5;" width="12" x="455" y="424"/><!--MD5=[3ef86aadab29cba087fa928aec04fc11]
+link Voter__Communication to Communication--><g id="link_Voter__Communication_Communication"><path d="M430.07,646.39 C431.34,651.26 433.95,658.23 439,662 C455.97,674.67 519.79,679.12 547.28,680.48 " fill="none" id="Voter__Communication-to-Communication" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="552.21,680.7,543.4026,676.292,547.2152,680.471,543.0363,684.2836,552.21,680.7" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[3915813f546ab64803af5322be439a0b]
+link GPS1_Failure__Faults to GPS1__Faults--><g id="link_GPS1_Failure__Faults_GPS1__Faults"><path d="M321.66,173.48 C317.72,189.54 306.16,236.69 300.8,258.59 " fill="none" id="GPS1_Failure__Faults-to-GPS1__Faults" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="299.65,263.27,305.6919,255.4921,300.8492,258.4159,297.9254,253.5733,299.65,263.27" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[af33901d525c21dca493dc5a8096787a]
+link GPS1__Communication to Voter__Sensor1--><g id="link_GPS1__Communication_Voter__Sensor1"><path d="M267.39,436.48 C262.66,452.54 248.8,499.69 242.36,521.59 " fill="none" id="GPS1__Communication-to-Voter__Sensor1" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="240.98,526.28,247.3606,518.7775,242.3931,521.4839,239.6868,516.5164,240.98,526.28" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[ccb7ca8c70c5a51e71612291cc609712]
+link GPS2_Failure__Faults to GPS2__Faults--><g id="link_GPS2_Failure__Faults_GPS2__Faults"><path d="M132,173.48 C132,189.47 132,236.28 132,258.3 " fill="none" id="GPS2_Failure__Faults-to-GPS2__Faults" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="132,263.22,136,254.22,132,258.22,128,254.22,132,263.22" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[995fd939d2516fae84201ba327ba10d2]
+link GPS2__Communication to Voter__Sensor2--><g id="link_GPS2__Communication_Voter__Sensor2"><path d="M148.08,436.48 C151.22,452.54 160.47,499.69 164.76,521.59 " fill="none" id="GPS2__Communication-to-Voter__Sensor2" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="165.68,526.25,167.8804,516.6501,164.7214,521.3427,160.0288,518.1838,165.68,526.25" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[0067b83e252f57badbb8903f23ee6b65]
+link Voter_Failure__Faults to Voter__Faults--><g id="link_Voter_Failure__Faults_Voter__Faults"><path d="M458.92,436.39 C456.34,443.21 451.93,455.35 449,466 C443.69,485.32 439.3,508.25 436.92,521.66 " fill="none" id="Voter_Failure__Faults-to-Voter__Faults" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="436.13,526.24,441.6129,518.0585,436.9867,521.3139,433.7312,516.6877,436.13,526.24" style="stroke:#000000;stroke-width:1.0;"/></g><!--MD5=[39ecff6dd10e6a0e828b17d2b4ac0fe4]
+@startuml
+<style>
+title {
+  FontSize 12
+}
+</style>
+
+skinparam shadowing false
+'skinparam linetype ortho
+!theme plain
+'left to right direction
+top to bottom direction
+skinparam nodesep 60
+skinparam ranksep 30
+skinparam defaultTextAlignment center
+skinparam ComponentStereotypeFontSize 10
+skinparam HeaderFontSize 12
+skinparam padding 1
+skinparam componentStyle rectangle
+
+component "DualGPS"<<stochastic asynchronous>> {
+	
+	component "<size:12>GPS1:\n<size:12>GPSasync" as GPS1  {
+		portin "Faults:\n ~HardwareFailure " as GPS1__Faults
+		portout "Communication:\n Sensor" as GPS1__Communication
+	}
+	component "<size:12>GPS2:\n<size:12>GPSasync" as GPS2  {
+		portin "Faults:\n ~HardwareFailure " as GPS2__Faults
+		portout "Communication:\n Sensor" as GPS2__Communication
+	}
+	component "<size:12>Voter:\n<size:12>Voterasync" as Voter  {
+		portin "Faults:\n ~HardwareFailure " as Voter__Faults
+		portin "Sensor1:\n ~Sensor " as Voter__Sensor1
+		portin "Sensor2:\n ~Sensor " as Voter__Sensor2
+		portout "Communication:\n Sensor" as Voter__Communication
+	}
+
+	component "<size:12>GPS1_Failure \n- - - -\n<size:10>Faults.* : Exponential(10.0)\n" as GPS1_Failure <<Stochastic Source>>{
+		portout "Faults:\n HardwareFailure" as GPS1_Failure__Faults
+	}
+	component "<size:12>GPS2_Failure \n- - - -\n<size:10>Faults.* : Exponential(10.0)\n" as GPS2_Failure <<Stochastic Source>>{
+		portout "Faults:\n HardwareFailure" as GPS2_Failure__Faults
+	}
+	component "<size:12>Voter_Failure \n- - - -\n<size:10>Faults.* : Exponential(20.0)\n" as Voter_Failure <<Stochastic Source>>{
+		portout "Faults:\n HardwareFailure" as Voter_Failure__Faults
+	}
+	
+	portout "Communication:\n Sensor" as Communication
+	
+	Voter__Communication .d.> Communication
+	'DualGPS "Communication" #.# "Communication" Voter
+	
+	
+	GPS1_Failure__Faults - - - -> GPS1__Faults
+	GPS1__Communication - - - -> Voter__Sensor1
+	GPS2_Failure__Faults - - - -> GPS2__Faults
+	GPS2__Communication - - - -> Voter__Sensor2
+	Voter_Failure__Faults - - - -> Voter__Faults
+}
+
+
+
+@enduml
+
+@startuml
+<style>
+title {
+  FontSize 12
+}
+</style>
+
+skinparam shadowing false
+
+
+
+
+
+
+
+<style>
+  root {
+    BackgroundColor white
+    FontColor black
+    FontName Verdana
+    HyperLinkColor blue
+    LineColor black
+    LineThickness 1
+    Margin 5
+  }
+  caption {
+    LineThickness 0
+  }
+  footer {
+    LineThickness 0
+  }
+  header {
+    LineThickness 0
+  }
+  node {
+    MaximumWidth 300
+  }
+  title {
+    FontSize 22
+    LineThickness 0
+  }
+</style>
+
+skinparam ArrowLollipopColor black
+skinparam BackgroundColor white
+skinparam DefaultFontName Verdana
+skinparam DefaultMonospacedFontName Courier
+skinparam LifelineStrategy nosolid
+skinparam ParticipantPadding 10
+skinparam SequenceLifeLineBorderColor black
+skinparam Shadowing false
+skinparam UseBetaStyle true
+
+skinparam Activity {
+  BackgroundColor white
+  BarColor black
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam Boundary {
+  FontColor black
+}
+skinparam Box {
+  Padding 5
+}
+skinparam CircledCharacter {
+  FontColor black
+  FontName Courier
+  Radius 9
+}
+skinparam Class {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassAttribute {
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassStereotype {
+  FontColor black
+  FontName Verdana
+}
+skinparam Footer {
+  FontColor black
+  FontName Verdana
+}
+skinparam Header {
+  FontColor black
+  FontName Verdana
+}
+skinparam Hyperlink {
+  Color blue
+}
+skinparam IconPackage {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPrivate {
+  Color black
+  BackgroundColor white
+}
+skinparam IconProtected {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPublic {
+  Color black
+  BackgroundColor white
+}
+skinparam Note {
+  FontColor black
+  FontName Verdana
+}
+skinparam Object {
+  BorderColor black
+}
+skinparam Package {
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam State {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeA {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeC {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeE {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeI {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeN {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam UseCaseStereoType {
+  FontColor black
+  FontName Verdana
+}
+top to bottom direction
+skinparam nodesep 60
+skinparam ranksep 30
+skinparam defaultTextAlignment center
+skinparam ComponentStereotypeFontSize 10
+skinparam HeaderFontSize 12
+skinparam padding 1
+skinparam componentStyle rectangle
+
+component "DualGPS"<<stochastic asynchronous>> {
+	
+	component "<size:12>GPS1:\n<size:12>GPSasync" as GPS1  {
+		portin "Faults:\n ~HardwareFailure " as GPS1__Faults
+		portout "Communication:\n Sensor" as GPS1__Communication
+	}
+	component "<size:12>GPS2:\n<size:12>GPSasync" as GPS2  {
+		portin "Faults:\n ~HardwareFailure " as GPS2__Faults
+		portout "Communication:\n Sensor" as GPS2__Communication
+	}
+	component "<size:12>Voter:\n<size:12>Voterasync" as Voter  {
+		portin "Faults:\n ~HardwareFailure " as Voter__Faults
+		portin "Sensor1:\n ~Sensor " as Voter__Sensor1
+		portin "Sensor2:\n ~Sensor " as Voter__Sensor2
+		portout "Communication:\n Sensor" as Voter__Communication
+	}
+
+	component "<size:12>GPS1_Failure \n- - - -\n<size:10>Faults.* : Exponential(10.0)\n" as GPS1_Failure <<Stochastic Source>>{
+		portout "Faults:\n HardwareFailure" as GPS1_Failure__Faults
+	}
+	component "<size:12>GPS2_Failure \n- - - -\n<size:10>Faults.* : Exponential(10.0)\n" as GPS2_Failure <<Stochastic Source>>{
+		portout "Faults:\n HardwareFailure" as GPS2_Failure__Faults
+	}
+	component "<size:12>Voter_Failure \n- - - -\n<size:10>Faults.* : Exponential(20.0)\n" as Voter_Failure <<Stochastic Source>>{
+		portout "Faults:\n HardwareFailure" as Voter_Failure__Faults
+	}
+	
+	portout "Communication:\n Sensor" as Communication
+	
+	Voter__Communication .d.> Communication
+	
+	
+	GPS1_Failure__Faults - - - -> GPS1__Faults
+	GPS1__Communication - - - -> Voter__Sensor1
+	GPS2_Failure__Faults - - - -> GPS2__Faults
+	GPS2__Communication - - - -> Voter__Sensor2
+	Voter_Failure__Faults - - - -> Voter__Faults
+}
+
+
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(EPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

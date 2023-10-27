@@ -6,6 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Export-Package: hu.bme.mit.gamma.logictable.transformation.commandhandler,
  hu.bme.mit.gamma.logictable.transformation.commandhandler.importwizards
 Automatic-Module-Name: hu.bme.mit.gamma.logictable.transformation.commandhandler
+Bundle-ClassPath: bin/,
+ .
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.ui.workbench,
  org.eclipse.jface,

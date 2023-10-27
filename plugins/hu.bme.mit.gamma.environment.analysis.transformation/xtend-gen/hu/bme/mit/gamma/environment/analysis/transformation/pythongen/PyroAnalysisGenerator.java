@@ -21,7 +21,7 @@ public class PyroAnalysisGenerator {
     _builder.append("def visualizeMarginal(inference, marginal, name):");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("sample_num=20000");
+    _builder.append("sample_num=10000");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("bin_num=100");
@@ -39,13 +39,10 @@ public class PyroAnalysisGenerator {
     _builder.append("a.hist(marginal_samples.numpy(), color=\'b\',bins=bin_num, density=1, label=\"Marginal of \"+name)");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("plt.ylabel(\"Estimated density\")");
+    _builder.append("a.set_ylabel(\"Estimated density\")");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("plt.xlabel(\"Value of \"+name)");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("plt.show()");
+    _builder.append("a.set_xlabel(\"Value of \"+name)");
     _builder.newLine();
     return _builder;
   }
@@ -114,7 +111,7 @@ public class PyroAnalysisGenerator {
         _builder.append(" = \",round(");
         CharSequence _marginalName_1 = this.marginalName(aspect_1);
         _builder.append(_marginalName_1, "\t\t\t");
-        _builder.append(".mean.item(),2))");
+        _builder.append(".mean.item(),4))");
         _builder.newLineIfNotEmpty();
       }
     }
@@ -135,6 +132,9 @@ public class PyroAnalysisGenerator {
         _builder.newLineIfNotEmpty();
       }
     }
+    _builder.append("\t\t\t");
+    _builder.append("plt.show()");
+    _builder.newLine();
     _builder.append("\t");
     _builder.append("except java.lang.RuntimeException as ex:");
     _builder.newLine();

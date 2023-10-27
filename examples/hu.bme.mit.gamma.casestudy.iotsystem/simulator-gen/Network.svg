@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="112px" preserveAspectRatio="none" style="width:580px;height:112px;background:#FFFFFF;" version="1.1" viewBox="0 0 580 112" width="580px" zoomAndPan="magnify"><defs/><g><rect fill="#F1F1F1" height="27.6094" style="stroke:#F1F1F1;stroke-width:1.0;" width="566.5" x="7" y="7"/><rect fill="none" height="99.6094" style="stroke:#181818;stroke-width:0.5;" width="566.5" x="7" y="7"/><line style="stroke:#181818;stroke-width:0.5;" x1="7" x2="573.5" y1="34.6094" y2="34.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="50" x="265.25" y="26.5332">Network</text><ellipse cx="28" cy="71.6094" fill="#222222" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><g id="Network.mainstate"><rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="81" x="56.5" y="46.6094"/><line style="stroke:#181818;stroke-width:0.5;" x1="56.5" x2="137.5" y1="74.2188" y2="74.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61" x="66.5" y="66.1426">mainstate</text></g><!--MD5=[bbcfa725a3a2819d937e04574092ca4e]
+link *start*Network to mainstate--><g id="link_*start*Network_mainstate"><path d="M38.24,71.6094 C42.07,71.6094 45.89,71.6094 49.71,71.6094 " fill="none" id="*start*Network-to-mainstate" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="54.63,71.6094,45.63,67.6094,49.63,71.6094,45.63,75.6094,54.63,71.6094" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[0cee8c40513337b0b198e5e88eef1117]
+link mainstate to mainstate--><g id="link_mainstate_mainstate"><path d="M137.73,62.3594 C147.9,63.0094 155.5,66.0894 155.5,71.6094 C155.5,75.9194 150.86,78.7394 143.99,80.0794 " fill="none" id="mainstate-to-mainstate" style="stroke:#181818;stroke-width:1.0;"/><polygon fill="#181818" points="139.24,80.6694,148.6636,83.5322,144.202,80.0545,147.6798,75.5929,139.24,80.6694" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="111" x="304.5" y="69.1045">ImageIn.newData  /</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="397" x="161.5" y="85.4561">ImageOut.newData(ImageIn.newData::blurred, ImageIn.newData::car)</text></g><!--MD5=[db510721f79be914a5a6313cd6e2563e]
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state Network <<squareStyle>> {
+		'region: $$_main_$$
+		[*] -> mainstate 
+		mainstate - -> mainstate : ImageIn.newData  /\nImageOut.newData(ImageIn.newData::blurred, ImageIn.newData::car)
+		
+		
+	
+	}
+	
+@enduml
+
+@startuml
+	<style>
+		.squareStyle {
+			RoundCorner 0
+		}
+	</style>
+	state Network <<squareStyle>> {
+		[*] -> mainstate 
+		mainstate - -> mainstate : ImageIn.newData  /\nImageOut.newData(ImageIn.newData::blurred, ImageIn.newData::car)
+		
+		
+	
+	}
+	
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 19:01:30 CEST 2022)
+(EPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
