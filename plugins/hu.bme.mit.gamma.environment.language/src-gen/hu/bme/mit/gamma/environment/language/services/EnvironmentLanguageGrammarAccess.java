@@ -21,6 +21,7 @@ import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.TerminalRule;
+import org.eclipse.xtext.UnorderedGroup;
 import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
 import org.eclipse.xtext.service.AbstractElementFinder;
 import org.eclipse.xtext.service.GrammarProvider;
@@ -147,6 +148,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final RuleCall cEnvironmentSynchronousCompositeComponentParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cEnvironmentAsynchronousCompositeComponentParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		private final RuleCall cAnalysisComponentParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cAsynchronousStatechartDefinitionParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
 		
 		//@Override
 		//Component returns InterfaceModel::Component:
@@ -154,7 +156,10 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//    EnvironmentCascadeCompositeComponent |
 		//    EnvironmentSynchronousCompositeComponent |
 		//    EnvironmentAsynchronousCompositeComponent |
-		//    AnalysisComponent //|
+		//    AnalysisComponent |
+		//    AsynchronousStatechartDefinition// |
+		//    //SynchronousStatechartDefinition
+		//    //|
 		//    //RequirementComponent
 		//;
 		@Override public ParserRule getRule() { return rule; }
@@ -163,7 +168,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//EnvironmentCascadeCompositeComponent |
 		//EnvironmentSynchronousCompositeComponent |
 		//EnvironmentAsynchronousCompositeComponent |
-		//AnalysisComponent
+		//AnalysisComponent |
+		//AsynchronousStatechartDefinition
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//SynchronousComponent
@@ -180,6 +186,362 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		
 		//AnalysisComponent
 		public RuleCall getAnalysisComponentParserRuleCall_4() { return cAnalysisComponentParserRuleCall_4; }
+		
+		//AsynchronousStatechartDefinition
+		public RuleCall getAsynchronousStatechartDefinitionParserRuleCall_5() { return cAsynchronousStatechartDefinitionParserRuleCall_5; }
+	}
+	public class AsynchronousStatechartDefinitionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.AsynchronousStatechartDefinition");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cAsynchronousKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final UnorderedGroup cUnorderedGroup_1 = (UnorderedGroup)cGroup.eContents().get(1);
+		private final Group cGroup_1_0 = (Group)cUnorderedGroup_1.eContents().get(0);
+		private final Keyword cRegionScheduleKeyword_1_0_0 = (Keyword)cGroup_1_0.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_1_0_1 = (Keyword)cGroup_1_0.eContents().get(1);
+		private final Assignment cSchedulingOrderAssignment_1_0_2 = (Assignment)cGroup_1_0.eContents().get(2);
+		private final RuleCall cSchedulingOrderSchedulingOrderEnumRuleCall_1_0_2_0 = (RuleCall)cSchedulingOrderAssignment_1_0_2.eContents().get(0);
+		private final Group cGroup_1_1 = (Group)cUnorderedGroup_1.eContents().get(1);
+		private final Keyword cOrthogonalRegionScheduleKeyword_1_1_0 = (Keyword)cGroup_1_1.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_1_1_1 = (Keyword)cGroup_1_1.eContents().get(1);
+		private final Assignment cOrthogonalRegionSchedulingOrderAssignment_1_1_2 = (Assignment)cGroup_1_1.eContents().get(2);
+		private final RuleCall cOrthogonalRegionSchedulingOrderOrthogonalRegionSchedulingOrderEnumRuleCall_1_1_2_0 = (RuleCall)cOrthogonalRegionSchedulingOrderAssignment_1_1_2.eContents().get(0);
+		private final Group cGroup_1_2 = (Group)cUnorderedGroup_1.eContents().get(2);
+		private final Keyword cTransitionPriorityKeyword_1_2_0 = (Keyword)cGroup_1_2.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_1_2_1 = (Keyword)cGroup_1_2.eContents().get(1);
+		private final Assignment cTransitionPriorityAssignment_1_2_2 = (Assignment)cGroup_1_2.eContents().get(2);
+		private final RuleCall cTransitionPriorityTransitionPriorityEnumRuleCall_1_2_2_0 = (RuleCall)cTransitionPriorityAssignment_1_2_2.eContents().get(0);
+		private final Group cGroup_1_3 = (Group)cUnorderedGroup_1.eContents().get(3);
+		private final Keyword cGuardEvaluationKeyword_1_3_0 = (Keyword)cGroup_1_3.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_1_3_1 = (Keyword)cGroup_1_3.eContents().get(1);
+		private final Assignment cGuardEvaluationAssignment_1_3_2 = (Assignment)cGroup_1_3.eContents().get(2);
+		private final RuleCall cGuardEvaluationGuardEvaluationEnumRuleCall_1_3_2_0 = (RuleCall)cGuardEvaluationAssignment_1_3_2.eContents().get(0);
+		private final Alternatives cAlternatives_1_4 = (Alternatives)cUnorderedGroup_1.eContents().get(4);
+		private final Assignment cAnnotationsAssignment_1_4_0 = (Assignment)cAlternatives_1_4.eContents().get(0);
+		private final RuleCall cAnnotationsComponentAnnotationParserRuleCall_1_4_0_0 = (RuleCall)cAnnotationsAssignment_1_4_0.eContents().get(0);
+		private final Assignment cAnnotationsAssignment_1_4_1 = (Assignment)cAlternatives_1_4.eContents().get(1);
+		private final RuleCall cAnnotationsStatechartContractAnnotationParserRuleCall_1_4_1_0 = (RuleCall)cAnnotationsAssignment_1_4_1.eContents().get(0);
+		private final Keyword cStatechartKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cNameAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cNameIDTerminalRuleCall_3_0 = (RuleCall)cNameAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCapacityKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Assignment cCapacityAssignment_4_2 = (Assignment)cGroup_4.eContents().get(2);
+		private final RuleCall cCapacityExpressionParserRuleCall_4_2_0 = (RuleCall)cCapacityAssignment_4_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_4_3 = (Keyword)cGroup_4.eContents().get(3);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cLeftParenthesisKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Group cGroup_5_1 = (Group)cGroup_5.eContents().get(1);
+		private final Assignment cParameterDeclarationsAssignment_5_1_0 = (Assignment)cGroup_5_1.eContents().get(0);
+		private final RuleCall cParameterDeclarationsParameterDeclarationParserRuleCall_5_1_0_0 = (RuleCall)cParameterDeclarationsAssignment_5_1_0.eContents().get(0);
+		private final Group cGroup_5_1_1 = (Group)cGroup_5_1.eContents().get(1);
+		private final Keyword cCommaKeyword_5_1_1_0 = (Keyword)cGroup_5_1_1.eContents().get(0);
+		private final Assignment cParameterDeclarationsAssignment_5_1_1_1 = (Assignment)cGroup_5_1_1.eContents().get(1);
+		private final RuleCall cParameterDeclarationsParameterDeclarationParserRuleCall_5_1_1_1_0 = (RuleCall)cParameterDeclarationsAssignment_5_1_1_1.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_5_2 = (Keyword)cGroup_5.eContents().get(2);
+		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
+		private final Keyword cLeftSquareBracketKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
+		private final Group cGroup_6_1 = (Group)cGroup_6.eContents().get(1);
+		private final Assignment cPortsAssignment_6_1_0 = (Assignment)cGroup_6_1.eContents().get(0);
+		private final RuleCall cPortsPortParserRuleCall_6_1_0_0 = (RuleCall)cPortsAssignment_6_1_0.eContents().get(0);
+		private final Group cGroup_6_1_1 = (Group)cGroup_6_1.eContents().get(1);
+		private final Keyword cCommaKeyword_6_1_1_0 = (Keyword)cGroup_6_1_1.eContents().get(0);
+		private final Assignment cPortsAssignment_6_1_1_1 = (Assignment)cGroup_6_1_1.eContents().get(1);
+		private final RuleCall cPortsPortParserRuleCall_6_1_1_1_0 = (RuleCall)cPortsAssignment_6_1_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_6_2 = (Keyword)cGroup_6.eContents().get(2);
+		private final Keyword cLeftCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		private final Alternatives cAlternatives_8 = (Alternatives)cGroup.eContents().get(8);
+		private final Assignment cVariableDeclarationsAssignment_8_0 = (Assignment)cAlternatives_8.eContents().get(0);
+		private final RuleCall cVariableDeclarationsVariableDeclarationParserRuleCall_8_0_0 = (RuleCall)cVariableDeclarationsAssignment_8_0.eContents().get(0);
+		private final Assignment cTimeoutDeclarationsAssignment_8_1 = (Assignment)cAlternatives_8.eContents().get(1);
+		private final RuleCall cTimeoutDeclarationsTimeoutDeclarationParserRuleCall_8_1_0 = (RuleCall)cTimeoutDeclarationsAssignment_8_1.eContents().get(0);
+		private final Alternatives cAlternatives_9 = (Alternatives)cGroup.eContents().get(9);
+		private final Assignment cRegionsAssignment_9_0 = (Assignment)cAlternatives_9.eContents().get(0);
+		private final RuleCall cRegionsRegionParserRuleCall_9_0_0 = (RuleCall)cRegionsAssignment_9_0.eContents().get(0);
+		private final Assignment cTransitionsAssignment_9_1 = (Assignment)cAlternatives_9.eContents().get(1);
+		private final RuleCall cTransitionsTransitionParserRuleCall_9_1_0 = (RuleCall)cTransitionsAssignment_9_1.eContents().get(0);
+		private final Assignment cFunctionDeclarationsAssignment_10 = (Assignment)cGroup.eContents().get(10);
+		private final RuleCall cFunctionDeclarationsFunctionDeclarationParserRuleCall_10_0 = (RuleCall)cFunctionDeclarationsAssignment_10.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_11 = (Keyword)cGroup.eContents().get(11);
+		
+		//@Override
+		//AsynchronousStatechartDefinition returns StatechartModel::AsynchronousStatechartDefinition:
+		//    '@Asynchronous'
+		//    (
+		//        ('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)? &
+		//        ('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)? &
+		//        ('@TransitionPriority' '=' transitionPriority=TransitionPriority)? &
+		//        ('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)? &
+		//        (    annotations+=ComponentAnnotation |
+		//            annotations+=StatechartContractAnnotation
+		//        )*
+		//    )
+		//    'statechart' name=ID ('capacity' '(' capacity=Expression ')')?
+		//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		//        ('[' ((ports+=Port)((',')? ports+=Port)*)? ']')? '{'
+		//            (
+		//                variableDeclarations+=VariableDeclaration |
+		//                timeoutDeclarations+=TimeoutDeclaration
+		//            )*
+		//            (
+		//                regions+=Region |
+		//                transitions+=Transition
+		//            )*
+		//            functionDeclarations+=FunctionDeclaration*
+		//    '}'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'@Asynchronous'
+		//(
+		//    ('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)? &
+		//    ('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)? &
+		//    ('@TransitionPriority' '=' transitionPriority=TransitionPriority)? &
+		//    ('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)? &
+		//    (    annotations+=ComponentAnnotation |
+		//        annotations+=StatechartContractAnnotation
+		//    )*
+		//)
+		//'statechart' name=ID ('capacity' '(' capacity=Expression ')')?
+		//('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		//    ('[' ((ports+=Port)((',')? ports+=Port)*)? ']')? '{'
+		//        (
+		//            variableDeclarations+=VariableDeclaration |
+		//            timeoutDeclarations+=TimeoutDeclaration
+		//        )*
+		//        (
+		//            regions+=Region |
+		//            transitions+=Transition
+		//        )*
+		//        functionDeclarations+=FunctionDeclaration*
+		//'}'
+		public Group getGroup() { return cGroup; }
+		
+		//'@Asynchronous'
+		public Keyword getAsynchronousKeyword_0() { return cAsynchronousKeyword_0; }
+		
+		//(
+		//    ('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)? &
+		//    ('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)? &
+		//    ('@TransitionPriority' '=' transitionPriority=TransitionPriority)? &
+		//    ('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)? &
+		//    (    annotations+=ComponentAnnotation |
+		//        annotations+=StatechartContractAnnotation
+		//    )*
+		//)
+		public UnorderedGroup getUnorderedGroup_1() { return cUnorderedGroup_1; }
+		
+		//('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)?
+		public Group getGroup_1_0() { return cGroup_1_0; }
+		
+		//'@RegionSchedule'
+		public Keyword getRegionScheduleKeyword_1_0_0() { return cRegionScheduleKeyword_1_0_0; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_1_0_1() { return cEqualsSignKeyword_1_0_1; }
+		
+		//schedulingOrder=SchedulingOrder
+		public Assignment getSchedulingOrderAssignment_1_0_2() { return cSchedulingOrderAssignment_1_0_2; }
+		
+		//SchedulingOrder
+		public RuleCall getSchedulingOrderSchedulingOrderEnumRuleCall_1_0_2_0() { return cSchedulingOrderSchedulingOrderEnumRuleCall_1_0_2_0; }
+		
+		//('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)?
+		public Group getGroup_1_1() { return cGroup_1_1; }
+		
+		//'@OrthogonalRegionSchedule'
+		public Keyword getOrthogonalRegionScheduleKeyword_1_1_0() { return cOrthogonalRegionScheduleKeyword_1_1_0; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_1_1_1() { return cEqualsSignKeyword_1_1_1; }
+		
+		//orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder
+		public Assignment getOrthogonalRegionSchedulingOrderAssignment_1_1_2() { return cOrthogonalRegionSchedulingOrderAssignment_1_1_2; }
+		
+		//OrthogonalRegionSchedulingOrder
+		public RuleCall getOrthogonalRegionSchedulingOrderOrthogonalRegionSchedulingOrderEnumRuleCall_1_1_2_0() { return cOrthogonalRegionSchedulingOrderOrthogonalRegionSchedulingOrderEnumRuleCall_1_1_2_0; }
+		
+		//('@TransitionPriority' '=' transitionPriority=TransitionPriority)?
+		public Group getGroup_1_2() { return cGroup_1_2; }
+		
+		//'@TransitionPriority'
+		public Keyword getTransitionPriorityKeyword_1_2_0() { return cTransitionPriorityKeyword_1_2_0; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_1_2_1() { return cEqualsSignKeyword_1_2_1; }
+		
+		//transitionPriority=TransitionPriority
+		public Assignment getTransitionPriorityAssignment_1_2_2() { return cTransitionPriorityAssignment_1_2_2; }
+		
+		//TransitionPriority
+		public RuleCall getTransitionPriorityTransitionPriorityEnumRuleCall_1_2_2_0() { return cTransitionPriorityTransitionPriorityEnumRuleCall_1_2_2_0; }
+		
+		//('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)?
+		public Group getGroup_1_3() { return cGroup_1_3; }
+		
+		//'@GuardEvaluation'
+		public Keyword getGuardEvaluationKeyword_1_3_0() { return cGuardEvaluationKeyword_1_3_0; }
+		
+		//'='
+		public Keyword getEqualsSignKeyword_1_3_1() { return cEqualsSignKeyword_1_3_1; }
+		
+		//guardEvaluation=GuardEvaluation
+		public Assignment getGuardEvaluationAssignment_1_3_2() { return cGuardEvaluationAssignment_1_3_2; }
+		
+		//GuardEvaluation
+		public RuleCall getGuardEvaluationGuardEvaluationEnumRuleCall_1_3_2_0() { return cGuardEvaluationGuardEvaluationEnumRuleCall_1_3_2_0; }
+		
+		//(    annotations+=ComponentAnnotation |
+		//    annotations+=StatechartContractAnnotation
+		//)*
+		public Alternatives getAlternatives_1_4() { return cAlternatives_1_4; }
+		
+		//annotations+=ComponentAnnotation
+		public Assignment getAnnotationsAssignment_1_4_0() { return cAnnotationsAssignment_1_4_0; }
+		
+		//ComponentAnnotation
+		public RuleCall getAnnotationsComponentAnnotationParserRuleCall_1_4_0_0() { return cAnnotationsComponentAnnotationParserRuleCall_1_4_0_0; }
+		
+		//annotations+=StatechartContractAnnotation
+		public Assignment getAnnotationsAssignment_1_4_1() { return cAnnotationsAssignment_1_4_1; }
+		
+		//StatechartContractAnnotation
+		public RuleCall getAnnotationsStatechartContractAnnotationParserRuleCall_1_4_1_0() { return cAnnotationsStatechartContractAnnotationParserRuleCall_1_4_1_0; }
+		
+		//'statechart'
+		public Keyword getStatechartKeyword_2() { return cStatechartKeyword_2; }
+		
+		//name=ID
+		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_3_0() { return cNameIDTerminalRuleCall_3_0; }
+		
+		//('capacity' '(' capacity=Expression ')')?
+		public Group getGroup_4() { return cGroup_4; }
+		
+		//'capacity'
+		public Keyword getCapacityKeyword_4_0() { return cCapacityKeyword_4_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_4_1() { return cLeftParenthesisKeyword_4_1; }
+		
+		//capacity=Expression
+		public Assignment getCapacityAssignment_4_2() { return cCapacityAssignment_4_2; }
+		
+		//Expression
+		public RuleCall getCapacityExpressionParserRuleCall_4_2_0() { return cCapacityExpressionParserRuleCall_4_2_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_4_3() { return cRightParenthesisKeyword_4_3; }
+		
+		//('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_5_0() { return cLeftParenthesisKeyword_5_0; }
+		
+		//((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)?
+		public Group getGroup_5_1() { return cGroup_5_1; }
+		
+		//(parameterDeclarations+=ParameterDeclaration)
+		public Assignment getParameterDeclarationsAssignment_5_1_0() { return cParameterDeclarationsAssignment_5_1_0; }
+		
+		//ParameterDeclaration
+		public RuleCall getParameterDeclarationsParameterDeclarationParserRuleCall_5_1_0_0() { return cParameterDeclarationsParameterDeclarationParserRuleCall_5_1_0_0; }
+		
+		//(',' parameterDeclarations+=ParameterDeclaration)*
+		public Group getGroup_5_1_1() { return cGroup_5_1_1; }
+		
+		//','
+		public Keyword getCommaKeyword_5_1_1_0() { return cCommaKeyword_5_1_1_0; }
+		
+		//parameterDeclarations+=ParameterDeclaration
+		public Assignment getParameterDeclarationsAssignment_5_1_1_1() { return cParameterDeclarationsAssignment_5_1_1_1; }
+		
+		//ParameterDeclaration
+		public RuleCall getParameterDeclarationsParameterDeclarationParserRuleCall_5_1_1_1_0() { return cParameterDeclarationsParameterDeclarationParserRuleCall_5_1_1_1_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_5_2() { return cRightParenthesisKeyword_5_2; }
+		
+		//('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
+		public Group getGroup_6() { return cGroup_6; }
+		
+		//'['
+		public Keyword getLeftSquareBracketKeyword_6_0() { return cLeftSquareBracketKeyword_6_0; }
+		
+		//((ports+=Port)((',')? ports+=Port)*)?
+		public Group getGroup_6_1() { return cGroup_6_1; }
+		
+		//(ports+=Port)
+		public Assignment getPortsAssignment_6_1_0() { return cPortsAssignment_6_1_0; }
+		
+		//Port
+		public RuleCall getPortsPortParserRuleCall_6_1_0_0() { return cPortsPortParserRuleCall_6_1_0_0; }
+		
+		//((',')? ports+=Port)*
+		public Group getGroup_6_1_1() { return cGroup_6_1_1; }
+		
+		//(',')?
+		public Keyword getCommaKeyword_6_1_1_0() { return cCommaKeyword_6_1_1_0; }
+		
+		//ports+=Port
+		public Assignment getPortsAssignment_6_1_1_1() { return cPortsAssignment_6_1_1_1; }
+		
+		//Port
+		public RuleCall getPortsPortParserRuleCall_6_1_1_1_0() { return cPortsPortParserRuleCall_6_1_1_1_0; }
+		
+		//']'
+		public Keyword getRightSquareBracketKeyword_6_2() { return cRightSquareBracketKeyword_6_2; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_7() { return cLeftCurlyBracketKeyword_7; }
+		
+		//(
+		//    variableDeclarations+=VariableDeclaration |
+		//    timeoutDeclarations+=TimeoutDeclaration
+		//)*
+		public Alternatives getAlternatives_8() { return cAlternatives_8; }
+		
+		//variableDeclarations+=VariableDeclaration
+		public Assignment getVariableDeclarationsAssignment_8_0() { return cVariableDeclarationsAssignment_8_0; }
+		
+		//VariableDeclaration
+		public RuleCall getVariableDeclarationsVariableDeclarationParserRuleCall_8_0_0() { return cVariableDeclarationsVariableDeclarationParserRuleCall_8_0_0; }
+		
+		//timeoutDeclarations+=TimeoutDeclaration
+		public Assignment getTimeoutDeclarationsAssignment_8_1() { return cTimeoutDeclarationsAssignment_8_1; }
+		
+		//TimeoutDeclaration
+		public RuleCall getTimeoutDeclarationsTimeoutDeclarationParserRuleCall_8_1_0() { return cTimeoutDeclarationsTimeoutDeclarationParserRuleCall_8_1_0; }
+		
+		//(
+		//    regions+=Region |
+		//    transitions+=Transition
+		//)*
+		public Alternatives getAlternatives_9() { return cAlternatives_9; }
+		
+		//regions+=Region
+		public Assignment getRegionsAssignment_9_0() { return cRegionsAssignment_9_0; }
+		
+		//Region
+		public RuleCall getRegionsRegionParserRuleCall_9_0_0() { return cRegionsRegionParserRuleCall_9_0_0; }
+		
+		//transitions+=Transition
+		public Assignment getTransitionsAssignment_9_1() { return cTransitionsAssignment_9_1; }
+		
+		//Transition
+		public RuleCall getTransitionsTransitionParserRuleCall_9_1_0() { return cTransitionsTransitionParserRuleCall_9_1_0; }
+		
+		//functionDeclarations+=FunctionDeclaration*
+		public Assignment getFunctionDeclarationsAssignment_10() { return cFunctionDeclarationsAssignment_10; }
+		
+		//FunctionDeclaration
+		public RuleCall getFunctionDeclarationsFunctionDeclarationParserRuleCall_10_0() { return cFunctionDeclarationsFunctionDeclarationParserRuleCall_10_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_11() { return cRightCurlyBracketKeyword_11; }
 	}
 	public class AnalysisComponentElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "hu.bme.mit.gamma.environment.language.EnvironmentLanguage.AnalysisComponent");
@@ -4918,6 +5280,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	private final PackageElements pPackage;
 	private final ComponentElements pComponent;
+	private final AsynchronousStatechartDefinitionElements pAsynchronousStatechartDefinition;
 	private final AnalysisComponentElements pAnalysisComponent;
 	private final AnalysisMethodElements pAnalysisMethod;
 	private final SimulationAnalysisMethodElements pSimulationAnalysisMethod;
@@ -5027,6 +5390,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		this.gaTerminals = gaTerminals;
 		this.pPackage = new PackageElements();
 		this.pComponent = new ComponentElements();
+		this.pAsynchronousStatechartDefinition = new AsynchronousStatechartDefinitionElements();
 		this.pAnalysisComponent = new AnalysisComponentElements();
 		this.pAnalysisMethod = new AnalysisMethodElements();
 		this.pSimulationAnalysisMethod = new SimulationAnalysisMethodElements();
@@ -5179,7 +5543,10 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//    EnvironmentCascadeCompositeComponent |
 	//    EnvironmentSynchronousCompositeComponent |
 	//    EnvironmentAsynchronousCompositeComponent |
-	//    AnalysisComponent //|
+	//    AnalysisComponent |
+	//    AsynchronousStatechartDefinition// |
+	//    //SynchronousStatechartDefinition
+	//    //|
 	//    //RequirementComponent
 	//;
 	public ComponentElements getComponentAccess() {
@@ -5188,6 +5555,40 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	public ParserRule getComponentRule() {
 		return getComponentAccess().getRule();
+	}
+	
+	//@Override
+	//AsynchronousStatechartDefinition returns StatechartModel::AsynchronousStatechartDefinition:
+	//    '@Asynchronous'
+	//    (
+	//        ('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)? &
+	//        ('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)? &
+	//        ('@TransitionPriority' '=' transitionPriority=TransitionPriority)? &
+	//        ('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)? &
+	//        (    annotations+=ComponentAnnotation |
+	//            annotations+=StatechartContractAnnotation
+	//        )*
+	//    )
+	//    'statechart' name=ID ('capacity' '(' capacity=Expression ')')?
+	//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+	//        ('[' ((ports+=Port)((',')? ports+=Port)*)? ']')? '{'
+	//            (
+	//                variableDeclarations+=VariableDeclaration |
+	//                timeoutDeclarations+=TimeoutDeclaration
+	//            )*
+	//            (
+	//                regions+=Region |
+	//                transitions+=Transition
+	//            )*
+	//            functionDeclarations+=FunctionDeclaration*
+	//    '}'
+	//;
+	public AsynchronousStatechartDefinitionElements getAsynchronousStatechartDefinitionAccess() {
+		return pAsynchronousStatechartDefinition;
+	}
+	
+	public ParserRule getAsynchronousStatechartDefinitionRule() {
+		return getAsynchronousStatechartDefinitionAccess().getRule();
 	}
 	
 	////defining Analysis and Requirement models
@@ -6639,39 +7040,6 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	public ParserRule getSynchronousStatechartDefinitionRule() {
 		return getSynchronousStatechartDefinitionAccess().getRule();
-	}
-	
-	//AsynchronousStatechartDefinition returns AsynchronousStatechartDefinition:
-	//    '@Asynchronous'
-	//    (
-	//        ('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)? &
-	//        ('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)? &
-	//        ('@TransitionPriority' '=' transitionPriority=TransitionPriority)? &
-	//        ('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)? &
-	//        (    annotations+=ComponentAnnotation |
-	//            annotations+=StatechartContractAnnotation
-	//        )*
-	//    )
-	//    'statechart' name=ID ('capacity' '(' capacity=Expression ')')?
-	//    ('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
-	//        ('[' ((ports+=Port)((',')? ports+=Port)*)? ']')? '{'
-	//            (
-	//                variableDeclarations+=VariableDeclaration |
-	//                timeoutDeclarations+=TimeoutDeclaration
-	//            )*
-	//            (
-	//                regions+=Region |
-	//                transitions+=Transition
-	//            )*
-	//            functionDeclarations+=FunctionDeclaration*
-	//    '}'
-	//;
-	public StatechartLanguageGrammarAccess.AsynchronousStatechartDefinitionElements getAsynchronousStatechartDefinitionAccess() {
-		return gaStatechartLanguage.getAsynchronousStatechartDefinitionAccess();
-	}
-	
-	public ParserRule getAsynchronousStatechartDefinitionRule() {
-		return getAsynchronousStatechartDefinitionAccess().getRule();
 	}
 	
 	//enum SchedulingOrder returns SchedulingOrder:

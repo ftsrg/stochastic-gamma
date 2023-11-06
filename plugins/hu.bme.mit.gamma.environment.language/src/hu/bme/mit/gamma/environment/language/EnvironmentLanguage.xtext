@@ -37,10 +37,39 @@ Component returns InterfaceModel::Component:
 	EnvironmentCascadeCompositeComponent |
 	EnvironmentSynchronousCompositeComponent |
 	EnvironmentAsynchronousCompositeComponent |
-	AnalysisComponent //|
+	AnalysisComponent |
+	AsynchronousStatechartDefinition// |
+	//SynchronousStatechartDefinition
+	//|
 	//RequirementComponent
 ;
 
+@Override
+AsynchronousStatechartDefinition returns StatechartModel::AsynchronousStatechartDefinition:
+	'@Asynchronous'
+	(
+		('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)? &
+		('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)? &
+		('@TransitionPriority' '=' transitionPriority=TransitionPriority)? &
+		('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)? &
+		(	annotations+=ComponentAnnotation |
+			annotations+=StatechartContractAnnotation
+		)*
+	)
+	'statechart' name=ID ('capacity' '(' capacity=Expression ')')?
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')? '{'
+			(
+				variableDeclarations+=VariableDeclaration |
+				timeoutDeclarations+=TimeoutDeclaration
+			)*
+			(
+				regions+=Region |
+				transitions+=Transition
+			)*
+			functionDeclarations+=FunctionDeclaration*
+	'}'
+;
 
 //defining Analysis and Requirement models
 /* 

@@ -14,11 +14,11 @@ public abstract class AbstractEnvironmentLanguageValidator extends StatechartLan
 	protected List<EPackage> getEPackages() {
 		List<EPackage> result = new ArrayList<EPackage>(super.getEPackages());
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.mit.bme.hu/gamma/statechart/Model/Interface"));
+		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.mit.bme.hu/gamma/statechart/Model/Statechart"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("www.mit.bme.hu/analysis/Model"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("www.mit.bme.hu/gamma/environment/Model"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.mit.bme.hu/gamma/expression/Model"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("hu.bme.mit.gamma.environment.stochastic.model"));
-		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.mit.bme.hu/gamma/statechart/Model/Statechart"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.mit.bme.hu/gamma/statechart/Model/Contract"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.mit.bme.hu/gamma/statechart/Model/Phase"));
 		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.mit.bme.hu/gamma/statechart/Model/Composite"));

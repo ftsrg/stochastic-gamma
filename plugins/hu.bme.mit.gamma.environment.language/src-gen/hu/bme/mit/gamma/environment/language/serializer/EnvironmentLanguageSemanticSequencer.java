@@ -1190,6 +1190,39 @@ public class EnvironmentLanguageSemanticSequencer extends StatechartLanguageSema
 	/**
 	 * <pre>
 	 * Contexts:
+	 *     Component returns AsynchronousStatechartDefinition
+	 *     AsynchronousStatechartDefinition returns AsynchronousStatechartDefinition
+	 *     AsynchronousComponent returns AsynchronousStatechartDefinition
+	 *
+	 * Constraint:
+	 *     (
+	 *         (
+	 *             schedulingOrder=SchedulingOrder | 
+	 *             orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder | 
+	 *             transitionPriority=TransitionPriority | 
+	 *             guardEvaluation=GuardEvaluation | 
+	 *             annotations+=ComponentAnnotation | 
+	 *             annotations+=StatechartContractAnnotation
+	 *         )* 
+	 *         name=ID 
+	 *         capacity=Expression? 
+	 *         (parameterDeclarations+=ParameterDeclaration parameterDeclarations+=ParameterDeclaration*)? 
+	 *         (ports+=Port ports+=Port*)? 
+	 *         (variableDeclarations+=VariableDeclaration | timeoutDeclarations+=TimeoutDeclaration)* 
+	 *         regions+=Region? 
+	 *         (transitions+=Transition? regions+=Region?)* 
+	 *         functionDeclarations+=FunctionDeclaration*
+	 *     )
+	 * </pre>
+	 */
+	protected void sequence_AsynchronousStatechartDefinition(ISerializationContext context, AsynchronousStatechartDefinition semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
 	 *     StochasticModel returns BernoulliRandomVariable
 	 *     RandomVariable returns BernoulliRandomVariable
 	 *     DiscreteRandomVariable returns BernoulliRandomVariable

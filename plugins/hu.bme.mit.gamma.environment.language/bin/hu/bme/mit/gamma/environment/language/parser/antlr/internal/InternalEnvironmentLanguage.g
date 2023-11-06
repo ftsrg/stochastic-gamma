@@ -282,6 +282,532 @@ ruleComponent returns [EObject current=null]
 			$current = $this_AnalysisComponent_4.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getComponentAccess().getAsynchronousStatechartDefinitionParserRuleCall_5());
+		}
+		this_AsynchronousStatechartDefinition_5=ruleAsynchronousStatechartDefinition
+		{
+			$current = $this_AsynchronousStatechartDefinition_5.current;
+			afterParserOrEnumRuleCall();
+		}
+	)
+;
+
+// Entry rule entryRuleAsynchronousStatechartDefinition
+entryRuleAsynchronousStatechartDefinition returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionRule()); }
+	iv_ruleAsynchronousStatechartDefinition=ruleAsynchronousStatechartDefinition
+	{ $current=$iv_ruleAsynchronousStatechartDefinition.current; }
+	EOF;
+
+// Rule AsynchronousStatechartDefinition
+ruleAsynchronousStatechartDefinition returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='@Asynchronous'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getAsynchronousStatechartDefinitionAccess().getAsynchronousKeyword_0());
+		}
+		(
+			(
+				{ 
+				  getUnorderedGroupHelper().enter(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
+				}
+				(
+					(
+			(
+				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 0)}?=>(
+					{
+						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 0);
+					}
+								({true}?=>(otherlv_2='@RegionSchedule'
+								{
+									newLeafNode(otherlv_2, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRegionScheduleKeyword_1_0_0());
+								}
+								otherlv_3='='
+								{
+									newLeafNode(otherlv_3, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_0_1());
+								}
+								(
+									(
+										{
+											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getSchedulingOrderSchedulingOrderEnumRuleCall_1_0_2_0());
+										}
+										lv_schedulingOrder_4_0=ruleSchedulingOrder
+										{
+											if ($current==null) {
+												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+											}
+											set(
+												$current,
+												"schedulingOrder",
+												lv_schedulingOrder_4_0,
+												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.SchedulingOrder");
+											afterParserOrEnumRuleCall();
+										}
+									)
+								)
+								))
+					{ 
+						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
+					}
+				)
+			)|
+			(
+				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 1)}?=>(
+					{
+						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 1);
+					}
+								({true}?=>(otherlv_5='@OrthogonalRegionSchedule'
+								{
+									newLeafNode(otherlv_5, grammarAccess.getAsynchronousStatechartDefinitionAccess().getOrthogonalRegionScheduleKeyword_1_1_0());
+								}
+								otherlv_6='='
+								{
+									newLeafNode(otherlv_6, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_1_1());
+								}
+								(
+									(
+										{
+											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getOrthogonalRegionSchedulingOrderOrthogonalRegionSchedulingOrderEnumRuleCall_1_1_2_0());
+										}
+										lv_orthogonalRegionSchedulingOrder_7_0=ruleOrthogonalRegionSchedulingOrder
+										{
+											if ($current==null) {
+												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+											}
+											set(
+												$current,
+												"orthogonalRegionSchedulingOrder",
+												lv_orthogonalRegionSchedulingOrder_7_0,
+												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.OrthogonalRegionSchedulingOrder");
+											afterParserOrEnumRuleCall();
+										}
+									)
+								)
+								))
+					{ 
+						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
+					}
+				)
+			)|
+			(
+				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 2)}?=>(
+					{
+						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 2);
+					}
+								({true}?=>(otherlv_8='@TransitionPriority'
+								{
+									newLeafNode(otherlv_8, grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionPriorityKeyword_1_2_0());
+								}
+								otherlv_9='='
+								{
+									newLeafNode(otherlv_9, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_2_1());
+								}
+								(
+									(
+										{
+											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionPriorityTransitionPriorityEnumRuleCall_1_2_2_0());
+										}
+										lv_transitionPriority_10_0=ruleTransitionPriority
+										{
+											if ($current==null) {
+												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+											}
+											set(
+												$current,
+												"transitionPriority",
+												lv_transitionPriority_10_0,
+												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.TransitionPriority");
+											afterParserOrEnumRuleCall();
+										}
+									)
+								)
+								))
+					{ 
+						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
+					}
+				)
+			)|
+			(
+				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 3)}?=>(
+					{
+						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 3);
+					}
+								({true}?=>(otherlv_11='@GuardEvaluation'
+								{
+									newLeafNode(otherlv_11, grammarAccess.getAsynchronousStatechartDefinitionAccess().getGuardEvaluationKeyword_1_3_0());
+								}
+								otherlv_12='='
+								{
+									newLeafNode(otherlv_12, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_3_1());
+								}
+								(
+									(
+										{
+											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGuardEvaluationGuardEvaluationEnumRuleCall_1_3_2_0());
+										}
+										lv_guardEvaluation_13_0=ruleGuardEvaluation
+										{
+											if ($current==null) {
+												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+											}
+											set(
+												$current,
+												"guardEvaluation",
+												lv_guardEvaluation_13_0,
+												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.GuardEvaluation");
+											afterParserOrEnumRuleCall();
+										}
+									)
+								)
+								))
+					{ 
+						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
+					}
+				)
+			)|
+			(
+				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 4)}?=>(
+					{
+						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 4);
+					}
+								({true}?=>((
+									(
+										{
+											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsComponentAnnotationParserRuleCall_1_4_0_0());
+										}
+										lv_annotations_14_0=ruleComponentAnnotation
+										{
+											if ($current==null) {
+												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+											}
+											add(
+												$current,
+												"annotations",
+												lv_annotations_14_0,
+												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.ComponentAnnotation");
+											afterParserOrEnumRuleCall();
+										}
+									)
+								)
+								    |
+								(
+									(
+										{
+											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsStatechartContractAnnotationParserRuleCall_1_4_1_0());
+										}
+										lv_annotations_15_0=ruleStatechartContractAnnotation
+										{
+											if ($current==null) {
+												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+											}
+											add(
+												$current,
+												"annotations",
+												lv_annotations_15_0,
+												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.StatechartContractAnnotation");
+											afterParserOrEnumRuleCall();
+										}
+									)
+								)
+								))+
+					{ 
+						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
+					}
+				)
+			)
+					)*
+				)
+			)
+				{ 
+				  getUnorderedGroupHelper().leave(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
+				}
+		)
+		otherlv_16='statechart'
+		{
+			newLeafNode(otherlv_16, grammarAccess.getAsynchronousStatechartDefinitionAccess().getStatechartKeyword_2());
+		}
+		(
+			(
+				lv_name_17_0=RULE_ID
+				{
+					newLeafNode(lv_name_17_0, grammarAccess.getAsynchronousStatechartDefinitionAccess().getNameIDTerminalRuleCall_3_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getAsynchronousStatechartDefinitionRule());
+					}
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_17_0,
+						"org.eclipse.xtext.common.Terminals.ID");
+				}
+			)
+		)
+		(
+			otherlv_18='capacity'
+			{
+				newLeafNode(otherlv_18, grammarAccess.getAsynchronousStatechartDefinitionAccess().getCapacityKeyword_4_0());
+			}
+			otherlv_19='('
+			{
+				newLeafNode(otherlv_19, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftParenthesisKeyword_4_1());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getCapacityExpressionParserRuleCall_4_2_0());
+					}
+					lv_capacity_20_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+						}
+						set(
+							$current,
+							"capacity",
+							lv_capacity_20_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			otherlv_21=')'
+			{
+				newLeafNode(otherlv_21, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightParenthesisKeyword_4_3());
+			}
+		)?
+		(
+			otherlv_22='('
+			{
+				newLeafNode(otherlv_22, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftParenthesisKeyword_5_0());
+			}
+			(
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsParameterDeclarationParserRuleCall_5_1_0_0());
+						}
+						lv_parameterDeclarations_23_0=ruleParameterDeclaration
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+							}
+							add(
+								$current,
+								"parameterDeclarations",
+								lv_parameterDeclarations_23_0,
+								"hu.bme.mit.gamma.expression.language.ExpressionLanguage.ParameterDeclaration");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+				(
+					otherlv_24=','
+					{
+						newLeafNode(otherlv_24, grammarAccess.getAsynchronousStatechartDefinitionAccess().getCommaKeyword_5_1_1_0());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsParameterDeclarationParserRuleCall_5_1_1_1_0());
+							}
+							lv_parameterDeclarations_25_0=ruleParameterDeclaration
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+								}
+								add(
+									$current,
+									"parameterDeclarations",
+									lv_parameterDeclarations_25_0,
+									"hu.bme.mit.gamma.expression.language.ExpressionLanguage.ParameterDeclaration");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)*
+			)?
+			otherlv_26=')'
+			{
+				newLeafNode(otherlv_26, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightParenthesisKeyword_5_2());
+			}
+		)?
+		(
+			otherlv_27='['
+			{
+				newLeafNode(otherlv_27, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftSquareBracketKeyword_6_0());
+			}
+			(
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsPortParserRuleCall_6_1_0_0());
+						}
+						lv_ports_28_0=rulePort
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+							}
+							add(
+								$current,
+								"ports",
+								lv_ports_28_0,
+								"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+				(
+					(
+						otherlv_29=','
+						{
+							newLeafNode(otherlv_29, grammarAccess.getAsynchronousStatechartDefinitionAccess().getCommaKeyword_6_1_1_0());
+						}
+					)?
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsPortParserRuleCall_6_1_1_1_0());
+							}
+							lv_ports_30_0=rulePort
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+								}
+								add(
+									$current,
+									"ports",
+									lv_ports_30_0,
+									"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)*
+			)?
+			otherlv_31=']'
+			{
+				newLeafNode(otherlv_31, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightSquareBracketKeyword_6_2());
+			}
+		)?
+		otherlv_32='{'
+		{
+			newLeafNode(otherlv_32, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftCurlyBracketKeyword_7());
+		}
+		(
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getVariableDeclarationsVariableDeclarationParserRuleCall_8_0_0());
+					}
+					lv_variableDeclarations_33_0=ruleVariableDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+						}
+						add(
+							$current,
+							"variableDeclarations",
+							lv_variableDeclarations_33_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.VariableDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTimeoutDeclarationsTimeoutDeclarationParserRuleCall_8_1_0());
+					}
+					lv_timeoutDeclarations_34_0=ruleTimeoutDeclaration
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+						}
+						add(
+							$current,
+							"timeoutDeclarations",
+							lv_timeoutDeclarations_34_0,
+							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.TimeoutDeclaration");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
+		(
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getRegionsRegionParserRuleCall_9_0_0());
+					}
+					lv_regions_35_0=ruleRegion
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+						}
+						add(
+							$current,
+							"regions",
+							lv_regions_35_0,
+							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Region");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			    |
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionsTransitionParserRuleCall_9_1_0());
+					}
+					lv_transitions_36_0=ruleTransition
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+						}
+						add(
+							$current,
+							"transitions",
+							lv_transitions_36_0,
+							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Transition");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getFunctionDeclarationsFunctionDeclarationParserRuleCall_10_0());
+				}
+				lv_functionDeclarations_37_0=ruleFunctionDeclaration
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
+					}
+					add(
+						$current,
+						"functionDeclarations",
+						lv_functionDeclarations_37_0,
+						"hu.bme.mit.gamma.action.language.ActionLanguage.FunctionDeclaration");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)*
+		otherlv_38='}'
+		{
+			newLeafNode(otherlv_38, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightCurlyBracketKeyword_11());
+		}
 	)
 ;
 
@@ -8883,523 +9409,6 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 		otherlv_33='}'
 		{
 			newLeafNode(otherlv_33, grammarAccess.getSynchronousStatechartDefinitionAccess().getRightCurlyBracketKeyword_9());
-		}
-	)
-;
-
-// Entry rule entryRuleAsynchronousStatechartDefinition
-entryRuleAsynchronousStatechartDefinition returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionRule()); }
-	iv_ruleAsynchronousStatechartDefinition=ruleAsynchronousStatechartDefinition
-	{ $current=$iv_ruleAsynchronousStatechartDefinition.current; }
-	EOF;
-
-// Rule AsynchronousStatechartDefinition
-ruleAsynchronousStatechartDefinition returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		otherlv_0='@Asynchronous'
-		{
-			newLeafNode(otherlv_0, grammarAccess.getAsynchronousStatechartDefinitionAccess().getAsynchronousKeyword_0());
-		}
-		(
-			(
-				{ 
-				  getUnorderedGroupHelper().enter(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
-				}
-				(
-					(
-			(
-				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 0)}?=>(
-					{
-						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 0);
-					}
-								({true}?=>(otherlv_2='@RegionSchedule'
-								{
-									newLeafNode(otherlv_2, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRegionScheduleKeyword_1_0_0());
-								}
-								otherlv_3='='
-								{
-									newLeafNode(otherlv_3, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_0_1());
-								}
-								(
-									(
-										{
-											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getSchedulingOrderSchedulingOrderEnumRuleCall_1_0_2_0());
-										}
-										lv_schedulingOrder_4_0=ruleSchedulingOrder
-										{
-											if ($current==null) {
-												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-											}
-											set(
-												$current,
-												"schedulingOrder",
-												lv_schedulingOrder_4_0,
-												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.SchedulingOrder");
-											afterParserOrEnumRuleCall();
-										}
-									)
-								)
-								))
-					{ 
-						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
-					}
-				)
-			)|
-			(
-				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 1)}?=>(
-					{
-						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 1);
-					}
-								({true}?=>(otherlv_5='@OrthogonalRegionSchedule'
-								{
-									newLeafNode(otherlv_5, grammarAccess.getAsynchronousStatechartDefinitionAccess().getOrthogonalRegionScheduleKeyword_1_1_0());
-								}
-								otherlv_6='='
-								{
-									newLeafNode(otherlv_6, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_1_1());
-								}
-								(
-									(
-										{
-											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getOrthogonalRegionSchedulingOrderOrthogonalRegionSchedulingOrderEnumRuleCall_1_1_2_0());
-										}
-										lv_orthogonalRegionSchedulingOrder_7_0=ruleOrthogonalRegionSchedulingOrder
-										{
-											if ($current==null) {
-												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-											}
-											set(
-												$current,
-												"orthogonalRegionSchedulingOrder",
-												lv_orthogonalRegionSchedulingOrder_7_0,
-												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.OrthogonalRegionSchedulingOrder");
-											afterParserOrEnumRuleCall();
-										}
-									)
-								)
-								))
-					{ 
-						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
-					}
-				)
-			)|
-			(
-				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 2)}?=>(
-					{
-						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 2);
-					}
-								({true}?=>(otherlv_8='@TransitionPriority'
-								{
-									newLeafNode(otherlv_8, grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionPriorityKeyword_1_2_0());
-								}
-								otherlv_9='='
-								{
-									newLeafNode(otherlv_9, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_2_1());
-								}
-								(
-									(
-										{
-											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionPriorityTransitionPriorityEnumRuleCall_1_2_2_0());
-										}
-										lv_transitionPriority_10_0=ruleTransitionPriority
-										{
-											if ($current==null) {
-												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-											}
-											set(
-												$current,
-												"transitionPriority",
-												lv_transitionPriority_10_0,
-												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.TransitionPriority");
-											afterParserOrEnumRuleCall();
-										}
-									)
-								)
-								))
-					{ 
-						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
-					}
-				)
-			)|
-			(
-				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 3)}?=>(
-					{
-						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 3);
-					}
-								({true}?=>(otherlv_11='@GuardEvaluation'
-								{
-									newLeafNode(otherlv_11, grammarAccess.getAsynchronousStatechartDefinitionAccess().getGuardEvaluationKeyword_1_3_0());
-								}
-								otherlv_12='='
-								{
-									newLeafNode(otherlv_12, grammarAccess.getAsynchronousStatechartDefinitionAccess().getEqualsSignKeyword_1_3_1());
-								}
-								(
-									(
-										{
-											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGuardEvaluationGuardEvaluationEnumRuleCall_1_3_2_0());
-										}
-										lv_guardEvaluation_13_0=ruleGuardEvaluation
-										{
-											if ($current==null) {
-												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-											}
-											set(
-												$current,
-												"guardEvaluation",
-												lv_guardEvaluation_13_0,
-												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.GuardEvaluation");
-											afterParserOrEnumRuleCall();
-										}
-									)
-								)
-								))
-					{ 
-						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
-					}
-				)
-			)|
-			(
-				{getUnorderedGroupHelper().canSelect(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 4)}?=>(
-					{
-						getUnorderedGroupHelper().select(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), 4);
-					}
-								({true}?=>((
-									(
-										{
-											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsComponentAnnotationParserRuleCall_1_4_0_0());
-										}
-										lv_annotations_14_0=ruleComponentAnnotation
-										{
-											if ($current==null) {
-												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-											}
-											add(
-												$current,
-												"annotations",
-												lv_annotations_14_0,
-												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.ComponentAnnotation");
-											afterParserOrEnumRuleCall();
-										}
-									)
-								)
-								    |
-								(
-									(
-										{
-											newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsStatechartContractAnnotationParserRuleCall_1_4_1_0());
-										}
-										lv_annotations_15_0=ruleStatechartContractAnnotation
-										{
-											if ($current==null) {
-												$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-											}
-											add(
-												$current,
-												"annotations",
-												lv_annotations_15_0,
-												"hu.bme.mit.gamma.statechart.language.StatechartLanguage.StatechartContractAnnotation");
-											afterParserOrEnumRuleCall();
-										}
-									)
-								)
-								))+
-					{ 
-						getUnorderedGroupHelper().returnFromSelection(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
-					}
-				)
-			)
-					)*
-				)
-			)
-				{ 
-				  getUnorderedGroupHelper().leave(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1());
-				}
-		)
-		otherlv_16='statechart'
-		{
-			newLeafNode(otherlv_16, grammarAccess.getAsynchronousStatechartDefinitionAccess().getStatechartKeyword_2());
-		}
-		(
-			(
-				lv_name_17_0=RULE_ID
-				{
-					newLeafNode(lv_name_17_0, grammarAccess.getAsynchronousStatechartDefinitionAccess().getNameIDTerminalRuleCall_3_0());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getAsynchronousStatechartDefinitionRule());
-					}
-					setWithLastConsumed(
-						$current,
-						"name",
-						lv_name_17_0,
-						"org.eclipse.xtext.common.Terminals.ID");
-				}
-			)
-		)
-		(
-			otherlv_18='capacity'
-			{
-				newLeafNode(otherlv_18, grammarAccess.getAsynchronousStatechartDefinitionAccess().getCapacityKeyword_4_0());
-			}
-			otherlv_19='('
-			{
-				newLeafNode(otherlv_19, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftParenthesisKeyword_4_1());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getCapacityExpressionParserRuleCall_4_2_0());
-					}
-					lv_capacity_20_0=ruleExpression
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-						}
-						set(
-							$current,
-							"capacity",
-							lv_capacity_20_0,
-							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			otherlv_21=')'
-			{
-				newLeafNode(otherlv_21, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightParenthesisKeyword_4_3());
-			}
-		)?
-		(
-			otherlv_22='('
-			{
-				newLeafNode(otherlv_22, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftParenthesisKeyword_5_0());
-			}
-			(
-				(
-					(
-						{
-							newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsParameterDeclarationParserRuleCall_5_1_0_0());
-						}
-						lv_parameterDeclarations_23_0=ruleParameterDeclaration
-						{
-							if ($current==null) {
-								$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-							}
-							add(
-								$current,
-								"parameterDeclarations",
-								lv_parameterDeclarations_23_0,
-								"hu.bme.mit.gamma.expression.language.ExpressionLanguage.ParameterDeclaration");
-							afterParserOrEnumRuleCall();
-						}
-					)
-				)
-				(
-					otherlv_24=','
-					{
-						newLeafNode(otherlv_24, grammarAccess.getAsynchronousStatechartDefinitionAccess().getCommaKeyword_5_1_1_0());
-					}
-					(
-						(
-							{
-								newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsParameterDeclarationParserRuleCall_5_1_1_1_0());
-							}
-							lv_parameterDeclarations_25_0=ruleParameterDeclaration
-							{
-								if ($current==null) {
-									$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-								}
-								add(
-									$current,
-									"parameterDeclarations",
-									lv_parameterDeclarations_25_0,
-									"hu.bme.mit.gamma.expression.language.ExpressionLanguage.ParameterDeclaration");
-								afterParserOrEnumRuleCall();
-							}
-						)
-					)
-				)*
-			)?
-			otherlv_26=')'
-			{
-				newLeafNode(otherlv_26, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightParenthesisKeyword_5_2());
-			}
-		)?
-		(
-			otherlv_27='['
-			{
-				newLeafNode(otherlv_27, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftSquareBracketKeyword_6_0());
-			}
-			(
-				(
-					(
-						{
-							newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsPortParserRuleCall_6_1_0_0());
-						}
-						lv_ports_28_0=rulePort
-						{
-							if ($current==null) {
-								$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-							}
-							add(
-								$current,
-								"ports",
-								lv_ports_28_0,
-								"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
-							afterParserOrEnumRuleCall();
-						}
-					)
-				)
-				(
-					(
-						otherlv_29=','
-						{
-							newLeafNode(otherlv_29, grammarAccess.getAsynchronousStatechartDefinitionAccess().getCommaKeyword_6_1_1_0());
-						}
-					)?
-					(
-						(
-							{
-								newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsPortParserRuleCall_6_1_1_1_0());
-							}
-							lv_ports_30_0=rulePort
-							{
-								if ($current==null) {
-									$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-								}
-								add(
-									$current,
-									"ports",
-									lv_ports_30_0,
-									"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
-								afterParserOrEnumRuleCall();
-							}
-						)
-					)
-				)*
-			)?
-			otherlv_31=']'
-			{
-				newLeafNode(otherlv_31, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightSquareBracketKeyword_6_2());
-			}
-		)?
-		otherlv_32='{'
-		{
-			newLeafNode(otherlv_32, grammarAccess.getAsynchronousStatechartDefinitionAccess().getLeftCurlyBracketKeyword_7());
-		}
-		(
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getVariableDeclarationsVariableDeclarationParserRuleCall_8_0_0());
-					}
-					lv_variableDeclarations_33_0=ruleVariableDeclaration
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-						}
-						add(
-							$current,
-							"variableDeclarations",
-							lv_variableDeclarations_33_0,
-							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.VariableDeclaration");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			    |
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTimeoutDeclarationsTimeoutDeclarationParserRuleCall_8_1_0());
-					}
-					lv_timeoutDeclarations_34_0=ruleTimeoutDeclaration
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-						}
-						add(
-							$current,
-							"timeoutDeclarations",
-							lv_timeoutDeclarations_34_0,
-							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.TimeoutDeclaration");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)*
-		(
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getRegionsRegionParserRuleCall_9_0_0());
-					}
-					lv_regions_35_0=ruleRegion
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-						}
-						add(
-							$current,
-							"regions",
-							lv_regions_35_0,
-							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Region");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			    |
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionsTransitionParserRuleCall_9_1_0());
-					}
-					lv_transitions_36_0=ruleTransition
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-						}
-						add(
-							$current,
-							"transitions",
-							lv_transitions_36_0,
-							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Transition");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)*
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getAsynchronousStatechartDefinitionAccess().getFunctionDeclarationsFunctionDeclarationParserRuleCall_10_0());
-				}
-				lv_functionDeclarations_37_0=ruleFunctionDeclaration
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getAsynchronousStatechartDefinitionRule());
-					}
-					add(
-						$current,
-						"functionDeclarations",
-						lv_functionDeclarations_37_0,
-						"hu.bme.mit.gamma.action.language.ActionLanguage.FunctionDeclaration");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)*
-		otherlv_38='}'
-		{
-			newLeafNode(otherlv_38, grammarAccess.getAsynchronousStatechartDefinitionAccess().getRightCurlyBracketKeyword_11());
 		}
 	)
 ;

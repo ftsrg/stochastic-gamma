@@ -33,6 +33,9 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, EnvironmentLanguageGrammarAccess grammarAccess) {
 			builder.put(grammarAccess.getPackageAccess().getAlternatives_3(), "rule__Package__Alternatives_3");
 			builder.put(grammarAccess.getComponentAccess().getAlternatives(), "rule__Component__Alternatives");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAlternatives_1_4(), "rule__AsynchronousStatechartDefinition__Alternatives_1_4");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAlternatives_8(), "rule__AsynchronousStatechartDefinition__Alternatives_8");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAlternatives_9(), "rule__AsynchronousStatechartDefinition__Alternatives_9");
 			builder.put(grammarAccess.getAnalysisComponentAccess().getAlternatives_7_3(), "rule__AnalysisComponent__Alternatives_7_3");
 			builder.put(grammarAccess.getSimulationAnalysisMethodAccess().getAlternatives(), "rule__SimulationAnalysisMethod__Alternatives");
 			builder.put(grammarAccess.getImportanceSamplingAccess().getAlternatives_6(), "rule__ImportanceSampling__Alternatives_6");
@@ -81,9 +84,6 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getAlternatives_0_4(), "rule__SynchronousStatechartDefinition__Alternatives_0_4");
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getAlternatives_6(), "rule__SynchronousStatechartDefinition__Alternatives_6");
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getAlternatives_7(), "rule__SynchronousStatechartDefinition__Alternatives_7");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAlternatives_1_4(), "rule__AsynchronousStatechartDefinition__Alternatives_1_4");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAlternatives_8(), "rule__AsynchronousStatechartDefinition__Alternatives_8");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAlternatives_9(), "rule__AsynchronousStatechartDefinition__Alternatives_9");
 			builder.put(grammarAccess.getComponentAnnotationAccess().getAlternatives(), "rule__ComponentAnnotation__Alternatives");
 			builder.put(grammarAccess.getStatechartContractAnnotationAccess().getAlternatives(), "rule__StatechartContractAnnotation__Alternatives");
 			builder.put(grammarAccess.getScenarioAllowedWaitingAnnotationAccess().getAlternatives_1(), "rule__ScenarioAllowedWaitingAnnotation__Alternatives_1");
@@ -156,6 +156,18 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getPersistencyAccess().getAlternatives(), "rule__Persistency__Alternatives");
 			builder.put(grammarAccess.getPackageAccess().getGroup(), "rule__Package__Group__0");
 			builder.put(grammarAccess.getPackageAccess().getGroup_2(), "rule__Package__Group_2__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup(), "rule__AsynchronousStatechartDefinition__Group__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_0(), "rule__AsynchronousStatechartDefinition__Group_1_0__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_1(), "rule__AsynchronousStatechartDefinition__Group_1_1__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_2(), "rule__AsynchronousStatechartDefinition__Group_1_2__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_3(), "rule__AsynchronousStatechartDefinition__Group_1_3__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_4(), "rule__AsynchronousStatechartDefinition__Group_4__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_5(), "rule__AsynchronousStatechartDefinition__Group_5__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_5_1(), "rule__AsynchronousStatechartDefinition__Group_5_1__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_5_1_1(), "rule__AsynchronousStatechartDefinition__Group_5_1_1__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_6(), "rule__AsynchronousStatechartDefinition__Group_6__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_6_1(), "rule__AsynchronousStatechartDefinition__Group_6_1__0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_6_1_1(), "rule__AsynchronousStatechartDefinition__Group_6_1_1__0");
 			builder.put(grammarAccess.getAnalysisComponentAccess().getGroup(), "rule__AnalysisComponent__Group__0");
 			builder.put(grammarAccess.getAnalysisComponentAccess().getGroup_2(), "rule__AnalysisComponent__Group_2__0");
 			builder.put(grammarAccess.getAnalysisComponentAccess().getGroup_2_1(), "rule__AnalysisComponent__Group_2_1__0");
@@ -311,18 +323,6 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getGroup_4(), "rule__SynchronousStatechartDefinition__Group_4__0");
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getGroup_4_1(), "rule__SynchronousStatechartDefinition__Group_4_1__0");
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getGroup_4_1_1(), "rule__SynchronousStatechartDefinition__Group_4_1_1__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup(), "rule__AsynchronousStatechartDefinition__Group__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_0(), "rule__AsynchronousStatechartDefinition__Group_1_0__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_1(), "rule__AsynchronousStatechartDefinition__Group_1_1__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_2(), "rule__AsynchronousStatechartDefinition__Group_1_2__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_1_3(), "rule__AsynchronousStatechartDefinition__Group_1_3__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_4(), "rule__AsynchronousStatechartDefinition__Group_4__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_5(), "rule__AsynchronousStatechartDefinition__Group_5__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_5_1(), "rule__AsynchronousStatechartDefinition__Group_5_1__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_5_1_1(), "rule__AsynchronousStatechartDefinition__Group_5_1_1__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_6(), "rule__AsynchronousStatechartDefinition__Group_6__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_6_1(), "rule__AsynchronousStatechartDefinition__Group_6_1__0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGroup_6_1_1(), "rule__AsynchronousStatechartDefinition__Group_6_1_1__0");
 			builder.put(grammarAccess.getNegativeContractStatechartAnnotationAccess().getGroup(), "rule__NegativeContractStatechartAnnotation__Group__0");
 			builder.put(grammarAccess.getHasInitialoutputsBlockAnnotationAccess().getGroup(), "rule__HasInitialoutputsBlockAnnotation__Group__0");
 			builder.put(grammarAccess.getScenarioAllowedWaitingAnnotationAccess().getGroup(), "rule__ScenarioAllowedWaitingAnnotation__Group__0");
@@ -595,6 +595,23 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getPackageAccess().getTypeDeclarationsAssignment_3_2(), "rule__Package__TypeDeclarationsAssignment_3_2");
 			builder.put(grammarAccess.getPackageAccess().getComponentsAssignment_3_3(), "rule__Package__ComponentsAssignment_3_3");
 			builder.put(grammarAccess.getPackageAccess().getInterfacesAssignment_3_4(), "rule__Package__InterfacesAssignment_3_4");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getSchedulingOrderAssignment_1_0_2(), "rule__AsynchronousStatechartDefinition__SchedulingOrderAssignment_1_0_2");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getOrthogonalRegionSchedulingOrderAssignment_1_1_2(), "rule__AsynchronousStatechartDefinition__OrthogonalRegionSchedulingOrderAssignment_1_1_2");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionPriorityAssignment_1_2_2(), "rule__AsynchronousStatechartDefinition__TransitionPriorityAssignment_1_2_2");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGuardEvaluationAssignment_1_3_2(), "rule__AsynchronousStatechartDefinition__GuardEvaluationAssignment_1_3_2");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsAssignment_1_4_0(), "rule__AsynchronousStatechartDefinition__AnnotationsAssignment_1_4_0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsAssignment_1_4_1(), "rule__AsynchronousStatechartDefinition__AnnotationsAssignment_1_4_1");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getNameAssignment_3(), "rule__AsynchronousStatechartDefinition__NameAssignment_3");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getCapacityAssignment_4_2(), "rule__AsynchronousStatechartDefinition__CapacityAssignment_4_2");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsAssignment_5_1_0(), "rule__AsynchronousStatechartDefinition__ParameterDeclarationsAssignment_5_1_0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsAssignment_5_1_1_1(), "rule__AsynchronousStatechartDefinition__ParameterDeclarationsAssignment_5_1_1_1");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsAssignment_6_1_0(), "rule__AsynchronousStatechartDefinition__PortsAssignment_6_1_0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsAssignment_6_1_1_1(), "rule__AsynchronousStatechartDefinition__PortsAssignment_6_1_1_1");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getVariableDeclarationsAssignment_8_0(), "rule__AsynchronousStatechartDefinition__VariableDeclarationsAssignment_8_0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTimeoutDeclarationsAssignment_8_1(), "rule__AsynchronousStatechartDefinition__TimeoutDeclarationsAssignment_8_1");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getRegionsAssignment_9_0(), "rule__AsynchronousStatechartDefinition__RegionsAssignment_9_0");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionsAssignment_9_1(), "rule__AsynchronousStatechartDefinition__TransitionsAssignment_9_1");
+			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getFunctionDeclarationsAssignment_10(), "rule__AsynchronousStatechartDefinition__FunctionDeclarationsAssignment_10");
 			builder.put(grammarAccess.getAnalysisComponentAccess().getNameAssignment_1(), "rule__AnalysisComponent__NameAssignment_1");
 			builder.put(grammarAccess.getAnalysisComponentAccess().getParameterDeclarationsAssignment_2_1_0(), "rule__AnalysisComponent__ParameterDeclarationsAssignment_2_1_0");
 			builder.put(grammarAccess.getAnalysisComponentAccess().getParameterDeclarationsAssignment_2_1_1_1(), "rule__AnalysisComponent__ParameterDeclarationsAssignment_2_1_1_1");
@@ -818,23 +835,6 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getRegionsAssignment_7_0(), "rule__SynchronousStatechartDefinition__RegionsAssignment_7_0");
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getTransitionsAssignment_7_1(), "rule__SynchronousStatechartDefinition__TransitionsAssignment_7_1");
 			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getFunctionDeclarationsAssignment_8(), "rule__SynchronousStatechartDefinition__FunctionDeclarationsAssignment_8");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getSchedulingOrderAssignment_1_0_2(), "rule__AsynchronousStatechartDefinition__SchedulingOrderAssignment_1_0_2");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getOrthogonalRegionSchedulingOrderAssignment_1_1_2(), "rule__AsynchronousStatechartDefinition__OrthogonalRegionSchedulingOrderAssignment_1_1_2");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionPriorityAssignment_1_2_2(), "rule__AsynchronousStatechartDefinition__TransitionPriorityAssignment_1_2_2");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getGuardEvaluationAssignment_1_3_2(), "rule__AsynchronousStatechartDefinition__GuardEvaluationAssignment_1_3_2");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsAssignment_1_4_0(), "rule__AsynchronousStatechartDefinition__AnnotationsAssignment_1_4_0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getAnnotationsAssignment_1_4_1(), "rule__AsynchronousStatechartDefinition__AnnotationsAssignment_1_4_1");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getNameAssignment_3(), "rule__AsynchronousStatechartDefinition__NameAssignment_3");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getCapacityAssignment_4_2(), "rule__AsynchronousStatechartDefinition__CapacityAssignment_4_2");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsAssignment_5_1_0(), "rule__AsynchronousStatechartDefinition__ParameterDeclarationsAssignment_5_1_0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getParameterDeclarationsAssignment_5_1_1_1(), "rule__AsynchronousStatechartDefinition__ParameterDeclarationsAssignment_5_1_1_1");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsAssignment_6_1_0(), "rule__AsynchronousStatechartDefinition__PortsAssignment_6_1_0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getPortsAssignment_6_1_1_1(), "rule__AsynchronousStatechartDefinition__PortsAssignment_6_1_1_1");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getVariableDeclarationsAssignment_8_0(), "rule__AsynchronousStatechartDefinition__VariableDeclarationsAssignment_8_0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTimeoutDeclarationsAssignment_8_1(), "rule__AsynchronousStatechartDefinition__TimeoutDeclarationsAssignment_8_1");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getRegionsAssignment_9_0(), "rule__AsynchronousStatechartDefinition__RegionsAssignment_9_0");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getTransitionsAssignment_9_1(), "rule__AsynchronousStatechartDefinition__TransitionsAssignment_9_1");
-			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getFunctionDeclarationsAssignment_10(), "rule__AsynchronousStatechartDefinition__FunctionDeclarationsAssignment_10");
 			builder.put(grammarAccess.getScenarioAllowedWaitingAnnotationAccess().getLowerLimitAssignment_3(), "rule__ScenarioAllowedWaitingAnnotation__LowerLimitAssignment_3");
 			builder.put(grammarAccess.getScenarioAllowedWaitingAnnotationAccess().getUpperLimitAssignment_5(), "rule__ScenarioAllowedWaitingAnnotation__UpperLimitAssignment_5");
 			builder.put(grammarAccess.getScenarioContractAnnotationAccess().getMonitoredComponentAssignment_2(), "rule__ScenarioContractAnnotation__MonitoredComponentAssignment_2");
@@ -1128,8 +1128,8 @@ public class EnvironmentLanguageParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getIntegerRangeLiteralExpressionAccess().getRightOperandAssignment_4(), "rule__IntegerRangeLiteralExpression__RightOperandAssignment_4");
 			builder.put(grammarAccess.getIntegerRangeLiteralExpressionAccess().getRightInclusiveAssignment_5_0(), "rule__IntegerRangeLiteralExpression__RightInclusiveAssignment_5_0");
 			builder.put(grammarAccess.getBasicConstraintDefinitionAccess().getExpressionAssignment_1(), "rule__BasicConstraintDefinition__ExpressionAssignment_1");
-			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getUnorderedGroup_0(), "rule__SynchronousStatechartDefinition__UnorderedGroup_0");
 			builder.put(grammarAccess.getAsynchronousStatechartDefinitionAccess().getUnorderedGroup_1(), "rule__AsynchronousStatechartDefinition__UnorderedGroup_1");
+			builder.put(grammarAccess.getSynchronousStatechartDefinitionAccess().getUnorderedGroup_0(), "rule__SynchronousStatechartDefinition__UnorderedGroup_0");
 		}
 	}
 	
