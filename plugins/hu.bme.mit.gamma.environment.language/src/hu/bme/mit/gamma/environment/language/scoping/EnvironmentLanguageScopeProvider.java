@@ -269,7 +269,7 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 					}
 				}
 				if(reference==AnalysisPackage.Literals.COMPONENT_PORT_EVENT_REFERENCE__EVENT) {
-					return Scopes.scopeFor(eventsFromDeclarations(ref.getPort().getInterfaceRealization().getInterface().getEvents()));
+					return Scopes.scopeFor(EnvironmentModelDerivedFeatures.getAllEvents(ref.getPort()));
 				}
 			}
 			
@@ -283,8 +283,8 @@ public class EnvironmentLanguageScopeProvider extends StatechartLanguageScopePro
 				StatechartDefinition statechart = StatechartModelDerivedFeatures.getContainingStatechart(context);
 				Collection<Event> events = new HashSet<Event>();
 				statechart.getPorts()
-					.forEach(it -> events.addAll(StatechartModelDerivedFeatures.getAllEvents(it.getInterfaceRealization().getInterface())));
-				// Not only in events are returned as less-aware users tend to write out events on triggers
+					.forEach(it -> events.addAll(EnvironmentModelDerivedFeatures.getAllEvents(it.getInterfaceRealization().getInterface())));
+				// Not only in events are returned as less-awarechare users tend to write out events on triggers
 				return Scopes.scopeFor(events);
 			}
 			if (context instanceof RaiseEventAction
