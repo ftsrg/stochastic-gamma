@@ -17,7 +17,6 @@ import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer
 import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent
 
 import static extension hu.bme.mit.gamma.codegeneration.java.util.Namings.*
-import static extension hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures.*
 import hu.bme.mit.gamma.statechart.composite.AbstractAsynchronousCompositeComponent
 import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent
 import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponentInstance
@@ -31,10 +30,20 @@ import hu.bme.mit.gamma.codegeneration.java.ComponentCodeGenerator
 import hu.bme.mit.gamma.codegeneration.java.CompositeComponentCodeGenerator
 import static extension hu.bme.mit.gamma.codegeneration.java.CompositeComponentCodeGenerator.*
 import hu.bme.mit.gamma.codegeneration.java.util.ElementaryEnvironmentComponentUtility
+import hu.bme.mit.gamma.statechart.interface_.Port
+import static extension hu.bme.mit.gamma.statechart.util.ActionSerializer.*
+import static extension hu.bme.mit.gamma.statechart.util.ExpressionSerializer.*
+import static extension hu.bme.mit.gamma.expression.derivedfeatures.ExpressionModelDerivedFeatures.*
+//import static extension hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures.*
+import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
+import static extension hu.bme.mit.gamma.codegeneration.java.EventDeclarationHandler.*
+import hu.bme.mit.gamma.statechart.interface_.Event
+import hu.bme.mit.gamma.expression.model.ParameterDeclaration
 
 class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 	
 	protected final String PACKAGE_NAME
+
 	// 
 	protected final extension TimingDeterminer timingDeterminer = TimingDeterminer.INSTANCE
 	protected final extension Trace trace
@@ -43,8 +52,9 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 	protected final extension ComponentCodeGenerator componentCodeGenerator
 	protected final extension CompositeComponentCodeGenerator compositeComponentCodeGenerator
 	protected val envUtil = ElementaryEnvironmentComponentUtility.INSTANCE
-
+    
 	new(String packageName, Trace trace) {
+		val SDA=EventDeclarationHandler
 		this.PACKAGE_NAME = packageName
 		this.trace = trace
 		this.nameGenerator = new NameGenerator(this.PACKAGE_NAME)
@@ -219,7 +229,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 				
 					«systemPort.delegateRaisingMethods» 
 					
-					«systemPort.delegateOutMethods»
+					«systemPort.delegateDetOutMethods»
 					
 					@Override
 					public void registerListener(«systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper» listener) {
@@ -316,4 +326,60 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 		}
 	'''
 	
+	/**
+	 * Generates methods that for in-event raisings in the case of composite components.
+	 */
+	def CharSequence delegateDetRaisingMethods(Port systemPort) '''
+		«FOR event : systemPort.inputEvents SEPARATOR System.lineSeparator»
+			@Override
+			public void raise«event.name.toFirstUpper»(« event.generateParameters») {
+				«FOR connector : systemPort.detPortBindings»
+					«connector.instancePortReference.instance.name».get«connector.instancePortReference.port.name.toFirstUpper»().raise«event.name.toFirstUpper»(«event.generateArguments»);
+				«ENDFOR»	
+			}
+		«ENDFOR»
+	'''	
+
+	
+	/**
+	 * Generates methods for out-event check delegations in the case of composite components.
+	 */
+	def CharSequence delegateDetOutMethods(Port systemPort) '''
+«««		Simple flag checks
+		«FOR event : systemPort.outputEvents»
+			@Override
+			public boolean isRaised«event.name.toFirstUpper»() {
+				«IF systemPort.detPortBindings.empty»
+					return false;
+				«ELSE»
+					«FOR connector : systemPort.portBindings»
+						return «connector.instancePortReference.instance.name».get«connector.instancePortReference.port.name.toFirstUpper»().isRaised«event.name.toFirstUpper»();
+					«ENDFOR»
+				«ENDIF»
+			}
+«««			ValueOf checks
+			«FOR parameter : event.parameterDeclarations»
+				@Override
+				public «parameter.type.transformType» get«parameter.name.toFirstUpper»() {
+					«IF systemPort.detPortBindings.empty»
+						«IF parameter.type.primitive»
+							return «ExpressionSerializer.INSTANCE.serialize(parameter.type.defaultExpression)»;
+						«ELSE»
+							return null;
+						«ENDIF»
+					«ELSE»
+						«FOR connector : systemPort.detPortBindings»
+							return «connector.instancePortReference.instance.name».get«connector.instancePortReference.port.name.toFirstUpper»().get«parameter.name.toFirstUpper»();
+						«ENDFOR»
+					«ENDIF»
+				}
+			«ENDFOR»
+		«ENDFOR»
+	'''
+	
+	def generateName(ParameterDeclaration parameter) '''«parameter.name.toFirstLower»'''
+	
+	def generateParameters(Event event) '''«FOR parameter : event.parameterDeclarations SEPARATOR ", "»«parameter.type.transformType» «parameter.generateName»«ENDFOR»'''
+	
+	def generateArguments(Event event) '''«FOR parameter : event.parameterDeclarations SEPARATOR ", "»«parameter.generateName»«ENDFOR»'''
 }

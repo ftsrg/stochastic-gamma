@@ -1,6 +1,7 @@
 package hu.bme.mit.gamma.environment.model.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;import org.eclipse.emf.ecore.EObject;
 
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance;
@@ -22,6 +23,7 @@ import hu.bme.mit.gamma.statechart.composite.ComponentInstance;
 import hu.bme.mit.gamma.statechart.composite.ComponentInstanceReferenceExpression;
 import hu.bme.mit.gamma.statechart.composite.CompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.InstancePortReference;
+import hu.bme.mit.gamma.statechart.composite.PortBinding;
 import hu.bme.mit.gamma.statechart.composite.ScheduledAsynchronousCompositeComponent;
 import hu.bme.mit.gamma.statechart.composite.SynchronousComponentInstance;
 import hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures;
@@ -269,4 +271,19 @@ public class EnvironmentModelDerivedFeatures extends StatechartModelDerivedFeatu
 		return component.getComponents();
 	}
 	
+	
+	public static Collection<PortBinding> getDetPortBindings(Port port) {
+		EObject component = port.eContainer();
+		List<PortBinding> portBindings = new ArrayList<PortBinding>();
+		if (component instanceof CompositeComponent) {
+			CompositeComponent compositeComponent = (CompositeComponent) component;
+			for (PortBinding portBinding : compositeComponent.getPortBindings()) {
+				if ((portBinding.getCompositeSystemPort() == port) && 
+						!(portBinding.getInstancePortReference().getInstance() instanceof ElementaryEnvironmentComponentInstance)) {
+					portBindings.add(portBinding);
+				}
+			}
+		}		
+		return portBindings;
+	}
 }
