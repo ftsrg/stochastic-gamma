@@ -73,7 +73,14 @@ class CompositeToPlantUmlTransformer {
 		skinparam ranksep «horizontalSpacing»
 		skinparam padding «padding»
 	'''
-
+	def addLineBreaks(String str){
+		val c=30
+		if (c>=str.length) {
+			return str
+		}
+		return '''«FOR i : 0..(str.length/c) SEPARATOR "...\\n"»«IF (i+1)*c>str.length»«str.substring(i*c)»«ELSE»«str.substring(i*c,(i+1)*c)»«ENDIF»«ENDFOR»'''
+	}
+	
 	protected extension ExpressionSerializer expressionSerializer = ExpressionSerializer.INSTANCE
 
 	new(CompositeComponent composite) {
@@ -164,10 +171,10 @@ class CompositeToPlantUmlTransformer {
 			
 			«FOR port : composite.ports»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-					portin «port.name»
+					portin «port.name.addLineBreaks»
 				«ENDIF»
 				«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-					portout «port.name»
+					portout «port.name.addLineBreaks»
 				«ENDIF»
 			«ENDFOR»
 			
@@ -215,11 +222,11 @@ class CompositeToPlantUmlTransformer {
 					«FOR port : component.derivedType.allPorts»
 						«IF true»
 							«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-								portin "«port.name»:\n ~«port.interface.name» " as «component.name»__«port.name»
+								portin "«port.name.addLineBreaks»:\n ~«port.interface.name» " as «component.name»__«port.name»
 								«port.note(component)»
 							«ENDIF»
 							«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-								portout "«port.name»:\n «port.interface.name»" as «component.name»__«port.name»
+								portout "«port.name.addLineBreaks»:\n «port.interface.name»" as «component.name»__«port.name»
 							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
@@ -230,10 +237,10 @@ class CompositeToPlantUmlTransformer {
 			
 			«FOR port : composite.ports»
 			«IF port.interfaceRealization.realizationMode == RealizationMode.REQUIRED»
-				portin "«port.name»:\n ~«port.interface.name»" as «port.name»
+				portin "«port.name.addLineBreaks»:\n ~«port.interface.name»" as «port.name»
 			«ENDIF»
 			«IF port.interfaceRealization.realizationMode == RealizationMode.PROVIDED»
-				portout "«port.name»:\n «port.interface.name»" as «port.name»
+				portout "«port.name.addLineBreaks»:\n «port.interface.name»" as «port.name»
 			«ENDIF»
 			«ENDFOR»
 			

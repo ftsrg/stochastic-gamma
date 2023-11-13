@@ -104,6 +104,11 @@ for diagram in diagram_name_dict.keys():
 	svg=svg.replace("Â","").replace("Ă","").replace("Â","")
 	diagram_svg_dict.update({cmd : svg})
 
+overall_diagram_svg=""
+with open("overall_structure.svg",encoding='UTF-8', errors='space_it') as f:
+	overall_diagram_svg =  f.read()
+	overall_diagram_svg=overall_diagram_svg.replace("Â","").replace("Ă","").replace("Â","")
+
 
 svg=""
 
@@ -274,7 +279,7 @@ class MyServer(BaseHTTPRequestHandler):
 		elapse_time=int(detmodel.timer.getEarliestTime())
 		if elapse_time<8000000000000000000:
 			self.wfile.write(bytes("""<form action="http://localhost:8080/"""+elapse_cmd_key+"""">""", "utf-8"))
-			self.wfile.write(bytes("""<input type="submit" value="Elapse time: """+elapse_time+""" ms">""", "utf-8"))
+			self.wfile.write(bytes("""<input type="submit" value="Elapse time: """+(time.strftime("%Hh%Mm%Ss", time.gmtime(elapse_time/1000.0)) if elapse_time>1000  else str(elapse_time)+"ms  ")+""" ">""", "utf-8"))
 			self.wfile.write(bytes("""</form>""", "utf-8"))
 		«ENDIF»
 		self.wfile.write(bytes("""<form action="http://localhost:8080/ResetDetModel">""", "utf-8"))
@@ -372,10 +377,12 @@ class MyServer(BaseHTTPRequestHandler):
 		
 		for line in state_lines:
 			self.wfile.write(bytes(line, "utf-8"))
-
+		
+		self.wfile.write(bytes(overall_diagram_svg, "utf-8"))
 		
 		self.wfile.write(bytes("</body></html>", "utf-8"))
-	
+		
+		
 	def do_GET(self):
 		self.send_page()
 		

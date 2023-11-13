@@ -82,12 +82,15 @@ public class EnvironmentModelValidator extends StatechartModelValidator {
 			if ((channel.getProvidedPort() != null) && (channel.getRequiredPorts()!=null) ) {
 				if (!channel.getRequiredPorts().isEmpty()) {
 					for (InstancePortReference requiredPort : channel.getRequiredPorts()) {
-						if (!channel.getProvidedPort().getPort().getInterfaceRealization().getInterface().equals(
-								requiredPort.getPort().getInterfaceRealization().getInterface())) {
-							validationResultMessages.add(new ValidationResultMessage(ValidationResult.WARNING,
-									"Channel interfaces must have the same type!",
-									new ReferenceInfo(CompositeModelPackage.Literals.CHANNEL__PROVIDED_PORT)));
+						if (channel.getProvidedPort().getPort().getInterfaceRealization()!=null) {
+							if (!channel.getProvidedPort().getPort().getInterfaceRealization().getInterface().equals(
+									requiredPort.getPort().getInterfaceRealization().getInterface())) {
+								validationResultMessages.add(new ValidationResultMessage(ValidationResult.WARNING,
+										"Channel interfaces must have the same type!",
+										new ReferenceInfo(CompositeModelPackage.Literals.CHANNEL__PROVIDED_PORT)));
+							}
 						}
+
 					}
 				}
 
@@ -104,11 +107,13 @@ public class EnvironmentModelValidator extends StatechartModelValidator {
 	public Collection<ValidationResultMessage> checkSimpleChannelInterfaces(SimpleChannel channel){
 		Collection<ValidationResultMessage> validationResultMessages = new ArrayList<ValidationResultMessage>();
 		try {
-			if (channel.getProvidedPort().getPort().getInterfaceRealization().getInterface().equals(
-					channel.getRequiredPort().getPort().getInterfaceRealization().getInterface())) {
-				validationResultMessages.add(new ValidationResultMessage(ValidationResult.WARNING,
-						"Channel interfaces must have the same type!",
-						new ReferenceInfo(CompositeModelPackage.Literals.CHANNEL__PROVIDED_PORT)));
+			if(channel.getRequiredPort().getPort().getInterfaceRealization()!= null && channel.getProvidedPort().getPort().getInterfaceRealization()!= null) {
+				if (!channel.getProvidedPort().getPort().getInterfaceRealization().getInterface().equals(
+						channel.getRequiredPort().getPort().getInterfaceRealization().getInterface())) {
+					validationResultMessages.add(new ValidationResultMessage(ValidationResult.WARNING,
+							"Channel interfaces must have the same type!",
+							new ReferenceInfo(CompositeModelPackage.Literals.CHANNEL__PROVIDED_PORT)));
+				}
 			}
 		} catch (Exception exception) {
 			System.out.println(exception.getMessage());

@@ -95,8 +95,8 @@ class Util {
 		if (instance.derivedType instanceof StatechartDefinition) {
 			return 
 			'''
-			note "«instance.keyword»" as note_«instance.name»
-			note_«instance.name» .. «instance.name»
+			'note "«instance.keyword»" as note_«instance.name»
+			'note_«instance.name» .. «instance.name»
 			''';
 		}	
 	}

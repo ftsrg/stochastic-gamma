@@ -14,6 +14,7 @@ import java.io.File
 import hu.bme.mit.gamma.environment.simulator.transformation.pythongen.ServerGenerator
 import hu.bme.mit.gamma.environment.simulator.transformation.configgen.ConfigGenerator
 import hu.bme.mit.gamma.environment.simulator.transformation.configgen.StatechartConfigGenerator
+import hu.bme.mit.gamma.environment.simulator.transformation.plantumlgen.AnalysisToPlantUMLTransformer
 
 class SimulatorTransformer {
 	
@@ -27,6 +28,7 @@ class SimulatorTransformer {
 		var generatorPython = new ServerGenerator
 		var generatorConfig = new ConfigGenerator
 		var generatorSctConfig = new StatechartConfigGenerator
+		var analysisTransformer = new AnalysisToPlantUMLTransformer
 		components.add(analysisComponent.analyzedComponent.type)
 		while (! components.isEmpty){
 			val component=components.get(0)
@@ -50,6 +52,10 @@ class SimulatorTransformer {
 		futil.saveString(basePackageURI+File.separator+"simulator-gen"+File.separator+"config.yml",config)
 		var sct_config = generatorSctConfig.generate(analysisComponent)
 		futil.saveString(basePackageURI+File.separator+"simulator-gen"+File.separator+"config_sct.yml",sct_config)
+		var overall_puml=analysisTransformer.executeWBS(analysisComponent.analyzedComponent,analysisComponent.name)
+		var diagramData2 = new DiagramData(overall_puml)
+		var svg = diagramData2.getSvg(0)
+		futil.saveString(basePackageURI+File.separator+"simulator-gen"+File.separator+"overall_structure.svg",svg)
 	}
 	
 }

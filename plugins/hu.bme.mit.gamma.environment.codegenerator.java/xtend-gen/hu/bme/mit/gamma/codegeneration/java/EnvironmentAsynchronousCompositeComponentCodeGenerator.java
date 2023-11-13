@@ -123,6 +123,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     CharSequence _generateEnvironmentInports = this.generateEnvironmentInports(component);
     _builder.append(_generateEnvironmentInports);
     _builder.newLineIfNotEmpty();
+    _builder.append("import java.util.ArrayList;");
+    _builder.newLine();
     _builder.newLine();
     CharSequence _scheduingInterfaceImport = this.envUtil.getScheduingInterfaceImport(this.PACKAGE_NAME);
     _builder.append(_scheduingInterfaceImport);
@@ -316,6 +318,9 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     _builder.append("public void schedule(){");
     _builder.newLine();
     _builder.append("\t\t");
+    _builder.append("int cntr=0;");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.append("do{");
     _builder.newLine();
     {
@@ -341,8 +346,71 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         }
       }
     }
+    _builder.append("\t\t\t");
+    _builder.append("cntr++;");
+    _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("}while(!isEventQueueEmpty());");
+    _builder.append("}while(!isEventQueueEmpty() && cntr < 10);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("if (cntr==10) {");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("System.out.println(\"Infinite scheduling in ");
+    String _name_4 = component.getName();
+    _builder.append(_name_4, "\t\t\t");
+    _builder.append("! -----------\");");
+    _builder.newLineIfNotEmpty();
+    {
+      List<ComponentInstance> _instances_2 = StatechartModelDerivedFeatures.getInstances(component);
+      for(final ComponentInstance comp_1 : _instances_2) {
+        _builder.append("\t\t\t");
+        _builder.append("if (!");
+        String _name_5 = comp_1.getName();
+        _builder.append(_name_5, "\t\t\t");
+        _builder.append(".isEventQueueEmpty()){");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t");
+        _builder.append("\t");
+        _builder.append("System.out.println(\"    queues of ");
+        String _name_6 = comp_1.getName();
+        _builder.append(_name_6, "\t\t\t\t");
+        _builder.append(" is not empty\");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t");
+        _builder.append("}");
+        _builder.newLine();
+      }
+    }
+    {
+      if ((component instanceof EnvironmentAsynchronousCompositeComponent)) {
+        {
+          EList<EnvironmentComponentInstance> _environmentComponents_3 = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents();
+          for(final EnvironmentComponentInstance inst_3 : _environmentComponents_3) {
+            _builder.append("\t\t\t");
+            _builder.append("if (!");
+            String _isEmptyCall_1 = this.envUtil.getIsEmptyCall(((ElementaryEnvironmentComponentInstance) inst_3));
+            _builder.append(_isEmptyCall_1, "\t\t\t");
+            _builder.append("){");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t\t\t");
+            _builder.append("\t");
+            _builder.append("System.out.println(\"    elementary stochastic component ");
+            String _name_7 = inst_3.getName();
+            _builder.append(_name_7, "\t\t\t\t");
+            _builder.append(" is not empty\");");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t\t\t");
+            _builder.append("}");
+            _builder.newLine();
+          }
+        }
+      }
+    }
+    _builder.append("\t\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("}");
@@ -367,8 +435,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
             String _transformType = this.typeTransformer.transformType(parameter.getType());
             _builder.append(_transformType, "\t");
             _builder.append(" ");
-            String _name_4 = parameter.getName();
-            _builder.append(_name_4, "\t");
+            String _name_8 = parameter.getName();
+            _builder.append(_name_8, "\t");
           }
           if (_hasElements_2) {
             _builder.append(", ", "\t");
@@ -389,15 +457,15 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
             _builder.append("// Environmental Component instances");
             _builder.newLine();
             {
-              EList<EnvironmentComponentInstance> _environmentComponents_3 = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents();
-              for(final EnvironmentComponentInstance instance_2 : _environmentComponents_3) {
+              EList<EnvironmentComponentInstance> _environmentComponents_4 = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents();
+              for(final EnvironmentComponentInstance instance_2 : _environmentComponents_4) {
                 {
                   if ((instance_2 instanceof EnvironmentAsynchronousCompositeComponentInstance)) {
                     _builder.append("\t");
                     _builder.append("\t");
                     _builder.append("\t");
-                    String _name_5 = ((EnvironmentAsynchronousCompositeComponentInstance)instance_2).getName();
-                    _builder.append(_name_5, "\t\t\t");
+                    String _name_9 = ((EnvironmentAsynchronousCompositeComponentInstance)instance_2).getName();
+                    _builder.append(_name_9, "\t\t\t");
                     _builder.append(" = new ");
                     String _firstUpper_6 = StringExtensions.toFirstUpper(((EnvironmentAsynchronousCompositeComponentInstance)instance_2).getType().getName());
                     _builder.append(_firstUpper_6, "\t\t\t");
@@ -441,8 +509,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         String _transformType_1 = this.typeTransformer.transformType(parameter_1.getType());
         _builder.append(_transformType_1, "\t");
         _builder.append(" ");
-        String _name_6 = parameter_1.getName();
-        _builder.append(_name_6, "\t");
+        String _name_10 = parameter_1.getName();
+        _builder.append(_name_10, "\t");
       }
     }
     _builder.append(") {");
@@ -457,14 +525,14 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         _builder.append("// Environmental Component instances");
         _builder.newLine();
         {
-          EList<EnvironmentComponentInstance> _environmentComponents_4 = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents();
-          for(final EnvironmentComponentInstance instance_3 : _environmentComponents_4) {
+          EList<EnvironmentComponentInstance> _environmentComponents_5 = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents();
+          for(final EnvironmentComponentInstance instance_3 : _environmentComponents_5) {
             {
               if ((instance_3 instanceof EnvironmentAsynchronousCompositeComponentInstance)) {
                 _builder.append("\t\t");
                 _builder.append("\t");
-                String _name_7 = ((EnvironmentAsynchronousCompositeComponentInstance)instance_3).getName();
-                _builder.append(_name_7, "\t\t\t");
+                String _name_11 = ((EnvironmentAsynchronousCompositeComponentInstance)instance_3).getName();
+                _builder.append(_name_11, "\t\t\t");
                 _builder.append(" = new ");
                 String _firstUpper_7 = StringExtensions.toFirstUpper(((EnvironmentAsynchronousCompositeComponentInstance)instance_3).getType().getName());
                 _builder.append(_firstUpper_7, "\t\t\t");
@@ -497,8 +565,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
       EList<AsynchronousComponentInstance> _components_1 = component.getComponents();
       for(final AsynchronousComponentInstance instance_4 : _components_1) {
         _builder.append("\t\t");
-        String _name_8 = instance_4.getName();
-        _builder.append(_name_8, "\t\t");
+        String _name_12 = instance_4.getName();
+        _builder.append(_name_12, "\t\t");
         _builder.append(".reset();");
         _builder.newLineIfNotEmpty();
       }
@@ -506,13 +574,13 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     {
       if ((component instanceof EnvironmentAsynchronousCompositeComponent)) {
         {
-          EList<EnvironmentComponentInstance> _environmentComponents_5 = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents();
-          for(final EnvironmentComponentInstance envComp : _environmentComponents_5) {
+          EList<EnvironmentComponentInstance> _environmentComponents_6 = ((EnvironmentAsynchronousCompositeComponent)component).getEnvironmentComponents();
+          for(final EnvironmentComponentInstance envComp : _environmentComponents_6) {
             {
               if ((envComp instanceof EnvironmentAsynchronousCompositeComponentInstance)) {
                 _builder.append("\t\t");
-                String _name_9 = ((EnvironmentAsynchronousCompositeComponentInstance)envComp).getName();
-                _builder.append(_name_9, "\t\t");
+                String _name_13 = ((EnvironmentAsynchronousCompositeComponentInstance)envComp).getName();
+                _builder.append(_name_13, "\t\t");
                 _builder.append(".reset();");
                 _builder.newLineIfNotEmpty();
               }
@@ -551,8 +619,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
             String _generateChannelName = this.nameGenerator.generateChannelName(channelMatch.getProvidedPort().getPort().getInterfaceRealization().getInterface());
             _builder.append(_generateChannelName, "\t\t");
             _builder.append("(");
-            String _name_10 = channelMatch.getProvidedPort().getInstance().getName();
-            _builder.append(_name_10, "\t\t");
+            String _name_14 = channelMatch.getProvidedPort().getInstance().getName();
+            _builder.append(_name_14, "\t\t");
             _builder.append(".get");
             String _firstUpper_10 = StringExtensions.toFirstUpper(channelMatch.getProvidedPort().getPort().getName());
             _builder.append(_firstUpper_10, "\t\t");
@@ -566,8 +634,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
             String _firstUpper_12 = StringExtensions.toFirstUpper(channelMatch.getProvidedPort().getInstance().getName());
             _builder.append(_firstUpper_12, "\t\t");
             _builder.append(".registerPort(");
-            String _name_11 = channelMatch.getRequiredPort().getInstance().getName();
-            _builder.append(_name_11, "\t\t");
+            String _name_15 = channelMatch.getRequiredPort().getInstance().getName();
+            _builder.append(_name_15, "\t\t");
             _builder.append(".get");
             String _firstUpper_13 = StringExtensions.toFirstUpper(channelMatch.getRequiredPort().getPort().getName());
             _builder.append(_firstUpper_13, "\t\t");
@@ -598,8 +666,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
             String _generateChannelName_1 = this.nameGenerator.generateChannelName(channel_2.getProvidedPort().getPort().getInterfaceRealization().getInterface());
             _builder.append(_generateChannelName_1, "\t\t");
             _builder.append("(");
-            String _name_12 = channel_2.getProvidedPort().getInstance().getName();
-            _builder.append(_name_12, "\t\t");
+            String _name_16 = channel_2.getProvidedPort().getInstance().getName();
+            _builder.append(_name_16, "\t\t");
             _builder.append(".get");
             String _firstUpper_16 = StringExtensions.toFirstUpper(channel_2.getProvidedPort().getPort().getName());
             _builder.append(_firstUpper_16, "\t\t");
@@ -621,8 +689,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
                     String _firstUpper_18 = StringExtensions.toFirstUpper(channelMatch_1.getProvidedPort().getInstance().getName());
                     _builder.append(_firstUpper_18, "\t\t\t");
                     _builder.append(".registerPort(");
-                    String _name_13 = channelMatch_1.getRequiredPort().getInstance().getName();
-                    _builder.append(_name_13, "\t\t\t");
+                    String _name_17 = channelMatch_1.getRequiredPort().getInstance().getName();
+                    _builder.append(_name_17, "\t\t\t");
                     _builder.append(".get");
                     String _firstUpper_19 = StringExtensions.toFirstUpper(channelMatch_1.getRequiredPort().getPort().getName());
                     _builder.append(_firstUpper_19, "\t\t\t");
@@ -707,8 +775,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
               if (_not_3) {
                 _builder.append("\t");
                 _builder.append("\t\t");
-                String _name_14 = portDef.getInstancePortReference().getInstance().getName();
-                _builder.append(_name_14, "\t\t\t");
+                String _name_18 = portDef.getInstancePortReference().getInstance().getName();
+                _builder.append(_name_18, "\t\t\t");
                 _builder.append(".get");
                 String _firstUpper_23 = StringExtensions.toFirstUpper(portDef.getInstancePortReference().getPort().getName());
                 _builder.append(_firstUpper_23, "\t\t\t");
@@ -739,6 +807,22 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         _builder.append(_firstUpper_24, "\t\t");
         _builder.append("> getRegisteredListeners() {");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("List<");
+        String _implementationName_3 = Namings.getImplementationName(systemPort.getInterfaceRealization().getInterface());
+        _builder.append(_implementationName_3, "\t\t\t");
+        _builder.append(".Listener.");
+        String _firstUpper_25 = StringExtensions.toFirstUpper(systemPort.getInterfaceRealization().getRealizationMode().toString().toLowerCase());
+        _builder.append(_firstUpper_25, "\t\t\t");
+        _builder.append("> registeredListeners=new ArrayList<");
+        String _implementationName_4 = Namings.getImplementationName(systemPort.getInterfaceRealization().getInterface());
+        _builder.append(_implementationName_4, "\t\t\t");
+        _builder.append(".Listener.");
+        String _firstUpper_26 = StringExtensions.toFirstUpper(systemPort.getInterfaceRealization().getRealizationMode().toString().toLowerCase());
+        _builder.append(_firstUpper_26, "\t\t\t");
+        _builder.append(">();");
+        _builder.newLineIfNotEmpty();
         {
           Collection<PortBinding> _portBindings_1 = StatechartModelDerivedFeatures.getPortBindings(systemPort);
           for(final PortBinding portDef_1 : _portBindings_1) {
@@ -748,18 +832,22 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
               if (_not_4) {
                 _builder.append("\t");
                 _builder.append("\t\t");
-                _builder.append("return ");
-                String _name_15 = portDef_1.getInstancePortReference().getInstance().getName();
-                _builder.append(_name_15, "\t\t\t");
+                _builder.append("registeredListeners.addAll(");
+                String _name_19 = portDef_1.getInstancePortReference().getInstance().getName();
+                _builder.append(_name_19, "\t\t\t");
                 _builder.append(".get");
-                String _firstUpper_25 = StringExtensions.toFirstUpper(portDef_1.getInstancePortReference().getPort().getName());
-                _builder.append(_firstUpper_25, "\t\t\t");
-                _builder.append("().getRegisteredListeners();");
+                String _firstUpper_27 = StringExtensions.toFirstUpper(portDef_1.getInstancePortReference().getPort().getName());
+                _builder.append(_firstUpper_27, "\t\t\t");
+                _builder.append("().getRegisteredListeners());");
                 _builder.newLineIfNotEmpty();
               }
             }
           }
         }
+        _builder.append("\t");
+        _builder.append("\t\t");
+        _builder.append("return registeredListeners;");
+        _builder.newLine();
         _builder.append("\t");
         _builder.append("\t");
         _builder.append("}");
@@ -777,11 +865,11 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         _builder.newLine();
         _builder.append("\t");
         _builder.append("public ");
-        String _firstUpper_26 = StringExtensions.toFirstUpper(systemPort.getName());
-        _builder.append(_firstUpper_26, "\t");
+        String _firstUpper_28 = StringExtensions.toFirstUpper(systemPort.getName());
+        _builder.append(_firstUpper_28, "\t");
         _builder.append(" get");
-        String _firstUpper_27 = StringExtensions.toFirstUpper(systemPort.getName());
-        _builder.append(_firstUpper_27, "\t");
+        String _firstUpper_29 = StringExtensions.toFirstUpper(systemPort.getName());
+        _builder.append(_firstUpper_29, "\t");
         _builder.append("() {");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -811,8 +899,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
       EList<AsynchronousComponentInstance> _components_2 = component.getComponents();
       for(final AsynchronousComponentInstance instance_5 : _components_2) {
         _builder.append("\t\t");
-        String _name_16 = instance_5.getName();
-        _builder.append(_name_16, "\t\t");
+        String _name_20 = instance_5.getName();
+        _builder.append(_name_20, "\t\t");
         _builder.append(".start();");
         _builder.newLineIfNotEmpty();
       }
@@ -820,13 +908,13 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     {
       if ((component instanceof AbstractEnvironmentCompositeComponent)) {
         {
-          EList<EnvironmentComponentInstance> _environmentComponents_6 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
-          for(final EnvironmentComponentInstance envInstance : _environmentComponents_6) {
+          EList<EnvironmentComponentInstance> _environmentComponents_7 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
+          for(final EnvironmentComponentInstance envInstance : _environmentComponents_7) {
             {
               if ((envInstance instanceof EnvironmentAsynchronousCompositeComponentInstance)) {
                 _builder.append("\t\t");
-                String _name_17 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance).getName();
-                _builder.append(_name_17, "\t\t");
+                String _name_21 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance).getName();
+                _builder.append(_name_21, "\t\t");
                 _builder.append(".start();");
                 _builder.newLineIfNotEmpty();
               }
@@ -854,8 +942,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         } else {
           _builder.appendImmediate(" && ", "\t\t");
         }
-        String _name_18 = instance_6.getName();
-        _builder.append(_name_18, "\t\t");
+        String _name_22 = instance_6.getName();
+        _builder.append(_name_22, "\t\t");
         _builder.append(".isWaiting()");
       }
     }
@@ -863,14 +951,14 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     {
       if ((component instanceof AbstractEnvironmentCompositeComponent)) {
         {
-          EList<EnvironmentComponentInstance> _environmentComponents_7 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
-          for(final EnvironmentComponentInstance envInstance_1 : _environmentComponents_7) {
+          EList<EnvironmentComponentInstance> _environmentComponents_8 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
+          for(final EnvironmentComponentInstance envInstance_1 : _environmentComponents_8) {
             {
               if ((envInstance_1 instanceof EnvironmentAsynchronousCompositeComponentInstance)) {
                 _builder.append("\t\t\t");
                 _builder.append("\" && \"");
-                String _name_19 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance_1).getName();
-                _builder.append(_name_19, "\t\t\t");
+                String _name_23 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance_1).getName();
+                _builder.append(_name_23, "\t\t\t");
                 _builder.append(".isWaiting()");
                 _builder.newLineIfNotEmpty();
               }
@@ -908,8 +996,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
                   if (_needTimer_2) {
                     _builder.append("\t");
                     _builder.append("\t");
-                    String _name_20 = instance_7.getName();
-                    _builder.append(_name_20, "\t\t");
+                    String _name_24 = instance_7.getName();
+                    _builder.append(_name_24, "\t\t");
                     _builder.append(".setTimer(timer);");
                     _builder.newLineIfNotEmpty();
                   }
@@ -921,8 +1009,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         {
           if ((component instanceof AbstractEnvironmentCompositeComponent)) {
             {
-              EList<EnvironmentComponentInstance> _environmentComponents_8 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
-              for(final EnvironmentComponentInstance envInstance_2 : _environmentComponents_8) {
+              EList<EnvironmentComponentInstance> _environmentComponents_9 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
+              for(final EnvironmentComponentInstance envInstance_2 : _environmentComponents_9) {
                 {
                   if ((envInstance_2 instanceof EnvironmentAsynchronousCompositeComponentInstance)) {
                     {
@@ -930,8 +1018,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
                       if (_needTimer_3) {
                         _builder.append("\t");
                         _builder.append("\t");
-                        String _name_21 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance_2).getName();
-                        _builder.append(_name_21, "\t\t");
+                        String _name_25 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance_2).getName();
+                        _builder.append(_name_25, "\t\t");
                         _builder.append(".setTimer(timer);");
                         _builder.newLineIfNotEmpty();
                       }
@@ -966,15 +1054,15 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
         String _generateComponentClassName_5 = this.nameGenerator.generateComponentClassName(instance_8.getType());
         _builder.append(_generateComponentClassName_5, "\t");
         _builder.append(" get");
-        String _firstUpper_28 = StringExtensions.toFirstUpper(instance_8.getName());
-        _builder.append(_firstUpper_28, "\t");
+        String _firstUpper_30 = StringExtensions.toFirstUpper(instance_8.getName());
+        _builder.append(_firstUpper_30, "\t");
         _builder.append("() {");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t");
         _builder.append("return ");
-        String _name_22 = instance_8.getName();
-        _builder.append(_name_22, "\t\t");
+        String _name_26 = instance_8.getName();
+        _builder.append(_name_26, "\t\t");
         _builder.append(";");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -985,8 +1073,8 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
     {
       if ((component instanceof AbstractEnvironmentCompositeComponent)) {
         {
-          EList<EnvironmentComponentInstance> _environmentComponents_9 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
-          for(final EnvironmentComponentInstance envInstance_3 : _environmentComponents_9) {
+          EList<EnvironmentComponentInstance> _environmentComponents_10 = ((AbstractEnvironmentCompositeComponent)component).getEnvironmentComponents();
+          for(final EnvironmentComponentInstance envInstance_3 : _environmentComponents_10) {
             {
               if ((envInstance_3 instanceof EnvironmentAsynchronousCompositeComponentInstance)) {
                 _builder.append("\t");
@@ -994,15 +1082,15 @@ public class EnvironmentAsynchronousCompositeComponentCodeGenerator {
                 String _generateComponentClassName_6 = this.nameGenerator.generateComponentClassName(((EnvironmentAsynchronousCompositeComponentInstance)envInstance_3).getType());
                 _builder.append(_generateComponentClassName_6, "\t");
                 _builder.append(" get");
-                String _firstUpper_29 = StringExtensions.toFirstUpper(((EnvironmentAsynchronousCompositeComponentInstance)envInstance_3).getName());
-                _builder.append(_firstUpper_29, "\t");
+                String _firstUpper_31 = StringExtensions.toFirstUpper(((EnvironmentAsynchronousCompositeComponentInstance)envInstance_3).getName());
+                _builder.append(_firstUpper_31, "\t");
                 _builder.append("() {");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("return ");
-                String _name_23 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance_3).getName();
-                _builder.append(_name_23, "\t\t");
+                String _name_27 = ((EnvironmentAsynchronousCompositeComponentInstance)envInstance_3).getName();
+                _builder.append(_name_27, "\t\t");
                 _builder.append(";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");

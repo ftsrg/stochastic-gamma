@@ -76,6 +76,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 		«component.generateCompositeSystemImports»
 		
 		«component.generateEnvironmentInports»
+		import java.util.ArrayList;
 		
 		«envUtil.getScheduingInterfaceImport(PACKAGE_NAME)»
 		
@@ -115,6 +116,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			}
 			
 			public void schedule(){
+				int cntr=0;
 				do{
 					«FOR inst : component.instances»
 						«inst.name».schedule();
@@ -124,7 +126,24 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 							«envUtil.getScheduleCall(inst as ElementaryEnvironmentComponentInstance)»
 						«ENDFOR»
 					«ENDIF»
-				}while(!isEventQueueEmpty());
+					cntr++;
+				}while(!isEventQueueEmpty() && cntr < 10);
+				if (cntr==10) {
+					System.out.println("Infinite scheduling in «component.name»! -----------");
+					«FOR comp : component.instances»
+						if (!«comp.name».isEventQueueEmpty()){
+							System.out.println("    queues of «comp.name» is not empty");
+						}
+					«ENDFOR»
+					«IF component instanceof EnvironmentAsynchronousCompositeComponent »
+						«FOR inst : component.environmentComponents»
+							if (!«envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)»){
+								System.out.println("    elementary stochastic component «inst.name» is not empty");
+							}
+						«ENDFOR» 
+					«ENDIF»
+					
+				}
 			}
 			«IF component.needTimer»
 				public «component.generateComponentClassName»(«FOR parameter : component.parameterDeclarations SEPARATOR ", " AFTER ", "»«parameter.type.transformType» «parameter.name»«ENDFOR»«Namings.UNIFIED_TIMER_INTERFACE» timer) {
@@ -213,11 +232,13 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 					
 					@Override
 					public List<«systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper»> getRegisteredListeners() {
+						List<«systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper»> registeredListeners=new ArrayList<«systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper»>();
 						«FOR portDef : systemPort.portBindings»
 							«IF ! (portDef.instancePortReference.instance instanceof ElementaryEnvironmentComponentInstance)»
-								return «portDef.instancePortReference.instance.name».get«portDef.instancePortReference.port.name.toFirstUpper»().getRegisteredListeners();
+								registeredListeners.addAll(«portDef.instancePortReference.instance.name».get«portDef.instancePortReference.port.name.toFirstUpper»().getRegisteredListeners());
 							«ENDIF»
 						«ENDFOR»
+						return registeredListeners;
 					}
 					
 				}
