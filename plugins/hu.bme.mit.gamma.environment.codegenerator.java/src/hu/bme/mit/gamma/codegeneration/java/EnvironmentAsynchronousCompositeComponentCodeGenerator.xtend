@@ -196,7 +196,11 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 							«envComp.name».reset();
 						«ENDIF»
 					«ENDFOR»
+					«FOR port : component.ports.filter[p|p.detPortBindings.empty]»
+						«port.name.toFirstLower».reset();
+					«ENDFOR»
 				«ENDIF»
+				
 			}
 			
 			/** Creates the channel mappings and enters the wrapped statemachines. */
@@ -226,10 +230,32 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			// Inner classes representing Ports
 			«FOR systemPort : component.ports SEPARATOR "\n"»
 				public class «systemPort.name.toFirstUpper» implements «systemPort.interfaceRealization.interface.implementationName».«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper» {
-				
+					
+					
+					List<«systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper»> registeredListeners=new ArrayList<«systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper»>();
+					
+					
 					«systemPort.delegateRaisingMethods» 
 					
 					«systemPort.delegateDetOutMethods»
+					
+					«IF systemPort.detPortBindings.empty»
+						«FOR event:systemPort.outputEvents»
+							public void raise«event.name.toFirstUpper»(«event.generateParameters»){
+								for («systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper» listener : registeredListeners){
+									listener.raise«event.name.toFirstUpper»(«event.generateArguments»);
+								}
+								«FOR param : event.parameterDeclarations»
+								this.«param.generateName»=«param.generateName»;
+								«ENDFOR»
+							}
+						«ENDFOR»
+						public void reset(){
+							«FOR param : systemPort.outputEvents.flatMap[e|e.parameterDeclarations]»
+								this.«param.generateName»=«ExpressionSerializer.INSTANCE.serialize(param.type.defaultExpression)»;
+							«ENDFOR»
+						}
+					«ENDIF»
 					
 					@Override
 					public void registerListener(«systemPort.interfaceRealization.interface.implementationName».Listener.«systemPort.interfaceRealization.realizationMode.toString.toLowerCase.toFirstUpper» listener) {
@@ -238,6 +264,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 								«portDef.instancePortReference.instance.name».get«portDef.instancePortReference.port.name.toFirstUpper»().registerListener(listener);
 							«ENDIF»
 						«ENDFOR»
+						registeredListeners.add(listener);
 					}
 					
 					@Override
@@ -359,11 +386,15 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			}
 «««			ValueOf checks
 			«FOR parameter : event.parameterDeclarations»
+			
+				«IF systemPort.detPortBindings.empty» 
+					«parameter.type.transformType» «parameter.generateName»=«ExpressionSerializer.INSTANCE.serialize(parameter.type.defaultExpression)»;
+				«ENDIF»
 				@Override
 				public «parameter.type.transformType» get«parameter.name.toFirstUpper»() {
 					«IF systemPort.detPortBindings.empty»
 						«IF parameter.type.primitive»
-							return «ExpressionSerializer.INSTANCE.serialize(parameter.type.defaultExpression)»;
+							return «parameter.name»;
 						«ELSE»
 							return null;
 						«ENDIF»

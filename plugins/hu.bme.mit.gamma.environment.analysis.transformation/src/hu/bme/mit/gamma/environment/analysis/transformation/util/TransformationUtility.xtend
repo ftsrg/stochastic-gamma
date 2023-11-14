@@ -29,6 +29,10 @@ import hu.bme.mit.gamma.environment.analysis.AssumeNotRaised
 import static extension hu.bme.mit.gamma.environment.analysis.transformation.pythongen.PyroDistGenerator.*
 import hu.bme.mit.gamma.environment.analysis.ObserveCondition
 import hu.bme.mit.gamma.environment.analysis.AssumeCondition
+import hu.bme.mit.gamma.expression.model.BooleanTypeDefinition
+import hu.bme.mit.gamma.expression.model.DecimalTypeDefinition
+import hu.bme.mit.gamma.expression.model.EnumerableTypeDefinition
+import hu.bme.mit.gamma.expression.model.RationalTypeDefinition
 
 class TransformationUtility {
 	
@@ -87,7 +91,28 @@ class TransformationUtility {
 		}
 	}
 	
-	static def generateName(ParameterDeclaration parameter) '''«parameter.name.toFirstLower»'''
+	static def generateName(ParameterDeclaration parameter){
+		return  '''«parameter.name.toFirstLower»'''
+	}
+	
+	static def generateFloatParameter(ParameterDeclaration parameter){
+		val t=parameter.type
+		if (t instanceof BooleanTypeDefinition) {
+			return  '''((«parameter.name.toFirstLower») ? 1.0 : 0.0)'''
+		}
+		if (t instanceof IntegerTypeDefinition) {
+			return  '''((double) «parameter.name.toFirstLower»)'''
+		}
+		if (t instanceof EnumerableTypeDefinition) {
+			return  '''((double) («parameter.name.toFirstLower».ordinal()))'''
+		}
+		if (t instanceof DecimalTypeDefinition || t instanceof RationalTypeDefinition) {
+			return  '''(«parameter.name.toFirstLower»)'''
+		}
+		throw new UnsupportedOperationException(t.toString + "cannot be converted into double")
+	}
+	
+	
 	
 	
 	static def generatePyroAspectRegistry(List<AnalysisAspect> aspects){
@@ -171,17 +196,17 @@ class TransformationUtility {
 		'''state2num(detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».state)'''
 	
 	static dispatch def getValueCall(MeanParameter aspect)
-		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».meanParameter()'''
+		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».meanParameter'''
 	
 	static dispatch def getValueCall(Frequency aspect)
-		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».freq()''' 
+		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».freq''' 
 	
 	
 	static dispatch def getValueCall(ObserveTime aspect)
 		'''stochmodel.time'''
 	
 	static dispatch def getValueCall(ObserveParameter aspect)
-		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».meanParameter()'''
+		'''detmodel.monitorOf«TransformationUtility.generateAspectName(aspect)».meanParameter'''
 		
 	
 	static dispatch def getValueCall(AssumeCondition aspect)

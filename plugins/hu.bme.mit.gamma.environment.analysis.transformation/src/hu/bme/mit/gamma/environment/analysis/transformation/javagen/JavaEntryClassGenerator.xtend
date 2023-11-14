@@ -13,6 +13,7 @@ import hu.bme.mit.gamma.environment.analysis.ObserveCondition
 import hu.bme.mit.gamma.environment.analysis.ObserveParameter
 import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
 import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer
+import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
 
 class JavaEntryClassGenerator {
 	
@@ -162,10 +163,10 @@ class JavaEntryClassGenerator {
 						meanParameter=0.0;
 					}
 											
-					«FOR event : a.event.port.interfaceRealization.interface.events»
+					«FOR event : a.event.port.allEvents»
 					@Override
-					public void raise«event.event.name.toFirstUpper»(«TransformationUtility.generateParameters(event.event)»){
-						«IF event.event==a.event.event»
+					public void raise«event.name.toFirstUpper»(«TransformationUtility.generateParameters(event)»){
+						«IF event==a.event.event»
 							state="stop";
 							freq++;
 							«IF a instanceof ObserveParameter»
@@ -175,7 +176,7 @@ class JavaEntryClassGenerator {
 								parameter=«TransformationUtility.generateName(a.parameter)»
 							«ENDIF»
 							«IF a instanceof MeanParameter»
-								sumParameter=sumParameter+«TransformationUtility.generateName(a.parameter)»
+								sumParameter=sumParameter+«TransformationUtility.generateFloatParameter(a.parameter)»;
 								meanParameter=sumParameter/freq;
 							«ENDIF»
 						«ENDIF»
@@ -198,10 +199,10 @@ class JavaEntryClassGenerator {
 						state="run";
 					}
 											
-					«FOR event : e.event.port.interfaceRealization.interface.events»
+					«FOR event : e.event.port.allEvents»
 					@Override
-					public void raise«event.event.name.toFirstUpper»(«TransformationUtility.generateParameters(event.event)»){
-						«IF event.event==e.event.event»
+					public void raise«event.name.toFirstUpper»(«TransformationUtility.generateParameters(event)»){
+						«IF event==e.event.event»
 							state="stop";
 						«ENDIF»
 					}
