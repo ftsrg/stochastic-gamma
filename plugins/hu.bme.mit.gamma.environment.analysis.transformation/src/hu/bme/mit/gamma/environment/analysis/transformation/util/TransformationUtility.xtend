@@ -81,7 +81,9 @@ class TransformationUtility {
 	static def transformType(String type) {
 		switch (type) {
 			case "integer": 
-				return "long"
+				return "int"
+			case "long": 
+				return "int"
 			case "string": 
 				return "String"
 			case "real": 

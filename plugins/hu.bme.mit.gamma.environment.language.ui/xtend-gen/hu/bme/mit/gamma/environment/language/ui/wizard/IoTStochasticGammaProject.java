@@ -28,7 +28,7 @@ import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.osgi.framework.Bundle;
 
-@ProjectTemplate(label = "IoT Camera System Example Project", icon = "stochastic_gamma16.png", description = "<p><b>IoT Camera System Example Project</b></p>\n<p>This is a wizard to create  Stochastic Gamma Composition Project of an IoT camera system.</p>")
+@ProjectTemplate(label = "IoT Camera System Example Project", icon = "stochastic_gamma16.png", description = "<p><b>IoT Camera System Example Project</b></p>\r\n<p>This is a wizard to create  Stochastic Gamma Composition Project of an IoT camera system.</p>")
 @SuppressWarnings("all")
 public final class IoTStochasticGammaProject extends AbstractProjectTemplate {
   @Override

@@ -69,6 +69,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 	
 	protected def generateEnvironmentInports(AbstractAsynchronousCompositeComponent component){
 		'''
+		«IF component instanceof EnvironmentAsynchronousCompositeComponent»
 		«var comp=component as EnvironmentAsynchronousCompositeComponent»
 		«var types=comp.environmentComponents
 			.filter[c|c instanceof EnvironmentAsynchronousCompositeComponentInstance]
@@ -77,6 +78,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 		«FOR t : types»
 			import «PACKAGE_NAME».«t.name.toLowerCase».*;
 		«ENDFOR»
+		«ENDIF»
 		'''
 	}
 	

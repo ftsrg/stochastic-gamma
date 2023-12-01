@@ -178,6 +178,7 @@ class MyServer(BaseHTTPRequestHandler):
 				failure_call()
 			detmodel.getDetModel().schedule()
 			while len(stochmodel.events)>0:
+				stochmodel.getEarliestTime()
 				event = stochmodel.popEvent()
 				sim_stoch_events[event.eventSource.name.replace("()","_").replace(".","")]=event
 			# evaluate end condition
@@ -192,6 +193,7 @@ class MyServer(BaseHTTPRequestHandler):
 				failure_call()
 			detmodel.getDetModel().schedule()
 			while len(stochmodel.events)>0:
+				stochmodel.getEarliestTime()
 				event = stochmodel.popEvent()
 				sim_stoch_events[event.eventSource.name.replace("()","_").replace(".","")]=event
 			# evaluate end condition
@@ -205,6 +207,10 @@ class MyServer(BaseHTTPRequestHandler):
 			event.eventCall()
 			detmodel.getDetModel().schedule()
 			sim_stoch_events.pop(eventkey,None)
+			while len(stochmodel.events)>0:
+				stochmodel.getEarliestTime()
+				event = stochmodel.popEvent()
+				sim_stoch_events[event.eventSource.name.replace("()","_").replace(".","")]=event
 		«IF TimingDeterminer.INSTANCE.needTimer(analysisComponent.analyzedComponent.type)»
 		elif elapse_cmd_key in self.requestline:
 			print("Elapse "+str(elapse_time) + ' ms at time: ' + str(stochmodel.time))
