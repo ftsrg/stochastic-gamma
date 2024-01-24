@@ -22,7 +22,7 @@ import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 
-@ProjectTemplate(label = "Stochastic Gamma Composition Modeling", icon = "stochastic_gamma16.png", description = "<p><b>Stochastic Gamma Composition Modeling</b></p>\r\n<p>This is a wizard to create a Stochastic Gamma Composition Modeling project.</p>")
+@ProjectTemplate(label = "Stochastic Gamma Composition Modeling", icon = "stochastic_gamma16.png", description = "<p><b>Stochastic Gamma Composition Modeling</b></p>\n<p>This is a wizard to create a Stochastic Gamma Composition Modeling project.</p>")
 @SuppressWarnings("all")
 public final class GenericStochasticGammaProject extends AbstractProjectTemplate {
   private final BooleanTemplateVariable advanced = this.check("Custom model name:", false);

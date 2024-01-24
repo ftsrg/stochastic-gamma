@@ -153,7 +153,7 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
       final GammaToLowlevelTransformer transformer = new GammaToLowlevelTransformer();
       hu.bme.mit.gamma.statechart.lowlevel.model.Package _transformAndWrap = transformer.transformAndWrap(gammaStatechart);
       final hu.bme.mit.gamma.statechart.lowlevel.model.Package lowlevelPackage = ((hu.bme.mit.gamma.statechart.lowlevel.model.Package) _transformAndWrap);
-      final hu.bme.mit.gamma.statechart.lowlevel.transformation.Trace traces = transformer.getTraces();
+      final hu.bme.mit.gamma.statechart.lowlevel.transformation.Trace traces = transformer.getTrace();
       final HashMap<TimeoutDeclaration, VariableDeclaration> timeoutMap = this.generateTimeoutMap(gammaStatechart, traces);
       final LowlevelToXstsTransformer lowlevelTransformer = new LowlevelToXstsTransformer(lowlevelPackage, false, TransitionMerging.HIERARCHICAL);
       AbstractMap.SimpleEntry<XSTS, L2STrace> _execute = lowlevelTransformer.execute();

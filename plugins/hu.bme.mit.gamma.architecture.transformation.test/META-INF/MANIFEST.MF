@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: hu.bme.mit.gamma.architecture.transformation.test
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.junit,
+ hu.bme.mit.gamma.architecture.transformation;bundle-version="1.0.0",
+ hu.bme.mit.gamma.architecture.transformation.enterprisearchitect;bundle-version="1.0.0",
+ junit-jupiter-api;bundle-version="5.10.0"
+Automatic-Module-Name: hu.bme.mit.gamma.architecture.transformation.test
+Bundle-RequiredExecutionEnvironment: JavaSE-17

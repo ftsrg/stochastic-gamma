@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.gamma.architecture.transformation/src-gen"
+    editDirectory="/hu.bme.mit.gamma.architecture.transformation.edit/src-gen" editorDirectory="/hu.bme.mit.gamma.architecture.transformation.editor/src-gen"
+    modelPluginID="hu.bme.mit.gamma.architecture.transformation" modelName="Architecture"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory="/hu.bme.mit.gamma.architecture.transformation.tests/src-gen"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0" copyrightFields="false"
+    usedGenPackages="../../hu.bme.mit.gamma.expression.model/model/expression.genmodel#//model"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>architecture.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="hu.bme.mit.gamma.architecture" disposableProviderFactory="true"
+      fileExtensions="architecturemodel" ecorePackage="architecture.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="architecture.ecore#//Direction">
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/INOUT"/>
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/NONE"/>
+    </genEnums>
+    <genClasses ecoreClass="architecture.ecore#//ArchitecturePackage">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitecturePackage/architectureelement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitecturePackage/subpackeges"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureElement"/>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//ArchitecturePort">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitecturePort/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute architecture.ecore#//ArchitecturePort/conjugated"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureFunction"/>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureElementInstance"/>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureInterface">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureInterface/flowproperties"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//SoftwareComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//ElectronicComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//MechanicalComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureSubcompnent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureSubcompnent/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureSubfunction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureSubfunction/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//CompositeInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//CompositeInterface/subinterfaces"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//System"/>
+    <genClasses ecoreClass="architecture.ecore#//ElectricalInterface"/>
+    <genClasses ecoreClass="architecture.ecore#//MechanicalInterface"/>
+    <genClasses ecoreClass="architecture.ecore#//FunctionalInterface"/>
+    <genClasses ecoreClass="architecture.ecore#//SoftwareInterface"/>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureRelations">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureRelations/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureRelations/target"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="architecture.ecore#//Allocation"/>
+    <genClasses ecoreClass="architecture.ecore#//SoftwareAllocation"/>
+    <genClasses ecoreClass="architecture.ecore#//ElectricalAllocation"/>
+    <genClasses ecoreClass="architecture.ecore#//FunctionalAllocation"/>
+    <genClasses ecoreClass="architecture.ecore#//Connector"/>
+    <genClasses ecoreClass="architecture.ecore#//InforationFlow">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//InforationFlow/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//PhysicalElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//PhysicalElement/subcompnents"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//FunctionalElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//FunctionalElement/subfunctions"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//InterfaceConnector">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//InterfaceConnector/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//PrimitiveFunction"/>
+    <genClasses ecoreClass="architecture.ecore#//StructuralElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//StructuralElement/ports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//StructuralElement/relations"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//Generalisation"/>
+    <genClasses ecoreClass="architecture.ecore#//Trace"/>
+    <genClasses ecoreClass="architecture.ecore#//FlowProperty">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//FlowProperty/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute architecture.ecore#//FlowProperty/direction"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//ValueType"/>
+  </genPackages>
+  <genPackages prefix="Interface" ecorePackage="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDirection">
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDirection/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDirection/OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDirection/INOUT"/>
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDirection/INTERNAL"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Persistency">
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Persistency/TRANSIENT"/>
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Persistency/PERSISTENT"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//RealizationMode">
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//RealizationMode/PROVIDED"/>
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//RealizationMode/REQUIRED"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TimeUnit">
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TimeUnit/MILLISECOND"/>
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TimeUnit/SECOND"/>
+      <genEnumLiterals ecoreEnumLiteral="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TimeUnit/HOUR"/>
+    </genEnums>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface/parents"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface/events"/>
+    </genClasses>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDeclaration/direction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventDeclaration/event"/>
+    </genClasses>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Event">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Event/priority"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Event/persistency"/>
+    </genClasses>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventParameterReferenceExpression">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventParameterReferenceExpression/port"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventParameterReferenceExpression/event"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventParameterReferenceExpression/parameter"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventSource"/>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Port">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Port/interfaceRealization"/>
+    </genClasses>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//InterfaceRealization">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//InterfaceRealization/realizationMode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//InterfaceRealization/interface"/>
+    </genClasses>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Package">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Package/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Package/components"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Package/interfaces"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Package/annotations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Component">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Component/ports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Component/functionDeclarations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Component/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Clock">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Clock/timeSpecification"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Trigger"/>
+    <genClasses image="false" ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventReference"/>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//AnyTrigger"/>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventTrigger">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//EventTrigger/eventReference"/>
+    </genClasses>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TimeSpecification">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TimeSpecification/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TimeSpecification/unit"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//SimpleTrigger"/>
+    <genClasses image="false" ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//ComponentAnnotation"/>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//WrapperComponentAnnotation"/>
+    <genClasses image="false" ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//PackageAnnotation"/>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//TopComponentArgumentsAnnotation"/>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//UnfoldedPackageAnnotation"/>
+    <genClasses ecoreClass="../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//SchedulingConstraintAnnotation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//SchedulingConstraintAnnotation/schedulingConstraint"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

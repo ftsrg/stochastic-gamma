@@ -125,7 +125,7 @@ public class EnvironmentGlueCodeGenerator extends GlueCodeGenerator {
 				val transformer = new GammaToLowlevelTransformer();
 				// Transforming only a single statechart
 				val lowlevelPackage = transformer.transformAndWrap(gammaStatechart) as hu.bme.mit.gamma.statechart.lowlevel.model.Package;
-				val traces=transformer.traces
+				val traces=transformer.trace
 				val timeoutMap=generateTimeoutMap(gammaStatechart,traces)
 				val lowlevelTransformer = new LowlevelToXstsTransformer(lowlevelPackage, false, TransitionMerging.HIERARCHICAL /* Flat does not work now */);
 				val resultModels = lowlevelTransformer.execute as SimpleEntry<XSTS, L2STrace>

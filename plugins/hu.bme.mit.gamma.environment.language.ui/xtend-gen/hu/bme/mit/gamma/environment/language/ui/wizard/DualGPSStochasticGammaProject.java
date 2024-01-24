@@ -28,7 +28,7 @@ import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.osgi.framework.Bundle;
 
-@ProjectTemplate(label = "Dual GPS System Example Project", icon = "stochastic_gamma16.png", description = "<p><b>Dual GPS System Example Project</b></p>\r\n<p>This is a wizard to create  Stochastic Gamma Composition Project of an Dual GPS System. The model was originally developed as a case study of the AADL Error Annex and OSTATE 2.</p>")
+@ProjectTemplate(label = "Dual GPS System Example Project", icon = "stochastic_gamma16.png", description = "<p><b>Dual GPS System Example Project</b></p>\n<p>This is a wizard to create  Stochastic Gamma Composition Project of an Dual GPS System. The model was originally developed as a case study of the AADL Error Annex and OSTATE 2.</p>")
 @SuppressWarnings("all")
 public final class DualGPSStochasticGammaProject extends AbstractProjectTemplate {
   @Override

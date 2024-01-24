@@ -65,7 +65,9 @@ interface HardwareFailure {
 
 If you select the PlantUML view and (left) click on *interfaces.gcd* in the project explorer then you can see the graphical repesentation of the interface model:
 
+## Create Gamma Statechart definitions
 
+In Gamma, statecharts specify the behavior of atomic components, which have no internal structure.
 
 
 
