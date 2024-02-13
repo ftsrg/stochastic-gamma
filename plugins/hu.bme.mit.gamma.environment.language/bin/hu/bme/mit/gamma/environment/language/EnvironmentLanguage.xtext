@@ -16,16 +16,18 @@ import "platform:/resource/hu.bme.mit.gamma.environment.stochastic.model/model/s
 //generate EnvironmentLanguage "http://www.mit.bme.hu/gamma/environment/language/dwdEnvironmentLanguage"
 
 
-
 @Override 
 Package returns InterfaceModel::Package: 'package' name=ID
-	('import' imports+=[InterfaceModel::Package | STRING])*	
+	
+		('import' imports+=[InterfaceModel::Package | STRING])*
+		
 	(
 		constantDeclarations+=ConstantDeclaration |
 		functionDeclarations+=FunctionDeclaration |
 		typeDeclarations+=TypeDeclaration |
 		components+=Component |
 		interfaces+=Interface 	
+		
 	)*
 ;
 
@@ -266,15 +268,17 @@ EnvironmentCascadeCompositeComponent returns EnvironmentModel::EnvironmentCascad
 		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
 		'{'
 			(
+			
 				components+=SynchronousComponentInstance |
 				environmentComponents+=EnvironmentComponentInstance |
 				portBindings+=PortBinding |
 				channels+=Channel |
-			('initial' 'execute' initialExecutionList+=AtomicComponentInstanceReferenceExpression
-					(',' initialExecutionList+=AtomicComponentInstanceReferenceExpression)*) |
-			('execute' executionList+=AtomicComponentInstanceReferenceExpression
-					(',' executionList+=AtomicComponentInstanceReferenceExpression)*)
-		)*
+				('initial' 'execute' initialExecutionList+=AtomicComponentInstanceReferenceExpression
+						(',' initialExecutionList+=AtomicComponentInstanceReferenceExpression)*) |
+				('execute' executionList+=AtomicComponentInstanceReferenceExpression
+						(',' executionList+=AtomicComponentInstanceReferenceExpression)*)
+			
+			)*
 		'}'
 ;	
 
@@ -286,10 +290,12 @@ EnvironmentSynchronousCompositeComponent returns EnvironmentModel::EnvironmentSy
 		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
 		'{'
 			(
+			
 				components+=SynchronousComponentInstance |
 				environmentComponents+=EnvironmentComponentInstance |
 				portBindings+=PortBinding |
 				channels+=Channel
+			
 			)*
 		'}'
 ;	
@@ -301,10 +307,12 @@ EnvironmentAsynchronousCompositeComponent returns EnvironmentModel::EnvironmentA
 		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
 		'{'
 			(
+			
 				components+=AsynchronousComponentInstance |
 				environmentComponents+=EnvironmentComponentInstance |
 				portBindings+=PortBinding |
 				channels+=Channel
+			
 			)*
 		'}'
 ;	
@@ -524,7 +532,6 @@ ExponentialRandomVariable returns StochasticModel::ExponentialRandomVariable:
 BernoulliRandomVariable returns StochasticModel::BernoulliRandomVariable: 
 	(('bernoulli'|'Bernoulli') 'prob' '=' probability=Expression) |("Bernoulli" "("probability=Expression ")")
 ;
-
 
 FittedExponentialRandomVariable returns StochasticModel::FittedExponentialRandomVariable: 
 	'fitted' 'exponential' 'lr' '=' lr=DOUBLE ',' 'source' '=' source=DataSource

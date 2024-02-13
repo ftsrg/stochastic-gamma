@@ -96,7 +96,7 @@ class SQLUtils {
 	'''
 	
 	static def getAllInterfaceBlocks(long packageID)'''
-	select object_id
+	select *
 	from t_object
 	where
 		Object_Type = "Class" and
@@ -124,6 +124,18 @@ class SQLUtils {
 	where Object_Type = "Package"
 	'''
 	
+	static def getAllXRef()'''
+	select 
+	*
+	from t_xref
+	'''
+	
+	static def getAllObjectProperties()'''
+	select 
+	*
+	from t_objectproperties
+	'''
+	
 	static def getAllBlocks()'''
 	select 
 	*
@@ -131,6 +143,26 @@ class SQLUtils {
 	where
 		(Object_Type = "Class" and Stereotype = "block") or 
 		Object_Type = "Block"
+	'''
+	
+	static def getAllValueTypes()'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "DataType" or Object_Type = "ValueType"
+	'''
+	
+	static def getAllValueTypes(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		(Object_Type = "DataType" or Object_Type = "ValueType") and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
 	'''
 	
 	static def getAllBlocks(long packageID)'''
@@ -154,6 +186,36 @@ class SQLUtils {
 			Package_ID=«packageID»
 		«ENDFOR»
 		)
+	'''
+	
+	static def getAllFlowProperties(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		(
+			Object_Type = "Property" or 
+			Object_Type ="Part" or 
+			Object_Type ="FlowProperty"
+		) and Stereotype="FlowProperty" and
+		(
+			«FOR packageID : packageIDs SEPARATOR " OR "»
+				Package_ID=«packageID»
+			«ENDFOR»
+		)
+	'''
+	
+	static def getAllFlowProperties()'''
+	select 
+	*
+	from t_object 
+	where 
+		(
+			Object_Type = "Property" or 
+			Object_Type ="Part" or 
+			Object_Type ="FlowProperty"
+		) 
+		and Stereotype = "FlowProperty"
 	'''
 	
 	static def getAllPorts()'''

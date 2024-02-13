@@ -3,9 +3,18 @@
  */
 package hu.bme.mit.gamma.environment.language;
 
+import org.eclipse.xtext.formatting.IFormatter;
+
+import hu.bme.mit.gamma.environment.language.formatter.EnvironmentLanguageFormatter;
+import hu.bme.mit.gamma.statechart.language.formatting.StatechartLanguageFormatter;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class EnvironmentLanguageRuntimeModule extends AbstractEnvironmentLanguageRuntimeModule {
+	
+	@Override
+	public Class<? extends IFormatter> bindIFormatter() {
+		return EnvironmentLanguageFormatter.class;
+	}
 }

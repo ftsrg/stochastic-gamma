@@ -1,8 +1,8 @@
 package hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes
 
 class ConnectorData {
-		public val int sourceID;
-		public val int targetID;
+		public val long sourceID;
+		public val long targetID;
 		public val String Name;
 		public val String Type;
 

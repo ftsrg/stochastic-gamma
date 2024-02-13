@@ -9,3 +9,5 @@ Require-Bundle: org.junit,
  junit-jupiter-api;bundle-version="5.10.0"
 Automatic-Module-Name: hu.bme.mit.gamma.architecture.transformation.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
+Import-Package: hu.bme.mit.gamma.statechart.interface_,
+ hu.bme.mit.gamma.statechart.language.ui.serializer

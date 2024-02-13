@@ -12,12 +12,17 @@ import java.util.List
 class EADataLoader {
 
 	Repository repository
-	ElementTrace trace
+	//ElementTrace trace
 	
-		
+	/* 
 	new(Repository repository, ElementTrace trace) {
 		this.repository=repository
 		this.trace=trace
+	}
+	* */
+		
+	new(Repository repository) {
+		this.repository=repository
 	}
 	
 	def String runQuery(String sqlQuery){
@@ -27,6 +32,18 @@ class EADataLoader {
 	def loadAllPackages(){
 		val xml=runQuery(SQLUtils.allPackages.toString)
 		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+
+	def loadAllXRefData(){
+		val xml=runQuery(SQLUtils.allXRef.toString)
+		val data = XMLUtils.getXrefData(xml)
+		return data
+	}
+
+	def loadAllObjectPropertyData(){
+		val xml=runQuery(SQLUtils.allObjectProperties.toString)
+		val data = XMLUtils.getObjectPropertyData(xml)
 		return data
 	}
 
@@ -55,8 +72,32 @@ class EADataLoader {
 		return data
 	}
 	
+	def loadAllValueTypes(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllValueTypes(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
+	def loadAllValueTypes(){
+		val xml=runQuery(SQLUtils.allValueTypes.toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
 	def loadAllParts(){
 		val xml=runQuery(SQLUtils.getAllParts().toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
+	def loadAllFlowProperties(){
+		val xml=runQuery(SQLUtils.getAllFlowProperties().toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
+	def loadAllFlowProperties(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllFlowProperties(packageIDs).toString)
 		val data = XMLUtils.getElementData(xml)
 		return data
 	}
@@ -91,7 +132,7 @@ class EADataLoader {
 		return data
 	}
 
-
+/* 
 	def getPartIDs(StructuralElement element) {
 		val elementID = trace.get(element)
 		val xml = runQuery(SQLUtils.getParts(elementID).toString)
@@ -105,5 +146,5 @@ class EADataLoader {
 		val type = trace.get(typeID)
 		return type
 	}
-	
+	*/
 }

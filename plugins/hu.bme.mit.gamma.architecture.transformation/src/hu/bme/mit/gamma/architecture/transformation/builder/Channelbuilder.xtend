@@ -10,6 +10,7 @@ import hu.bme.mit.gamma.statechart.composite.CompositeModelFactory
 import java.util.List
 import java.util.ArrayList
 import hu.bme.mit.gamma.statechart.composite.Channel
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
 
 class Channelbuilder {
 
@@ -21,6 +22,9 @@ class Channelbuilder {
 
 	
 	def add(ComponentInstance sourceInst,Port sourcePort,ComponentInstance targetInst,Port targetPort){
+		if (sourceInst===null || sourcePort===null || targetInst===null || targetPort===null){
+			throw new GammaTransformationException("Channel references null object")
+		}
 		val channel = cmpModelFactory.createSimpleChannel
 		val targetRef = cmpModelFactory.createInstancePortReference
 		targetRef.instance = targetInst
@@ -39,7 +43,7 @@ class Channelbuilder {
 		val channels = <Channel> newArrayList
 		for (sourceInst : table.rowKeySet){
 			for (sourcePort : table.rowMap.get(sourceInst).keySet){
-				val targetList=table.get(sourceInst,sourcePort)
+				val targetList=table.get(sourceInst,sourcePort).filter[ref| ref!==null].toSet
 				val sourceRef=cmpModelFactory.createInstancePortReference
 				sourceRef.instance=sourceInst
 				sourceRef.port=sourcePort
@@ -47,10 +51,14 @@ class Channelbuilder {
 					val channel = cmpModelFactory.createSimpleChannel
 					channel.providedPort = sourceRef
 					channel.requiredPort = targetList.get(0)
-				}else{
+					channels+=channel
+				}else if (targetList.length > 1){
 					val channel = cmpModelFactory.createBroadcastChannel
 					channel.providedPort=sourceRef
 					channel.requiredPorts+=targetList
+					channels+=channel
+				}else {
+					throw new GammaTransformationException("Channel builder internal error")
 				}
 			}
 		}

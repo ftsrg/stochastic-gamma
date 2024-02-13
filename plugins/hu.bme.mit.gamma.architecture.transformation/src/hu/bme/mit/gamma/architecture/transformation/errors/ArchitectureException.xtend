@@ -5,7 +5,7 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureElement
 
 class ArchitectureException extends Exception {
 	
-	val ArchitectureElement element
+	public val ArchitectureElement element
 	
 	new (String message){
 		super(message)

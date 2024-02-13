@@ -25,22 +25,26 @@ import hu.bme.mit.gamma.architecture.model.MechanicalComponent
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubcompnent
 import hu.bme.mit.gamma.architecture.model.ArchitecturePort
 import hu.bme.mit.gamma.architecture.model.ElectronicComponent
+import hu.bme.mit.gamma.architecture.model.FlowProperty
+import hu.bme.mit.gamma.architecture.model.ValueType
+import hu.bme.mit.gamma.architecture.model.Direction
 
 class EAElementTransformation {
 	
-	Repository repository
+	//Repository repository
 	ElementTrace trace
 	ModelFactory modelFactory
 	
 	Map<ArchitectureElement, StructuralElement> containingElement;
-	protected static extension EADataLoader eaDataLoader
+	//protected static extension EADataLoader eaDataLoader
 		
-	new(Repository repository, ElementTrace trace, Map<ArchitectureElement, StructuralElement> containingElement) {
-		this.repository=repository
+	new(ElementTrace trace, Map<ArchitectureElement, StructuralElement> containingElement) {
+		//this.repository=repository
 		this.trace=trace
 		this.modelFactory=ModelFactory.eINSTANCE
 		this.containingElement = containingElement
-		this.eaDataLoader=new EADataLoader(repository,trace)
+		//this.eaDataLoader=new EADataLoader(repository,trace)
+		//this.eaDataLoader=new EADataLoader(repository)
 	}
 
 	def createPackage(String name){
@@ -48,7 +52,7 @@ class EAElementTransformation {
 		pkg.name = name
 		return pkg
 	}
-
+/* 
 	def transformInterface(int elementID) {
 		var eaElement = repository.GetElementByID(elementID)
 		var architectureInterface = modelFactory.createArchitectureInterface
@@ -134,6 +138,7 @@ class EAElementTransformation {
 		architecturePort.type = type as ArchitectureInterface
 		return architecturePort
 	}
+*/
 
 	def transformPort(ElementData data) {
 		if (trace.contains(data.elementID)){
@@ -144,6 +149,21 @@ class EAElementTransformation {
 		trace.add(architecturePort, data)
 		val type = trace.getPropertyType(data)
 		architecturePort.type = type as ArchitectureInterface
+		val container = trace.get(data.conainerID) as StructuralElement
+		container.ports += architecturePort
+		return architecturePort
+	}
+
+	def transformPort(ElementData data, boolean conj) {
+		if (trace.contains(data.elementID)){
+			return trace.get(data.elementID) as ArchitecturePort
+		}
+		var architecturePort = modelFactory.createArchitecturePort
+		architecturePort.name = data.name.simplifyName
+		trace.add(architecturePort, data)
+		val type = trace.getPropertyType(data)
+		architecturePort.type = type as ArchitectureInterface
+		architecturePort.conjugated = conj
 		val container = trace.get(data.conainerID) as StructuralElement
 		container.ports += architecturePort
 		return architecturePort
@@ -185,6 +205,30 @@ class EAElementTransformation {
 		architectureInterface.name = data.name.simplifyName
 		trace.add(architectureInterface, data)
 		return architectureInterface
+	}
+
+	def transformValueType(ElementData data) {
+		if (trace.contains(data.elementID)){
+			return trace.get(data.elementID) as ValueType
+		}
+		var valueType = modelFactory.createValueType
+		valueType.name = data.name.simplifyName
+		trace.add(valueType, data)
+		return valueType
+	}
+
+	def transformFlowProperty(ElementData data) {
+		if (trace.contains(data.elementID)){
+			return trace.get(data.elementID) as FlowProperty
+		}
+		var flowProperty = modelFactory.createFlowProperty
+		flowProperty.name = data.name.simplifyName
+		trace.add(flowProperty, data)
+		val type = trace.getPropertyType(data)
+		flowProperty.type = type as ValueType
+		val container = trace.get(data.conainerID) as ArchitectureInterface
+		container.flowproperties += flowProperty
+		return flowProperty
 	}
 
 	def transformFunction(ElementData data) {
@@ -237,7 +281,7 @@ class EAElementTransformation {
 		return architectureSystemComponent
 	}
 
-
+/*
 
 	def transformPorts(StructuralElement element) {
 		val elementID = trace.get(element)
@@ -247,6 +291,6 @@ class EAElementTransformation {
 		return ports
 	}
 
-
+ */
 
 }

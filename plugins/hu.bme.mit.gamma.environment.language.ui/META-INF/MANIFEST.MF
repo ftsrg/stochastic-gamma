@@ -32,7 +32,8 @@ Require-Bundle: hu.bme.mit.gamma.environment.language,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.pde.core,
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ hu.bme.mit.gamma.language.util
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: hu.bme.mit.gamma.environment.language.ui,

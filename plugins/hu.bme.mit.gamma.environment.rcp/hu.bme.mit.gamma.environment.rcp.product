@@ -115,6 +115,9 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.action.language.ide"/>
       <plugin id="hu.bme.mit.gamma.action.language.ui"/>
       <plugin id="hu.bme.mit.gamma.action.model"/>
+      <plugin id="hu.bme.mit.gamma.architecture.transformation"/>
+      <plugin id="hu.bme.mit.gamma.architecture.transformation.commandhandler"/>
+      <plugin id="hu.bme.mit.gamma.architecture.transformation.enterprisearchitect"/>
       <plugin id="hu.bme.mit.gamma.codegeneration.java"/>
       <plugin id="hu.bme.mit.gamma.codegeneration.java.commandhandler"/>
       <plugin id="hu.bme.mit.gamma.codegeneration.java.util"/>

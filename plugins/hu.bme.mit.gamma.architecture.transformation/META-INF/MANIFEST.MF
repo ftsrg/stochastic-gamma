@@ -11,6 +11,11 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: hu.bme.mit.gamma.architecture.model,
  hu.bme.mit.gamma.architecture.model.impl,
  hu.bme.mit.gamma.architecture.model.util,
+ hu.bme.mit.gamma.architecture.transformation,
+ hu.bme.mit.gamma.architecture.transformation.builder,
+ hu.bme.mit.gamma.architecture.transformation.errors,
+ hu.bme.mit.gamma.architecture.transformation.traceability,
+ hu.bme.mit.gamma.architecture.transformation.util,
  interface_,
  interface_.impl,
  interface_.util

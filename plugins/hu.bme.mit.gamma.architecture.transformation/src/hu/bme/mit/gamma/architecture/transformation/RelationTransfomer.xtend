@@ -71,6 +71,14 @@ class RelationTransfomer {
 		return false
 	}
 
+	static def isFunction(ArchitectureElement element) {
+		return element instanceof ArchitectureFunction
+	}
+
+	static def isSubfunction(ArchitectureElement element) {
+		return element instanceof ArchitectureSubfunction
+	}
+
 	static def isSubcomponentPort(ArchitectureElement element) {
 		if (element.isPort) {
 			return element.eContainer instanceof ArchitectureSubcompnent
@@ -83,6 +91,11 @@ class RelationTransfomer {
 			return element.eContainer instanceof ArchitectureSubfunction
 		}
 		return false
+	}
+
+	static def isFunctionalConnector(Connector connector) {
+		return connector.source.isSubfunctionPort || connector.source.isSubfunction ||
+			connector.target.isSubfunctionPort || connector.target.isSubfunction
 	}
 
 	static def isSystemFlow(InforationFlow flow) {
@@ -132,14 +145,13 @@ class RelationTransfomer {
 	static def isSystemInputFlow(InforationFlow flow) {
 		val source = flow.source
 		val target = flow.target
-		return source.isComponentPort && target.isSubfunctionPort
+		return source.isComponentPort && (target.isSubfunctionPort || target.isSubfunction)
 	}
-
 
 	static def isSystemOutputFlow(InforationFlow flow) {
 		val source = flow.source
 		val target = flow.target
-		return target.isComponentPort && source.isSubfunctionPort
+		return target.isComponentPort && (source.isSubfunctionPort || source.isSubfunction)
 	}
 
 	def createInstancePortRef(ComponentInstance inst, Port port) {
@@ -162,6 +174,30 @@ class RelationTransfomer {
 
 	}
 
+	def getFlowType(InforationFlow flow) {
+		var flowType = flow.type
+		if (flow.target.isPort) {
+			val targetPort = flow.target as ArchitecturePort
+			if (flowType === null) {
+				flowType = targetPort.type
+			} else if (flowType !== targetPort.type) {
+				throw new ArchitectureException("Inconsistent flow types at target", flow)
+			}
+		}
+		if (flow.source.isPort) {
+			val sourcePort = flow.source as ArchitecturePort
+			if (flowType === null) {
+				flowType = sourcePort.type
+			} else if (flowType !== null && flowType !== sourcePort.type) {
+				throw new ArchitectureException("Inconsistent flow types at source", flow)
+			}
+		}
+		if (flowType === null) {
+			throw new ArchitectureException("Flow type is not defined", flow)
+		}
+		return trace.get(flowType) as Interface
+	}
+
 	def transformSystemFlow(InforationFlow flow) {
 	}
 
@@ -176,70 +212,73 @@ class RelationTransfomer {
 
 	def transformInterfaceConnector(InterfaceConnector connector) {
 	}
-	
-	def getFlowSourceInst(InforationFlow flow){
-		if (flow.source.isSubfunctionPort){
+
+	def getFlowSourceInst(InforationFlow flow) {
+		if (flow.source.isSubfunctionPort) {
 			return trace.get(flow.source.eContainer as ArchitectureSubfunction) as ComponentInstance
 		} else if (flow.source instanceof ArchitectureSubfunction) {
 			return trace.get(flow.source) as ComponentInstance
 		} else {
-			throw new ArchitectureException("Source of flow is incorrectly connected",flow.source)
+			throw new ArchitectureException("Source of flow is incorrectly connected", flow.source)
 		}
 	}
 
-	def getFlowTargetInst(InforationFlow flow){
-		if (flow.target.isSubfunctionPort){
+	def getFlowTargetInst(InforationFlow flow) {
+		if (flow.target.isSubfunctionPort) {
 			return trace.get(flow.target.eContainer as ArchitectureSubfunction) as ComponentInstance
 		} else if (flow.target instanceof ArchitectureSubfunction) {
 			return trace.get(flow.target) as ComponentInstance
 		} else {
-			throw new ArchitectureException("Target of flow is incorrectly connected",flow.source)
+			throw new ArchitectureException("Target of flow is incorrectly connected", flow.source)
 		}
 	}
-	
-	static def getSourceSubsystem(InforationFlow flow){
-		if (flow.source.isSubfunctionPort){
+
+	static def getSourceSubsystem(InforationFlow flow) {
+		if (flow.source.isSubfunctionPort) {
 			return flow.source.eContainer.eContainer as ArchitectureSubcompnent
 		} else if (flow.source instanceof ArchitectureSubfunction) {
 			return flow.source.eContainer as ArchitectureSubcompnent
 		} else {
-			throw new ArchitectureException("Source of flow is incorrectly connected",flow.source)
+			throw new ArchitectureException("Source of flow is incorrectly connected", flow.source)
 		}
 	}
-	static def getTargetSubsystem(InforationFlow flow){
-		if (flow.target.isSubfunctionPort){
+
+	static def getTargetSubsystem(InforationFlow flow) {
+		if (flow.target.isSubfunctionPort) {
 			return flow.target.eContainer.eContainer as ArchitectureSubcompnent
 		} else if (flow.target instanceof ArchitectureSubfunction) {
 			return flow.target.eContainer as ArchitectureSubcompnent
 		} else {
-			throw new ArchitectureException("Target of flow is incorrectly connected",flow.source)
+			throw new ArchitectureException("Target of flow is incorrectly connected", flow.source)
 		}
 	}
-	static def getSourceSubsystem(Connector connector){
-		if (connector.source.isSubcomponentPort){
+
+	static def getSourceSubsystem(Connector connector) {
+		if (connector.source.isSubcomponentPort) {
 			return connector.source.eContainer as ArchitectureSubcompnent
 		} else if (connector.source instanceof ArchitectureSubcompnent) {
 			return connector.source as ArchitectureSubcompnent
 		} else {
-			throw new ArchitectureException("Source of connector is incorrectly connected",connector.source)
+			throw new ArchitectureException("Source of connector is incorrectly connected", connector.source)
 		}
 	}
-	static def getTargetSubsystem(Connector connector){
-		if (connector.target.isSubcomponentPort){
+
+	static def getTargetSubsystem(Connector connector) {
+		if (connector.target.isSubcomponentPort) {
 			return connector.target.eContainer as ArchitectureSubcompnent
 		} else if (connector.target instanceof ArchitectureSubcompnent) {
 			return connector.target as ArchitectureSubcompnent
 		} else {
-			throw new ArchitectureException("Target of connector is incorrectly connected",connector.source)
+			throw new ArchitectureException("Target of connector is incorrectly connected", connector.source)
 		}
 	}
-	
-	def transformIfGeneralisation(Generalisation generalisation){
-		if (generalisation.source instanceof ArchitectureInterface){
-			val sourceInterface=trace.get(generalisation.source) as Interface
-			val targetInterface=trace.get(generalisation.target) as Interface
-			sourceInterface.parents+=targetInterface
+
+	def transformIfGeneralisation(Generalisation generalisation) {
+		if (generalisation.source instanceof ArchitectureInterface) {
+			val sourceInterface = trace.get(generalisation.source) as Interface
+			val targetInterface = trace.get(generalisation.target) as Interface
+			sourceInterface.parents += targetInterface
 		}
 	}
-	
+
 }

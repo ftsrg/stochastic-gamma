@@ -15,6 +15,13 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureSubfunction
 import hu.bme.mit.gamma.statechart.interface_.Port
 import hu.bme.mit.gamma.statechart.composite.AsynchronousComponent
 import hu.bme.mit.gamma.statechart.interface_.RealizationMode
+import hu.bme.mit.gamma.statechart.interface_.Interface
+import hu.bme.mit.gamma.architecture.model.ArchitecturePackage
+import hu.bme.mit.gamma.architecture.model.ArchitectureInterface
+import hu.bme.mit.gamma.architecture.model.ValueType
+import hu.bme.mit.gamma.architecture.model.System
+import hu.bme.mit.gamma.architecture.model.Connector
+import hu.bme.mit.gamma.architecture.model.Allocation
 
 class TransformationUtils {
 
@@ -38,7 +45,7 @@ class TransformationUtils {
 		if (subfunction.name == "" || subfunction.name===null){
 			return "inst"+subfunction.type.gammaName
 		}
-		return subfunction.name.gammaName
+		return "inst"+subfunction.name.gammaName
 	}
 	
 	static def getGammaName(ArchitectureSubcompnent subcompnent) {
@@ -71,7 +78,7 @@ class TransformationUtils {
 	
 	static def getGammaName(String archName) {
 		var name = archName
-		if (name === null) {
+		if (name === null || name.empty || name.blank ) {
 			return ""
 		}
 		name = name.replaceAll('''[.,;:\-\(\)\s<>\{\}]''', "_")
@@ -83,9 +90,36 @@ class TransformationUtils {
 		}
 		return name
 	}
-	
 
-	
+	static def getInterfaces(ArchitecturePackage pkg){
+		return pkg.architectureelement.filter[e | e instanceof ArchitectureInterface].map[e|e as ArchitectureInterface].toList
+	}
+
+	static def getValueTypes(ArchitecturePackage pkg){
+		return pkg.architectureelement.filter[e | e instanceof ValueType].map[e|e as ValueType].toList
+	}
+
+	static def getFunctions(ArchitecturePackage pkg){
+		return pkg.architectureelement.filter[e | e instanceof ArchitectureFunction].map[e|e as ArchitectureFunction].toList
+	}
+
+
+	static def getSystem(ArchitecturePackage pkg){
+		return pkg.architectureelement.filter[e | e instanceof System].map[e|e as System].filter[sys|(!sys.relations.empty) && (!sys.subcompnents.empty) ].toList
+	}
+
+	static def getComponentFunctions(ArchitecturePackage pkg){
+		return pkg.architectureelement.filter[e | e instanceof ArchitectureFunction].map[e|e as ArchitectureFunction].filter[f|!f.subfunctions.empty].toList
+	}
+
+	static def getPrimitiveFunctions(ArchitecturePackage pkg){
+		return pkg.architectureelement.filter[e | e instanceof ArchitectureFunction].map[e|e as ArchitectureFunction].filter[f|f.subfunctions.empty].toList
+	}
+
+	static def getConnectors(StructuralElement element){
+		return element.relations.filter[r | r instanceof Connector].map[r|r as Connector].toList
+	}
+
 	static def getInterfaceConnectors(StructuralElement element){
 		return element.relations.filter[r | r instanceof InterfaceConnector].map[r|r as InterfaceConnector].toList
 	}
@@ -100,6 +134,10 @@ class TransformationUtils {
 	
 	static def getSoftwareAllocations(StructuralElement element){
 		return element.relations.filter[r | r instanceof SoftwareAllocation].map[r|r as SoftwareAllocation].toList
+	}
+
+	static def getAllocations(StructuralElement element){
+		return element.relations.filter[r | r instanceof Allocation].map[r|r as Allocation].toList
 	}
 
 	static def providedPorts(AsynchronousComponent component){

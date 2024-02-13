@@ -4,10 +4,22 @@ Bundle-Name: Enterprisearchitect
 Bundle-SymbolicName: hu.bme.mit.gamma.architecture.transformation.enterprisearchitect
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: hu.bme.mit.gamma.architecture.transformation.enterprisearchitect
+Bundle-ClassPath: libs/eaapi.jar,
+ .
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- hu.bme.mit.gamma.architecture.transformation;bundle-version="1.0.0"
-Export-Package: hu.bme.mit.gamma.architecture.transformation.enterprisearchitect
+ hu.bme.mit.gamma.architecture.transformation;bundle-version="1.0.0",
+ hu.bme.mit.gamma.statechart.language;bundle-version="2.9.0",
+ hu.bme.mit.gamma.statechart.language.ide;bundle-version="2.9.0",
+ hu.bme.mit.gamma.statechart.language.ui;bundle-version="2.9.0",
+ hu.bme.mit.gamma.statechart.model;bundle-version="2.9.0",
+ com.google.inject;bundle-version="7.0.0",
+ org.eclipse.core.resources;bundle-version="3.19.100",
+ org.eclipse.jface;bundle-version="3.31.0"
+Export-Package: hu.bme.mit.gamma.architecture.transformation.enterprisearchitect,
+ hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes,
+ hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.traceability,
+ hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.utils

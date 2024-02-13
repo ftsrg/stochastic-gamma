@@ -8,6 +8,8 @@ import java.util.Map
 import java.util.Set
 import java.util.HashSet
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ElementData
+import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
+import hu.bme.mit.gamma.architecture.model.ArchitecturePackage
 
 class ElementTrace {
 	
@@ -21,7 +23,15 @@ class ElementTrace {
 	protected Map<String,Long> guid2id
 	protected Set<ArchitectureElement> elements
 	protected Set<Long> elementIDs
-
+	protected ArchitecturePackage root_pkg;
+	
+	def getRootPkg(){
+		return root_pkg
+	}
+	
+	def setRootPkg(ArchitecturePackage rootPkg){
+		root_pkg=rootPkg
+	}
 	
 	new(){
 		id2element = new HashMap<Long,ArchitectureElement>
@@ -60,19 +70,41 @@ class ElementTrace {
 		elementIDs.add(elementData.elementID)
 	}
 
+	protected def check(String GUID){
+		if(!contains(GUID)){
+			throw new ArchitectureException("GUID cannot be found in architecture trace: "+GUID)
+		}
+	}
+
+	protected def check(long elementID){
+		if(!contains(elementID)){
+			throw new ArchitectureException("ElementID cannot be found in architecture trace: "+elementID)
+		}
+	}
+
+	protected def check(ArchitectureElement element){
+		if(!contains(element)){
+			throw new ArchitectureException("ArchitectureElement cannot be found in architecture trace: "+element.name+" "+element.class)
+		}
+	}
+
 	def get(String GUID){
+		check(GUID)
 		return guid2id.get(GUID)
 	}
 	
 	def get(long elementID){
+		check(elementID)
 		return id2element.get(elementID)
 	}
 	
 	def getGUID(long elementID){
+		check(elementID)
 		return id2guid.get(elementID)
 	}
 	
 	def get(ArchitectureElement element){
+		check(element)
 		return element2id.get(element)
 	}
 	
@@ -116,7 +148,8 @@ class ElementTrace {
 	}
 	
 	def getPropertyType(ElementData data){
-		return get(get(data.PDATA1))
+		val id=get(data.PDATA1)
+		return get(id)
 	}
 	
 	

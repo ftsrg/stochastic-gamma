@@ -7,6 +7,7 @@ import java.util.MissingFormatArgumentException
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ConnectorData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.XrefData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ElementData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ObjectPropertyData
 
 class XMLUtils {
 
@@ -83,16 +84,16 @@ class XMLUtils {
 					}
 				}
 				if (elementID == -1) {
-					throw new MissingFormatArgumentException("Object ID of element is not in XML")
+					throw new MissingFormatArgumentException("Object ID of element is not in XML : " + xml)
 				}
 				if (conainerID == -1) {
-					throw new MissingFormatArgumentException("Container ID of element is not in XML")
+					throw new MissingFormatArgumentException("Container ID of element is not in XML : " + xml)
 				}
 				if (packageID == -1) {
-					throw new MissingFormatArgumentException("Package ID of element is not in XML")
+					throw new MissingFormatArgumentException("Package ID of element is not in XML : " + xml)
 				}
 				if (GUID === null || GUID == "") {
-					throw new MissingFormatArgumentException("GUID ID of element is not in XML")
+					throw new MissingFormatArgumentException("GUID ID of element is not in XML : " + xml)
 				}
 				dataList.add(new ElementData(
 					name,
@@ -120,9 +121,10 @@ class XMLUtils {
 			var String name
 			var String type
 			var String client
-			var String supplier
-			var String link
-			var String description
+			var String supplier = ""
+			var String link = ""
+			var String description = ""
+			var String behavior = ""
 
 			for (j : 0 .. fields.length - 1) {
 				var field = fields.item(j)
@@ -144,6 +146,9 @@ class XMLUtils {
 				if (field.nodeName == "Description") {
 					description = field.textContent
 				}
+				if (field.nodeName == "Behavior") {
+					behavior = field.textContent
+				}
 			}
 			dataList.add(new XrefData(
 				name,
@@ -151,7 +156,51 @@ class XMLUtils {
 				client,
 				supplier,
 				link,
-				description
+				description,
+				behavior
+			))
+		}
+		return dataList
+	}
+
+	static def getObjectPropertyData(String xml) {
+		var dataList = <ObjectPropertyData>newLinkedList
+		var document = parseXML(xml)
+		var row_nodes = document.getElementsByTagName("Row")
+		for (i : 0 .. row_nodes.length - 1) {
+			var fields = row_nodes.item(i).childNodes
+			var String property
+			var String value = ""
+			var String notes = ""
+			var long elementID = -1
+
+			for (j : 0 .. fields.length - 1) {
+				var field = fields.item(j)
+				if (field.nodeName == "Property") {
+					property = field.textContent
+				}
+				if (field.nodeName == "Value") {
+					value = field.textContent
+				}
+				if (field.nodeName == "Notes") {
+					notes = field.textContent
+				}
+				if (field.nodeName == "Object_ID") {
+					elementID = Long.valueOf(field.textContent)
+				}
+			}
+			if (property === null || property == "") {
+				throw new MissingFormatArgumentException("Property of ObjectProperty is not in XML : " + xml)
+			}
+			if (elementID == -1) {
+				throw new MissingFormatArgumentException(
+					"Object ID of related element of ObjectProperty is not in XML : " + xml)
+			}
+			dataList.add(new ObjectPropertyData(
+				property,
+				value,
+				notes,
+				elementID
 			))
 		}
 		return dataList

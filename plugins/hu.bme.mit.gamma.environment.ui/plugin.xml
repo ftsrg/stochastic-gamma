@@ -24,6 +24,15 @@
             name="Gamma Simulator Web Vizualization Wizard"
             project="false">
       </wizard>
+      <wizard
+            category="hu.bme.mit.gamma.environment.ui"
+            class="hu.bme.mit.gamma.environment.ui.wizards.SysMLImportWizard"
+            descriptionImage="icons/stochastic_gamma16.png"
+            icon="icons/stochastic_gamma16.png"
+            id="hu.bme.mit.gamma.environment.ui.wizards.SysMLImportWizard"
+            name="SysML Import Wizard"
+            project="false">
+      </wizard>
    </extension>
    <extension
 		point="org.eclipse.ui.perspectiveExtensions">
@@ -40,6 +49,27 @@
           menuGroupId="hu.bme.mit.gamma"
           type="new"
           wizardId="hu.bme.mit.gamma.environment.ui.wizards.NewSGCDModelWizard">
+       <enablement>
+          <or>
+             <adapt
+                   type="org.eclipse.core.resources.IFile">
+             </adapt>
+             <adapt
+                   type="org.eclipse.core.resources.IFolder">
+             </adapt>
+             <adapt
+                   type="org.eclipse.core.resources.IProject">
+             </adapt>
+          </or>
+       </enablement>
+    </commonWizard>
+ </extension>
+ <extension
+       point="org.eclipse.ui.navigator.navigatorContent">
+    <commonWizard
+          menuGroupId="hu.bme.mit.gamma"
+          type="new"
+          wizardId="hu.bme.mit.gamma.environment.ui.wizards.SysMLImportWizard">
        <enablement>
           <or>
              <adapt

@@ -21,26 +21,36 @@ import hu.bme.mit.gamma.statechart.composite.CompositeModelFactory
 import hu.bme.mit.gamma.statechart.composite.BroadcastChannel
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubcompnent
 import hu.bme.mit.gamma.statechart.composite.ComponentInstance
+import hu.bme.mit.gamma.statechart.interface_.InterfaceModelFactory
+import hu.bme.mit.gamma.architecture.model.Connector
+import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
+import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticFactory
+import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
+import java.math.BigDecimal
 
 class InterfaceComponentBuilder {
 	
-	val InterfaceConnector connector
+	val Connector connector
 	val ArchitectureTrace trace
 	val stochModelFactory = EnvironmentModelFactory.eINSTANCE
+	val distModelFactory = StochasticFactory.eINSTANCE
 	static val sctModelFactory = StatechartModelFactory.eINSTANCE
 	static val cmpModelFactory = CompositeModelFactory.eINSTANCE
+	static val ifModelFactory = InterfaceModelFactory.eINSTANCE
+	static val expModelFactory = ExpressionModelFactory.eINSTANCE
 	val EnvironmentAsynchronousCompositeComponent component 
 	//val EnvironmentAsynchronousCompositeComponentInstance instance
 	val Map<InforationFlow,Port> inportMap=newHashMap
 	val Map<InforationFlow,Port> outportMap=newHashMap
-	val EnvironmentEventSource failureSource
-	val BroadcastChannel failureChannel
+	//val EnvironmentEventSource failureSource
+	//val BroadcastChannel failureChannel
 	val Map<ArchitectureSubcompnent,ComponentInstance> instanceMap=newHashMap
 	
 	val extension ElementTransformer elementTransformer
 	val extension RelationTransfomer relationTransformer
+	var nameCNTR=0
 	
-	new(InterfaceConnector connector,ArchitectureTrace trace){
+	new(Connector connector,ArchitectureTrace trace){
 		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		//this.instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
 		this.connector=connector
@@ -48,19 +58,31 @@ class InterfaceComponentBuilder {
 		this.elementTransformer=new ElementTransformer(trace)
 		this.relationTransformer=new RelationTransfomer(trace)
 		
-		this.failureSource=stochModelFactory.createEnvironmentEventSource
+		//this.failureSource=stochModelFactory.createEnvironmentEventSource
 		
 		
 		component.name = connector.gammaName
-		
+		/* 
 		failureSource.name = component.name + "_Failures"
-		val failurePort=createPort(null,"failures",false)
+		val failureInterface=ifModelFactory.createInterface
+		failureInterface.name=component.name + "_FailureModes"
+		trace.interfacePackage.interfaces+=failureInterface
+		val failurePort=createPort(failureInterface,"failures",false)
 		failureSource.outports+=failurePort
+		val failureRule= stochModelFactory.createStochasticRule
+		val filter= stochModelFactory.createComponentFilter
+		val dist= distModelFactory.createExponentialRandomVariable
+		val rate=expModelFactory.createDecimalLiteralExpression
+		rate.value = new BigDecimal(101.1)
+		dist.rate = rate
+		failureRule.stochasticModel = dist
+		failureRule.filter+=filter
+		failureSource.behaviorRules+=failureRule
 		component.environmentComponents += failureSource
 		this.failureChannel=cmpModelFactory.createBroadcastChannel
 		val pref = createInstancePortRef(failureSource,failurePort)
 		failureChannel.providedPort=pref
-		component.channels+=failureChannel
+		component.channels+=failureChannel*/
 	}
 	
 	def getComponent(){
@@ -75,7 +97,7 @@ class InterfaceComponentBuilder {
 	}
 		
 	def createInstance(ArchitectureSubcompnent subcompnent){
-		val instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
+		val instance = cmpModelFactory.createAsynchronousComponentInstance
 		instance.name = "inst"+component.name.toFirstUpper
 		instance.type = component
 		instanceMap.put(subcompnent,instance)
@@ -83,19 +105,22 @@ class InterfaceComponentBuilder {
 	}
 
 	def getInstance(ArchitectureSubcompnent subcompnent){
+		if (!instanceMap.containsKey(subcompnent)){
+			throw new ArchitectureException("Subcomponent has no interface component",subcompnent)
+		}
 		return instanceMap.get(subcompnent)
 	}
 	
 	def addFlow(InforationFlow flow){
 		val type = trace.get(flow.type) as Interface
-		val inport = type.createPort(flow.inPortName,true)
-		val outport = type.createPort(flow.outPortName,false)
+		val inport = type.createPort(flow.inPortName+nameCNTR,true)
+		val outport = type.createPort(flow.outPortName+nameCNTR,false)
 		component.ports+=inport
 		component.ports+=outport
 		inportMap.put(flow,inport)
 		outportMap.put(flow,outport)
 		val ifInst = cmpModelFactory.createAsynchronousComponentInstance
-		ifInst.name=flow.gammaName
+		ifInst.name=flow.gammaName+flow.type.name+nameCNTR
 		val ifType= trace.getInterfaceComponent(type)
 		ifInst.type = ifType
 		component.components+=ifInst
@@ -103,7 +128,7 @@ class InterfaceComponentBuilder {
 		val outBinding=createPortBinding(outport,ifInst,ifType.providedPorts.get(0))
 		component.portBindings+=inBinding
 		component.portBindings+=outBinding
-		
+		nameCNTR++
 	}
 	
 	def getInPort(InforationFlow flow){

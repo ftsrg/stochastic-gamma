@@ -24,6 +24,7 @@ import hu.bme.mit.gamma.statechart.composite.ComponentInstance
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubcompnent
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubfunction
 import hu.bme.mit.gamma.architecture.model.StructuralElement
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
 
 class SingletonComponentBuilder {
 	
@@ -34,21 +35,23 @@ class SingletonComponentBuilder {
 	static val sctModelFactory = StatechartModelFactory.eINSTANCE
 	static val cmpModelFactory = CompositeModelFactory.eINSTANCE
 	val EnvironmentAsynchronousCompositeComponent component 
-	val EnvironmentAsynchronousCompositeComponentInstance instance
+	val AsynchronousComponentInstance instance
 	val Map<InforationFlow,Port> inportMap=newHashMap
 	val Map<InforationFlow,Port> outportMap=newHashMap
 	val EnvironmentEventSource failureSource
-	val BroadcastChannel failureChannel
+	//val BroadcastChannel failureChannel
 	
 	val channelBuilder = new Channelbuilder
 	
 	val extension ElementTransformer elementTransformer
 	val extension RelationTransfomer relationTransformer
+	var nameCNTR=0
+	var isBuilt=false
 	
 	new(ArchitectureSubcompnent subcompnent,ArchitectureTrace trace){
 		
 		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
-		this.instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
+		this.instance = cmpModelFactory.createAsynchronousComponentInstance
 		
 		this.element=subcompnent
 		this.trace=trace
@@ -62,16 +65,16 @@ class SingletonComponentBuilder {
 		component.name = subcompnent.gammaName
 		instance.name = "inst"+component.name.toFirstUpper
 		instance.type = component
-		
+		//this.failureChannel=cmpModelFactory.createBroadcastChannel
+		/* 
 		failureSource.name = component.name + "_Failures"
 		val failurePort=createPort(null,"failures",false)
 		failureSource.outports+=failurePort
 		component.environmentComponents += failureSource
-		this.failureChannel=cmpModelFactory.createBroadcastChannel
 		val pref = createInstancePortRef(failureSource,failurePort)
 		failureChannel.providedPort=pref
 		component.channels+=failureChannel
-		
+		*/
 		trace.add(subcompnent,instance)
 		
 	}
@@ -79,7 +82,7 @@ class SingletonComponentBuilder {
 	new(ArchitectureSubfunction subfunction,ArchitectureTrace trace){
 		
 		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
-		this.instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
+		this.instance = cmpModelFactory.createAsynchronousComponentInstance
 		
 		this.element=subfunction
 		this.trace=trace
@@ -94,14 +97,14 @@ class SingletonComponentBuilder {
 		instance.name = "inst"+component.name.toFirstUpper
 		instance.type = component
 		
-		failureSource.name = component.name + "_Failures"
-		val failurePort=createPort(null,"failures",false)
-		failureSource.outports+=failurePort
-		component.environmentComponents += failureSource
-		this.failureChannel=cmpModelFactory.createBroadcastChannel
-		val pref = createInstancePortRef(failureSource,failurePort)
-		failureChannel.providedPort=pref
-		component.channels+=failureChannel
+		//failureSource.name = component.name + "_Failures"
+		//val failurePort=createPort(null,"failures",false)
+		//failureSource.outports+=failurePort
+		//component.environmentComponents += failureSource
+		//this.failureChannel=cmpModelFactory.createBroadcastChannel
+		//val pref = createInstancePortRef(failureSource,failurePort)
+		//failureChannel.providedPort=pref
+		//component.channels+=failureChannel
 		
 		trace.add(subfunction,instance)
 		
@@ -110,17 +113,19 @@ class SingletonComponentBuilder {
 	
 	def getInPort(InforationFlow flow){
 		val type = trace.get(flow.type) as Interface
-		val inport = type.createPort(flow.inPortName,true)
+		val inport = type.createPort(flow.inPortName+nameCNTR,true)
 		component.ports+=inport
 		inportMap.put(flow,inport)
+		nameCNTR++
 		return inport
 	}
 	
 	def getOutPort(InforationFlow flow){
 		val type = trace.get(flow.type) as Interface
-		val outport = type.createPort(flow.outPortName,false)
+		val outport = type.createPort(flow.outPortName+nameCNTR,false)
 		component.ports+=outport
 		outportMap.put(flow,outport)
+		nameCNTR++
 		return outport
 	}
 	
@@ -136,23 +141,49 @@ class SingletonComponentBuilder {
 		component.ports+=port
 	}
 	
-	def addInstance(ComponentInstance instance){
-		component.instances+=instance
+	def addInstance(AsynchronousComponentInstance instance){
+		component.components+=instance
 		// add failure propagation channels?
 	}
 	
 	def addChannel(ComponentInstance sourceInst,Port sourcePort,ComponentInstance targetInst,Port targetPort){
+		if (! component.components.contains(sourceInst) || sourceInst===null){
+			throw new GammaTransformationException("Source component instance is not in the component",sourceInst)
+		}
+		if (! component.components.contains(targetInst) || targetInst===null){
+			throw new GammaTransformationException("Target component instance is not in the component",targetInst)
+		}
+		if (! (targetInst as AsynchronousComponentInstance).type.ports.contains(targetPort) || targetPort===null){
+			throw new GammaTransformationException("Target port is not in the component",targetInst)
+		}
+		if (! (sourceInst as AsynchronousComponentInstance).type.ports.contains(sourcePort) || sourcePort===null){
+			throw new GammaTransformationException("Target port is not in the component",sourceInst)
+		}
 		channelBuilder.add(sourceInst,sourcePort,targetInst,targetPort)
 	}
 
 	def addBinding(Port port, ComponentInstance inst, Port instPort){
+		if (! component.components.contains(inst)){
+			throw new GammaTransformationException("Component instance is not in the component",inst)
+		}
+		if (! component.ports.contains(port)){
+			throw new GammaTransformationException("Composite port is not in the component",port)
+		}
+		if (! (inst as AsynchronousComponentInstance).type.ports.contains(instPort)){
+			throw new GammaTransformationException("Instance port is not in the component",instPort)
+		}
 		val bind=createPortBinding(port, inst, instPort)
 		component.portBindings+=bind
 	}
 	
 	
 	def build(){
-		component.channels+=(channelBuilder.build)
+		if (!isBuilt){
+			component.channels+=(channelBuilder.build)
+			isBuilt=true
+		}else{
+			throw new GammaTransformationException("Singleton Component Builder is already built")
+		}
 	}
 	
 	

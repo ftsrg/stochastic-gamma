@@ -28,6 +28,17 @@ import hu.bme.mit.gamma.architecture.model.FlowProperty
 import hu.bme.mit.gamma.architecture.model.Direction
 import hu.bme.mit.gamma.statechart.interface_.EventDirection
 import hu.bme.mit.gamma.architecture.model.PrimitiveFunction
+import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent
+import hu.bme.mit.gamma.statechart.interface_.Component
+
+import static extension hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures.*
+import hu.bme.mit.gamma.statechart.interface_.Persistency
+import hu.bme.mit.gamma.expression.model.DecimalTypeDefinition
+import org.eclipse.emf.ecore.util.EcoreUtil
+import hu.bme.mit.gamma.util.GammaEcoreUtil
+import org.eclipse.emf.ecore.EcorePackage
+import interface_.InterfacePackage
+import hu.bme.mit.gamma.expression.model.ExpressionPackage
 
 class ElementTransformer {
 	
@@ -40,6 +51,37 @@ class ElementTransformer {
 	val exprModelFactory = ExpressionModelFactory.eINSTANCE
 	
 	
+	protected extension val GammaEcoreUtil gammaEcoreUtil = GammaEcoreUtil.INSTANCE
+	
+	new(ArchitectureTrace trace){
+		this.trace=trace
+	}
+	
+	
+	def packageElement(Interface _interface){
+		val pkg=trace.interfacePackage
+		pkg.interfaces+=_interface
+	}
+	
+	def packageElement(Component component){
+		val pkg=ifModelFactory.createPackage
+		pkg.name=component.name.toLowerCase
+		pkg.components+=component
+		pkg.imports+=component.allInstances.map[inst| inst.derivedType.containingPackage].toSet
+		pkg.imports+=trace.interfacePackage
+		trace.addComponentPackage(component,pkg)
+	}
+	
+	def packageElement(Component component,String path){
+		val pkg=ifModelFactory.createPackage
+		pkg.name=component.name.toLowerCase
+		pkg.components+=component
+		pkg.imports+=component.allInstances.map[inst| inst.derivedType.containingPackage].toSet
+		pkg.imports+=trace.interfacePackage
+		trace.addComponentPackage(component,pkg)
+		trace.setPackagePath(pkg,path)
+	}
+	
 	val directionMap = Map.of(
 		Direction.IN, EventDirection.IN,
 		Direction.OUT, EventDirection.OUT,
@@ -47,10 +89,65 @@ class ElementTransformer {
 		Direction.NONE, EventDirection.INOUT
 	)
 	
-	new(ArchitectureTrace trace){
-		this.trace=trace
+	
+	def transformPrimitiveFunction(ArchitectureFunction architectureFunction){
+		val sct=sctModelFactory.createAsynchronousStatechartDefinition
+		sct.name=architectureFunction.gammaName
+		for (archPort : architectureFunction.ports){
+			sct.ports+=transformPort(archPort)
+		}		
+		val main_region=sctModelFactory.createRegion
+		main_region.name="main_region"
+		val init=sctModelFactory.createInitialState
+		init.name="init_state"
+		val state1=sctModelFactory.createState
+		state1.name="operational"
+		main_region.stateNodes+=init
+		main_region.stateNodes+=state1
+		sct.regions+=main_region
+		val tr1=sctModelFactory.createTransition
+		tr1.sourceState = init
+		tr1.targetState=state1
+		sct.transitions+=tr1
+		
+		trace.add(architectureFunction,sct)
+		packageElement(sct,"primitive_functions")
+		
 	}
 	
+	def generateInterfaceComponent(Interface _interface){
+		val comp=sctModelFactory.createAsynchronousStatechartDefinition
+		comp.name="InterfaceComponent"+_interface.name.toFirstUpper
+		comp.ports+=createPort(_interface,"In",true)
+		comp.ports+=createPort(_interface,"Out",false)
+		
+
+		val main_region=sctModelFactory.createRegion
+		main_region.name="main_region"
+		val init=sctModelFactory.createInitialState
+		init.name="init_state"
+		val state1=sctModelFactory.createState
+		state1.name="operational"
+		main_region.stateNodes+=init
+		main_region.stateNodes+=state1
+		comp.regions+=main_region
+		val tr1=sctModelFactory.createTransition
+		tr1.sourceState = init
+		tr1.targetState=state1
+		comp.transitions+=tr1
+		packageElement(comp,"interface_components")
+		trace.addInterface(trace.get(_interface) as ArchitectureInterface,comp)
+	}
+	
+	def transformInterface(ArchitectureInterface architectureInterface){
+		val gammaInterface=ifModelFactory.createInterface
+		gammaInterface.name=architectureInterface.gammaName
+		trace.add(architectureInterface,gammaInterface)
+		for (prop : architectureInterface.flowproperties){
+			prop.transformFlowProperty
+		}
+		return gammaInterface
+	}
 	
 	def transformValueType(ValueType valueType){
 		var Type type;
@@ -63,7 +160,7 @@ class ElementTransformer {
 		}else if (valueType.name=="Boolean") {
 			type= exprModelFactory.createBooleanTypeDefinition
 		}else{
-			throw new ArchitectureException("Unsupported value type",valueType)
+			type = exprModelFactory.createDecimalTypeDefinition
 		}
 		trace.add(valueType,type)
 		return type
@@ -78,9 +175,10 @@ class ElementTransformer {
 		val event=ifModelFactory.createEvent
 		val parameterDeclaration = exprModelFactory.createParameterDeclaration
 		parameterDeclaration.name = name
-		parameterDeclaration.type = type
+		parameterDeclaration.type = type.clone
 		event.parameterDeclarations+=parameterDeclaration
 		event.name = eventName
+		event.persistency = Persistency.PERSISTENT
 		eventDeclaration.event = event
 		eventDeclaration.direction=directionMap.get(flowProperty.direction)
 		_interface.events+=eventDeclaration
@@ -93,13 +191,16 @@ class ElementTransformer {
 		val _interface = trace.get(archPort.type) as Interface
 		if (name == "") {
 			name = _interface.name
+			if (archPort.conjugated) {
+				name = name + "In"
+			} else {
+				name = name + "Out"
+			}
 		}
 		if (archPort.conjugated) {
 			ifrel.realizationMode = RealizationMode.REQUIRED
-			name = name + "In"
 		} else {
 			ifrel.realizationMode = RealizationMode.PROVIDED
-			name = name + "Out"
 		}
 		ifrel.interface = _interface
 		port.name = name
@@ -112,13 +213,16 @@ class ElementTransformer {
 	def createPort(Interface _interface, String name, boolean conj) {
 		val port = ifModelFactory.createPort
 		var ifrel = ifModelFactory.createInterfaceRealization
+		var gname=""
 		if (conj) {
 			ifrel.realizationMode = RealizationMode.REQUIRED
+			gname=name+_interface.name+"In"
 		} else {
 			ifrel.realizationMode = RealizationMode.PROVIDED
+			gname=name+_interface.name+"Out"
 		}
 		ifrel.interface = _interface
-		port.name = name
+		port.name = gname
 		port.interfaceRealization = ifrel
 		return port
 	}
@@ -126,9 +230,9 @@ class ElementTransformer {
 	
 	def findPort(AsynchronousComponent component, Interface _interface, String name, boolean conj){
 		val relMode= (conj) ? RealizationMode.REQUIRED : RealizationMode.PROVIDED
-		val relPorts=component.ports.filter[port | port.interfaceRealization.interface == _interface && port.interfaceRealization.realizationMode==relMode]
+		val relPorts=component.ports.filter[port | port.interfaceRealization.interface == _interface && port.interfaceRealization.realizationMode==relMode].toList
 		
-		val exactMatches=relPorts.filter[port | port.name==name]
+		val exactMatches=relPorts.filter[port | port.name==name].toList
 		if (!exactMatches.isEmpty){
 			return exactMatches.get(0)
 		}
@@ -186,7 +290,8 @@ class ElementTransformer {
 	def transformSubfunction(ArchitectureSubfunction subfunction){
 		val inst=cmpModelFactory.createAsynchronousComponentInstance
 		inst.name = subfunction.gammaName
-		inst.type = trace.get(subfunction.type) as AsynchronousComponent
+		val type = trace.get(subfunction.type) as AsynchronousComponent
+		inst.type = type//.clone
 		trace.add(subfunction,inst)
 		return inst
 	}

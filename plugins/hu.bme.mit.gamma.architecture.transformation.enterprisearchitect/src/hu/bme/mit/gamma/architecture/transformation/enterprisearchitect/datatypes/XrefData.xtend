@@ -7,6 +7,7 @@ class XrefData {
 		public val String supplier
 		public val String link
 		public val String description
+		public val String behavior
 
 		new(
 			String name,
@@ -14,7 +15,8 @@ class XrefData {
 			String client,
 			String supplier,
 			String link,
-			String description
+			String description,
+			String behavior
 		) {
 			this.name = name
 			this.type = type
@@ -22,5 +24,6 @@ class XrefData {
 			this.supplier = supplier
 			this.link = link
 			this.description = description
+			this.behavior = behavior
 		}
 }
