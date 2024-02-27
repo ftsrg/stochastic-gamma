@@ -8,6 +8,8 @@ import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatype
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.XrefData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ElementData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ObjectPropertyData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.OperationData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.AttributeData
 
 class XMLUtils {
 
@@ -43,6 +45,7 @@ class XMLUtils {
 				var long elementID = -1
 				var long conainerID = -1
 				var long packageID = -1
+				var long nType = -1
 				var String GUID = null
 				var String PDATA1
 				var String multiplicity
@@ -81,6 +84,9 @@ class XMLUtils {
 						if (field.nodeName == "Package_ID") {
 							packageID = Long.valueOf(field.textContent)
 						}
+						if (field.nodeName == "NType") {
+							nType = Long.valueOf(field.textContent)
+						}
 					}
 				}
 				if (elementID == -1) {
@@ -105,9 +111,126 @@ class XMLUtils {
 					GUID,
 					PDATA1,
 					PDATA4,
-					multiplicity
+					multiplicity,
+					nType
 				))
 			}
+		}
+		return dataList
+	}
+
+	static def getOperationData(String xml) {
+		var dataList = <OperationData>newLinkedList
+		var document = parseXML(xml)
+		var row_nodes = document.getElementsByTagName("Row")
+		for (i : 0 .. row_nodes.length - 1) {
+			var fields = row_nodes.item(i).childNodes
+			var String name
+			var long element_id
+			var String type
+			var String style_ex = ""
+			var String GUID
+			var String scope
+
+			for (j : 0 .. fields.length - 1) {
+				var field = fields.item(j)
+				if (field.nodeName == "Name") {
+					name = field.textContent
+				}
+				if (field.nodeName == "Object_ID") {
+					element_id = Long.valueOf(field.textContent)
+				}
+				if (field.nodeName == "Type") {
+					type = field.textContent
+				}
+				if (field.nodeName == "ea_guid") {
+					GUID = field.textContent
+				}
+				if (field.nodeName == "Scope") {
+					scope = field.textContent
+				}
+			}
+			dataList.add(new OperationData(
+				name,
+				type,
+				element_id,
+				style_ex,
+				GUID,
+				scope
+			))
+		}
+		return dataList
+	}
+
+	static def getAttributeData(String xml) {
+		var dataList = <AttributeData>newLinkedList
+		var document = parseXML(xml)
+		var row_nodes = document.getElementsByTagName("Row")
+		for (i : 0 .. row_nodes.length - 1) {
+			var fields = row_nodes.item(i).childNodes
+
+			var String name
+			var long element_id
+			var long type_id
+			var String scope
+			var String GUID
+			var boolean isConst
+			var long lowerBound
+			var long upperBound
+
+			for (j : 0 .. fields.length - 1) {
+				var field = fields.item(j)
+				if (field.nodeName == "Name") {
+					name = field.textContent
+				}
+				if (field.nodeName == "Object_ID") {
+					element_id = Long.valueOf(field.textContent)
+				}
+				if (field.nodeName == "Classifier") {
+					if (field.textContent.isBlank){
+						type_id = -1
+					}else{
+						type_id = Long.valueOf(field.textContent)
+					}
+				}
+				if (field.nodeName == "LowerBound") {
+					if (field.textContent.isBlank){
+						lowerBound = -1
+					}else{
+						lowerBound = Long.valueOf(field.textContent)
+					}
+				}
+				if (field.nodeName == "UpperBound") {
+					if (field.textContent.isBlank){
+						upperBound = -1
+					}else{
+						upperBound = Long.valueOf(field.textContent)
+					}
+				}
+				if (field.nodeName == "Const") {
+					if (field.textContent.isBlank){
+						isConst = false
+					}else{
+						isConst = Long.valueOf(field.textContent)!=0
+					}
+				}
+				if (field.nodeName == "Scope") {
+					scope = field.textContent
+				}
+				if (field.nodeName == "ea_guid") {
+					GUID = field.textContent
+				}
+			}
+			dataList.add(new AttributeData(
+				name,
+				element_id,
+				type_id,
+				scope,
+				GUID,
+				isConst,
+				lowerBound,
+				upperBound
+			))
 		}
 		return dataList
 	}
@@ -216,6 +339,8 @@ class XMLUtils {
 			var targetID = -1
 			var name = ""
 			var type = ""
+			var PDATA1 = ""
+			var PDATA2 = ""
 			for (j : 0 .. fields.length - 1) {
 				var field = fields.item(j)
 				if (field.nodeName == "Name") {
@@ -230,6 +355,12 @@ class XMLUtils {
 				if (field.nodeName == "END_Object_ID") {
 					targetID = Integer.valueOf(field.textContent)
 				}
+				if (field.nodeName == "PDATA1") {
+					PDATA1 = field.textContent
+				}
+				if (field.nodeName == "PDATA2") {
+					PDATA2 = field.textContent
+				}
 			}
 			if (sourceID == -1) {
 				throw new MissingFormatArgumentException("Source of connection is not in XML")
@@ -237,7 +368,7 @@ class XMLUtils {
 			if (targetID == -1) {
 				throw new MissingFormatArgumentException("Target of connection is not in XML")
 			}
-			dataList.add(new ConnectorData(name, sourceID, targetID, type))
+			dataList.add(new ConnectorData(name, sourceID, targetID, type, PDATA1, PDATA2))
 		}
 		return dataList
 	}

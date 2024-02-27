@@ -1,6 +1,6 @@
 package hu.bme.mit.gamma.architecture.transformation
 
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import hu.bme.mit.gamma.architecture.model.InterfaceConnector
 import hu.bme.mit.gamma.architecture.model.ArchitecturePort
 import hu.bme.mit.gamma.architecture.model.ArchitectureFunction
@@ -35,7 +35,7 @@ class RelationTransfomer {
 		this.trace = trace
 	}
 
-	static def isInPortBinding(InforationFlow flow) {
+	static def isInPortBinding(InformationFlow flow) {
 		if (flow.source instanceof ArchitecturePort) {
 			if (flow.source.eContainer instanceof ArchitectureFunction) {
 				return true
@@ -44,7 +44,7 @@ class RelationTransfomer {
 		return false
 	}
 
-	static def isOutPortBinding(InforationFlow flow) {
+	static def isOutPortBinding(InformationFlow flow) {
 		if (flow.target instanceof ArchitecturePort) {
 			if (flow.target.eContainer instanceof ArchitectureFunction) {
 				return true
@@ -98,7 +98,7 @@ class RelationTransfomer {
 			connector.target.isSubfunctionPort || connector.target.isSubfunction
 	}
 
-	static def isSystemFlow(InforationFlow flow) {
+	static def isSystemFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
 		var ArchitectureSubcompnent sourceComp
@@ -120,7 +120,7 @@ class RelationTransfomer {
 		return !(sourceComp === targetComp)
 	}
 
-	static def isSubsystemFlow(InforationFlow flow) {
+	static def isSubsystemFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
 		var ArchitectureSubcompnent sourceComp
@@ -142,13 +142,13 @@ class RelationTransfomer {
 		return (sourceComp === targetComp)
 	}
 
-	static def isSystemInputFlow(InforationFlow flow) {
+	static def isSystemInputFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
 		return source.isComponentPort && (target.isSubfunctionPort || target.isSubfunction)
 	}
 
-	static def isSystemOutputFlow(InforationFlow flow) {
+	static def isSystemOutputFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
 		return target.isComponentPort && (source.isSubfunctionPort || source.isSubfunction)
@@ -168,13 +168,13 @@ class RelationTransfomer {
 		return bind
 	}
 
-	def getSourceInstPortRef(InforationFlow flow) {
+	def getSourceInstPortRef(InformationFlow flow) {
 		val port = trace.get(flow.source) as Port
 		val inst = trace.get(flow.source.eContainer as ArchitectureElement) as ComponentInstance
 
 	}
 
-	def getFlowType(InforationFlow flow) {
+	def getFlowType(InformationFlow flow) {
 		var flowType = flow.type
 		if (flow.target.isPort) {
 			val targetPort = flow.target as ArchitecturePort
@@ -198,22 +198,22 @@ class RelationTransfomer {
 		return trace.get(flowType) as Interface
 	}
 
-	def transformSystemFlow(InforationFlow flow) {
+	def transformSystemFlow(InformationFlow flow) {
 	}
 
-	def transformFunctionFlow(InforationFlow flow) {
+	def transformFunctionFlow(InformationFlow flow) {
 	}
 
-	def transformFunctionInputFlow(InforationFlow flow) {
+	def transformFunctionInputFlow(InformationFlow flow) {
 	}
 
-	def transformFunctionOutputFlow(InforationFlow flow) {
+	def transformFunctionOutputFlow(InformationFlow flow) {
 	}
 
 	def transformInterfaceConnector(InterfaceConnector connector) {
 	}
 
-	def getFlowSourceInst(InforationFlow flow) {
+	def getFlowSourceInst(InformationFlow flow) {
 		if (flow.source.isSubfunctionPort) {
 			return trace.get(flow.source.eContainer as ArchitectureSubfunction) as ComponentInstance
 		} else if (flow.source instanceof ArchitectureSubfunction) {
@@ -223,7 +223,7 @@ class RelationTransfomer {
 		}
 	}
 
-	def getFlowTargetInst(InforationFlow flow) {
+	def getFlowTargetInst(InformationFlow flow) {
 		if (flow.target.isSubfunctionPort) {
 			return trace.get(flow.target.eContainer as ArchitectureSubfunction) as ComponentInstance
 		} else if (flow.target instanceof ArchitectureSubfunction) {
@@ -233,7 +233,7 @@ class RelationTransfomer {
 		}
 	}
 
-	static def getSourceSubsystem(InforationFlow flow) {
+	static def getSourceSubsystem(InformationFlow flow) {
 		if (flow.source.isSubfunctionPort) {
 			return flow.source.eContainer.eContainer as ArchitectureSubcompnent
 		} else if (flow.source instanceof ArchitectureSubfunction) {
@@ -243,7 +243,7 @@ class RelationTransfomer {
 		}
 	}
 
-	static def getTargetSubsystem(InforationFlow flow) {
+	static def getTargetSubsystem(InformationFlow flow) {
 		if (flow.target.isSubfunctionPort) {
 			return flow.target.eContainer.eContainer as ArchitectureSubcompnent
 		} else if (flow.target instanceof ArchitectureSubfunction) {

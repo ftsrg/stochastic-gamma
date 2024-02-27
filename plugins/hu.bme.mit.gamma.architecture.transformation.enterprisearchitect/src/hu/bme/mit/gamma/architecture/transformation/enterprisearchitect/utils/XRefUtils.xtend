@@ -50,6 +50,8 @@ class XRefUtils {
 		return conjugationMap
 	}
 	
+	
+	
 	static def getSignalReceptionLinks(List<XrefData> dataList){
 		for (data : dataList){
 			if (data.isSignalReception){

@@ -1,6 +1,6 @@
 package hu.bme.mit.gamma.architecture.transformation.builder
 
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import hu.bme.mit.gamma.architecture.model.InterfaceConnector
 import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTrace
 import hu.bme.mit.gamma.environment.model.EnvironmentModelFactory
@@ -27,6 +27,7 @@ import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
 import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticFactory
 import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
 import java.math.BigDecimal
+import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent
 
 class InterfaceComponentBuilder {
 	
@@ -38,10 +39,10 @@ class InterfaceComponentBuilder {
 	static val cmpModelFactory = CompositeModelFactory.eINSTANCE
 	static val ifModelFactory = InterfaceModelFactory.eINSTANCE
 	static val expModelFactory = ExpressionModelFactory.eINSTANCE
-	val EnvironmentAsynchronousCompositeComponent component 
+	val AsynchronousCompositeComponent component 
 	//val EnvironmentAsynchronousCompositeComponentInstance instance
-	val Map<InforationFlow,Port> inportMap=newHashMap
-	val Map<InforationFlow,Port> outportMap=newHashMap
+	val Map<InformationFlow,Port> inportMap=newHashMap
+	val Map<InformationFlow,Port> outportMap=newHashMap
 	//val EnvironmentEventSource failureSource
 	//val BroadcastChannel failureChannel
 	val Map<ArchitectureSubcompnent,ComponentInstance> instanceMap=newHashMap
@@ -51,7 +52,7 @@ class InterfaceComponentBuilder {
 	var nameCNTR=0
 	
 	new(Connector connector,ArchitectureTrace trace){
-		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
+		this.component = cmpModelFactory.createAsynchronousCompositeComponent
 		//this.instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
 		this.connector=connector
 		this.trace=trace
@@ -90,7 +91,7 @@ class InterfaceComponentBuilder {
 	}
 	
 	def createInstance(){
-		val instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
+		val instance = cmpModelFactory.createAsynchronousComponentInstance
 		instance.name = "inst"+component.name.toFirstUpper
 		instance.type = component
 		return instance
@@ -111,7 +112,7 @@ class InterfaceComponentBuilder {
 		return instanceMap.get(subcompnent)
 	}
 	
-	def addFlow(InforationFlow flow){
+	def addFlow(InformationFlow flow){
 		val type = trace.get(flow.type) as Interface
 		val inport = type.createPort(flow.inPortName+nameCNTR,true)
 		val outport = type.createPort(flow.outPortName+nameCNTR,false)
@@ -131,11 +132,11 @@ class InterfaceComponentBuilder {
 		nameCNTR++
 	}
 	
-	def getInPort(InforationFlow flow){
+	def getInPort(InformationFlow flow){
 		return inportMap.get(flow)
 	}
 	
-	def getOutPort(InforationFlow flow){
+	def getOutPort(InformationFlow flow){
 		return outportMap.get(flow)
 	}
 	

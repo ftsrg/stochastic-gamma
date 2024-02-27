@@ -4,7 +4,7 @@ import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTra
 import hu.bme.mit.gamma.environment.model.EnvironmentModelFactory
 import hu.bme.mit.gamma.statechart.statechart.StatechartModelFactory
 import hu.bme.mit.gamma.statechart.interface_.InterfaceModelFactory
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import hu.bme.mit.gamma.statechart.interface_.Interface
 import hu.bme.mit.gamma.statechart.interface_.RealizationMode
 
@@ -37,8 +37,8 @@ import hu.bme.mit.gamma.expression.model.DecimalTypeDefinition
 import org.eclipse.emf.ecore.util.EcoreUtil
 import hu.bme.mit.gamma.util.GammaEcoreUtil
 import org.eclipse.emf.ecore.EcorePackage
-import interface_.InterfacePackage
 import hu.bme.mit.gamma.expression.model.ExpressionPackage
+import hu.bme.mit.gamma.architecture.model.EnumValueType
 
 class ElementTransformer {
 	
@@ -67,7 +67,7 @@ class ElementTransformer {
 		val pkg=ifModelFactory.createPackage
 		pkg.name=component.name.toLowerCase
 		pkg.components+=component
-		pkg.imports+=component.allInstances.map[inst| inst.derivedType.containingPackage].toSet
+		pkg.imports+=component.instances.map[inst| inst.derivedType.containingPackage].toSet
 		pkg.imports+=trace.interfacePackage
 		trace.addComponentPackage(component,pkg)
 	}
@@ -76,7 +76,7 @@ class ElementTransformer {
 		val pkg=ifModelFactory.createPackage
 		pkg.name=component.name.toLowerCase
 		pkg.components+=component
-		pkg.imports+=component.allInstances.map[inst| inst.derivedType.containingPackage].toSet
+		pkg.imports+=component.instances.map[inst| inst.derivedType.containingPackage].toSet
 		pkg.imports+=trace.interfacePackage
 		trace.addComponentPackage(component,pkg)
 		trace.setPackagePath(pkg,path)
@@ -109,6 +109,11 @@ class ElementTransformer {
 		tr1.sourceState = init
 		tr1.targetState=state1
 		sct.transitions+=tr1
+		
+		for (failureInterface : architectureFunction.providedInterfaces){
+			val gammaIf= trace.get(failureInterface) as Interface
+			sct.ports+=createPort(gammaIf,"",true)
+		}
 		
 		trace.add(architectureFunction,sct)
 		packageElement(sct,"primitive_functions")
@@ -146,12 +151,47 @@ class ElementTransformer {
 		for (prop : architectureInterface.flowproperties){
 			prop.transformFlowProperty
 		}
+		for (event:architectureInterface.events){
+			gammaInterface.events+=event.clone
+		}
+		for (parent:architectureInterface.parents){
+			val parentIf=trace.get(parent) as Interface
+			gammaInterface.parents+=parentIf
+		}
+		for (parent:architectureInterface.providedInterfaces){
+			val parentIf=trace.get(parent) as Interface
+			gammaInterface.parents+=parentIf
+		}
 		return gammaInterface
 	}
 	
-	def transformValueType(ValueType valueType){
+	def Type transformValueType(ValueType valueType){
+		if (trace.contains(valueType)){
+			return trace.get(valueType)
+		}
 		var Type type;
-		if (valueType.name=="Real"){
+		if (valueType instanceof EnumValueType){
+			val pkg = trace.interfacePackage
+			pkg.typeDeclarations
+			val decl=exprModelFactory.createTypeDeclaration
+			decl.name=valueType.name+"_Enum"
+			val enum1=exprModelFactory.createEnumerationTypeDefinition
+			for (attr: valueType.valueproperties){
+				val literal=exprModelFactory.createEnumerationLiteralDefinition
+				literal.name=attr.name.gammaName
+				enum1.literals+=literal
+			}
+			if (valueType.valueproperties.empty){
+				val field=exprModelFactory.createEnumerationLiteralDefinition
+				field.name="defaultLiteral"
+				enum1.literals+=field
+			}
+			decl.type = enum1
+			val typeref=exprModelFactory.createTypeReference
+			typeref.reference = decl
+			pkg.typeDeclarations+=decl
+			type=typeref
+		} else if (valueType.name=="Real"){
 			type= exprModelFactory.createDecimalTypeDefinition
 		}else if (valueType.name=="Integer") {
 			type= exprModelFactory.createIntegerTypeDefinition
@@ -160,7 +200,28 @@ class ElementTransformer {
 		}else if (valueType.name=="Boolean") {
 			type= exprModelFactory.createBooleanTypeDefinition
 		}else{
-			type = exprModelFactory.createDecimalTypeDefinition
+			val pkg = trace.interfacePackage
+			pkg.typeDeclarations
+			val decl=exprModelFactory.createTypeDeclaration
+			decl.name=valueType.name+"_Type"
+			val record=exprModelFactory.createRecordTypeDefinition
+			for (attr: valueType.valueproperties){
+				val field=exprModelFactory.createFieldDeclaration
+				field.name=attr.name.gammaName
+				field.type=transformValueType(attr.type).clone
+				record.fieldDeclarations+=field
+			}
+			if (valueType.valueproperties.empty){
+				val field=exprModelFactory.createFieldDeclaration
+				field.name="data"
+				field.type=exprModelFactory.createDecimalTypeDefinition
+				record.fieldDeclarations+=field
+			}
+			decl.type = record
+			val typeref=exprModelFactory.createTypeReference
+			typeref.reference = decl
+			pkg.typeDeclarations+=decl
+			type=typeref
 		}
 		trace.add(valueType,type)
 		return type
@@ -247,7 +308,7 @@ class ElementTransformer {
 		return findPort(component,trace.get(archPort) as Interface,archPort.gammaName,archPort.conjugated)
 	}
 		
-	def getGammaSource(InforationFlow flow){
+	def getGammaSource(InformationFlow flow){
 		if (flow.source instanceof ArchitecturePort){
 			val port=flow.source as ArchitecturePort
 			if (port.eContainer instanceof ArchitectureFunction){
@@ -267,7 +328,7 @@ class ElementTransformer {
 		}
 	}
 	
-	def getGammaTarget(InforationFlow flow){
+	def getGammaTarget(InformationFlow flow){
 		if (flow.target instanceof ArchitecturePort){
 			val port=flow.target as ArchitecturePort
 			if (port.eContainer instanceof ArchitectureFunction){

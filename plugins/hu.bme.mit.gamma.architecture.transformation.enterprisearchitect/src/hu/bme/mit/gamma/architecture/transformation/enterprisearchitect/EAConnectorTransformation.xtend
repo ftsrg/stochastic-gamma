@@ -17,9 +17,10 @@ import hu.bme.mit.gamma.architecture.model.SoftwareComponent
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubfunction
 import hu.bme.mit.gamma.architecture.model.ArchitectureFunction
 import hu.bme.mit.gamma.architecture.model.Allocation
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import java.util.logging.Logger
 import java.util.logging.Level
+import hu.bme.mit.gamma.architecture.model.InterfacingElement
 
 class EAConnectorTransformation {
 
@@ -51,7 +52,7 @@ class EAConnectorTransformation {
 	def transformFlow(ConnectorData connectorData) {
 		if (trace.contains(connectorData.sourceID) && trace.contains(connectorData.targetID)) {
 			for (typeStr : connectorData.Type.split(",")) {
-				var flow = modelFactory.createInforationFlow
+				var flow = modelFactory.createInformationFlow
 				flow.source = trace.get(connectorData.sourceID)
 				flow.target = trace.get(connectorData.targetID)
 				val typeID = trace.get(typeStr)
@@ -132,32 +133,12 @@ class EAConnectorTransformation {
 		return null
 	}
 
-/* 
- * 	def transformFlows(int sourceID){
- * 		val xml = runQuery(SQLUtils.getInformationFlows(sourceID).toString)
- * 		val data_list = XMLUtils.getConnectorData(xml)
- * 		val flows = data_list.map[data | transformFlow(data)]
- * 		return flows
- * 	}
+	def transformRealization(ConnectorData connectorData) {
+		if (trace.contains(connectorData.sourceID) && trace.contains(connectorData.targetID)) {
+			val source = trace.get(connectorData.sourceID) as InterfacingElement
+			val target = trace.get(connectorData.targetID) as ArchitectureInterface
+			source.providedInterfaces += target
+		}
+	}
 
- * 	def transformConnectors(int sourceID){
- * 		val xml = runQuery(SQLUtils.getConnectors(sourceID).toString)
- * 		val data_list = XMLUtils.getConnectorData(xml)
- * 		val connectors = data_list.map[data | transformConnector(data)]
- * 		return connectors
- * 	}
-
- * 	def transformInterfaceConnectors(int sourceID){
- * 		val xml = runQuery(SQLUtils.getInterfaceConnectors(sourceID).toString)
- * 		val data_list = XMLUtils.getConnectorData(xml)
- * 		val connectors = data_list.map[data | transformInterfaceConnector(data)]
- * 		return connectors
- * 	}
-
- * 	def transformRelations(){
- * 		trace.allElementIDs.forEach[elementID|transformConnectors(elementID.intValue)] 
- * 		trace.allElementIDs.forEach[elementID|transformInterfaceConnectors(elementID.intValue)] 
- * 		trace.allElementIDs.forEach[elementID|transformFlows(elementID.intValue)] 
- * 	}
- */
 }

@@ -13,6 +13,7 @@ class GammaTransformationException extends Exception {
 	}
 	new (String message, NamedElement element){
 		super(message)
+		
 		this.element=element
 	}
 }

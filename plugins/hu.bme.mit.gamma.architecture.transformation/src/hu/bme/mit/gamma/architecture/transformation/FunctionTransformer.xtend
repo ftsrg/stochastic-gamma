@@ -9,7 +9,7 @@ import hu.bme.mit.gamma.environment.model.EnvironmentModelFactory
 import static extension hu.bme.mit.gamma.architecture.transformation.util.TransformationUtils.*
 import static extension hu.bme.mit.gamma.architecture.transformation.RelationTransfomer.*
 import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTrace
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import hu.bme.mit.gamma.architecture.model.ArchitecturePort
 import hu.bme.mit.gamma.statechart.composite.AsynchronousComponent
 import hu.bme.mit.gamma.statechart.interface_.Interface
@@ -99,6 +99,19 @@ class FunctionTransformer {
 			}
 
 		}
+		
+		// adding failure ports and binding
+		// failurePort -> func.failurePort
+		for (subfunc : function.subfunctions){
+			for (archInterface : subfunc.type.providedInterfaces){
+				val gammaInterface=trace.get(archInterface) as Interface;
+				val inst=trace.get(subfunc) as AsynchronousComponentInstance
+				val port=createPort(gammaInterface,inst.name,true)
+				component.ports+=port
+				val instPort=findInputPort(inst,gammaInterface)
+				component.portBindings+=createPortBinding(port,inst,instPort)
+			}
+		}
 
 		component.channels += channelBuilder.build
 		/* 
@@ -111,7 +124,7 @@ class FunctionTransformer {
 		return component
 	}
 
-	def getFlowSourcePort(InforationFlow flow) {
+	def getFlowSourcePort(InformationFlow flow) {
 
 		var type = flow.flowType
 
@@ -137,7 +150,7 @@ class FunctionTransformer {
 		}
 	}
 
-	def getFlowTargetPort(InforationFlow flow) {
+	def getFlowTargetPort(InformationFlow flow) {
 
 		var type = flow.flowType
 

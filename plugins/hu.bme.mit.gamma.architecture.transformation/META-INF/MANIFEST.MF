@@ -15,10 +15,7 @@ Export-Package: hu.bme.mit.gamma.architecture.model,
  hu.bme.mit.gamma.architecture.transformation.builder,
  hu.bme.mit.gamma.architecture.transformation.errors,
  hu.bme.mit.gamma.architecture.transformation.traceability,
- hu.bme.mit.gamma.architecture.transformation.util,
- interface_,
- interface_.impl,
- interface_.util
+ hu.bme.mit.gamma.architecture.transformation.util
 Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
@@ -27,6 +24,6 @@ Require-Bundle: com.google.guava,
  org.eclipse.emf.ecore;visibility:=reexport,
  hu.bme.mit.gamma.expression.model;bundle-version="2.9.0";visibility:=reexport,
  hu.bme.mit.gamma.action.model;bundle-version="2.9.0",
- hu.bme.mit.gamma.statechart.model;bundle-version="2.9.0",
+ hu.bme.mit.gamma.statechart.model;bundle-version="2.9.0";visibility:=reexport,
  hu.bme.mit.gamma.environment.model;bundle-version="0.1.0"
 Bundle-ActivationPolicy: lazy

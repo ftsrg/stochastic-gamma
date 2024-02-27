@@ -7,7 +7,7 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureSubfunction
 import static extension hu.bme.mit.gamma.architecture.transformation.util.TransformationUtils.*
 import static extension hu.bme.mit.gamma.architecture.transformation.RelationTransfomer.*
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubcompnent
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import hu.bme.mit.gamma.architecture.model.InterfaceConnector
 import hu.bme.mit.gamma.environment.model.EnvironmentAsynchronousCompositeComponent
 import hu.bme.mit.gamma.environment.model.EnvironmentModelFactory
@@ -88,13 +88,13 @@ class SystemTransformer {
 	 */
 	}
 
-	def transform(InforationFlow flow) {
+	def transform(InformationFlow flow) {
 		if (flow.target === flow.source) {
 		} else {
 		}
 	}
 
-	def createPort(InforationFlow flow, boolean conj) {
+	def createPort(InformationFlow flow, boolean conj) {
 		val port = ifModelFactory.createPort
 		var name = flow.gammaName
 		var ifrel = ifModelFactory.createInterfaceRealization
@@ -291,7 +291,7 @@ class SystemTransformer {
 
 		}
 		
-		for (ifcompBuilder : ifCompTable.values){
+		for (ifcompBuilder : ifCompTable.values.toSet){
 			val ifcomp=ifcompBuilder.component
 			ifcomp.packageElement("communication")
 		}
@@ -309,7 +309,7 @@ class SystemTransformer {
 
 	}
 
-	def getFlowSourcePort(InforationFlow flow) {
+	def getFlowSourcePort(InformationFlow flow) {
 
 		if (flow.source instanceof ArchitecturePort) {
 			val port = flow.source as ArchitecturePort
@@ -335,7 +335,7 @@ class SystemTransformer {
 		}
 	}
 
-	def getFlowTargetPort(InforationFlow flow) {
+	def getFlowTargetPort(InformationFlow flow) {
 		if (flow.target instanceof ArchitecturePort) {
 			val port = flow.target as ArchitecturePort
 			if (port.eContainer instanceof ArchitectureSubfunction) {
@@ -375,7 +375,7 @@ class SystemTransformer {
 		}
 	}
 	
-	def isSubsystemFlow(InforationFlow flow) {
+	def isSubsystemFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
 		var ArchitectureSubcompnent sourceComp
@@ -397,7 +397,7 @@ class SystemTransformer {
 		return (sourceComp === targetComp)
 	}
 	
-	def isSystemFlow(InforationFlow flow) {
+	def isSystemFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
 		var ArchitectureSubcompnent sourceComp

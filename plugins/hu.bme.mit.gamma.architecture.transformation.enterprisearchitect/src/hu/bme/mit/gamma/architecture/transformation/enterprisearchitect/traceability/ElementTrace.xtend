@@ -10,6 +10,7 @@ import java.util.HashSet
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ElementData
 import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
 import hu.bme.mit.gamma.architecture.model.ArchitecturePackage
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.StatemachineData
 
 class ElementTrace {
 	
@@ -23,7 +24,9 @@ class ElementTrace {
 	protected Map<String,Long> guid2id
 	protected Set<ArchitectureElement> elements
 	protected Set<Long> elementIDs
-	protected ArchitecturePackage root_pkg;
+	protected ArchitecturePackage root_pkg
+	
+	public var StatemachineData statemachineData
 	
 	def getRootPkg(){
 		return root_pkg

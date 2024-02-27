@@ -18,6 +18,7 @@ class SQLUtils {
 	select END_Object_ID from t_connector where Connector_Type='Abstraction' AND stereotype='allocate' AND Start_Object_ID=«elementID»;
 	'''
 	
+	
 	static def getConnectors(long elementID) '''
 	select END_Object_ID, Name from t_connector where Connector_Type = 'Connector' AND Start_Object_ID=«elementID»;
 	'''
@@ -117,6 +118,33 @@ class SQLUtils {
 		)
 	'''
 	
+	static def getAllInterfaces()'''
+	select object_id
+	from t_object
+	where
+		Object_Type = "Interface" 
+	'''
+	
+	static def getAllInterface(long packageID)'''
+	select *
+	from t_object
+	where
+		Object_Type = "Interface" and
+		Package_ID=«packageID»;
+	'''
+	
+	static def getAllInterface(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Interface" and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
 	static def getAllPackages()'''
 	select 
 	*
@@ -165,6 +193,18 @@ class SQLUtils {
 		)
 	'''
 	
+	static def getAllEnnums(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		(Object_Type = "Enumeration") and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
 	static def getAllBlocks(long packageID)'''
 	select 
 	*
@@ -182,6 +222,104 @@ class SQLUtils {
 	where
 		((Object_Type = "Class" and Stereotype = "block") or 
 		Object_Type = "Block") and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
+	static def getAllInterfaces(long packageID)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Interface" and
+		Package_ID=«packageID»
+	'''
+	
+	static def getAllInterfaces(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Interface" and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
+	static def getAllSignals()'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Signal" 
+	'''
+	
+	static def getAllSignals(long packageID)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Signal" and
+		Package_ID=«packageID»
+	'''
+	
+	static def getAllSignals(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Signal" and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
+	static def getAllStatemachines(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Statemachine" and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
+	static def getAllStates(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "State" and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
+	static def getAllPseudostates(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "StateNode" and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
+	static def getAllSyncStates(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Synchronization" and (
 		«FOR packageID : packageIDs SEPARATOR " OR "»
 			Package_ID=«packageID»
 		«ENDFOR»
@@ -233,6 +371,32 @@ class SQLUtils {
 	(Stereotype is null or Stereotype="")
 	'''
 	
+	static def getAllEnumLiterals()'''
+	select 
+	*
+	from t_attribute
+	where Stereotype="enum"
+	'''
+	
+	static def getAllAttributes()'''
+	select 
+	*
+	from t_attribute
+	where Stereotype is null or Stereotype=""
+	'''
+	
+	static def getAllAttributes2()'''
+	select 
+	*
+	from t_attribute
+	'''
+	
+	static def getAllOperations()'''
+	select 
+	*
+	from t_operation
+	'''
+	
 	static def getAllFlows()'''
 	select 
 		t_connector.Start_Object_ID as START_Object_ID,
@@ -249,7 +413,9 @@ class SQLUtils {
 	static def getAllConnectors()'''
 	select  t_connector.Start_Object_ID as START_Object_ID,
 			t_connector.END_Object_ID as END_Object_ID,
-			t_connector.Name as Name
+			t_connector.Name as Name,
+			t_connector.PDATA1 as PDATA1,
+			t_connector.PDATA2 as PDATA2
 	from t_connector 
 	where Connector_Type = 'Connector'
 	'''
@@ -259,7 +425,9 @@ class SQLUtils {
 		t_connector.Start_Object_ID as START_Object_ID, 
 		t_connector.End_Object_ID as END_Object_ID, 
 		t_connector.Name as Name, 
-		t_object.ea_guid as Description
+		t_object.ea_guid as Description,
+		t_connector.PDATA1 as PDATA1,
+		t_connector.PDATA2 as PDATA2
 	from t_connector
 	left join t_object on t_object.object_id=t_connector.PDATA1
 	where 
@@ -275,6 +443,35 @@ class SQLUtils {
 	where 
 		Connector_Type = 'Abstraction' AND
 		stereotype = 'allocate'
+	'''
+	
+	static def getAllRealisations()'''
+	select	t_connector.Start_Object_ID as START_Object_ID, 
+			t_connector.End_Object_ID as END_Object_ID, 
+			t_connector.Name as Name
+	from t_connector 
+	where 
+		Connector_Type = 'Realisation'
+	'''
+	
+	static def getAllTransitions()'''
+	select	t_connector.Start_Object_ID as START_Object_ID, 
+			t_connector.End_Object_ID as END_Object_ID, 
+			t_connector.Name as Name,
+			PDATA1,
+			PDATA2
+	from t_connector 
+	where 
+		Connector_Type = 'StateFlow'
+	'''
+	
+	static def getAllGeneralization()'''
+	select	t_connector.Start_Object_ID as START_Object_ID, 
+			t_connector.End_Object_ID as END_Object_ID, 
+			t_connector.Name as Name
+	from t_connector 
+	where 
+		Connector_Type = 'Generalization'
 	'''
 	
 

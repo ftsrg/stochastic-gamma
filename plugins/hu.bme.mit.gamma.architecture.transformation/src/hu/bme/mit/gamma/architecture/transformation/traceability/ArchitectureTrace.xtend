@@ -33,6 +33,9 @@ class ArchitectureTrace {
 	}
 
 	def addComponentPackage(Component component, Package pkg){
+		if (packageMap.keySet.contains(component)){
+			throw new GammaTransformationException("Component is already packaged : "+component.name,component)
+		}
 		packageMap.put(component,pkg)
 		pathMap.put(pkg,"")
 	}
@@ -116,32 +119,36 @@ class ArchitectureTrace {
 	}
 	
 	def getPackages(){
-		return packageMap.values
+		return packageMap.values.toSet
 	}
 	
 	def getPrimitiveFunctionPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/primitive_functions"]
+		return packageMap.values.filter[p|pathMap.get(p)=="/primitive_functions"].toSet
 	}
 	
 	def getComponentFunctionPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/component_functions"]
+		return packageMap.values.filter[p|pathMap.get(p)=="/component_functions"].toSet
 	}
 	
 	def getInterfaceComponentPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/interface_components"]
+		return packageMap.values.filter[p|pathMap.get(p)=="/interface_components"].toSet
 	}
 	
 	def getCommunicationComponentPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/communication"]
+		return packageMap.values.filter[p|pathMap.get(p)=="/communication"].toSet
+	}
+	
+	def getSubsystemHardwarePackages(){
+		return packageMap.values.filter[p|pathMap.get(p)=="/subsystem_hardware"].toSet
 	}
 	
 	
 	def getSubsystemPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/subsystems"]
+		return packageMap.values.filter[p|pathMap.get(p)=="/subsystems"].toSet
 	}
 	
 	def getSystemPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/systems"]
+		return packageMap.values.filter[p|pathMap.get(p)=="/systems"].toSet
 	}
 	
 	def contains(ArchitectureElement element){

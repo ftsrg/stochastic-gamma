@@ -8,6 +8,7 @@ class ElementData {
 		public val long elementID
 		public val long conainerID
 		public val long packageID
+		public val long nType
 		public val String GUID
 		public val String PDATA1 // property type for packages, primary package ID for packages
 		public val String PDATA4 // multiplicity for ports
@@ -23,7 +24,8 @@ class ElementData {
 			String GUID,
 			String PDATA1,
 			String PDATA4,
-			String multiplicity
+			String multiplicity,
+			long nType
 		) {
 			this.name = name
 			this.objectType = objectType
@@ -31,6 +33,7 @@ class ElementData {
 			this.elementID = elementID
 			this.conainerID = conainerID
 			this.packageID = packageID
+			this.nType = packageID
 			this.GUID = GUID
 			this.PDATA1 = PDATA1
 			this.PDATA4 = PDATA4

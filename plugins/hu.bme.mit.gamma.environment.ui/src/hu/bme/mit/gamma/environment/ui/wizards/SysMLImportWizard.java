@@ -8,6 +8,9 @@ import org.eclipse.core.runtime.*;
 import org.eclipse.jface.operation.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +30,7 @@ import org.eclipse.ui.ide.IDE;
 import com.google.inject.Injector;
 
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.EnterpriseArchitectTransformation;
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.GammaAppender;
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.SysMLTransformations;
 import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException;
 import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException;
@@ -34,10 +38,12 @@ import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTra
 import hu.bme.mit.gamma.dialog.DialogUtil;
 import hu.bme.mit.gamma.statechart.interface_.Package;
 import hu.bme.mit.gamma.environment.language.ui.internal.LanguageActivator;
-import hu.bme.mit.gamma.statechart.language.ui.serializer.StatechartLanguageSerializer;
+import hu.bme.mit.gamma.environment.language.ui.serializer.EnvironmentLanguageSerializer;
 import hu.bme.mit.gamma.ui.taskhandler.TaskHandler.ModelSerializer;
 import java.nio.file.Paths;
 import java.nio.file.Files;
+//import hu.bme.mit.gamma.language.util.serialization.GammaLanguageSerializer;
+
 
 /**
  * This is a sample new wizard. Its role is to create a new file resource in the
@@ -59,6 +65,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 
 	protected final ModelSerializer serializer = ModelSerializer.INSTANCE;
 
+	final int MAXTRY = 10;
 	/**
 	 * Constructor for SysMLImportWizard.
 	 */
@@ -85,28 +92,34 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 		containerName = page.getContainerName();
 		sysGUID = page.getSystemPackageGUID();
 		funcGUID = page.getFunctionalPackageGUID();
-		
 
 		// final String fileName = page.getFileName();
 		IRunnableWithProgress op = monitor -> {
 			EnterpriseArchitectTransformation transformation = null;
 			try {
-				// doFinish(containerName, fileName, monitor);		
-				monitor.beginTask("Loading SysML models from Enterprise Architect ", 2);
+				// doFinish(containerName, fileName, monitor);
+				monitor.beginTask("Loading SysML models from Enterprise Architect ", 8);
 				monitor.worked(1);
-				transformation = new EnterpriseArchitectTransformation(funcGUID,sysGUID);
+				transformation = new EnterpriseArchitectTransformation(funcGUID, sysGUID);
 				monitor.worked(1);
-				monitor.beginTask("Transforming SysML models to Gamma ", 2);
+				monitor.setTaskName("Transforming SysML structural and interface models to Gamma ");
 				monitor.worked(1);
-				var eaTrace=transformation.execute2();
+				var eaTrace = transformation.execute2();
 				monitor.worked(1);
 				ArchitectureTrace gammaTrace = SysMLTransformations.transformArchitecture(eaTrace);
+				monitor.worked(1);
+				monitor.setTaskName("Transforming SysML statemachines models to Gamma ");
+				monitor.worked(1);
+				var appender=new GammaAppender(gammaTrace, eaTrace);
+				monitor.worked(1);
+				appender.execute();
+				monitor.worked(1);
 				serialize(gammaTrace, monitor);
 			} catch (Exception e) {
 				if (e instanceof ArchitectureException) {
 					var e1 = (ArchitectureException) e;
-					if (e1.element!= null && transformation!=null) {
-						//transformation.showElement(e1.element);
+					if (e1.element != null && transformation != null) {
+						// transformation.showElement(e1.element);
 					}
 				}
 				System.out.println(e.getCause());
@@ -117,7 +130,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				monitor.done();
 			}
 		};
-		
+
 		try {
 			getContainer().run(true, false, op);
 		} catch (InterruptedException e) {
@@ -187,90 +200,56 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
-
-	protected void serialize(ArchitectureTrace gammaTrace, IProgressMonitor monitor) throws IOException, CoreException {
-		final int MAXTRY = 5;
+	
+	protected void serialize(Set<Package> packages,String appendix,ArchitectureTrace gammaTrace, IProgressMonitor monitor) throws IOException, CoreException{
+		int len=packages.size();
 		for (int i = 1; i <= MAXTRY; i++) {
+			
 			try {
-				monitor.beginTask("Saving models ", gammaTrace.getPackages().size());
-				serialize(gammaTrace.getInterfacePackage(), containerName,
-						gammaTrace.getInterfacePackage().getName() + ".gcd");
-				for (Package pkg : gammaTrace.getPrimitiveFunctionPackages()) {
+				for (Package pkg :packages) {
 					logger.log(Level.INFO,
 							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
-					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + ".gcd");
-					monitor.worked(1);
+					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + appendix);
 				}
-				refresh();
-				build();
-				for (Package pkg : gammaTrace.getInterfaceComponentPackages()) {
-					logger.log(Level.INFO,
-							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
-					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + ".gcd");
-					monitor.worked(1);
-				}
-				refresh();
-				sleep(1000);
-				for (Package pkg : gammaTrace.getPrimitiveFunctionPackages()) {
-					logger.log(Level.INFO,
-							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
-					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + ".gcd");
-					monitor.worked(1);
-				}
-				refresh();
-				build();
-				sleep(1000);
-				for (Package pkg : gammaTrace.getComponentFunctionPackages()) {
-					logger.log(Level.INFO,
-							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
-					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + ".gcd");
-					monitor.worked(1);
-				}
-				refresh();
-				build();
-				sleep(1000);
-				for (Package pkg : gammaTrace.getCommunicationComponentPackages()) {
-					logger.log(Level.INFO,
-							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
-					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + ".sgcd");
-					monitor.worked(1);
-				}
-				refresh();
-				build();
-				sleep(1000);
-				for (Package pkg : gammaTrace.getSubsystemPackages()) {
-					logger.log(Level.INFO,
-							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
-					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + ".sgcd");
-					monitor.worked(1);
-				}
-				refresh();
-				build();
-				sleep(1000);
-				for (Package pkg : gammaTrace.getSystemPackages()) {
-					logger.log(Level.INFO,
-							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
-					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + ".sgcd");
-					monitor.worked(1);
-				}
-				return;
+				break;
 			} catch (RuntimeException e) {
-				if (e.getMessage().contains("No EObjectDescription could be found in Scope") && (i < MAXTRY)) {
+				if (e.getMessage()!=null && e.getMessage().contains("No EObjectDescription could be found in Scope") && (i < MAXTRY)) {
 					e.printStackTrace();
-					monitor.worked(1);
 				} else {
 					throw e;
 				}
+				sleep(1000);
+				refresh();
+				build();
+				sleep(1000);
 			}
-
 		}
+		monitor.worked(len);
+	}
+
+	protected void serialize(ArchitectureTrace gammaTrace, IProgressMonitor monitor) throws IOException, CoreException {
+		build();
+		monitor.beginTask("Saving models ", gammaTrace.getPackages().size());
+		serialize(gammaTrace.getInterfacePackage(), containerName, gammaTrace.getInterfacePackage().getName() + ".gcd");
+		serialize( gammaTrace.getPrimitiveFunctionPackages(),".gcd",gammaTrace, monitor);
+		serialize( gammaTrace.getInterfaceComponentPackages(),".gcd",gammaTrace, monitor);
+		serialize( gammaTrace.getComponentFunctionPackages(),".gcd",gammaTrace, monitor);
+		serialize( gammaTrace.getCommunicationComponentPackages(),".gcd",gammaTrace, monitor);
+		serialize( gammaTrace.getSubsystemHardwarePackages(),".sgcd",gammaTrace, monitor);
+		serialize( gammaTrace.getSubsystemPackages(),".sgcd",gammaTrace, monitor);
+		var syspkgs=gammaTrace.getSystemPackages();
+
+		serialize(gammaTrace.getSystemPackages(),".sgcd",gammaTrace, monitor);
+
+		return;
+
 	}
 
 	private void serialize(EObject rootElem, String parentFolder, String fileName) throws IOException {
 		// This is how an injected object can be retrieved
 		Injector injector = LanguageActivator.getInstance()
 				.getInjector(LanguageActivator.HU_BME_MIT_GAMMA_ENVIRONMENT_LANGUAGE_ENVIRONMENTLANGUAGE);
-		StatechartLanguageSerializer serializer = injector.getInstance(StatechartLanguageSerializer.class);
+		EnvironmentLanguageSerializer serializer = injector.getInstance(EnvironmentLanguageSerializer.class);
 		serializer.serialize(rootElem, parentFolder, fileName);
 	}
 

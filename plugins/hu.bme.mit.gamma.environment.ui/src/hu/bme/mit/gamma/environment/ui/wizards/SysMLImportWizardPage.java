@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -192,10 +193,20 @@ public class SysMLImportWizardPage extends WizardPage {
 
 	private void funcChanged() {
 		preferences.put("functionalPackageGUID", getFunctionalPackageGUID());
+		try {
+			preferences.flush();
+		} catch (BackingStoreException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void sysChanged() {
 		preferences.put("systemPackageGUID", getSystemPackageGUID());
+		try {
+			preferences.flush();
+		} catch (BackingStoreException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void updateStatus(String message) {

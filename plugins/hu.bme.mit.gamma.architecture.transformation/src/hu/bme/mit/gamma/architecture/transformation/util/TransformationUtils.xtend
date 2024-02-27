@@ -7,7 +7,7 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureElement
 import hu.bme.mit.gamma.architecture.model.ArchitectureRelations
 import hu.bme.mit.gamma.architecture.model.StructuralElement
 import hu.bme.mit.gamma.architecture.model.InterfaceConnector
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import hu.bme.mit.gamma.architecture.model.FunctionalAllocation
 import hu.bme.mit.gamma.architecture.model.SoftwareAllocation
 import hu.bme.mit.gamma.architecture.model.ArchitecturePort
@@ -49,6 +49,9 @@ class TransformationUtils {
 	}
 	
 	static def getGammaName(ArchitectureSubcompnent subcompnent) {
+		if (subcompnent.name.isBlank){
+			return subcompnent.type.gammaName
+		}
 		return subcompnent.name.gammaName+"_"+subcompnent.type.gammaName
 	}
 	
@@ -68,11 +71,15 @@ class TransformationUtils {
 		}
 	}
 	
-	static def outPortName(InforationFlow flow){
+	static def getFailureInterfaceName(ArchitectureInterface architectureInterface){
+		return architectureInterface.gammaName
+	}
+	
+	static def outPortName(InformationFlow flow){
 		return flow.gammaName+flow.type.gammaName+"Out"
 	}
 	
-	static def inPortName(InforationFlow flow){
+	static def inPortName(InformationFlow flow){
 		return flow.gammaName+flow.type.gammaName+"In"
 	}
 	
@@ -125,7 +132,7 @@ class TransformationUtils {
 	}
 
 	static def getInformationFlows(StructuralElement element){
-		return element.relations.filter[r | r instanceof InforationFlow].map[r|r as InforationFlow].toList
+		return element.relations.filter[r | r instanceof InformationFlow].map[r|r as InformationFlow].toList
 	}
 
 	static def getFunctionalAllocations(StructuralElement element){

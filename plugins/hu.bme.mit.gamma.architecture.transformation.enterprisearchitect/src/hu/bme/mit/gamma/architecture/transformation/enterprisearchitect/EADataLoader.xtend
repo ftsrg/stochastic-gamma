@@ -72,8 +72,20 @@ class EADataLoader {
 		return data
 	}
 	
+	def loadInterfacesFromPackage(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllInterfaces(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
 	def loadAllValueTypes(List<Long> packageIDs){
 		val xml=runQuery(SQLUtils.getAllValueTypes(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
+	def loadAllEnums(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllEnnums(packageIDs).toString)
 		val data = XMLUtils.getElementData(xml)
 		return data
 	}
@@ -108,6 +120,18 @@ class EADataLoader {
 		return data
 	}
 	
+	def loadAllSignals(){
+		val xml=runQuery(SQLUtils.getAllSignals().toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
+	def loadAllSignals(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllSignals(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+	
 	def loadAllFlows(){
 		val xml=runQuery(SQLUtils.getAllFlows().toString)
 		val data = XMLUtils.getConnectorData(xml)
@@ -116,6 +140,18 @@ class EADataLoader {
 
 	def loadAllAllocation(){
 		val xml=runQuery(SQLUtils.getAllAllocations().toString)
+		val data = XMLUtils.getConnectorData(xml)
+		return data
+	}
+
+	def loadAllRealization(){
+		val xml=runQuery(SQLUtils.getAllRealisations().toString)
+		val data = XMLUtils.getConnectorData(xml)
+		return data
+	}
+
+	def loadAllTransitions(){
+		val xml=runQuery(SQLUtils.getAllTransitions().toString)
 		val data = XMLUtils.getConnectorData(xml)
 		return data
 	}
@@ -129,6 +165,42 @@ class EADataLoader {
 	def loadAllInterfaceConnectors(){
 		val xml=runQuery(SQLUtils.getAllInterfaceConnectors().toString)
 		val data = XMLUtils.getConnectorData(xml)
+		return data
+	}
+	
+	def loadAllAttributes(){
+		val xml=runQuery(SQLUtils.getAllAttributes2().toString)
+		val data = XMLUtils.getAttributeData(xml)
+		return data
+	}
+
+	def loadAllOperationData(){
+		val xml=runQuery(SQLUtils.getAllOperations().toString)
+		val data = XMLUtils.getOperationData(xml)
+		return data
+	}
+
+	def loadAllStateData(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllStates(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+
+	def loadAllStatemachineData(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllStatemachines(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+
+	def loadAllPseudostateData(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllPseudostates(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+
+	def loadAllSyncStateData(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllSyncStates(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
 		return data
 	}
 

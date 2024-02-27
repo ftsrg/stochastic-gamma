@@ -1,6 +1,6 @@
 package hu.bme.mit.gamma.architecture.transformation.builder
 
-import hu.bme.mit.gamma.architecture.model.InforationFlow
+import hu.bme.mit.gamma.architecture.model.InformationFlow
 import hu.bme.mit.gamma.architecture.model.InterfaceConnector
 import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTrace
 import hu.bme.mit.gamma.environment.model.EnvironmentModelFactory
@@ -29,15 +29,15 @@ import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationEx
 class SingletonComponentBuilder {
 	
 	
-	val StructuralElement element
+	val ArchitectureSubcompnent subcomponent
 	val ArchitectureTrace trace
 	val stochModelFactory = EnvironmentModelFactory.eINSTANCE
 	static val sctModelFactory = StatechartModelFactory.eINSTANCE
 	static val cmpModelFactory = CompositeModelFactory.eINSTANCE
 	val EnvironmentAsynchronousCompositeComponent component 
 	val AsynchronousComponentInstance instance
-	val Map<InforationFlow,Port> inportMap=newHashMap
-	val Map<InforationFlow,Port> outportMap=newHashMap
+	val Map<InformationFlow,Port> inportMap=newHashMap
+	val Map<InformationFlow,Port> outportMap=newHashMap
 	val EnvironmentEventSource failureSource
 	//val BroadcastChannel failureChannel
 	
@@ -45,26 +45,44 @@ class SingletonComponentBuilder {
 	
 	val extension ElementTransformer elementTransformer
 	val extension RelationTransfomer relationTransformer
+	val extension FailureModelGenerator failureModelGenerator
 	var nameCNTR=0
 	var isBuilt=false
+	
+	static var hwNameCNTR=0
+	
+	val EnvironmentAsynchronousCompositeComponent hwComponent
+	val AsynchronousComponentInstance hwComponentInstance
 	
 	new(ArchitectureSubcompnent subcompnent,ArchitectureTrace trace){
 		
 		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		this.instance = cmpModelFactory.createAsynchronousComponentInstance
 		
-		this.element=subcompnent
+		this.subcomponent=subcompnent
 		this.trace=trace
 		
 		this.elementTransformer=new ElementTransformer(trace)
 		this.relationTransformer=new RelationTransfomer(trace)
+		this.failureModelGenerator=new FailureModelGenerator(trace)
 		
 		this.failureSource=stochModelFactory.createEnvironmentEventSource
 		
 		
 		component.name = subcompnent.gammaName
-		instance.name = "inst"+component.name.toFirstUpper
+		instance.name = "inst_"+component.name.toFirstUpper
 		instance.type = component
+		
+		
+		hwComponent = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
+		hwComponent.name = component.name + "_HardwareModel"+(hwNameCNTR)
+		hwComponentInstance = cmpModelFactory.createAsynchronousComponentInstance
+		hwComponentInstance.name = instance.name + "_HardwareModel"+(hwNameCNTR++)
+		hwComponentInstance.type=hwComponent
+		hwComponent.packageElement("subsystem_hardware")
+		addInstance(hwComponentInstance)
+		
+		
 		//this.failureChannel=cmpModelFactory.createBroadcastChannel
 		/* 
 		failureSource.name = component.name + "_Failures"
@@ -79,6 +97,7 @@ class SingletonComponentBuilder {
 		
 	}
 	
+	/* 
 	new(ArchitectureSubfunction subfunction,ArchitectureTrace trace){
 		
 		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
@@ -109,9 +128,9 @@ class SingletonComponentBuilder {
 		trace.add(subfunction,instance)
 		
 	}
-
+	*/ 
 	
-	def getInPort(InforationFlow flow){
+	def getInPort(InformationFlow flow){
 		val type = trace.get(flow.type) as Interface
 		val inport = type.createPort(flow.inPortName+nameCNTR,true)
 		component.ports+=inport
@@ -120,7 +139,7 @@ class SingletonComponentBuilder {
 		return inport
 	}
 	
-	def getOutPort(InforationFlow flow){
+	def getOutPort(InformationFlow flow){
 		val type = trace.get(flow.type) as Interface
 		val outport = type.createPort(flow.outPortName+nameCNTR,false)
 		component.ports+=outport
@@ -157,7 +176,7 @@ class SingletonComponentBuilder {
 			throw new GammaTransformationException("Target port is not in the component",targetInst)
 		}
 		if (! (sourceInst as AsynchronousComponentInstance).type.ports.contains(sourcePort) || sourcePort===null){
-			throw new GammaTransformationException("Target port is not in the component",sourceInst)
+			throw new GammaTransformationException("Source port is not in the component",sourceInst)
 		}
 		channelBuilder.add(sourceInst,sourcePort,targetInst,targetPort)
 	}
@@ -179,6 +198,36 @@ class SingletonComponentBuilder {
 	
 	def build(){
 		if (!isBuilt){
+			
+			// creating failure propagation channels
+		for (subfunc : subcomponent.subfunctions) {
+				val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
+				val funcComp = funcCompInst.type
+				for (subsubfunc : subfunc.type.subfunctions) {
+					for (archInterface : subsubfunc.type.providedInterfaces) {
+						val gammaInterface = trace.get(archInterface) as Interface
+						val source = generateSource(subfunc.gammaName + "_" + subsubfunc.gammaName + "_" + gammaInterface.name, gammaInterface)
+						val outPort = createPort(gammaInterface, subfunc.gammaName + "_" + subsubfunc.gammaName, false)
+
+						val inPort = findPort(funcComp, gammaInterface,
+							subsubfunc.gammaName + gammaInterface.name + "In", true)
+
+						val sourcePort=source.outports.get(0)
+						//hw.source -> hw.port -o)- subfunc.port
+						hwComponent.ports += outPort
+						addChannel(hwComponentInstance, outPort, funcCompInst, inPort)
+						hwComponent.portBindings+=createPortBinding(outPort,source,sourcePort)
+						hwComponent.environmentComponents+=source
+
+					}
+				}
+				
+				//component.packageElement("subsystems")
+
+			}
+			
+			//
+			
 			component.channels+=(channelBuilder.build)
 			isBuilt=true
 		}else{

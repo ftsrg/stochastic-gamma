@@ -28,120 +28,36 @@ import hu.bme.mit.gamma.architecture.model.ElectronicComponent
 import hu.bme.mit.gamma.architecture.model.FlowProperty
 import hu.bme.mit.gamma.architecture.model.ValueType
 import hu.bme.mit.gamma.architecture.model.Direction
+import hu.bme.mit.gamma.statechart.interface_.InterfaceModelFactory
+import hu.bme.mit.gamma.statechart.interface_.EventDirection
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.OperationData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.AttributeData
+import hu.bme.mit.gamma.architecture.model.EnumValueType
+import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
 
 class EAElementTransformation {
-	
-	//Repository repository
+
 	ElementTrace trace
 	ModelFactory modelFactory
-	
+
+	val ifModelFactory = InterfaceModelFactory.eINSTANCE
+	val exprModelFactory = ExpressionModelFactory.eINSTANCE
 	Map<ArchitectureElement, StructuralElement> containingElement;
-	//protected static extension EADataLoader eaDataLoader
-		
+
 	new(ElementTrace trace, Map<ArchitectureElement, StructuralElement> containingElement) {
-		//this.repository=repository
-		this.trace=trace
-		this.modelFactory=ModelFactory.eINSTANCE
+		this.trace = trace
+		this.modelFactory = ModelFactory.eINSTANCE
 		this.containingElement = containingElement
-		//this.eaDataLoader=new EADataLoader(repository,trace)
-		//this.eaDataLoader=new EADataLoader(repository)
 	}
 
-	def createPackage(String name){
+	def createPackage(String name) {
 		var pkg = modelFactory.createArchitecturePackage
 		pkg.name = name
 		return pkg
 	}
-/* 
-	def transformInterface(int elementID) {
-		var eaElement = repository.GetElementByID(elementID)
-		var architectureInterface = modelFactory.createArchitectureInterface
-		architectureInterface.name = eaElement.name
-		trace.add(elementID, architectureInterface, eaElement)
-		return architectureInterface
-	}
-
-
-	def transformPrimitiveFunction(int elementID) {
-		var eaElement = repository.GetElementByID(elementID)
-		var primitiveFunction = modelFactory.createArchitectureSubfunction
-		primitiveFunction.name = eaElement.name
-		trace.add(elementID, primitiveFunction, eaElement)
-		val type = getType(primitiveFunction)
-		primitiveFunction.type = type as ArchitectureFunction
-		val ports = transformPorts(primitiveFunction)
-		primitiveFunction.ports.addAll(ports)
-		return primitiveFunction
-	}
-
-	def ArchitectureSubfunction transformSubfunction(int elementID) {
-		var eaElement = repository.GetElementByID(elementID)
-		var subfunction = modelFactory.createArchitectureSubfunction
-		subfunction.name = eaElement.name
-		trace.add(elementID, subfunction, eaElement)
-		val type = getType(subfunction)
-		subfunction.type = type as ArchitectureFunction
-		val ports = transformPorts(subfunction)
-		subfunction.ports.addAll(ports)
-		val subsubfunctionIDs = getPartIDs(subfunction)
-		val subsubfunctions = subsubfunctionIDs.map[f|transformSubfunction(f)]
-		subfunction.subfunctions.addAll(subsubfunctions)
-		val container = containingElement.get(subfunction)
-		subsubfunctions.forEach[f|containingElement.put(f, container)]
-		ports.forEach[p|containingElement.put(p, container)]
-		return subfunction
-	}
-	
-	def transformFunction(int elementID) {
-		var eaElement = repository.GetElementByID(elementID)
-		var function = modelFactory.createArchitectureFunction
-		function.name = eaElement.name
-		trace.add(elementID, function, eaElement)
-		val ports = transformPorts(function)
-		function.ports.addAll(ports)
-		val subfunctionIDs = getPartIDs(function)
-		val subfunctions = subfunctionIDs.map[f|transformSubfunction(f)]
-		function.subfunctions.addAll(subfunctions)
-		val fref=function
-		subfunctions.forEach[f|containingElement.put(f, fref)]
-		ports.forEach[p|containingElement.put(p, fref)]
-		return function
-	}
-
-	def transformComponent(int elementID) {
-		
-	}
-
-	def transformSubcomponent(int elementID) {		
-		var eaElement = repository.GetElementByID(elementID)
-		var subcomponent = modelFactory.createArchitectureSubcompnent
-		subcomponent.name = eaElement.name
-		trace.add(elementID, subcomponent, eaElement)
-		val type = getType(subcomponent)
-		subcomponent.type = type as ArchitectureComponent
-		val ports = transformPorts(subcomponent)
-		subcomponent.ports.addAll(ports)
-		val subfunctionIDs = getPartIDs(subcomponent)
-		val subfunctions = subfunctionIDs.map[f|transformSubfunction(f)]
-		subcomponent.subfunctions.addAll(subfunctions)
-		val containerFunction = containingElement.get(subcomponent)
-		subfunctions.forEach[f|containingElement.put(f, containerFunction)]
-		return subcomponent
-	}
-
-	def transformPort(int elementID) {
-		var eaElement = repository.GetElementByID(elementID)
-		var architecturePort = modelFactory.createArchitecturePort
-		architecturePort.name = eaElement.name
-		trace.add(elementID, architecturePort, eaElement)
-		val type = getType(architecturePort)
-		architecturePort.type = type as ArchitectureInterface
-		return architecturePort
-	}
-*/
 
 	def transformPort(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ArchitecturePort
 		}
 		var architecturePort = modelFactory.createArchitecturePort
@@ -155,7 +71,7 @@ class EAElementTransformation {
 	}
 
 	def transformPort(ElementData data, boolean conj) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ArchitecturePort
 		}
 		var architecturePort = modelFactory.createArchitecturePort
@@ -170,7 +86,7 @@ class EAElementTransformation {
 	}
 
 	def transformSubfunction(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ArchitectureSubfunction
 		}
 		var architectureSubfunction = modelFactory.createArchitectureSubfunction
@@ -184,7 +100,7 @@ class EAElementTransformation {
 	}
 
 	def transformSubcomponent(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ArchitectureSubcompnent
 		}
 		var architectureSubcomponent = modelFactory.createArchitectureSubcompnent
@@ -198,7 +114,7 @@ class EAElementTransformation {
 	}
 
 	def transformInterface(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ArchitectureInterface
 		}
 		var architectureInterface = modelFactory.createArchitectureInterface
@@ -208,7 +124,7 @@ class EAElementTransformation {
 	}
 
 	def transformValueType(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ValueType
 		}
 		var valueType = modelFactory.createValueType
@@ -217,8 +133,18 @@ class EAElementTransformation {
 		return valueType
 	}
 
+	def transformEnum(ElementData data) {
+		if (trace.contains(data.elementID)) {
+			return trace.get(data.elementID) as EnumValueType 
+		}
+		var valueType = modelFactory.createEnumValueType
+		valueType.name = data.name.simplifyName
+		trace.add(valueType, data)
+		return valueType
+	}
+
 	def transformFlowProperty(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as FlowProperty
 		}
 		var flowProperty = modelFactory.createFlowProperty
@@ -232,7 +158,7 @@ class EAElementTransformation {
 	}
 
 	def transformFunction(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ArchitectureFunction
 		}
 		var architectureFunction = modelFactory.createArchitectureFunction
@@ -242,7 +168,7 @@ class EAElementTransformation {
 	}
 
 	def transformElectronicComponent(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as ElectronicComponent
 		}
 		var architectureComponent = modelFactory.createElectronicComponent
@@ -252,7 +178,7 @@ class EAElementTransformation {
 	}
 
 	def transformMechanicalComponent(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as MechanicalComponent
 		}
 		var architectureComponent = modelFactory.createMechanicalComponent
@@ -260,9 +186,9 @@ class EAElementTransformation {
 		trace.add(architectureComponent, data)
 		return architectureComponent
 	}
-	
+
 	def transformSoftwareComponent(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as SoftwareComponent
 		}
 		var architectureComponent = modelFactory.createSoftwareComponent
@@ -270,9 +196,9 @@ class EAElementTransformation {
 		trace.add(architectureComponent, data)
 		return architectureComponent
 	}
-	
+
 	def transformSystemComponent(ElementData data) {
-		if (trace.contains(data.elementID)){
+		if (trace.contains(data.elementID)) {
 			return trace.get(data.elementID) as hu.bme.mit.gamma.architecture.model.System
 		}
 		var architectureSystemComponent = modelFactory.createSystem
@@ -281,16 +207,54 @@ class EAElementTransformation {
 		return architectureSystemComponent
 	}
 
-/*
-
-	def transformPorts(StructuralElement element) {
-		val elementID = trace.get(element)
-		val xml = runQuery(SQLUtils.getPorts(elementID).toString)
-		val portIDs = XMLUtils.getElementIDs(xml)
-		var ports = portIDs.map[portID|transformPort(portID)]
-		return ports
+	def transformSignal(ElementData data) {
+		if (trace.contains(data.elementID)) {
+			return trace.get(data.elementID) as hu.bme.mit.gamma.architecture.model.System
+		}
+		var architectureInterface = modelFactory.createArchitectureInterface
+		architectureInterface.name = data.name.simplifyName + "Interface"
+		val event = ifModelFactory.createEvent
+		event.name = data.name.simplifyName
+		val eventDecl = ifModelFactory.createEventDeclaration
+		eventDecl.event = event
+		eventDecl.direction = EventDirection.OUT
+		architectureInterface.events.add(eventDecl)
+		trace.add(architectureInterface, data)
+		return architectureInterface
 	}
 
- */
+	def transformReception(OperationData data) {
+		val elementGUID = data.style_ex.replace("-=1;SignalGUID=", "").replace(";", "")
+		if (trace.contains(elementGUID) && trace.contains(data.element_id)) {
+			val signalInterface = trace.get(trace.get(elementGUID)) as ArchitectureInterface
+			val architectureInterface = trace.get(data.element_id) as ArchitectureInterface
+			architectureInterface.parents += signalInterface
+		}
+	}
+
+	def transformAttribute(AttributeData data) {
+		if (trace.contains(data.element_id)) {
+			val container = trace.get(data.element_id)
+			if (container instanceof ArchitectureInterface) {
+				var flowProperty = modelFactory.createFlowProperty
+				flowProperty.name = data.name.simplifyName
+				val type = trace.get(data.type_id) as ValueType
+				flowProperty.type = type as ValueType
+				flowProperty.direction = Direction.OUT
+				container.flowproperties += flowProperty
+			} else if (container instanceof EnumValueType) {
+				var literal = modelFactory.createValueProperty
+				literal.name = data.name.simplifyName
+				container.valueproperties += literal
+			} else if (container instanceof ValueType) {
+				var property = modelFactory.createValueProperty
+				property.name = data.name.simplifyName
+				val type = trace.get(data.type_id) as ValueType
+				property.type = type as ValueType
+				container.valueproperties += property
+			}
+		}
+
+	}
 
 }

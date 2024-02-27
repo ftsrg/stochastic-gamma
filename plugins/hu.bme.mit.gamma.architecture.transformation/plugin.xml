@@ -14,12 +14,4 @@
             genModel="model/architecture.genmodel"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated architecture -->
-      <package
-            uri="http://www.mit.bme.hu/gamma/statechart/Model/Interface"
-            class="interface_.InterfacePackage"
-            genModel="model/architecture.genmodel"/>
-   </extension>
-
 </plugin>
