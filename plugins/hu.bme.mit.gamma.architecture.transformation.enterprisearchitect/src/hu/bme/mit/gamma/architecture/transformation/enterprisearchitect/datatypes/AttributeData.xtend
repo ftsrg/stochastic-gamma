@@ -6,6 +6,7 @@ class AttributeData {
 		public val long type_id
 		public val String scope
 		public val String GUID
+		public val String type
 		public val boolean isConst
 		public val long lowerBound
 		public val long upperBound
@@ -16,6 +17,7 @@ class AttributeData {
 			long type_id,
 			String scope,
 			String GUID,
+			String type,
 			boolean isConst,
 			long lowerBound,
 			long upperBound
@@ -25,6 +27,7 @@ class AttributeData {
 			this.type_id = type_id
 			this.scope = scope
 			this.GUID = GUID
+			this.type = type
 			this.isConst=isConst
 			this.lowerBound=lowerBound
 			this.upperBound=upperBound

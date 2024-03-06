@@ -34,6 +34,7 @@ import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatype
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.AttributeData
 import hu.bme.mit.gamma.architecture.model.EnumValueType
 import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
+import hu.bme.mit.gamma.architecture.model.ArchitecturePackage
 
 class EAElementTransformation {
 
@@ -238,8 +239,16 @@ class EAElementTransformation {
 			if (container instanceof ArchitectureInterface) {
 				var flowProperty = modelFactory.createFlowProperty
 				flowProperty.name = data.name.simplifyName
-				val type = trace.get(data.type_id) as ValueType
-				flowProperty.type = type as ValueType
+				var ValueType type = null 
+				if (data.type_id<=0){
+					//throw new UnsupportedOperationException("UML primitive type library not supported yet for attributes"+data.name)
+					type=modelFactory.createValueType
+					type.name=data.type.simplifyName
+					trace.rootPkg.architectureelement+=type
+				}else{
+					type=trace.get(data.type_id) as ValueType
+				}
+				flowProperty.type = type
 				flowProperty.direction = Direction.OUT
 				container.flowproperties += flowProperty
 			} else if (container instanceof EnumValueType) {
@@ -249,8 +258,15 @@ class EAElementTransformation {
 			} else if (container instanceof ValueType) {
 				var property = modelFactory.createValueProperty
 				property.name = data.name.simplifyName
-				val type = trace.get(data.type_id) as ValueType
-				property.type = type as ValueType
+				var ValueType type = null 
+				if (data.type_id==-1){
+					//throw new UnsupportedOperationException("UML primitive type library not supported yet for attributes"+data.name)
+					type=modelFactory.createValueType
+					type.name=data.type.simplifyName
+				}else{
+					type=trace.get(data.type_id) as ValueType
+				}
+				property.type = type
 				container.valueproperties += property
 			}
 		}

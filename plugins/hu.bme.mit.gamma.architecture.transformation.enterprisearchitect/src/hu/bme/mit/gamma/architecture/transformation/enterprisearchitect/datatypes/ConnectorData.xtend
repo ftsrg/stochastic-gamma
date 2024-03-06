@@ -7,14 +7,16 @@ class ConnectorData {
 		public val String Type;
 		public val String PDATA1;
 		public val String PDATA2;
+		public val String PDATA3;
 
-		new(String Name, int sourceID, int targetID, String Type,String PDATA1,String PDATA2) {
+		new(String Name, int sourceID, int targetID, String Type,String PDATA1,String PDATA2,String PDATA3) {
 			this.Name = Name
 			this.Type = Type
 			this.sourceID = sourceID
 			this.targetID = targetID
 			this.PDATA1 = PDATA1
 			this.PDATA2 = PDATA2
+			this.PDATA3 = PDATA3
 		}
 
 		new(String Name, int sourceID, int targetID) {
@@ -24,5 +26,6 @@ class ConnectorData {
 			this.Type = ""
 			this.PDATA1 = ''
 			this.PDATA2 = ""
+			this.PDATA3 = ""
 		}
 }

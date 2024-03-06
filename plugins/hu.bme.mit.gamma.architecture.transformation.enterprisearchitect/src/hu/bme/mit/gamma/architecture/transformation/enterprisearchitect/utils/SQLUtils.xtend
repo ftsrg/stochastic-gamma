@@ -459,7 +459,8 @@ class SQLUtils {
 			t_connector.End_Object_ID as END_Object_ID, 
 			t_connector.Name as Name,
 			PDATA1,
-			PDATA2
+			PDATA2,
+			PDATA3
 	from t_connector 
 	where 
 		Connector_Type = 'StateFlow'

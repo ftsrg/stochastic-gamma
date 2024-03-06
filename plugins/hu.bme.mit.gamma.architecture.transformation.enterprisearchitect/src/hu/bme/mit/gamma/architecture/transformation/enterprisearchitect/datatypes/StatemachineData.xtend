@@ -15,6 +15,8 @@ class StatemachineData {
 	public val List<ElementData> stateData
 	public val List<ElementData> pseudoStateData
 	public val List<ElementData> syncStateData
+	public val List<AttributeData> attributeData 
+	public val List<OperationData> operationData 
 
 	new(EADataLoader eaDataLoader, List<Long> packageIDs) {
 
@@ -26,6 +28,8 @@ class StatemachineData {
 		this.stateData = eaDataLoader.loadAllStateData(packageIDs)
 		this.pseudoStateData = eaDataLoader.loadAllPseudostateData(packageIDs)
 		this.syncStateData = eaDataLoader.loadAllSyncStateData(packageIDs)
+		this.attributeData = eaDataLoader.loadAllAttributes
+		this.operationData = eaDataLoader.loadAllOperationData
 
 	}
 

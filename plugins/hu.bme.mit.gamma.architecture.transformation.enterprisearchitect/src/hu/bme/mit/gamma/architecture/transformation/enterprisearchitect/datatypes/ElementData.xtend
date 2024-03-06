@@ -33,7 +33,7 @@ class ElementData {
 			this.elementID = elementID
 			this.conainerID = conainerID
 			this.packageID = packageID
-			this.nType = packageID
+			this.nType = nType
 			this.GUID = GUID
 			this.PDATA1 = PDATA1
 			this.PDATA4 = PDATA4

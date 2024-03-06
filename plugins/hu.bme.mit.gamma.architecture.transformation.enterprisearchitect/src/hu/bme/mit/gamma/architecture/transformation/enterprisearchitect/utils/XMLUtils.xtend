@@ -174,6 +174,7 @@ class XMLUtils {
 			var long type_id
 			var String scope
 			var String GUID
+			var String type
 			var boolean isConst
 			var long lowerBound
 			var long upperBound
@@ -214,6 +215,9 @@ class XMLUtils {
 						isConst = Long.valueOf(field.textContent)!=0
 					}
 				}
+				if (field.nodeName == "Type") {
+					type = field.textContent
+				}
 				if (field.nodeName == "Scope") {
 					scope = field.textContent
 				}
@@ -227,6 +231,7 @@ class XMLUtils {
 				type_id,
 				scope,
 				GUID,
+				type,
 				isConst,
 				lowerBound,
 				upperBound
@@ -341,6 +346,7 @@ class XMLUtils {
 			var type = ""
 			var PDATA1 = ""
 			var PDATA2 = ""
+			var PDATA3 = ""
 			for (j : 0 .. fields.length - 1) {
 				var field = fields.item(j)
 				if (field.nodeName == "Name") {
@@ -361,6 +367,9 @@ class XMLUtils {
 				if (field.nodeName == "PDATA2") {
 					PDATA2 = field.textContent
 				}
+				if (field.nodeName == "PDATA3") {
+					PDATA3 = field.textContent
+				}
 			}
 			if (sourceID == -1) {
 				throw new MissingFormatArgumentException("Source of connection is not in XML")
@@ -368,7 +377,7 @@ class XMLUtils {
 			if (targetID == -1) {
 				throw new MissingFormatArgumentException("Target of connection is not in XML")
 			}
-			dataList.add(new ConnectorData(name, sourceID, targetID, type, PDATA1, PDATA2))
+			dataList.add(new ConnectorData(name, sourceID, targetID, type, PDATA1, PDATA2, PDATA3))
 		}
 		return dataList
 	}

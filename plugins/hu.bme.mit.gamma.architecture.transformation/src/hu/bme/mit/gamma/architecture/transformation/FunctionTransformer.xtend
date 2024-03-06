@@ -55,6 +55,13 @@ class FunctionTransformer {
 		this.trace = trace
 		this.elementTransformer = new ElementTransformer(trace)
 		this.relationTransformer = new RelationTransfomer(trace)
+		
+		if (function.subfunctions.empty){
+			throw new ArchitectureException("Function shall contain at least one subfunction",function)
+		}
+		if (function.ports.empty){
+			throw new ArchitectureException("Function shall contain at least one port",function)
+		}
 	}
 
 	def execute() {

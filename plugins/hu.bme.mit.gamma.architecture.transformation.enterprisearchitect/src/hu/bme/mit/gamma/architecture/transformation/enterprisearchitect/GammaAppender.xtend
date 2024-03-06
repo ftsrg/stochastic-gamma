@@ -1,39 +1,45 @@
 package hu.bme.mit.gamma.architecture.transformation.enterprisearchitect
 
+import hu.bme.mit.gamma.action.model.Action
+import hu.bme.mit.gamma.action.model.ActionModelFactory
+import hu.bme.mit.gamma.architecture.model.ValueType
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.AttributeData
-import java.util.List
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ConnectorData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ElementData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.StatemachineData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.XrefData
-import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ObjectPropertyData
-import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.OperationData
-import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTrace
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.parser.ExpressionParser
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.traceability.ElementTrace
+import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
+import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTrace
 import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
+import hu.bme.mit.gamma.expression.model.NamedElement
+import hu.bme.mit.gamma.expression.model.ReferenceExpression
+import hu.bme.mit.gamma.expression.model.Type
 import hu.bme.mit.gamma.statechart.interface_.InterfaceModelFactory
-import hu.bme.mit.gamma.expression.model.EnumerationTypeDefinition
+import hu.bme.mit.gamma.statechart.interface_.TimeUnit
+import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
+import hu.bme.mit.gamma.statechart.statechart.InitialState
+import hu.bme.mit.gamma.statechart.statechart.PseudoState
+import hu.bme.mit.gamma.statechart.statechart.Region
+import hu.bme.mit.gamma.statechart.statechart.State
+import hu.bme.mit.gamma.statechart.statechart.StateNode
+import hu.bme.mit.gamma.statechart.statechart.StatechartModelFactory
+import hu.bme.mit.gamma.util.GammaEcoreUtil
+import java.math.BigInteger
+import java.util.List
+import java.util.logging.Level
+import java.util.logging.Logger
 
 import static extension hu.bme.mit.gamma.architecture.transformation.util.TransformationUtils.*
-import hu.bme.mit.gamma.expression.model.RecordTypeDefinition
-import hu.bme.mit.gamma.expression.model.Type
-import hu.bme.mit.gamma.architecture.model.ValueType
-import hu.bme.mit.gamma.statechart.interface_.Component
-import hu.bme.mit.gamma.statechart.composite.AsynchronousComponent
-import hu.bme.mit.gamma.statechart.composite.SynchronousComponent
-import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
-import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ElementData
-import hu.bme.mit.gamma.statechart.interface_.EventDirection
-import hu.bme.mit.gamma.statechart.statechart.StatechartModelFactory
-import hu.bme.mit.gamma.expression.model.NamedElement
-import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
-import hu.bme.mit.gamma.statechart.statechart.State
-import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
-import hu.bme.mit.gamma.statechart.statechart.Region
-import hu.bme.mit.gamma.statechart.statechart.PseudoState
-import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ConnectorData
-import hu.bme.mit.gamma.statechart.statechart.StateNode
-import hu.bme.mit.gamma.statechart.statechart.InitialState
-import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.StatemachineData
+import static extension hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures.*
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.OperationData
 
 class GammaAppender {
+
+	protected extension val GammaEcoreUtil gammaEcoreUtil = GammaEcoreUtil.INSTANCE
+
 	/* 
 	 * 	val List<AttributeData> attributeDataList
 	 * 	val List<XrefData> xrefDataList
@@ -45,18 +51,26 @@ class GammaAppender {
 	val ElementTrace elementTrace
 
 	val StatemachineData statemachineData
+	val ExpressionParser parser
 
 	val expModelFactory = ExpressionModelFactory.eINSTANCE
 	val sctModelFactory = StatechartModelFactory.eINSTANCE
 	val ifModelFactory = InterfaceModelFactory.eINSTANCE
+	val actModelFactory = ActionModelFactory.eINSTANCE
 
 	val guid2gamma = <String, NamedElement>newHashMap
 	val id2state = <Long, StateNode>newHashMap
 	// val gamma2guid = <NamedElement,String>newHashMap
 	val guid2statemachine = <String, NamedElement>newHashMap
+	val id2statemachine = <Long, AsynchronousStatechartDefinition>newHashMap
 
 	val inCNTRs = <Long, Integer>newHashMap
 	val outCNTRs = <Long, Integer>newHashMap
+
+	protected Logger logger = Logger.getLogger("GammaLogger");
+
+	var int psNameCNTR = 0
+	var int toNameCNTR = 0
 
 	new(
 		/* 
@@ -76,11 +90,18 @@ class GammaAppender {
 		this.statemachineData = elementTrace.statemachineData
 		this.archTrace = archTrace
 		this.elementTrace = elementTrace
+		this.parser = new ExpressionParser(archTrace)
 
 	}
 
 	def getByGUID(String GUID) {
 		return guid2gamma.get(GUID)
+	}
+
+	def getRegionGUID(XrefData data) {
+		val descList = data.description.split(";")
+		val conainingRegionGUID = descList.get(2).replace("@VALU=", "").replace("@ENDVALU", "")
+		return conainingRegionGUID
 	}
 
 	def isRegionDefinition(XrefData data) {
@@ -100,6 +121,7 @@ class GammaAppender {
 
 		val region = sctModelFactory.createRegion
 		region.name = name.gammaName
+		guid2gamma.put(guid, region)
 
 		val container = getByGUID(conatinerGuid)
 		if (container instanceof AsynchronousStatechartDefinition) {
@@ -114,10 +136,9 @@ class GammaAppender {
 	}
 
 	def createStateContainment(XrefData data) {
-		val descList = data.description.split(";")
-		val conainingRegionGUID = descList.get(2).replace("@VALU=", "").replace("@ENDVALU", "")
+		val conainingRegionGUID = data.regionGUID
 		val stateGUID = data.client
-		val state = guid2gamma.get(stateGUID) as State
+		val state = guid2gamma.get(stateGUID) as StateNode
 		val region = guid2gamma.get(conainingRegionGUID) as Region
 		region.stateNodes += state
 		guid2statemachine.put(stateGUID, guid2statemachine.get(region.eContainer as NamedElement))
@@ -129,13 +150,51 @@ class GammaAppender {
 		state.name = name
 		guid2gamma.put(data.GUID, state)
 		id2state.put(data.elementID, state)
+		id2statemachine.put(data.elementID, id2statemachine.get(data.conainerID))
 	}
 
 	def processStatemachine(ElementData data) {
 		val container = archTrace.get(elementTrace.get(data.conainerID))
 		if (container instanceof AsynchronousStatechartDefinition) {
+
+			// val region = sctModelFactory.createRegion
+			// region.name = data.name.gammaName
+			// container.regions+=region
 			guid2gamma.put(data.GUID, container)
+			id2statemachine.put(new Long(data.elementID), container)
+		} else {
+			logger.log(Level.WARNING, '''Container od statemachine is not transformed to Gamma GUID=«data.GUID»''')
 		}
+	}
+
+	def processAttributeData(AttributeData data) {
+
+		if (id2statemachine.containsKey(data.element_id)) {
+			val sct = id2statemachine.get(data.element_id)
+			val varDecl = expModelFactory.createVariableDeclaration
+			varDecl.name = data.name.gammaName
+
+			var Type type = null
+			if (data.type_id == -1) {
+				// throw new UnsupportedOperationException("UML primitive type library not supported yet for attributes"+data.name)
+				switch data.type {
+					case "int": type = expModelFactory.createIntegerTypeDefinition
+					case "Integer": type = expModelFactory.createIntegerTypeDefinition
+					case "byte": type = expModelFactory.createIntegerTypeDefinition
+					case "short": type = expModelFactory.createIntegerTypeDefinition
+					case "long": type = expModelFactory.createIntegerTypeDefinition
+					case "double": type = expModelFactory.createDecimalTypeDefinition
+					case "boolean": type = expModelFactory.createBooleanTypeDefinition
+					default: type = expModelFactory.createDecimalTypeDefinition
+				}
+			} else {
+				type = archTrace.get(elementTrace.get(data.type_id) as ValueType).clone()
+			}
+
+			varDecl.type = type
+			sct.variableDeclarations += varDecl
+		}
+
 	}
 
 	def createPseudostate(ElementData data) {
@@ -152,15 +211,15 @@ class GammaAppender {
 					"Final state node is not supported yet in state diagrams " + data.name)
 			case 10:
 				state = sctModelFactory.createMergeState
-				
 			default:
 				throw new GammaTransformationException(
 					"Unknown pseudostate type in state diagram name: " + data.name + "; NType=" + data.nType)
 		}
-		val name = data.name.gammaName
+		val name = data.name.gammaName + psNameCNTR++
 		state.name = name
 		guid2gamma.put(data.GUID, state)
 		id2state.put(data.elementID, state)
+		id2statemachine.put(data.elementID, id2statemachine.get(data.conainerID))
 	}
 
 	def labelSynchronizations(List<ElementData> elementData, List<ConnectorData> connectorData) {
@@ -190,15 +249,205 @@ class GammaAppender {
 		state.name = data.name.gammaName
 		guid2gamma.put(data.GUID, state)
 		id2state.put(data.elementID, state)
+		id2statemachine.put(data.elementID, id2statemachine.get(data.conainerID))
 		return state
 	}
 
 	def createTransition(ConnectorData data) {
-		val transition = sctModelFactory.createTransition
-		transition.sourceState = id2state.get(data.sourceID)
-		transition.sourceState = id2state.get(data.targetID)
-		if (!(id2state.get(data.sourceID) instanceof InitialState)) {
-			transition.trigger = ifModelFactory.createAnyTrigger
+		if (id2statemachine.containsKey(data.sourceID)) {
+			val statemachine = id2statemachine.get(data.sourceID)
+			var sourceState = id2state.get(data.sourceID)
+			var targetState = id2state.get(data.targetID)
+			val effects = transformEffect(statemachine, data.PDATA3)
+			if (!(sourceState instanceof InitialState)) {
+				if (data.PDATA1.contains(",")) {
+					val merge = sctModelFactory.createMergeState
+					val reg = (targetState.eContainer as Region)
+					reg.stateNodes += merge
+					merge.name = "autoMerge" + psNameCNTR++
+					val tr1 = sctModelFactory.createTransition
+					tr1.sourceState = merge
+					tr1.targetState = targetState
+					statemachine.transitions += tr1
+					targetState = merge
+				}
+				val triggerStrList = data.PDATA1.split('''\,''')
+				for (triggerStr : triggerStrList) {
+					val transition = sctModelFactory.createTransition
+					transition.sourceState = sourceState
+					transition.targetState = targetState
+					transition.guard = parser.eval(data.PDATA2, statemachine)
+					transition.effects += effects
+					if (triggerStr == "any") {
+						transition.trigger = ifModelFactory.createAnyTrigger
+					} else if (triggerStr == "cycle") {
+						transition.trigger = sctModelFactory.createOnCycleTrigger
+					} else if (triggerStr.contains("after")) {
+						val timeOut = sctModelFactory.createTimeoutDeclaration
+						timeOut.name = "timeout" + transition.sourceState.name + toNameCNTR++
+						statemachine.timeoutDeclarations += timeOut
+						val trigger = ifModelFactory.createEventTrigger
+						val ref = sctModelFactory.createTimeoutEventReference
+						ref.timeout = timeOut
+						trigger.eventReference = ref
+						transition.trigger = trigger
+						if (sourceState instanceof State) {
+							// val timeList = triggerStr.split('''\s+''')
+							val timeValue = expModelFactory.createIntegerLiteralExpression
+							timeValue.value = new BigInteger(triggerStr.replaceAll('''(after|ms|s|h|\s)''', ""))
+							val timeUnit = switch triggerStr.replaceAll('''(after|\d|\s)''',"") {
+								case "ms":
+									TimeUnit.MILLISECOND
+								case "s":
+									TimeUnit.SECOND
+								case "h":
+									TimeUnit.HOUR
+								default:
+									throw new ArchitectureException("Time trigger cannot be parsed : " + triggerStr)
+							}
+							val act = sctModelFactory.createSetTimeoutAction
+							val t = ifModelFactory.createTimeSpecification
+							t.value = timeValue
+							t.unit = timeUnit
+							act.time = t
+							act.timeoutDeclaration = timeOut
+							sourceState.entryActions += act
+						} else {
+							throw new ArchitectureException(
+								"Source state of transition shall not be pseudostate Source ID=" + data.sourceID)
+						}
+					} else if (triggerStr.replace(" ", "").contains("change(")) {
+						val fpRefList = triggerStr.replace(" ", "").replace("change(", "").replace(")", "").
+							split('''\.''')
+						val portName = fpRefList.get(0)
+						val fpName = fpRefList.get(1)
+						val eventTrig = ifModelFactory.createEventTrigger
+						val ref = sctModelFactory.createPortEventReference
+						ref.port = statemachine.ports.filter[p|p.name.contains(portName)].get(0)
+						ref.event = ref.port.interfaceRealization.interface.events.filter [ e |
+							e.event.name.equals("changeOf" + fpName.toFirstUpper)
+						].get(0).event
+						eventTrig.eventReference = ref
+						transition.trigger = eventTrig
+
+					} else if (triggerStr.replace(" ", "").contains(".any")) {
+						val fpRefList = triggerStr.replace(" ", "").split('''\.''')
+						val portName = fpRefList.get(0)
+						val eventName = fpRefList.get(1)
+						val eventTrig = ifModelFactory.createEventTrigger
+						val ref = sctModelFactory.createAnyPortEventReference
+						ref.port = statemachine.ports.filter[p|p.name.contains(portName)].get(0)
+						eventTrig.eventReference = ref
+						transition.trigger = eventTrig
+					} else if (triggerStr.contains(".")) {
+						val fpRefList = triggerStr.replace(" ", "").split('''\.''')
+						val portName = fpRefList.get(0)
+						val eventName = fpRefList.get(1)
+						val eventTrig = ifModelFactory.createEventTrigger
+						val ref = sctModelFactory.createPortEventReference
+						ref.port = statemachine.ports.filter[p|p.name.contains(portName)].get(0)
+						ref.event = ref.port.interfaceRealization.interface.events.filter [ e |
+							e.event.name.contains(eventName)
+						].get(0).event
+						eventTrig.eventReference = ref
+						transition.trigger = eventTrig
+					}
+					statemachine.transitions += transition
+				}
+			} else {
+				val transition = sctModelFactory.createTransition
+				transition.sourceState = id2state.get(data.sourceID)
+				transition.targetState = id2state.get(data.targetID)
+				transition.guard = parser.eval(data.PDATA2, statemachine);
+				transition.effects += effects
+				statemachine.transitions += transition
+			}
+		}
+	}
+
+	def transformEffect(AsynchronousStatechartDefinition statechart, String effectString) {
+
+		val effects = <Action>newLinkedList
+
+		if (effectString.isBlank) {
+			return effects
+		}
+
+		var effectStringList = effectString.split(";");
+		for (actionStr : effectStringList) {
+			if (actionStr.isBlank) {
+			} else if (actionStr.contains(":=")) {
+				val statementList = actionStr.split(":=")
+				val lhsStr = statementList.get(0)
+				val rhsStr = statementList.get(1)
+				if (lhsStr.contains(".")) {
+					val fpList = lhsStr.split("\\.")
+					val portName = fpList.get(0).replace(" ","")
+					val eventName = fpList.get(1).replace(" ","")
+					val exp = parser.eval(rhsStr, statechart)
+					val act = sctModelFactory.createRaiseEventAction
+					val portList = statechart.allPortsWithOutput.filter[p|p.name.contains(portName.gammaName)].toList
+					if (portList.length > 1) {
+						throw new ArchitectureException('''Port reference "«portName»" in action "«actionStr»" is ambigous ''')
+					}
+					if (portList.length == 0) {
+						throw new ArchitectureException('''Port reference "«portName»" in action "«actionStr»" is not found ''')
+					}
+					act.port = portList.get(0)
+					val eventList = act.port.allEvents.filter[e|e.name.equals("changeOf" + eventName.toFirstUpper)].
+						toList
+					if (eventList.length > 1) {
+						throw new ArchitectureException('''Event reference "«eventName»" in action "«actionStr»" is ambigous ''')
+					}
+					if (eventList.length == 0) {
+						throw new ArchitectureException('''Event reference "«eventName»" in action "«actionStr»" is not found ''')
+					}
+					act.event = eventList.get(0)
+					act.arguments += exp
+					effects += act
+				} else {
+					val act = actModelFactory.createAssignmentStatement
+					act.lhs = parser.eval(statementList.get(0), statechart) as ReferenceExpression
+					act.rhs = parser.eval(statementList.get(1), statechart)
+					effects += act
+				}
+
+			} else if (actionStr.matches("^raise.+")) {
+				val eventStrList = actionStr.replaceAll("^raise", "").split("\\(")
+				val eventStr = eventStrList.get(0)
+				val argStr = effectStringList.get(1).replace(')', '')
+				val fpList = eventStr.split(".")
+				val portName = fpList.get(0).replace(" ","")
+				val eventName = fpList.get(1).replace(" ","")
+				val exp = parser.eval(argStr, statechart)
+				val act = sctModelFactory.createRaiseEventAction
+				act.port = statechart.ports.filter[p|p.name.contains(portName)].toList.get(0)
+				act.event = act.port.allEvents.filter[e|e.name.equals("changeOf" + eventName.toFirstUpper)].toList.
+					get(0)
+				act.arguments += exp
+				effects += act
+
+			} else {
+				throw new RuntimeException('''Action "«actionStr»" in Effect "«effectString»" cannot be parsed''')
+			}
+		}
+
+		return effects
+
+	}
+
+	def processOperation(OperationData data) {
+		if (id2state.containsKey(data.element_id)) {
+			if (data.type == "entry") {
+				val state = id2state.get(data.element_id) as State
+				val sct = id2statemachine.get(data.element_id)
+				state.entryActions += transformEffect(sct, data.name)
+			} else if (data.type == "exit") {
+				val state = id2state.get(data.element_id) as State
+				val sct = id2statemachine.get(data.element_id)
+				state.exitActions += transformEffect(sct, data.name)
+			}
+
 		}
 	}
 
@@ -209,6 +458,9 @@ class GammaAppender {
 				val GUID = elementTrace.getGUID(elementID)
 				val gammaElement = archTrace.get(elementTrace.get(elementID))
 				guid2gamma.put(GUID, gammaElement)
+				if (gammaElement instanceof AsynchronousStatechartDefinition) {
+					id2statemachine.put(elementID, gammaElement)
+				}
 			}
 		}
 
@@ -236,24 +488,38 @@ class GammaAppender {
 			createForkJoin(data)
 		}
 
+		val regionDataBuff = <XrefData>newHashSet
+		val regionContDataBuff = <XrefData>newHashSet
+
 		while (shallRun) {
 			shallRun = false
 			for (data : statemachineData.regionData) {
-				if (guid2gamma.containsKey(data.client)) {
+				if (guid2gamma.containsKey(data.client) && (!regionDataBuff.contains(data))) {
 					data.createRegion
 					shallRun = true
+					regionDataBuff.add(data)
 				}
 			}
 			for (data : statemachineData.regionContainmentData) {
-				if (guid2gamma.containsKey(data.client)) {
+				val regGUID = data.regionGUID
+				if (guid2gamma.containsKey(regGUID) && (!regionContDataBuff.contains(data))) {
 					data.createStateContainment
 					shallRun = true
+					regionContDataBuff.add(data)
 				}
 			}
 		}
 
+		for (data : statemachineData.attributeData) {
+			processAttributeData(data)
+		}
+
 		for (data : statemachineData.transitionData) {
 			createTransition(data)
+		}
+
+		for (data : statemachineData.operationData) {
+			processOperation(data)
 		}
 
 	}

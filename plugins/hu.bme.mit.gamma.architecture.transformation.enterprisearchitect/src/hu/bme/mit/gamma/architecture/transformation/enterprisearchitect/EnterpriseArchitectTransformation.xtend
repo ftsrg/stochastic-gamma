@@ -109,6 +109,7 @@ class EnterpriseArchitectTransformation {
 		connectorTransformation = new EAConnectorTransformation(repository, trace, containingElement)
 		root_pkg = createPackage("ArchitectureModel")
 
+		trace.rootPkg = root_pkg
 	}
 
 	def showElement(ArchitectureElement element) {
@@ -340,7 +341,6 @@ class EnterpriseArchitectTransformation {
 		
 		logger.log(Level.INFO, "Architecture Transformation is finished")
 
-		trace.rootPkg = root_pkg
 		return trace
 
 	}
