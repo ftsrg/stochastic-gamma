@@ -4496,35 +4496,10 @@ ruleEnvironementEventSource returns [EObject current=null]
 		)
 		(
 			(
-				(
-					{
-						newCompositeNode(grammarAccess.getEnvironementEventSourceAccess().getOutportsPortParserRuleCall_2_0_0());
-					}
-					lv_outports_2_0=rulePort
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getEnvironementEventSourceRule());
-						}
-						add(
-							$current,
-							"outports",
-							lv_outports_2_0,
-							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			otherlv_3=','
-			{
-				newLeafNode(otherlv_3, grammarAccess.getEnvironementEventSourceAccess().getCommaKeyword_2_1());
-			}
-		)*
-		(
-			(
 				{
-					newCompositeNode(grammarAccess.getEnvironementEventSourceAccess().getOutportsPortParserRuleCall_3_0());
+					newCompositeNode(grammarAccess.getEnvironementEventSourceAccess().getOutportsPortParserRuleCall_2_0());
 				}
-				lv_outports_4_0=rulePort
+				lv_outports_2_0=rulePort
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getEnvironementEventSourceRule());
@@ -4532,12 +4507,37 @@ ruleEnvironementEventSource returns [EObject current=null]
 					add(
 						$current,
 						"outports",
-						lv_outports_4_0,
+						lv_outports_2_0,
 						"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
+		(
+			otherlv_3=','
+			{
+				newLeafNode(otherlv_3, grammarAccess.getEnvironementEventSourceAccess().getCommaKeyword_3_0());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getEnvironementEventSourceAccess().getOutportsPortParserRuleCall_3_1_0());
+					}
+					lv_outports_4_0=rulePort
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getEnvironementEventSourceRule());
+						}
+						add(
+							$current,
+							"outports",
+							lv_outports_4_0,
+							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
 		otherlv_5='{'
 		{
 			newLeafNode(otherlv_5, grammarAccess.getEnvironementEventSourceAccess().getLeftCurlyBracketKeyword_4());
@@ -4618,35 +4618,10 @@ rulePeriodicEnvironementEventSource returns [EObject current=null]
 		)
 		(
 			(
-				(
-					{
-						newCompositeNode(grammarAccess.getPeriodicEnvironementEventSourceAccess().getOutportsPortParserRuleCall_3_0_0());
-					}
-					lv_outports_3_0=rulePort
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getPeriodicEnvironementEventSourceRule());
-						}
-						add(
-							$current,
-							"outports",
-							lv_outports_3_0,
-							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			otherlv_4=','
-			{
-				newLeafNode(otherlv_4, grammarAccess.getPeriodicEnvironementEventSourceAccess().getCommaKeyword_3_1());
-			}
-		)*
-		(
-			(
 				{
-					newCompositeNode(grammarAccess.getPeriodicEnvironementEventSourceAccess().getOutportsPortParserRuleCall_4_0());
+					newCompositeNode(grammarAccess.getPeriodicEnvironementEventSourceAccess().getOutportsPortParserRuleCall_3_0());
 				}
-				lv_outports_5_0=rulePort
+				lv_outports_3_0=rulePort
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getPeriodicEnvironementEventSourceRule());
@@ -4654,12 +4629,37 @@ rulePeriodicEnvironementEventSource returns [EObject current=null]
 					add(
 						$current,
 						"outports",
-						lv_outports_5_0,
+						lv_outports_3_0,
 						"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
+		(
+			otherlv_4=','
+			{
+				newLeafNode(otherlv_4, grammarAccess.getPeriodicEnvironementEventSourceAccess().getCommaKeyword_4_0());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getPeriodicEnvironementEventSourceAccess().getOutportsPortParserRuleCall_4_1_0());
+					}
+					lv_outports_5_0=rulePort
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getPeriodicEnvironementEventSourceRule());
+						}
+						add(
+							$current,
+							"outports",
+							lv_outports_5_0,
+							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
 		otherlv_6='{'
 		{
 			newLeafNode(otherlv_6, grammarAccess.getPeriodicEnvironementEventSourceAccess().getLeftCurlyBracketKeyword_5());
@@ -4777,35 +4777,10 @@ ruleEnvironmentSwitch returns [EObject current=null]
 		}
 		(
 			(
-				(
-					{
-						newCompositeNode(grammarAccess.getEnvironmentSwitchAccess().getOutportsPortParserRuleCall_4_0_0());
-					}
-					lv_outports_4_0=rulePort
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getEnvironmentSwitchRule());
-						}
-						add(
-							$current,
-							"outports",
-							lv_outports_4_0,
-							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			otherlv_5=','
-			{
-				newLeafNode(otherlv_5, grammarAccess.getEnvironmentSwitchAccess().getCommaKeyword_4_1());
-			}
-		)*
-		(
-			(
 				{
-					newCompositeNode(grammarAccess.getEnvironmentSwitchAccess().getOutportsPortParserRuleCall_5_0());
+					newCompositeNode(grammarAccess.getEnvironmentSwitchAccess().getOutportsPortParserRuleCall_4_0());
 				}
-				lv_outports_6_0=rulePort
+				lv_outports_4_0=rulePort
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getEnvironmentSwitchRule());
@@ -4813,12 +4788,37 @@ ruleEnvironmentSwitch returns [EObject current=null]
 					add(
 						$current,
 						"outports",
-						lv_outports_6_0,
+						lv_outports_4_0,
 						"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
+		(
+			otherlv_5=','
+			{
+				newLeafNode(otherlv_5, grammarAccess.getEnvironmentSwitchAccess().getCommaKeyword_5_0());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getEnvironmentSwitchAccess().getOutportsPortParserRuleCall_5_1_0());
+					}
+					lv_outports_6_0=rulePort
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getEnvironmentSwitchRule());
+						}
+						add(
+							$current,
+							"outports",
+							lv_outports_6_0,
+							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
 		otherlv_7='{'
 		{
 			newLeafNode(otherlv_7, grammarAccess.getEnvironmentSwitchAccess().getLeftCurlyBracketKeyword_6());
@@ -5165,35 +5165,10 @@ ruleEnvironmentExternSimulation returns [EObject current=null]
 			(
 				(
 					(
-						(
-							{
-								newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getInportsPortParserRuleCall_2_0_0_0_0());
-							}
-							lv_inports_2_0=rulePort
-							{
-								if ($current==null) {
-									$current = createModelElementForParent(grammarAccess.getEnvironmentExternSimulationRule());
-								}
-								add(
-									$current,
-									"inports",
-									lv_inports_2_0,
-									"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
-								afterParserOrEnumRuleCall();
-							}
-						)
-					)
-					otherlv_3=','
-					{
-						newLeafNode(otherlv_3, grammarAccess.getEnvironmentExternSimulationAccess().getCommaKeyword_2_0_0_1());
-					}
-				)*
-				(
-					(
 						{
-							newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getInportsPortParserRuleCall_2_0_1_0());
+							newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getInportsPortParserRuleCall_2_0_0_0());
 						}
-						lv_inports_4_0=rulePort
+						lv_inports_2_0=rulePort
 						{
 							if ($current==null) {
 								$current = createModelElementForParent(grammarAccess.getEnvironmentExternSimulationRule());
@@ -5201,12 +5176,37 @@ ruleEnvironmentExternSimulation returns [EObject current=null]
 							add(
 								$current,
 								"inports",
-								lv_inports_4_0,
+								lv_inports_2_0,
 								"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
 							afterParserOrEnumRuleCall();
 						}
 					)
 				)
+				(
+					otherlv_3=','
+					{
+						newLeafNode(otherlv_3, grammarAccess.getEnvironmentExternSimulationAccess().getCommaKeyword_2_0_1_0());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getInportsPortParserRuleCall_2_0_1_1_0());
+							}
+							lv_inports_4_0=rulePort
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getEnvironmentExternSimulationRule());
+								}
+								add(
+									$current,
+									"inports",
+									lv_inports_4_0,
+									"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)*
 				otherlv_5='<->'
 				{
 					newLeafNode(otherlv_5, grammarAccess.getEnvironmentExternSimulationAccess().getLessThanSignHyphenMinusGreaterThanSignKeyword_2_0_2());
@@ -5220,35 +5220,10 @@ ruleEnvironmentExternSimulation returns [EObject current=null]
 		)
 		(
 			(
-				(
-					{
-						newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getOutportsPortParserRuleCall_3_0_0());
-					}
-					lv_outports_7_0=rulePort
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getEnvironmentExternSimulationRule());
-						}
-						add(
-							$current,
-							"outports",
-							lv_outports_7_0,
-							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			otherlv_8=','
-			{
-				newLeafNode(otherlv_8, grammarAccess.getEnvironmentExternSimulationAccess().getCommaKeyword_3_1());
-			}
-		)*
-		(
-			(
 				{
-					newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getOutportsPortParserRuleCall_4_0());
+					newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getOutportsPortParserRuleCall_3_0());
 				}
-				lv_outports_9_0=rulePort
+				lv_outports_7_0=rulePort
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getEnvironmentExternSimulationRule());
@@ -5256,12 +5231,37 @@ ruleEnvironmentExternSimulation returns [EObject current=null]
 					add(
 						$current,
 						"outports",
-						lv_outports_9_0,
+						lv_outports_7_0,
 						"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
+		(
+			otherlv_8=','
+			{
+				newLeafNode(otherlv_8, grammarAccess.getEnvironmentExternSimulationAccess().getCommaKeyword_4_0());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getEnvironmentExternSimulationAccess().getOutportsPortParserRuleCall_4_1_0());
+					}
+					lv_outports_9_0=rulePort
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getEnvironmentExternSimulationRule());
+						}
+						add(
+							$current,
+							"outports",
+							lv_outports_9_0,
+							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Port");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
 		otherlv_10='with'
 		{
 			newLeafNode(otherlv_10, grammarAccess.getEnvironmentExternSimulationAccess().getWithKeyword_5());
@@ -8879,6 +8879,74 @@ rulePort returns [EObject current=null]
 				}
 			)
 		)
+		(
+			otherlv_4='{'
+			{
+				newLeafNode(otherlv_4, grammarAccess.getPortAccess().getLeftCurlyBracketKeyword_4_0());
+			}
+			(
+				(
+					otherlv_5='invariant'
+					{
+						newLeafNode(otherlv_5, grammarAccess.getPortAccess().getInvariantKeyword_4_1_0_0());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getPortAccess().getInvariantsExpressionParserRuleCall_4_1_0_1_0());
+							}
+							lv_invariants_6_0=ruleExpression
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getPortRule());
+								}
+								add(
+									$current,
+									"invariants",
+									lv_invariants_6_0,
+									"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)
+				(
+					(
+						otherlv_7=','
+						{
+							newLeafNode(otherlv_7, grammarAccess.getPortAccess().getCommaKeyword_4_1_1_0());
+						}
+					)?
+					otherlv_8='invariant'
+					{
+						newLeafNode(otherlv_8, grammarAccess.getPortAccess().getInvariantKeyword_4_1_1_1());
+					}
+					(
+						(
+							{
+								newCompositeNode(grammarAccess.getPortAccess().getInvariantsExpressionParserRuleCall_4_1_1_2_0());
+							}
+							lv_invariants_9_0=ruleExpression
+							{
+								if ($current==null) {
+									$current = createModelElementForParent(grammarAccess.getPortRule());
+								}
+								add(
+									$current,
+									"invariants",
+									lv_invariants_9_0,
+									"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+								afterParserOrEnumRuleCall();
+							}
+						)
+					)
+				)*
+			)?
+			otherlv_10='}'
+			{
+				newLeafNode(otherlv_10, grammarAccess.getPortAccess().getRightCurlyBracketKeyword_4_2());
+			}
+		)?
 	)
 ;
 
@@ -9345,6 +9413,32 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 					}
 				)
 			)
+			    |
+			(
+				otherlv_30='invariant'
+				{
+					newLeafNode(otherlv_30, grammarAccess.getSynchronousStatechartDefinitionAccess().getInvariantKeyword_6_2_0());
+				}
+				(
+					(
+						{
+							newCompositeNode(grammarAccess.getSynchronousStatechartDefinitionAccess().getInvariantsExpressionParserRuleCall_6_2_1_0());
+						}
+						lv_invariants_31_0=ruleExpression
+						{
+							if ($current==null) {
+								$current = createModelElementForParent(grammarAccess.getSynchronousStatechartDefinitionRule());
+							}
+							add(
+								$current,
+								"invariants",
+								lv_invariants_31_0,
+								"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+							afterParserOrEnumRuleCall();
+						}
+					)
+				)
+			)
 		)*
 		(
 			(
@@ -9352,7 +9446,7 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 					{
 						newCompositeNode(grammarAccess.getSynchronousStatechartDefinitionAccess().getRegionsRegionParserRuleCall_7_0_0());
 					}
-					lv_regions_30_0=ruleRegion
+					lv_regions_32_0=ruleRegion
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getSynchronousStatechartDefinitionRule());
@@ -9360,7 +9454,7 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 						add(
 							$current,
 							"regions",
-							lv_regions_30_0,
+							lv_regions_32_0,
 							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Region");
 						afterParserOrEnumRuleCall();
 					}
@@ -9372,7 +9466,7 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 					{
 						newCompositeNode(grammarAccess.getSynchronousStatechartDefinitionAccess().getTransitionsTransitionParserRuleCall_7_1_0());
 					}
-					lv_transitions_31_0=ruleTransition
+					lv_transitions_33_0=ruleTransition
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getSynchronousStatechartDefinitionRule());
@@ -9380,7 +9474,7 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 						add(
 							$current,
 							"transitions",
-							lv_transitions_31_0,
+							lv_transitions_33_0,
 							"hu.bme.mit.gamma.statechart.language.StatechartLanguage.Transition");
 						afterParserOrEnumRuleCall();
 					}
@@ -9392,7 +9486,7 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 				{
 					newCompositeNode(grammarAccess.getSynchronousStatechartDefinitionAccess().getFunctionDeclarationsFunctionDeclarationParserRuleCall_8_0());
 				}
-				lv_functionDeclarations_32_0=ruleFunctionDeclaration
+				lv_functionDeclarations_34_0=ruleFunctionDeclaration
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getSynchronousStatechartDefinitionRule());
@@ -9400,15 +9494,15 @@ ruleSynchronousStatechartDefinition returns [EObject current=null]
 					add(
 						$current,
 						"functionDeclarations",
-						lv_functionDeclarations_32_0,
+						lv_functionDeclarations_34_0,
 						"hu.bme.mit.gamma.action.language.ActionLanguage.FunctionDeclaration");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
-		otherlv_33='}'
+		otherlv_35='}'
 		{
-			newLeafNode(otherlv_33, grammarAccess.getSynchronousStatechartDefinitionAccess().getRightCurlyBracketKeyword_9());
+			newLeafNode(otherlv_35, grammarAccess.getSynchronousStatechartDefinitionAccess().getRightCurlyBracketKeyword_9());
 		}
 	)
 ;
@@ -13064,6 +13158,48 @@ ruleTimeSpecification returns [EObject current=null]
 	)
 ;
 
+// Entry rule entryRuleLiteralExpression
+entryRuleLiteralExpression returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getLiteralExpressionRule()); }
+	iv_ruleLiteralExpression=ruleLiteralExpression
+	{ $current=$iv_ruleLiteralExpression.current; }
+	EOF;
+
+// Rule LiteralExpression
+ruleLiteralExpression returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		{
+			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getLiteralExpressionParserRuleCall_0());
+		}
+		this_LiteralExpression_0=superLiteralExpression
+		{
+			$current = $this_LiteralExpression_0.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		(
+			otherlv_1='time'
+			{
+				newLeafNode(otherlv_1, grammarAccess.getLiteralExpressionAccess().getTimeKeyword_1_0());
+			}
+			{
+				newCompositeNode(grammarAccess.getLiteralExpressionAccess().getTimeSpecificationParserRuleCall_1_1());
+			}
+			this_TimeSpecification_2=ruleTimeSpecification
+			{
+				$current = $this_TimeSpecification_2.current;
+				afterParserOrEnumRuleCall();
+			}
+		)
+	)
+;
+
 // Entry rule entryRuleControlSpecificaiton
 entryRuleControlSpecificaiton returns [EObject current=null]:
 	{ newCompositeNode(grammarAccess.getControlSpecificaitonRule()); }
@@ -14177,9 +14313,34 @@ ruleInterface returns [EObject current=null]
 				}
 			)
 		)*
-		otherlv_9='}'
+		(
+			otherlv_9='invariant'
+			{
+				newLeafNode(otherlv_9, grammarAccess.getInterfaceAccess().getInvariantKeyword_6_0());
+			}
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getInterfaceAccess().getInvariantsExpressionParserRuleCall_6_1_0());
+					}
+					lv_invariants_10_0=ruleExpression
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getInterfaceRule());
+						}
+						add(
+							$current,
+							"invariants",
+							lv_invariants_10_0,
+							"hu.bme.mit.gamma.expression.language.ExpressionLanguage.Expression");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
+		otherlv_11='}'
 		{
-			newLeafNode(otherlv_9, grammarAccess.getInterfaceAccess().getRightCurlyBracketKeyword_6());
+			newLeafNode(otherlv_11, grammarAccess.getInterfaceAccess().getRightCurlyBracketKeyword_7());
 		}
 	)
 ;
@@ -14432,11 +14593,44 @@ rulePrimaryExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getStateReferenceExpressionParserRuleCall_2());
+			newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getInterfaceParameterReferenceExpressionParserRuleCall_2());
 		}
-		this_StateReferenceExpression_2=ruleStateReferenceExpression
+		this_InterfaceParameterReferenceExpression_2=ruleInterfaceParameterReferenceExpression
 		{
-			$current = $this_StateReferenceExpression_2.current;
+			$current = $this_InterfaceParameterReferenceExpression_2.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getTimeoutReferenceExpressionParserRuleCall_3());
+		}
+		this_TimeoutReferenceExpression_3=ruleTimeoutReferenceExpression
+		{
+			$current = $this_TimeoutReferenceExpression_3.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		(
+			{
+				newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getEventReferenceParserRuleCall_4_0());
+			}
+			this_EventReference_4=ruleEventReference
+			{
+				$current = $this_EventReference_4.current;
+				afterParserOrEnumRuleCall();
+			}
+			otherlv_5='::'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getPrimaryExpressionAccess().getColonColonKeyword_4_1());
+			}
+		)
+		    |
+		{
+			newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getStateReferenceExpressionParserRuleCall_5());
+		}
+		this_StateReferenceExpression_6=ruleStateReferenceExpression
+		{
+			$current = $this_StateReferenceExpression_6.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
@@ -14566,6 +14760,107 @@ ruleEventParameterReferenceExpression returns [EObject current=null]
 				}
 			)
 		)
+	)
+;
+
+// Entry rule entryRuleInterfaceParameterReferenceExpression
+entryRuleInterfaceParameterReferenceExpression returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getInterfaceParameterReferenceExpressionRule()); }
+	iv_ruleInterfaceParameterReferenceExpression=ruleInterfaceParameterReferenceExpression
+	{ $current=$iv_ruleInterfaceParameterReferenceExpression.current; }
+	EOF;
+
+// Rule InterfaceParameterReferenceExpression
+ruleInterfaceParameterReferenceExpression returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='this'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getInterfaceParameterReferenceExpressionAccess().getThisKeyword_0());
+		}
+		otherlv_1='.'
+		{
+			newLeafNode(otherlv_1, grammarAccess.getInterfaceParameterReferenceExpressionAccess().getFullStopKeyword_1());
+		}
+		(
+			(
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getInterfaceParameterReferenceExpressionRule());
+					}
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getInterfaceParameterReferenceExpressionAccess().getEventEventCrossReference_2_0());
+				}
+			)
+		)
+		otherlv_3='::'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getInterfaceParameterReferenceExpressionAccess().getColonColonKeyword_3());
+		}
+		(
+			(
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getInterfaceParameterReferenceExpressionRule());
+					}
+				}
+				otherlv_4=RULE_ID
+				{
+					newLeafNode(otherlv_4, grammarAccess.getInterfaceParameterReferenceExpressionAccess().getParameterParameterDeclarationCrossReference_4_0());
+				}
+			)
+		)
+	)
+;
+
+// Entry rule entryRuleTimeoutReferenceExpression
+entryRuleTimeoutReferenceExpression returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTimeoutReferenceExpressionRule()); }
+	iv_ruleTimeoutReferenceExpression=ruleTimeoutReferenceExpression
+	{ $current=$iv_ruleTimeoutReferenceExpression.current; }
+	EOF;
+
+// Rule TimeoutReferenceExpression
+ruleTimeoutReferenceExpression returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		otherlv_0='time-elapsed'
+		{
+			newLeafNode(otherlv_0, grammarAccess.getTimeoutReferenceExpressionAccess().getTimeElapsedKeyword_0());
+		}
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getTimeoutReferenceExpressionAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getTimeoutReferenceExpressionRule());
+					}
+				}
+				otherlv_2=RULE_ID
+				{
+					newLeafNode(otherlv_2, grammarAccess.getTimeoutReferenceExpressionAccess().getTimeoutTimeoutDeclarationCrossReference_2_0());
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getTimeoutReferenceExpressionAccess().getRightParenthesisKeyword_3());
+		}
 	)
 ;
 
@@ -19950,15 +20245,15 @@ ruleDirectReferenceExpression returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleLiteralExpression
-entryRuleLiteralExpression returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getLiteralExpressionRule()); }
-	iv_ruleLiteralExpression=ruleLiteralExpression
-	{ $current=$iv_ruleLiteralExpression.current; }
+// Entry rule entrySuperLiteralExpression
+entrySuperLiteralExpression returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionRule()); }
+	iv_superLiteralExpression=superLiteralExpression
+	{ $current=$iv_superLiteralExpression.current; }
 	EOF;
 
 // Rule LiteralExpression
-ruleLiteralExpression returns [EObject current=null]
+superLiteralExpression returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -19967,7 +20262,7 @@ ruleLiteralExpression returns [EObject current=null]
 }:
 	(
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getIntegerLiteralExpressionParserRuleCall_0());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getIntegerLiteralExpressionParserRuleCall_0());
 		}
 		this_IntegerLiteralExpression_0=ruleIntegerLiteralExpression
 		{
@@ -19976,7 +20271,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getDecimalLiteralExpressionParserRuleCall_1());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getDecimalLiteralExpressionParserRuleCall_1());
 		}
 		this_DecimalLiteralExpression_1=ruleDecimalLiteralExpression
 		{
@@ -19985,7 +20280,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getRationalLiteralExpressionParserRuleCall_2());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getRationalLiteralExpressionParserRuleCall_2());
 		}
 		this_RationalLiteralExpression_2=ruleRationalLiteralExpression
 		{
@@ -19994,7 +20289,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getBooleanLiteralExpressionParserRuleCall_3());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getBooleanLiteralExpressionParserRuleCall_3());
 		}
 		this_BooleanLiteralExpression_3=ruleBooleanLiteralExpression
 		{
@@ -20003,7 +20298,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getArrayLiteralExpressionParserRuleCall_4());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getArrayLiteralExpressionParserRuleCall_4());
 		}
 		this_ArrayLiteralExpression_4=ruleArrayLiteralExpression
 		{
@@ -20012,7 +20307,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getRecordLiteralExpressionParserRuleCall_5());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getRecordLiteralExpressionParserRuleCall_5());
 		}
 		this_RecordLiteralExpression_5=ruleRecordLiteralExpression
 		{
@@ -20021,7 +20316,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getEnumerationLiteralExpressionParserRuleCall_6());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getEnumerationLiteralExpressionParserRuleCall_6());
 		}
 		this_EnumerationLiteralExpression_6=ruleEnumerationLiteralExpression
 		{
@@ -20030,7 +20325,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getIntegerRangeLiteralExpressionParserRuleCall_7());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getIntegerRangeLiteralExpressionParserRuleCall_7());
 		}
 		this_IntegerRangeLiteralExpression_7=ruleIntegerRangeLiteralExpression
 		{
@@ -20039,7 +20334,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getOpaqueExpressionParserRuleCall_8());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getOpaqueExpressionParserRuleCall_8());
 		}
 		this_OpaqueExpression_8=ruleOpaqueExpression
 		{
@@ -20048,7 +20343,7 @@ ruleLiteralExpression returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getLiteralExpressionAccess().getInfinityExpressionParserRuleCall_9());
+			newCompositeNode(grammarAccess.getExpressionLanguageLiteralExpressionAccess().getInfinityExpressionParserRuleCall_9());
 		}
 		this_InfinityExpression_9=ruleInfinityExpression
 		{

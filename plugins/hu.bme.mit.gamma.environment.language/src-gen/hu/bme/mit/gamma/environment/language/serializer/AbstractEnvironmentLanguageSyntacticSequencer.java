@@ -61,6 +61,8 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	protected AbstractElementAlias match_ParenthesesTrigger_LeftParenthesisKeyword_0_a;
 	protected AbstractElementAlias match_ParenthesesTrigger_LeftParenthesisKeyword_0_p;
 	protected AbstractElementAlias match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1;
+	protected AbstractElementAlias match_Port_CommaKeyword_4_1_1_0_q;
+	protected AbstractElementAlias match_Port___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q;
 	protected AbstractElementAlias match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q;
 	protected AbstractElementAlias match_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1;
 	protected AbstractElementAlias match_RunUponExternalEventOrInternalTimeoutAnnotation_RunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0_or_RunUponExternalEventOrInternalTimeoutKeyword_1_1;
@@ -123,6 +125,8 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 		match_ParenthesesTrigger_LeftParenthesisKeyword_0_a = new TokenAlias(true, true, grammarAccess.getParenthesesTriggerAccess().getLeftParenthesisKeyword_0());
 		match_ParenthesesTrigger_LeftParenthesisKeyword_0_p = new TokenAlias(true, false, grammarAccess.getParenthesesTriggerAccess().getLeftParenthesisKeyword_0());
 		match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_0()), new TokenAlias(false, false, grammarAccess.getParetoRandomVariableAccess().getParetoKeyword_0_0_1()));
+		match_Port_CommaKeyword_4_1_1_0_q = new TokenAlias(false, true, grammarAccess.getPortAccess().getCommaKeyword_4_1_1_0());
+		match_Port___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getPortAccess().getLeftCurlyBracketKeyword_4_0()), new TokenAlias(false, false, grammarAccess.getPortAccess().getRightCurlyBracketKeyword_4_2()));
 		match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q = new GroupAlias(false, true, new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getLeftParenthesisKeyword_2_0()), new TokenAlias(false, false, grammarAccess.getProcedureDeclarationAccess().getRightParenthesisKeyword_2_2()));
 		match_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getRunUponExternalEventAnnotationAccess().getRunUponExternalEventAnnotationKeyword_1_0()), new TokenAlias(false, false, grammarAccess.getRunUponExternalEventAnnotationAccess().getRunUponExternalEventKeyword_1_1()));
 		match_RunUponExternalEventOrInternalTimeoutAnnotation_RunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0_or_RunUponExternalEventOrInternalTimeoutKeyword_1_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getRunUponExternalEventOrInternalTimeoutAnnotationAccess().getRunUponExternalEventOrInternalTimeoutAnnotationKeyword_1_0()), new TokenAlias(false, false, grammarAccess.getRunUponExternalEventOrInternalTimeoutAnnotationAccess().getRunUponExternalEventOrInternalTimeoutKeyword_1_1()));
@@ -234,6 +238,10 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 				emit_ParenthesesTrigger_LeftParenthesisKeyword_0_p(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1.equals(syntax))
 				emit_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_Port_CommaKeyword_4_1_1_0_q.equals(syntax))
+				emit_Port_CommaKeyword_4_1_1_0_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			else if (match_Port___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q.equals(syntax))
+				emit_Port___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q.equals(syntax))
 				emit_ProcedureDeclaration___LeftParenthesisKeyword_2_0_RightParenthesisKeyword_2_2__q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_RunUponExternalEventAnnotation_RunUponExternalEventAnnotationKeyword_1_0_or_RunUponExternalEventKeyword_1_1.equals(syntax))
@@ -516,6 +524,7 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	 *     (rule start) (ambiguity) '&lt;-' leftOperand=Expression
 	 *     (rule start) (ambiguity) 'false' (rule start)
 	 *     (rule start) (ambiguity) 'infinity' (rule start)
+	 *     (rule start) (ambiguity) 'time' value=AdditiveExpression
 	 *     (rule start) (ambiguity) 'true' (rule start)
 	 *     (rule start) (ambiguity) declaration=[ValueDeclaration|ID]
 	 *     (rule start) (ambiguity) expression=STRING
@@ -820,7 +829,11 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	 *     (rule start) '(' (ambiguity) 'forall' '(' ')' ':' operand=UnaryLogicExpression
 	 *     (rule start) '(' (ambiguity) 'forall' '(' parameterDeclarations+=ParameterDeclaration
 	 *     (rule start) '(' (ambiguity) 'in-state' '(' region=[Region|ID]
+	 *     (rule start) '(' (ambiguity) 'this' '.' event=[Event|ID]
+	 *     (rule start) '(' (ambiguity) 'time-elapsed' '(' timeout=[TimeoutDeclaration|ID]
+	 *     (rule start) '(' (ambiguity) 'timeout' timeout=[TimeoutDeclaration|ID]
 	 *     (rule start) '(' (ambiguity) ('not' | '!') operand=UnaryLogicExpression
+	 *     (rule start) '(' (ambiguity) clock=[Clock|ID]
 	 *     (rule start) '(' (ambiguity) port=[Port|ID]
 	 *     (rule start) '(' (ambiguity) {AddExpression.operands+=}
 	 *     (rule start) '(' (ambiguity) {AndExpression.operands+=}
@@ -856,8 +869,13 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	 *     (rule start) (ambiguity) 'forall' '(' parameterDeclarations+=ParameterDeclaration
 	 *     (rule start) (ambiguity) 'in-state' '(' region=[Region|ID]
 	 *     (rule start) (ambiguity) 'infinity' (rule start)
+	 *     (rule start) (ambiguity) 'this' '.' event=[Event|ID]
+	 *     (rule start) (ambiguity) 'time' value=AdditiveExpression
+	 *     (rule start) (ambiguity) 'time-elapsed' '(' timeout=[TimeoutDeclaration|ID]
+	 *     (rule start) (ambiguity) 'timeout' timeout=[TimeoutDeclaration|ID]
 	 *     (rule start) (ambiguity) 'true' (rule start)
 	 *     (rule start) (ambiguity) ('not' | '!') operand=UnaryLogicExpression
+	 *     (rule start) (ambiguity) clock=[Clock|ID]
 	 *     (rule start) (ambiguity) declaration=[ValueDeclaration|ID]
 	 *     (rule start) (ambiguity) expression=STRING
 	 *     (rule start) (ambiguity) leftInclusive?='&lt;+'
@@ -908,7 +926,11 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	 *     (rule start) (ambiguity) 'forall' '(' ')' ':' operand=UnaryLogicExpression
 	 *     (rule start) (ambiguity) 'forall' '(' parameterDeclarations+=ParameterDeclaration
 	 *     (rule start) (ambiguity) 'in-state' '(' region=[Region|ID]
+	 *     (rule start) (ambiguity) 'this' '.' event=[Event|ID]
+	 *     (rule start) (ambiguity) 'time-elapsed' '(' timeout=[TimeoutDeclaration|ID]
+	 *     (rule start) (ambiguity) 'timeout' timeout=[TimeoutDeclaration|ID]
 	 *     (rule start) (ambiguity) ('not' | '!') operand=UnaryLogicExpression
+	 *     (rule start) (ambiguity) clock=[Clock|ID]
 	 *     (rule start) (ambiguity) port=[Port|ID]
 	 *     (rule start) (ambiguity) {AddExpression.operands+=}
 	 *     (rule start) (ambiguity) {AndExpression.operands+=}
@@ -1079,6 +1101,34 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	 * </pre>
 	 */
 	protected void emit_ParetoRandomVariable_ParetoKeyword_0_0_0_or_ParetoKeyword_0_0_1(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
+	 *     ','?
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     invariants+=Expression (ambiguity) 'invariant' invariants+=Expression
+	 
+	 * </pre>
+	 */
+	protected void emit_Port_CommaKeyword_4_1_1_0_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+		acceptNodes(transition, nodes);
+	}
+	
+	/**
+	 * <pre>
+	 * Ambiguous syntax:
+	 *     ('{' '}')?
+	 *
+	 * This ambiguous syntax occurs at:
+	 *     interfaceRealization=InterfaceRealization (ambiguity) (rule end)
+	 
+	 * </pre>
+	 */
+	protected void emit_Port___LeftCurlyBracketKeyword_4_0_RightCurlyBracketKeyword_4_2__q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	
@@ -1335,6 +1385,7 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	 *
 	 * This ambiguous syntax occurs at:
 	 *     name=ID (ambiguity) '[' ports+=Port
+	 *     name=ID (ambiguity) ('[' ']')? '{' 'invariant' invariants+=Expression
 	 *     name=ID (ambiguity) ('[' ']')? '{' '}' (rule end)
 	 *     name=ID (ambiguity) ('[' ']')? '{' functionDeclarations+=FunctionDeclaration
 	 *     name=ID (ambiguity) ('[' ']')? '{' regions+=Region
@@ -1354,12 +1405,14 @@ public abstract class AbstractEnvironmentLanguageSyntacticSequencer extends Abst
 	 *     ('[' ']')?
 	 *
 	 * This ambiguous syntax occurs at:
+	 *     name=ID ('(' ')')? (ambiguity) '{' 'invariant' invariants+=Expression
 	 *     name=ID ('(' ')')? (ambiguity) '{' '}' (rule end)
 	 *     name=ID ('(' ')')? (ambiguity) '{' functionDeclarations+=FunctionDeclaration
 	 *     name=ID ('(' ')')? (ambiguity) '{' regions+=Region
 	 *     name=ID ('(' ')')? (ambiguity) '{' timeoutDeclarations+=TimeoutDeclaration
 	 *     name=ID ('(' ')')? (ambiguity) '{' transitions+=Transition
 	 *     name=ID ('(' ')')? (ambiguity) '{' variableDeclarations+=VariableDeclaration
+	 *     parameterDeclarations+=ParameterDeclaration ')' (ambiguity) '{' 'invariant' invariants+=Expression
 	 *     parameterDeclarations+=ParameterDeclaration ')' (ambiguity) '{' '}' (rule end)
 	 *     parameterDeclarations+=ParameterDeclaration ')' (ambiguity) '{' functionDeclarations+=FunctionDeclaration
 	 *     parameterDeclarations+=ParameterDeclaration ')' (ambiguity) '{' regions+=Region

@@ -3130,12 +3130,12 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cSourceKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Assignment cOutportsAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
-		private final RuleCall cOutportsPortParserRuleCall_2_0_0 = (RuleCall)cOutportsAssignment_2_0.eContents().get(0);
-		private final Keyword cCommaKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
-		private final Assignment cOutportsAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cOutportsPortParserRuleCall_3_0 = (RuleCall)cOutportsAssignment_3.eContents().get(0);
+		private final Assignment cOutportsAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cOutportsPortParserRuleCall_2_0 = (RuleCall)cOutportsAssignment_2.eContents().get(0);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cCommaKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cOutportsAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cOutportsPortParserRuleCall_3_1_0 = (RuleCall)cOutportsAssignment_3_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
 		private final Assignment cBehaviorRulesAssignment_5_0 = (Assignment)cGroup_5.eContents().get(0);
@@ -3144,13 +3144,13 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cRightCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//EnvironementEventSource returns EnvironmentModel::EnvironmentEventSource:
-		//    'source' name=ID  (outports+=Port ",")* outports+=Port "{"
+		//    'source' name=ID   outports+=Port ("," outports+=Port)*"{"
 		//        (behaviorRules+=StochasticRule ";")+
 		//    "}"
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'source' name=ID  (outports+=Port ",")* outports+=Port "{"
+		//'source' name=ID   outports+=Port ("," outports+=Port)*"{"
 		//    (behaviorRules+=StochasticRule ";")+
 		//"}"
 		public Group getGroup() { return cGroup; }
@@ -3164,23 +3164,23 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 		
-		//(outports+=Port ",")*
-		public Group getGroup_2() { return cGroup_2; }
-		
 		//outports+=Port
-		public Assignment getOutportsAssignment_2_0() { return cOutportsAssignment_2_0; }
+		public Assignment getOutportsAssignment_2() { return cOutportsAssignment_2; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_2_0_0() { return cOutportsPortParserRuleCall_2_0_0; }
+		public RuleCall getOutportsPortParserRuleCall_2_0() { return cOutportsPortParserRuleCall_2_0; }
+		
+		//("," outports+=Port)*
+		public Group getGroup_3() { return cGroup_3; }
 		
 		//","
-		public Keyword getCommaKeyword_2_1() { return cCommaKeyword_2_1; }
+		public Keyword getCommaKeyword_3_0() { return cCommaKeyword_3_0; }
 		
 		//outports+=Port
-		public Assignment getOutportsAssignment_3() { return cOutportsAssignment_3; }
+		public Assignment getOutportsAssignment_3_1() { return cOutportsAssignment_3_1; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_3_0() { return cOutportsPortParserRuleCall_3_0; }
+		public RuleCall getOutportsPortParserRuleCall_3_1_0() { return cOutportsPortParserRuleCall_3_1_0; }
 		
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_4() { return cLeftCurlyBracketKeyword_4; }
@@ -3207,12 +3207,12 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cSourceKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cNameIDTerminalRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Assignment cOutportsAssignment_3_0 = (Assignment)cGroup_3.eContents().get(0);
-		private final RuleCall cOutportsPortParserRuleCall_3_0_0 = (RuleCall)cOutportsAssignment_3_0.eContents().get(0);
-		private final Keyword cCommaKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
-		private final Assignment cOutportsAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cOutportsPortParserRuleCall_4_0 = (RuleCall)cOutportsAssignment_4.eContents().get(0);
+		private final Assignment cOutportsAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cOutportsPortParserRuleCall_3_0 = (RuleCall)cOutportsAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cOutportsAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final RuleCall cOutportsPortParserRuleCall_4_1_0 = (RuleCall)cOutportsAssignment_4_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
 		private final Assignment cBehaviorRulesAssignment_6_0 = (Assignment)cGroup_6.eContents().get(0);
@@ -3223,13 +3223,13 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//PeriodicEnvironementEventSource returns EnvironmentModel::EnvironmentPeriodicEventSource:
-		//    'periodic' 'source' name=ID  (outports+=Port ",")* outports+=Port "{"
+		//    'periodic' 'source' name=ID  outports+=Port ("," outports+=Port)* "{"
 		//        (behaviorRules+=(StochasticRule | FilterSimulationRule)";")+
 		//    "}"
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'periodic' 'source' name=ID  (outports+=Port ",")* outports+=Port "{"
+		//'periodic' 'source' name=ID  outports+=Port ("," outports+=Port)* "{"
 		//    (behaviorRules+=(StochasticRule | FilterSimulationRule)";")+
 		//"}"
 		public Group getGroup() { return cGroup; }
@@ -3246,23 +3246,23 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
 		
-		//(outports+=Port ",")*
-		public Group getGroup_3() { return cGroup_3; }
-		
 		//outports+=Port
-		public Assignment getOutportsAssignment_3_0() { return cOutportsAssignment_3_0; }
+		public Assignment getOutportsAssignment_3() { return cOutportsAssignment_3; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_3_0_0() { return cOutportsPortParserRuleCall_3_0_0; }
+		public RuleCall getOutportsPortParserRuleCall_3_0() { return cOutportsPortParserRuleCall_3_0; }
+		
+		//("," outports+=Port)*
+		public Group getGroup_4() { return cGroup_4; }
 		
 		//","
-		public Keyword getCommaKeyword_3_1() { return cCommaKeyword_3_1; }
+		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
 		
 		//outports+=Port
-		public Assignment getOutportsAssignment_4() { return cOutportsAssignment_4; }
+		public Assignment getOutportsAssignment_4_1() { return cOutportsAssignment_4_1; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_4_0() { return cOutportsPortParserRuleCall_4_0; }
+		public RuleCall getOutportsPortParserRuleCall_4_1_0() { return cOutportsPortParserRuleCall_4_1_0; }
 		
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_5() { return cLeftCurlyBracketKeyword_5; }
@@ -3297,12 +3297,12 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Assignment cInportsAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cInportsPortParserRuleCall_2_0 = (RuleCall)cInportsAssignment_2.eContents().get(0);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final Assignment cOutportsAssignment_4_0 = (Assignment)cGroup_4.eContents().get(0);
-		private final RuleCall cOutportsPortParserRuleCall_4_0_0 = (RuleCall)cOutportsAssignment_4_0.eContents().get(0);
-		private final Keyword cCommaKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
-		private final Assignment cOutportsAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cOutportsPortParserRuleCall_5_0 = (RuleCall)cOutportsAssignment_5.eContents().get(0);
+		private final Assignment cOutportsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cOutportsPortParserRuleCall_4_0 = (RuleCall)cOutportsAssignment_4.eContents().get(0);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cCommaKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Assignment cOutportsAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final RuleCall cOutportsPortParserRuleCall_5_1_0 = (RuleCall)cOutportsAssignment_5_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
 		private final Assignment cBehaviorRulesAssignment_7_0 = (Assignment)cGroup_7.eContents().get(0);
@@ -3311,13 +3311,13 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final Keyword cRightCurlyBracketKeyword_8 = (Keyword)cGroup.eContents().get(8);
 		
 		//EnvironmentSwitch returns EnvironmentModel::EnvironmentSwitch:
-		//    'switch' name=ID inports+=Port "->"  (outports+=Port ",")*outports+=Port "{"
+		//    'switch' name=ID inports+=Port "->"  outports+=Port ("," outports+=Port)* "{"
 		//        (behaviorRules+=SwitchRule ";")+
 		//    "}"
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'switch' name=ID inports+=Port "->"  (outports+=Port ",")*outports+=Port "{"
+		//'switch' name=ID inports+=Port "->"  outports+=Port ("," outports+=Port)* "{"
 		//    (behaviorRules+=SwitchRule ";")+
 		//"}"
 		public Group getGroup() { return cGroup; }
@@ -3340,23 +3340,23 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//"->"
 		public Keyword getHyphenMinusGreaterThanSignKeyword_3() { return cHyphenMinusGreaterThanSignKeyword_3; }
 		
-		//(outports+=Port ",")*
-		public Group getGroup_4() { return cGroup_4; }
-		
 		//outports+=Port
-		public Assignment getOutportsAssignment_4_0() { return cOutportsAssignment_4_0; }
+		public Assignment getOutportsAssignment_4() { return cOutportsAssignment_4; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_4_0_0() { return cOutportsPortParserRuleCall_4_0_0; }
+		public RuleCall getOutportsPortParserRuleCall_4_0() { return cOutportsPortParserRuleCall_4_0; }
+		
+		//("," outports+=Port)*
+		public Group getGroup_5() { return cGroup_5; }
 		
 		//","
-		public Keyword getCommaKeyword_4_1() { return cCommaKeyword_4_1; }
+		public Keyword getCommaKeyword_5_0() { return cCommaKeyword_5_0; }
 		
 		//outports+=Port
-		public Assignment getOutportsAssignment_5() { return cOutportsAssignment_5; }
+		public Assignment getOutportsAssignment_5_1() { return cOutportsAssignment_5_1; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_5_0() { return cOutportsPortParserRuleCall_5_0; }
+		public RuleCall getOutportsPortParserRuleCall_5_1_0() { return cOutportsPortParserRuleCall_5_1_0; }
 		
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_6() { return cLeftCurlyBracketKeyword_6; }
@@ -3544,30 +3544,30 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Group cGroup_2_0 = (Group)cAlternatives_2.eContents().get(0);
-		private final Group cGroup_2_0_0 = (Group)cGroup_2_0.eContents().get(0);
-		private final Assignment cInportsAssignment_2_0_0_0 = (Assignment)cGroup_2_0_0.eContents().get(0);
-		private final RuleCall cInportsPortParserRuleCall_2_0_0_0_0 = (RuleCall)cInportsAssignment_2_0_0_0.eContents().get(0);
-		private final Keyword cCommaKeyword_2_0_0_1 = (Keyword)cGroup_2_0_0.eContents().get(1);
-		private final Assignment cInportsAssignment_2_0_1 = (Assignment)cGroup_2_0.eContents().get(1);
-		private final RuleCall cInportsPortParserRuleCall_2_0_1_0 = (RuleCall)cInportsAssignment_2_0_1.eContents().get(0);
+		private final Assignment cInportsAssignment_2_0_0 = (Assignment)cGroup_2_0.eContents().get(0);
+		private final RuleCall cInportsPortParserRuleCall_2_0_0_0 = (RuleCall)cInportsAssignment_2_0_0.eContents().get(0);
+		private final Group cGroup_2_0_1 = (Group)cGroup_2_0.eContents().get(1);
+		private final Keyword cCommaKeyword_2_0_1_0 = (Keyword)cGroup_2_0_1.eContents().get(0);
+		private final Assignment cInportsAssignment_2_0_1_1 = (Assignment)cGroup_2_0_1.eContents().get(1);
+		private final RuleCall cInportsPortParserRuleCall_2_0_1_1_0 = (RuleCall)cInportsAssignment_2_0_1_1.eContents().get(0);
 		private final Keyword cLessThanSignHyphenMinusGreaterThanSignKeyword_2_0_2 = (Keyword)cGroup_2_0.eContents().get(2);
 		private final Keyword cVerticalLineHyphenMinusGreaterThanSignKeyword_2_1 = (Keyword)cAlternatives_2.eContents().get(1);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Assignment cOutportsAssignment_3_0 = (Assignment)cGroup_3.eContents().get(0);
-		private final RuleCall cOutportsPortParserRuleCall_3_0_0 = (RuleCall)cOutportsAssignment_3_0.eContents().get(0);
-		private final Keyword cCommaKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
-		private final Assignment cOutportsAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cOutportsPortParserRuleCall_4_0 = (RuleCall)cOutportsAssignment_4.eContents().get(0);
+		private final Assignment cOutportsAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cOutportsPortParserRuleCall_3_0 = (RuleCall)cOutportsAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cCommaKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Assignment cOutportsAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final RuleCall cOutportsPortParserRuleCall_4_1_0 = (RuleCall)cOutportsAssignment_4_1.eContents().get(0);
 		private final Keyword cWithKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		private final Assignment cBehaviorRulesAssignment_6 = (Assignment)cGroup.eContents().get(6);
 		private final RuleCall cBehaviorRulesSimulationRuleParserRuleCall_6_0 = (RuleCall)cBehaviorRulesAssignment_6.eContents().get(0);
 		
 		//EnvironmentExternSimulation returns EnvironmentModel::EnvironmentExternSimulation:
-		//    'simulation' name=ID (((inports+=Port ",")*inports+=Port "<->") | ("|->"))(outports+=Port ",")*outports+=Port "with" behaviorRules+=SimulationRule
+		//    'simulation' name=ID ((inports+=Port ("," inports+=Port)* "<->") | ("|->")) outports+=Port ("," outports+=Port)* "with" behaviorRules+=SimulationRule
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'simulation' name=ID (((inports+=Port ",")*inports+=Port "<->") | ("|->"))(outports+=Port ",")*outports+=Port "with" behaviorRules+=SimulationRule
+		//'simulation' name=ID ((inports+=Port ("," inports+=Port)* "<->") | ("|->")) outports+=Port ("," outports+=Port)* "with" behaviorRules+=SimulationRule
 		public Group getGroup() { return cGroup; }
 		
 		//'simulation'
@@ -3579,29 +3579,29 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 		
-		//(((inports+=Port ",")*inports+=Port "<->") | ("|->"))
+		//((inports+=Port ("," inports+=Port)* "<->") | ("|->"))
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 		
-		//((inports+=Port ",")*inports+=Port "<->")
+		//(inports+=Port ("," inports+=Port)* "<->")
 		public Group getGroup_2_0() { return cGroup_2_0; }
 		
-		//(inports+=Port ",")*
-		public Group getGroup_2_0_0() { return cGroup_2_0_0; }
-		
 		//inports+=Port
-		public Assignment getInportsAssignment_2_0_0_0() { return cInportsAssignment_2_0_0_0; }
+		public Assignment getInportsAssignment_2_0_0() { return cInportsAssignment_2_0_0; }
 		
 		//Port
-		public RuleCall getInportsPortParserRuleCall_2_0_0_0_0() { return cInportsPortParserRuleCall_2_0_0_0_0; }
+		public RuleCall getInportsPortParserRuleCall_2_0_0_0() { return cInportsPortParserRuleCall_2_0_0_0; }
+		
+		//("," inports+=Port)*
+		public Group getGroup_2_0_1() { return cGroup_2_0_1; }
 		
 		//","
-		public Keyword getCommaKeyword_2_0_0_1() { return cCommaKeyword_2_0_0_1; }
+		public Keyword getCommaKeyword_2_0_1_0() { return cCommaKeyword_2_0_1_0; }
 		
 		//inports+=Port
-		public Assignment getInportsAssignment_2_0_1() { return cInportsAssignment_2_0_1; }
+		public Assignment getInportsAssignment_2_0_1_1() { return cInportsAssignment_2_0_1_1; }
 		
 		//Port
-		public RuleCall getInportsPortParserRuleCall_2_0_1_0() { return cInportsPortParserRuleCall_2_0_1_0; }
+		public RuleCall getInportsPortParserRuleCall_2_0_1_1_0() { return cInportsPortParserRuleCall_2_0_1_1_0; }
 		
 		//"<->"
 		public Keyword getLessThanSignHyphenMinusGreaterThanSignKeyword_2_0_2() { return cLessThanSignHyphenMinusGreaterThanSignKeyword_2_0_2; }
@@ -3609,23 +3609,23 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		//("|->")
 		public Keyword getVerticalLineHyphenMinusGreaterThanSignKeyword_2_1() { return cVerticalLineHyphenMinusGreaterThanSignKeyword_2_1; }
 		
-		//(outports+=Port ",")*
-		public Group getGroup_3() { return cGroup_3; }
-		
 		//outports+=Port
-		public Assignment getOutportsAssignment_3_0() { return cOutportsAssignment_3_0; }
+		public Assignment getOutportsAssignment_3() { return cOutportsAssignment_3; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_3_0_0() { return cOutportsPortParserRuleCall_3_0_0; }
+		public RuleCall getOutportsPortParserRuleCall_3_0() { return cOutportsPortParserRuleCall_3_0; }
+		
+		//("," outports+=Port)*
+		public Group getGroup_4() { return cGroup_4; }
 		
 		//","
-		public Keyword getCommaKeyword_3_1() { return cCommaKeyword_3_1; }
+		public Keyword getCommaKeyword_4_0() { return cCommaKeyword_4_0; }
 		
 		//outports+=Port
-		public Assignment getOutportsAssignment_4() { return cOutportsAssignment_4; }
+		public Assignment getOutportsAssignment_4_1() { return cOutportsAssignment_4_1; }
 		
 		//Port
-		public RuleCall getOutportsPortParserRuleCall_4_0() { return cOutportsPortParserRuleCall_4_0; }
+		public RuleCall getOutportsPortParserRuleCall_4_1_0() { return cOutportsPortParserRuleCall_4_1_0; }
 		
 		//"with"
 		public Keyword getWithKeyword_5() { return cWithKeyword_5; }
@@ -6200,7 +6200,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//EnvironementEventSource returns EnvironmentModel::EnvironmentEventSource:
-	//    'source' name=ID  (outports+=Port ",")* outports+=Port "{"
+	//    'source' name=ID   outports+=Port ("," outports+=Port)*"{"
 	//        (behaviorRules+=StochasticRule ";")+
 	//    "}"
 	//;
@@ -6213,7 +6213,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//PeriodicEnvironementEventSource returns EnvironmentModel::EnvironmentPeriodicEventSource:
-	//    'periodic' 'source' name=ID  (outports+=Port ",")* outports+=Port "{"
+	//    'periodic' 'source' name=ID  outports+=Port ("," outports+=Port)* "{"
 	//        (behaviorRules+=(StochasticRule | FilterSimulationRule)";")+
 	//    "}"
 	//;
@@ -6226,7 +6226,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//EnvironmentSwitch returns EnvironmentModel::EnvironmentSwitch:
-	//    'switch' name=ID inports+=Port "->"  (outports+=Port ",")*outports+=Port "{"
+	//    'switch' name=ID inports+=Port "->"  outports+=Port ("," outports+=Port)* "{"
 	//        (behaviorRules+=SwitchRule ";")+
 	//    "}"
 	//;
@@ -6265,7 +6265,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//EnvironmentExternSimulation returns EnvironmentModel::EnvironmentExternSimulation:
-	//    'simulation' name=ID (((inports+=Port ",")*inports+=Port "<->") | ("|->"))(outports+=Port ",")*outports+=Port "with" behaviorRules+=SimulationRule
+	//    'simulation' name=ID ((inports+=Port ("," inports+=Port)* "<->") | ("|->")) outports+=Port ("," outports+=Port)* "with" behaviorRules+=SimulationRule
 	//;
 	public EnvironmentExternSimulationElements getEnvironmentExternSimulationAccess() {
 		return pEnvironmentExternSimulation;
@@ -6978,7 +6978,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	}
 	
 	//Port returns InterfaceModel::Port:
-	//    'port' name=ID ':' interfaceRealization=InterfaceRealization
+	//    'port' name=ID ':' interfaceRealization=InterfaceRealization ('{' (('invariant' invariants+=Expression)((',')? 'invariant' invariants+=Expression)*)? '}')?
 	//;
 	public StatechartLanguageGrammarAccess.PortElements getPortAccess() {
 		return gaStatechartLanguage.getPortAccess();
@@ -7025,7 +7025,8 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//        ('[' ((ports+=Port)((',')? ports+=Port)*)? ']')? '{'
 	//            (
 	//                variableDeclarations+=VariableDeclaration |
-	//                timeoutDeclarations+=TimeoutDeclaration
+	//                timeoutDeclarations+=TimeoutDeclaration |
+	//                ('invariant' invariants+=Expression)
 	//            )*
 	//            (
 	//                regions+=Region |
@@ -7713,6 +7714,19 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 		return getTimeSpecificationAccess().getRule();
 	}
 	
+	//@Override
+	//LiteralExpression returns ExpressionModel::Expression:
+	//    super |
+	//    ('time' TimeSpecification)
+	//;
+	public StatechartLanguageGrammarAccess.LiteralExpressionElements getLiteralExpressionAccess() {
+		return gaStatechartLanguage.getLiteralExpressionAccess();
+	}
+	
+	public ParserRule getLiteralExpressionRule() {
+		return getLiteralExpressionAccess().getRule();
+	}
+	
 	//enum TimeUnit returns InterfaceModel::TimeUnit:
 	//    MILLISECOND = 'ms' | SECOND = 's' | HOUR = 'h'
 	//;
@@ -7902,6 +7916,7 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//    {InterfaceModel::Interface}
 	//    'interface' name=ID ('extends' (parents+=[InterfaceModel::Interface]) (',' (parents+=[InterfaceModel::Interface]))* )? '{'
 	//        ((events+=EventDeclaration))*
+	//        ('invariant' invariants+=Expression)*
 	//    '}'
 	//;
 	public StatechartLanguageGrammarAccess.InterfaceElements getInterfaceAccess() {
@@ -7963,6 +7978,9 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//PrimaryExpression returns ExpressionModel::Expression:
 	//    super |
 	//    EventParameterReferenceExpression |
+	//    InterfaceParameterReferenceExpression |
+	//    TimeoutReferenceExpression |
+	//    ( EventReference '::' ) | // Now this are not usable only in triggers
 	//    StateReferenceExpression
 	//;
 	public StatechartLanguageGrammarAccess.PrimaryExpressionElements getPrimaryExpressionAccess() {
@@ -7992,6 +8010,28 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	
 	public ParserRule getEventParameterReferenceExpressionRule() {
 		return getEventParameterReferenceExpressionAccess().getRule();
+	}
+	
+	//InterfaceParameterReferenceExpression returns InterfaceModel::InterfaceParameterReferenceExpression:
+	//    //this is a placeholder for the language to be unambiguous
+	//    'this' '.' event=[InterfaceModel::Event] '::' parameter=[ExpressionModel::ParameterDeclaration];
+	public StatechartLanguageGrammarAccess.InterfaceParameterReferenceExpressionElements getInterfaceParameterReferenceExpressionAccess() {
+		return gaStatechartLanguage.getInterfaceParameterReferenceExpressionAccess();
+	}
+	
+	public ParserRule getInterfaceParameterReferenceExpressionRule() {
+		return getInterfaceParameterReferenceExpressionAccess().getRule();
+	}
+	
+	//TimeoutReferenceExpression returns TimeoutReferenceExpression:
+	//    'time-elapsed' '(' timeout=[TimeoutDeclaration] ')'
+	//;
+	public StatechartLanguageGrammarAccess.TimeoutReferenceExpressionElements getTimeoutReferenceExpressionAccess() {
+		return gaStatechartLanguage.getTimeoutReferenceExpressionAccess();
+	}
+	
+	public ParserRule getTimeoutReferenceExpressionRule() {
+		return getTimeoutReferenceExpressionAccess().getRule();
 	}
 	
 	//// Action Language Extensions
@@ -9079,12 +9119,12 @@ public class EnvironmentLanguageGrammarAccess extends AbstractElementFinder.Abst
 	//    OpaqueExpression |
 	//    InfinityExpression
 	//;
-	public ExpressionLanguageGrammarAccess.LiteralExpressionElements getLiteralExpressionAccess() {
+	public ExpressionLanguageGrammarAccess.LiteralExpressionElements getExpressionLanguageLiteralExpressionAccess() {
 		return gaExpressionLanguage.getLiteralExpressionAccess();
 	}
 	
-	public ParserRule getLiteralExpressionRule() {
-		return getLiteralExpressionAccess().getRule();
+	public ParserRule getExpressionLanguageLiteralExpressionRule() {
+		return getExpressionLanguageLiteralExpressionAccess().getRule();
 	}
 	
 	//InfinityExpression returns InfinityExpression:

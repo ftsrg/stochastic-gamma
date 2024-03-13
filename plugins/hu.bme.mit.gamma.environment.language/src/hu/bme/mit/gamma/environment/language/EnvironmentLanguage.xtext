@@ -418,20 +418,20 @@ Simulation returns EnvironmentModel::Simulation:
 
 
 EnvironementEventSource returns EnvironmentModel::EnvironmentEventSource: 
-	'source' name=ID  (outports+=Port ",")* outports+=Port "{" 
+	'source' name=ID   outports+=Port ("," outports+=Port)*"{" 
 		(behaviorRules+=StochasticRule ";")+	
 	"}" 
 ;
 
 
 PeriodicEnvironementEventSource returns EnvironmentModel::EnvironmentPeriodicEventSource: 
-	'periodic' 'source' name=ID  (outports+=Port ",")* outports+=Port "{" 
+	'periodic' 'source' name=ID  outports+=Port ("," outports+=Port)* "{" 
 		(behaviorRules+=(StochasticRule | FilterSimulationRule)";")+	
 	"}" 
 ;
 
 EnvironmentSwitch returns EnvironmentModel::EnvironmentSwitch: 
-	'switch' name=ID inports+=Port "->"  (outports+=Port ",")*outports+=Port "{" 
+	'switch' name=ID inports+=Port "->"  outports+=Port ("," outports+=Port)* "{" 
 		(behaviorRules+=SwitchRule ";")+	
 	"}" 
 ;
@@ -449,7 +449,7 @@ EnvironmentSample returns EnvironmentModel::EnvironmentSample:
 ;
 
 EnvironmentExternSimulation returns EnvironmentModel::EnvironmentExternSimulation: 
-	'simulation' name=ID (((inports+=Port ",")*inports+=Port "<->") | ("|->"))(outports+=Port ",")*outports+=Port "with" behaviorRules+=SimulationRule
+	'simulation' name=ID ((inports+=Port ("," inports+=Port)* "<->") | ("|->")) outports+=Port ("," outports+=Port)* "with" behaviorRules+=SimulationRule
 ;
 
 

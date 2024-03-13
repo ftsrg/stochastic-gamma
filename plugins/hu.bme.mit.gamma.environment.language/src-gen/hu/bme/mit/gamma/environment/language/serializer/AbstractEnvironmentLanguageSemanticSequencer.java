@@ -191,6 +191,7 @@ import hu.bme.mit.gamma.statechart.interface_.EventParameterReferenceExpression;
 import hu.bme.mit.gamma.statechart.interface_.EventTrigger;
 import hu.bme.mit.gamma.statechart.interface_.Interface;
 import hu.bme.mit.gamma.statechart.interface_.InterfaceModelPackage;
+import hu.bme.mit.gamma.statechart.interface_.InterfaceParameterReferenceExpression;
 import hu.bme.mit.gamma.statechart.interface_.InterfaceRealization;
 import hu.bme.mit.gamma.statechart.interface_.Port;
 import hu.bme.mit.gamma.statechart.interface_.TimeSpecification;
@@ -227,6 +228,7 @@ import hu.bme.mit.gamma.statechart.statechart.StatechartModelPackage;
 import hu.bme.mit.gamma.statechart.statechart.SynchronousStatechartDefinition;
 import hu.bme.mit.gamma.statechart.statechart.TimeoutDeclaration;
 import hu.bme.mit.gamma.statechart.statechart.TimeoutEventReference;
+import hu.bme.mit.gamma.statechart.statechart.TimeoutReferenceExpression;
 import hu.bme.mit.gamma.statechart.statechart.Transition;
 import hu.bme.mit.gamma.statechart.statechart.TransitionIdAnnotation;
 import hu.bme.mit.gamma.statechart.statechart.UnaryTrigger;
@@ -437,6 +439,9 @@ public abstract class AbstractEnvironmentLanguageSemanticSequencer extends State
 				return; 
 			case InterfaceModelPackage.INTERFACE:
 				sequence_Interface(context, (Interface) semanticObject); 
+				return; 
+			case InterfaceModelPackage.INTERFACE_PARAMETER_REFERENCE_EXPRESSION:
+				sequence_InterfaceParameterReferenceExpression(context, (InterfaceParameterReferenceExpression) semanticObject); 
 				return; 
 			case InterfaceModelPackage.INTERFACE_REALIZATION:
 				sequence_InterfaceRealization(context, (InterfaceRealization) semanticObject); 
@@ -1037,6 +1042,9 @@ public abstract class AbstractEnvironmentLanguageSemanticSequencer extends State
 			case StatechartModelPackage.TIMEOUT_EVENT_REFERENCE:
 				sequence_TimeoutEventReference(context, (TimeoutEventReference) semanticObject); 
 				return; 
+			case StatechartModelPackage.TIMEOUT_REFERENCE_EXPRESSION:
+				sequence_TimeoutReferenceExpression(context, (TimeoutReferenceExpression) semanticObject); 
+				return; 
 			case StatechartModelPackage.TRANSITION:
 				sequence_Transition(context, (Transition) semanticObject); 
 				return; 
@@ -1394,7 +1402,7 @@ public abstract class AbstractEnvironmentLanguageSemanticSequencer extends State
 	 *     EnvironementEventSource returns EnvironmentEventSource
 	 *
 	 * Constraint:
-	 *     (name=ID outports+=Port* outports+=Port behaviorRules+=StochasticRule+)
+	 *     (name=ID outports+=Port outports+=Port* behaviorRules+=StochasticRule+)
 	 * </pre>
 	 */
 	protected void sequence_EnvironementEventSource(ISerializationContext context, EnvironmentEventSource semanticObject) {
@@ -1485,7 +1493,7 @@ public abstract class AbstractEnvironmentLanguageSemanticSequencer extends State
 	 *     EnvironmentExternSimulation returns EnvironmentExternSimulation
 	 *
 	 * Constraint:
-	 *     (name=ID (inports+=Port* inports+=Port)? outports+=Port* outports+=Port behaviorRules+=SimulationRule)
+	 *     (name=ID (inports+=Port inports+=Port*)? outports+=Port outports+=Port* behaviorRules+=SimulationRule)
 	 * </pre>
 	 */
 	protected void sequence_EnvironmentExternSimulation(ISerializationContext context, EnvironmentExternSimulation semanticObject) {
@@ -1517,7 +1525,7 @@ public abstract class AbstractEnvironmentLanguageSemanticSequencer extends State
 	 *     EnvironmentSwitch returns EnvironmentSwitch
 	 *
 	 * Constraint:
-	 *     (name=ID inports+=Port outports+=Port* outports+=Port behaviorRules+=SwitchRule+)
+	 *     (name=ID inports+=Port outports+=Port outports+=Port* behaviorRules+=SwitchRule+)
 	 * </pre>
 	 */
 	protected void sequence_EnvironmentSwitch(ISerializationContext context, EnvironmentSwitch semanticObject) {
@@ -2117,7 +2125,7 @@ public abstract class AbstractEnvironmentLanguageSemanticSequencer extends State
 	 *     PeriodicEnvironementEventSource returns EnvironmentPeriodicEventSource
 	 *
 	 * Constraint:
-	 *     (name=ID outports+=Port* outports+=Port (behaviorRules+=StochasticRule | behaviorRules+=FilterSimulationRule)+)
+	 *     (name=ID outports+=Port outports+=Port* (behaviorRules+=StochasticRule | behaviorRules+=FilterSimulationRule)+)
 	 * </pre>
 	 */
 	protected void sequence_PeriodicEnvironementEventSource(ISerializationContext context, EnvironmentPeriodicEventSource semanticObject) {
