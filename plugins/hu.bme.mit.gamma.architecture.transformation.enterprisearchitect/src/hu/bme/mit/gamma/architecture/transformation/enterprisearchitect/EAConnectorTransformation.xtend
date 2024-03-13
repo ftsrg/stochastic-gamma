@@ -141,4 +141,14 @@ class EAConnectorTransformation {
 		}
 	}
 
+	def transformGeneralization(ConnectorData connectorData) {
+		if (trace.contains(connectorData.sourceID) && trace.contains(connectorData.targetID)) {
+			val source = trace.get(connectorData.sourceID)
+			val target = trace.get(connectorData.targetID)
+			if ((source instanceof InterfacingElement) && (target instanceof ArchitectureInterface)) {
+				(source as InterfacingElement).providedInterfaces += target as ArchitectureInterface
+			}
+		}
+	}
+
 }

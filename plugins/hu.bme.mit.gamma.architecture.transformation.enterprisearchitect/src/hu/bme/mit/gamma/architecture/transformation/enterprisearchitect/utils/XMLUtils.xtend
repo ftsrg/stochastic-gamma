@@ -10,6 +10,7 @@ import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatype
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ObjectPropertyData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.OperationData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.AttributeData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.ObjectFileData
 
 class XMLUtils {
 
@@ -329,6 +330,39 @@ class XMLUtils {
 				value,
 				notes,
 				elementID
+			))
+		}
+		return dataList
+	}
+
+	static def getObjectFileData(String xml) {
+		var dataList = <ObjectFileData>newLinkedList
+		var document = parseXML(xml)
+		var row_nodes = document.getElementsByTagName("Row")
+		for (i : 0 .. row_nodes.length - 1) {
+			var fields = row_nodes.item(i).childNodes
+			var String name = ""
+			var String type = ""
+			var long elementID = -1
+
+			for (j : 0 .. fields.length - 1) {
+				var field = fields.item(j)
+				if (field.nodeName == "FileName") {
+					name = field.textContent
+				}
+				if (field.nodeName == "Type") {
+					type = field.textContent
+				}
+				if (field.nodeName == "Object_ID") {
+					elementID = Long.valueOf(field.textContent)
+				}
+			}
+			if (elementID == -1) {
+				throw new MissingFormatArgumentException(
+					"Object ID of related element of ObjectProperty is not in XML : " + xml)
+			}
+			dataList.add(new ObjectFileData(
+				name,type,elementID
 			))
 		}
 		return dataList

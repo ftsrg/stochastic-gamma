@@ -36,6 +36,7 @@ import hu.bme.mit.gamma.architecture.model.FlowProperty
 import hu.bme.mit.gamma.architecture.model.System
 import hu.bme.mit.gamma.architecture.model.ArchitecturePackage
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.StatemachineData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.FileData
 
 class EnterpriseArchitectTransformation {
 
@@ -334,10 +335,17 @@ class EnterpriseArchitectTransformation {
 			data.transformRealization
 		}
 		
+		logger.log(Level.INFO, "Transform generalization")
+		val generalizationData=eaDataLoader.loadAllGeneralization
+		for (data:realizationData){
+			data.transformGeneralization
+		}
+		
 		
 		logger.log(Level.INFO, "Loading statemachine data")
 		
 		trace.statemachineData=new StatemachineData(eaDataLoader,functionalPackageData)
+		trace.fileData=new FileData(eaDataLoader,functionalPackageData)
 		
 		logger.log(Level.INFO, "Architecture Transformation is finished")
 

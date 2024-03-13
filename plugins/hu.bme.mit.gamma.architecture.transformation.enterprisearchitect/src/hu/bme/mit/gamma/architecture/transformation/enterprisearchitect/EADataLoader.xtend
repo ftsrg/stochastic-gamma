@@ -150,6 +150,12 @@ class EADataLoader {
 		return data
 	}
 
+	def loadAllGeneralization(){
+		val xml=runQuery(SQLUtils.getAllGeneralization().toString)
+		val data = XMLUtils.getConnectorData(xml)
+		return data
+	}
+
 	def loadAllTransitions(){
 		val xml=runQuery(SQLUtils.getAllTransitions().toString)
 		val data = XMLUtils.getConnectorData(xml)
@@ -164,6 +170,12 @@ class EADataLoader {
 	
 	def loadAllInterfaceConnectors(){
 		val xml=runQuery(SQLUtils.getAllInterfaceConnectors().toString)
+		val data = XMLUtils.getConnectorData(xml)
+		return data
+	}
+	
+	def loadAllTraces(){
+		val xml=runQuery(SQLUtils.getAllTraces().toString)
 		val data = XMLUtils.getConnectorData(xml)
 		return data
 	}
@@ -201,6 +213,18 @@ class EADataLoader {
 	def loadAllSyncStateData(List<Long> packageIDs){
 		val xml=runQuery(SQLUtils.getAllSyncStates(packageIDs).toString)
 		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+
+	def loadAllArtifact(List<Long> packageIDs){
+		val xml=runQuery(SQLUtils.getAllArtifacts(packageIDs).toString)
+		val data = XMLUtils.getElementData(xml)
+		return data
+	}
+
+	def loadAllObjectFileData(){
+		val xml=runQuery(SQLUtils.getAllObjectFiles().toString)
+		val data = XMLUtils.getObjectFileData(xml)
 		return data
 	}
 

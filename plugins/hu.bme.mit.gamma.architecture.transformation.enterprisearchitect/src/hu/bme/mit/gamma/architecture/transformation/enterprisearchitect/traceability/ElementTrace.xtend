@@ -11,6 +11,7 @@ import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatype
 import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
 import hu.bme.mit.gamma.architecture.model.ArchitecturePackage
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.StatemachineData
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.FileData
 
 class ElementTrace {
 	
@@ -27,6 +28,7 @@ class ElementTrace {
 	protected ArchitecturePackage root_pkg
 	
 	public var StatemachineData statemachineData
+	public var FileData fileData
 	
 	def getRootPkg(){
 		return root_pkg

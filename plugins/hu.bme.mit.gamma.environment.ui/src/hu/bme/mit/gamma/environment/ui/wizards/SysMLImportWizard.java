@@ -32,6 +32,7 @@ import com.google.inject.Injector;
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.EnterpriseArchitectTransformation;
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.GammaAppender;
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.SysMLTransformations;
+import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.TableAppender;
 import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException;
 import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException;
 import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTrace;
@@ -98,7 +99,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 			EnterpriseArchitectTransformation transformation = null;
 			try {
 				// doFinish(containerName, fileName, monitor);
-				monitor.beginTask("Loading SysML models from Enterprise Architect ", 8);
+				monitor.beginTask("Loading SysML models from Enterprise Architect ", 10);
 				monitor.worked(1);
 				transformation = new EnterpriseArchitectTransformation(funcGUID, sysGUID);
 				monitor.worked(1);
@@ -108,11 +109,16 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				monitor.worked(1);
 				ArchitectureTrace gammaTrace = SysMLTransformations.transformArchitecture(eaTrace);
 				monitor.worked(1);
-				monitor.setTaskName("Transforming SysML statemachines models to Gamma ");
+				monitor.setTaskName("Transforming SysML Statemachines models to Gamma Statecharts");
 				monitor.worked(1);
-				var appender=new GammaAppender(gammaTrace, eaTrace);
+				var sctAppender=new GammaAppender(gammaTrace, eaTrace);
 				monitor.worked(1);
-				appender.execute();
+				sctAppender.execute();
+				monitor.worked(1);
+				monitor.setTaskName("Transforming Excel tables into Gamma Statecharts");
+				var tabAppender=new TableAppender(gammaTrace, eaTrace);
+				monitor.worked(1);
+				tabAppender.execute();
 				monitor.worked(1);
 				serialize(gammaTrace, monitor);
 			} catch (Exception e) {

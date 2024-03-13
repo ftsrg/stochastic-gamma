@@ -475,5 +475,31 @@ class SQLUtils {
 		Connector_Type = 'Generalization'
 	'''
 	
+	static def getAllTraces()'''
+	select	t_connector.Start_Object_ID as START_Object_ID, 
+			t_connector.End_Object_ID as END_Object_ID, 
+			t_connector.Name as Name
+	from t_connector 
+	where 
+		Connector_Type = 'Dependency' and (Stereotype is null or Stereotype="Trace" or Stereotype="")
+	'''
+	
+	static def getAllObjectFiles()'''
+	select	*
+	from t_objectfiles
+	'''
+	
+	static def getAllArtifacts(List<Long> packageIDs)'''
+	select 
+	*
+	from t_object 
+	where
+		Object_Type = "Artifact" and (
+		«FOR packageID : packageIDs SEPARATOR " OR "»
+			Package_ID=«packageID»
+		«ENDFOR»
+		)
+	'''
+	
 
 }
