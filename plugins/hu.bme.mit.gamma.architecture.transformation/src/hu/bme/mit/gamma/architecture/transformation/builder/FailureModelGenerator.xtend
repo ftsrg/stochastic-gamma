@@ -15,6 +15,8 @@ import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticFactory
 import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
 
 import java.math.BigDecimal
+import hu.bme.mit.gamma.statechart.interface_.Event
+import hu.bme.mit.gamma.statechart.interface_.EventDirection
 
 class FailureModelGenerator {
 	
@@ -29,13 +31,14 @@ class FailureModelGenerator {
 	val ArchitectureTrace trace
 	
 	
-	val extension ElementTransformer elementTransformer
-	val extension RelationTransfomer relationTransformer
 	
 	static int nameCNTR=0
 	
 	static val defaultRate="100.0"
-		
+	
+	val extension ElementTransformer elementTransformer
+	val extension RelationTransfomer relationTransformer
+	
 	new(ArchitectureTrace trace){
 		//this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		//this.instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
@@ -43,15 +46,17 @@ class FailureModelGenerator {
 		this.trace=trace
 		this.elementTransformer=new ElementTransformer(trace)
 		this.relationTransformer=new RelationTransfomer(trace)
-		
+			
 		
 	}
+	
+	
+	
 	def generateSource(String name,Interface _interface){
 		
 		val failureSource=stochModelFactory.createEnvironmentEventSource
-		
 		failureSource.name = name + "_Failures"+nameCNTR++
-		val failurePort=createPort(_interface,"failures",false)
+		val failurePort=ElementTransformer._createPort(_interface,"failures",false)
 		failureSource.outports+=failurePort
 		val failureRule= stochModelFactory.createStochasticRule
 		val filter= stochModelFactory.createComponentFilter

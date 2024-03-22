@@ -39,21 +39,45 @@ import hu.bme.mit.gamma.util.GammaEcoreUtil
 import org.eclipse.emf.ecore.EcorePackage
 import hu.bme.mit.gamma.expression.model.ExpressionPackage
 import hu.bme.mit.gamma.architecture.model.EnumValueType
+import hu.bme.mit.gamma.architecture.model.ArchitectureElement
+import hu.bme.mit.gamma.architecture.transformation.builder.FailureModelGenerator
+import hu.bme.mit.gamma.statechart.interface_.Event
+import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
 
 class ElementTransformer {
 
 	val ArchitectureTrace trace
 
-	val stochModelFactory = EnvironmentModelFactory.eINSTANCE
-	val sctModelFactory = StatechartModelFactory.eINSTANCE
-	val ifModelFactory = InterfaceModelFactory.eINSTANCE
-	val cmpModelFactory = CompositeModelFactory.eINSTANCE
-	val exprModelFactory = ExpressionModelFactory.eINSTANCE
+	static val stochModelFactory = EnvironmentModelFactory.eINSTANCE
+	static val sctModelFactory = StatechartModelFactory.eINSTANCE
+	static val ifModelFactory = InterfaceModelFactory.eINSTANCE
+	static val cmpModelFactory = CompositeModelFactory.eINSTANCE
+	static val exprModelFactory = ExpressionModelFactory.eINSTANCE
 
 	protected extension val GammaEcoreUtil gammaEcoreUtil = GammaEcoreUtil.INSTANCE
 
+	public static val Interface failureInterface = createFailureInterface()
+	public static val Event failureEvent = failureInterface.events.get(0).event
+
 	new(ArchitectureTrace trace) {
 		this.trace = trace
+		trace.interfacePackage.interfaces += failureInterface
+	}
+
+	def getFailurePort(AsynchronousComponent comp) {
+		return comp.ports.filter[p|p.interface == failureInterface].get(0)
+	}
+
+	protected static def createFailureInterface() {
+		val if_ = ifModelFactory.createInterface
+		if_.name = "InterfaceFailures"
+		val event = ifModelFactory.createEvent
+		event.name = "failure"
+		val eventDecl = ifModelFactory.createEventDeclaration
+		eventDecl.event = event
+		eventDecl.direction = EventDirection.OUT
+		if_.events += eventDecl
+		return if_
 	}
 
 	def packageElement(Interface _interface) {
@@ -97,19 +121,6 @@ class ElementTransformer {
 		for (archPort : architectureFunction.ports) {
 			sct.ports += transformPort(archPort)
 		}
-		val main_region = sctModelFactory.createRegion
-		main_region.name = "main_region"
-		val init = sctModelFactory.createInitialState
-		init.name = "init_state"
-		val state1 = sctModelFactory.createState
-		state1.name = "operational"
-		main_region.stateNodes += init
-		main_region.stateNodes += state1
-		sct.regions += main_region
-		val tr1 = sctModelFactory.createTransition
-		tr1.sourceState = init
-		tr1.targetState = state1
-		sct.transitions += tr1
 
 		for (failureInterface : architectureFunction.providedInterfaces) {
 			val gammaIf = trace.get(failureInterface) as Interface
@@ -123,16 +134,20 @@ class ElementTransformer {
 
 	def generateInterfaceComponent(Interface _interface) {
 		val comp = sctModelFactory.createAsynchronousStatechartDefinition
-		comp.name = "InterfaceComponent" + _interface.name.toFirstUpper
-		comp.ports += createPort(_interface, "In", true)
-		comp.ports += createPort(_interface, "Out", false)
+		comp.name = "Interfacing_" + _interface.name.toFirstUpper
+		val inport = createPort(_interface, "In", true)
+		comp.ports += inport
+		val outport = createPort(_interface, "Out", false)
+		comp.ports += outport
+		val failureport = createPort(failureInterface, "Failure", true)
+		comp.ports += failureport
 
 		val main_region = sctModelFactory.createRegion
 		main_region.name = "main_region"
 		val init = sctModelFactory.createInitialState
 		init.name = "init_state"
 		val state1 = sctModelFactory.createState
-		state1.name = "operational"
+		state1.name = "Operational_State"
 		main_region.stateNodes += init
 		main_region.stateNodes += state1
 		comp.regions += main_region
@@ -140,7 +155,60 @@ class ElementTransformer {
 		tr1.sourceState = init
 		tr1.targetState = state1
 		comp.transitions += tr1
+
+		for (event : inport.inputEvents) {
+			val tr = sctModelFactory.createTransition
+			tr.sourceState = state1
+			tr.targetState = state1
+			val eventRef = sctModelFactory.createPortEventReference
+			val trig = ifModelFactory.createEventTrigger
+			eventRef.port = inport
+			eventRef.event = event
+			trig.eventReference = eventRef
+			tr.trigger = trig
+			val ract = sctModelFactory.createRaiseEventAction
+			ract.event = event
+			ract.port = outport
+			for (param : event.parameterDeclarations) {
+				val paramRef = ifModelFactory.createEventParameterReferenceExpression()
+				paramRef.port = inport
+				paramRef.event = event
+				paramRef.parameter = param
+				ract.arguments += paramRef
+			}
+			tr.effects += ract
+			comp.transitions += tr
+
+		}
+
+		val state2 = sctModelFactory.createState
+		state2.name = "Failure_State"
+		val tr2 = sctModelFactory.createTransition
+		tr2.sourceState = state1
+		tr2.targetState = state2
+		val eventRef2 = sctModelFactory.createPortEventReference
+		val trig2 = ifModelFactory.createEventTrigger
+		eventRef2.port = failureport
+		eventRef2.event = failureEvent
+		trig2.eventReference = eventRef2
+		tr2.trigger = trig2
+		main_region.stateNodes += state2
+		comp.transitions += tr2
+
+		for (event : outport.outputEvents) {
+			if (!event.parameterDeclarations.empty) {
+				val ract = sctModelFactory.createRaiseEventAction
+				ract.event = event
+				ract.port = outport
+				for (param : event.parameterDeclarations) {
+					ract.arguments += param.defaultExpression
+				}
+				state2.entryActions += ract
+			}
+		}
+
 		packageElement(comp, "interface_components")
+
 		trace.addInterface(trace.get(_interface) as ArchitectureInterface, comp)
 	}
 
@@ -154,8 +222,13 @@ class ElementTransformer {
 		for (event : architectureInterface.events) {
 			gammaInterface.events += event.clone
 		}
+		return gammaInterface
+	}
+
+	def transformInterfaceGeneralization(ArchitectureInterface architectureInterface) {
+		val gammaInterface = trace.get(architectureInterface) as Interface
 		for (parent : architectureInterface.parents) {
-			val parentIf = trace.get(parent) as Interface
+			val parentIf = trace.get(parent as ArchitectureElement) as Interface
 			gammaInterface.parents += parentIf
 		}
 		for (parent : architectureInterface.providedInterfaces) {
@@ -266,6 +339,23 @@ class ElementTransformer {
 		port.name = name
 		port.interfaceRealization = ifrel
 		trace.add(archPort, port)
+		return port
+	}
+
+	static def _createPort(Interface _interface, String name, boolean conj) {
+		val port = ifModelFactory.createPort
+		var ifrel = ifModelFactory.createInterfaceRealization
+		var gname = ""
+		if (conj) {
+			ifrel.realizationMode = RealizationMode.REQUIRED
+			gname = name + _interface.name + "In"
+		} else {
+			ifrel.realizationMode = RealizationMode.PROVIDED
+			gname = name + _interface.name + "Out"
+		}
+		ifrel.interface = _interface
+		port.name = gname
+		port.interfaceRealization = ifrel
 		return port
 	}
 

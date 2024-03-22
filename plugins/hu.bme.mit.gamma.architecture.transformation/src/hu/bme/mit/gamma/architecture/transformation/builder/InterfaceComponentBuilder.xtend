@@ -28,6 +28,7 @@ import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticFactory
 import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
 import java.math.BigDecimal
 import hu.bme.mit.gamma.statechart.composite.AsynchronousCompositeComponent
+import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
 
 class InterfaceComponentBuilder {
 	
@@ -51,6 +52,8 @@ class InterfaceComponentBuilder {
 	val extension RelationTransfomer relationTransformer
 	var nameCNTR=0
 	
+	val Port failurePort
+	
 	new(Connector connector,ArchitectureTrace trace){
 		this.component = cmpModelFactory.createAsynchronousCompositeComponent
 		//this.instance = stochModelFactory.createEnvironmentAsynchronousCompositeComponentInstance
@@ -63,6 +66,10 @@ class InterfaceComponentBuilder {
 		
 		
 		component.name = connector.gammaName
+		
+		failurePort=createPort(elementTransformer.failureInterface,"failureIn",true)
+		component.ports+=failurePort
+		
 		/* 
 		failureSource.name = component.name + "_Failures"
 		val failureInterface=ifModelFactory.createInterface
@@ -130,6 +137,10 @@ class InterfaceComponentBuilder {
 		component.portBindings+=inBinding
 		component.portBindings+=outBinding
 		nameCNTR++
+		
+		//add failure propagation channel
+		component.portBindings+=createPortBinding(failurePort,ifInst,ifType.failurePort)
+		
 	}
 	
 	def getInPort(InformationFlow flow){

@@ -25,6 +25,8 @@ class ArchitectureTrace {
 	protected HashMap<Package, String> pathMap = <Package, String>newHashMap
 
 	protected val Package interfacePackage
+	
+	
 
 	new() {
 		interfacePackage = InterfaceModelFactory.eINSTANCE.createPackage

@@ -180,13 +180,13 @@ class SystemTransformer {
 					val sourceSubsystem = connector.sourceSubsystem
 					val sourceSubsystemBuilder = subsysMap.get(sourceSubsystem)
 					val sourceIFCompInst = builder.createInstance(sourceSubsystem)
-					sourceSubsystemBuilder.addInstance(sourceIFCompInst)
+					sourceSubsystemBuilder.addCommInstance(sourceIFCompInst)
 				}
 				if (! connector.target.isComponentPort) {
 					val targetSubsystem = connector.targetSubsystem
 					val targetSubsystemBuilder = subsysMap.get(targetSubsystem)
 					val targetIFCompInst = builder.createInstance(targetSubsystem)
-					targetSubsystemBuilder.addInstance(targetIFCompInst)
+					targetSubsystemBuilder.addCommInstance(targetIFCompInst)
 				}
 			}
 		}
@@ -318,7 +318,7 @@ class SystemTransformer {
 				val gammaComp = trace.get(subfunc) as AsynchronousComponent
 				val sPort = findPort(gammaComp, port)
 				if (sPort === null) {
-					throw new ArchitectureException("Subfunction port cannot be found in function", port)
+					throw new ArchitectureException("Subfunction out port cannot be found in function: "+port.name+" : "+port.type.name, port)
 				}
 				return sPort
 			}
@@ -329,7 +329,7 @@ class SystemTransformer {
 			val comp = trace.get(flow.source) as AsynchronousComponentInstance
 			var sPort = findPort(comp.type, type, name, false)
 			if (sPort === null) {
-				throw new ArchitectureException("Subfunction port cannot be found in function", flow.source)
+				throw new ArchitectureException("Subfunction out port cannot be found in function: "+name+" : "+type.name, flow.source)
 			}
 			return sPort
 		}
@@ -343,7 +343,7 @@ class SystemTransformer {
 				val gammaComp = trace.get(subfunc) as AsynchronousComponent
 				val sPort = findPort(gammaComp, port)
 				if (sPort === null) {
-					throw new ArchitectureException("Subfunction port cannot be found in function", port)
+					throw new ArchitectureException("Subfunction in port cannot be found in function: "+port.name+" : "+port.type.name, port)
 				}
 				return sPort
 			}
@@ -354,7 +354,7 @@ class SystemTransformer {
 			val comp = trace.get(flow.target) as AsynchronousComponentInstance
 			var sPort = findPort(comp.type, type, name, true)
 			if (sPort === null) {
-				throw new ArchitectureException("Subfunction port cannot be found in function", flow.target)
+				throw new ArchitectureException("Subfunction in port cannot be found in function: "+name+" : "+type.name, flow.target)
 			}
 			return sPort
 		}

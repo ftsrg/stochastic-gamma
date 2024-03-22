@@ -44,6 +44,7 @@ import java.math.BigInteger
 import hu.bme.mit.gamma.expression.model.BooleanTypeDefinition
 import hu.bme.mit.gamma.util.GammaEcoreUtil
 import java.math.BigDecimal
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
 
 class TableTransformation2 {
 
@@ -53,7 +54,7 @@ class TableTransformation2 {
 	val sctModelFactory = StatechartModelFactory.eINSTANCE
 	val ifModelFactory = InterfaceModelFactory.eINSTANCE
 	val actModelFactory = ActionModelFactory.eINSTANCE
-	
+
 	protected extension val GammaEcoreUtil gammaEcoreUtil = GammaEcoreUtil.INSTANCE
 
 	def isBlank(Cell cell) {
@@ -76,7 +77,13 @@ class TableTransformation2 {
 			if (isBlank(cell)) {
 				return cells
 			}
-			cells.add(cell.stringCellValue)
+			if (cell.cellType == CellType.STRING){
+				cells.add(cell.stringCellValue)
+			}else if (cell.cellType == CellType.NUMERIC){
+				cells.add((cell.numericCellValue as int).toString)
+			}else {
+				throw new GammaTransformationException("Table Transformation Exception: Unsupported cell type in the header "+cell.cellType.toString)
+			}
 			i++
 		}
 	}
@@ -127,7 +134,7 @@ class TableTransformation2 {
 		val anyTrans = sctModelFactory.createTransition
 		anyTrans.sourceState = mainState
 		anyTrans.targetState = choiceState
-		anyTrans.trigger=ifModelFactory.createAnyTrigger
+		anyTrans.trigger = ifModelFactory.createAnyTrigger
 		statechart.transitions += anyTrans
 
 		var inPortNames = new ArrayList<String>()
@@ -160,8 +167,9 @@ class TableTransformation2 {
 					p.name.equals(portName.simplifyName + portIFName.simplifyName.toFirstUpper + "In")
 				].iterator
 				if (!port.hasNext) {
-					throw new UnsupportedOperationException(
-						"Exception occurred during table '" + portName.simplifyName + portIFName + "In' not found")
+					throw new GammaTransformationException(
+						"Exception occurred during table '" + portName.simplifyName + portIFName +
+							"In' not found in Excel file: " + file,statechart)
 				}
 				inPorts.add(port.next)
 			}
@@ -172,8 +180,9 @@ class TableTransformation2 {
 					p.name.equals(portName.simplifyName + portIFName.simplifyName.toFirstUpper + "Out")
 				].iterator
 				if (!port.hasNext) {
-					throw new UnsupportedOperationException(
-						"Exception occurred during table '" + portName.simplifyName + portIFName + "Out' not found")
+					throw new GammaTransformationException(
+						"Exception occurred during table '" + portName.simplifyName + portIFName +
+							"Out' not found in Excel file: " + file,statechart)
 				}
 				outPorts.add(port.next)
 			}
@@ -195,20 +204,23 @@ class TableTransformation2 {
 					if (!cell.blank) {
 						if (cell.cellType == CellType.STRING) {
 							val value = cell.stringCellValue.simplifyName
-							if (!(value.isBlank || value == "any" ||  value == "ANY" || value == "N/A" || value == "NA")) {
+							if (!(value.isBlank || value == "any" || value == "ANY" || value == "N/A" ||
+								value == "NA")) {
 								val paramIt = inPort.inputEvents.flatMap[e|e.parameterDeclarations].filter [ p |
 									p.typeDefinition instanceof EnumerableTypeDefinition
 								].iterator
 								if (! paramIt.hasNext) {
-									throw new UnsupportedOperationException(
+									throw new GammaTransformationException(
 										"Table transformation error, event enumeration parameter cannot be found: " +
-											inPort.name)
+											inPort.name + " in Excel file: " + file,statechart)
 								}
 								val param = paramIt.next
 								val ref = ifModelFactory.createEventParameterReferenceExpression
 								ref.port = inPort
 								ref.event = inPort.inputEvents.filter [ e |
-									!e.parameterDeclarations.filter[p|p.typeDefinition instanceof EnumerableTypeDefinition].empty
+									!e.parameterDeclarations.filter [ p |
+										p.typeDefinition instanceof EnumerableTypeDefinition
+									].empty
 								].iterator.next
 								ref.parameter = param
 								val eqExpr = expModelFactory.createEqualityExpression
@@ -221,9 +233,10 @@ class TableTransformation2 {
 									l.name.equals(value)
 								].iterator
 								if (! litIt.hasNext) {
-									throw new UnsupportedOperationException(
+									throw new GammaTransformationException(
 										"Table transformation error, enumeration literal cannot be found of event: " +
-											inPort.name + "." + ref.event.name + ", literal: " + value)
+											inPort.name + "." + ref.event.name + ", literal: " + value +
+											" in Excel file: " + file,statechart)
 								}
 								enumLitExp.reference = litIt.next
 								eqExpr.rightOperand = enumLitExp
@@ -236,20 +249,28 @@ class TableTransformation2 {
 								p.typeDefinition instanceof IntegerTypeDefinition
 							].iterator
 							if (! paramIt.hasNext) {
-								throw new UnsupportedOperationException(
-									"Table transformation error, event integer parameter cannot be found: " + value)
+								throw new GammaTransformationException(
+									"Table transformation error, event integer parameter cannot be found: " + value +
+										" in Excel file: " + file,statechart)
 							}
 							val param = paramIt.next
 							val ref = ifModelFactory.createEventParameterReferenceExpression
 							ref.port = inPort
 							ref.event = inPort.inputEvents.filter [ e |
-								!e.parameterDeclarations.filter[p|p.typeDefinition instanceof IntegerTypeDefinition].empty
+								!e.parameterDeclarations.filter[p|p.typeDefinition instanceof IntegerTypeDefinition].
+									empty
 							].iterator.next
 							ref.parameter = param
 							val eqExpr = expModelFactory.createEqualityExpression
-							val intLitExp = expModelFactory.createIntegerLiteralExpression
-							intLitExp.value = new BigInteger(value.toString)
-							eqExpr.rightOperand = intLitExp
+							if (value == (value as int)) {
+								val intLitExp = expModelFactory.createIntegerLiteralExpression
+								intLitExp.value = new BigInteger((value as int).toString)
+								eqExpr.rightOperand = intLitExp
+							} else {
+								val decLitExp = expModelFactory.createDecimalLiteralExpression
+								decLitExp.value = new BigDecimal(value.toString)
+								eqExpr.rightOperand = decLitExp
+							}
 							eqExpr.leftOperand = ref
 							guardExpr.operands += eqExpr
 
@@ -260,14 +281,16 @@ class TableTransformation2 {
 								p.typeDefinition instanceof BooleanTypeDefinition
 							].iterator
 							if (! paramIt.hasNext) {
-								throw new UnsupportedOperationException(
-									"Table transformation error, event Boolean parameter cannot be found: " + value)
+								throw new GammaTransformationException(
+									"Table transformation error, event Boolean parameter cannot be found: " + value +
+										" in Excel file: " + file,statechart)
 							}
 							val param = paramIt.next
 							val ref = ifModelFactory.createEventParameterReferenceExpression
 							ref.port = inPort
 							ref.event = inPort.inputEvents.filter [ e |
-								!e.parameterDeclarations.filter[p|p.typeDefinition instanceof BooleanTypeDefinition].empty
+								!e.parameterDeclarations.filter[p|p.typeDefinition instanceof BooleanTypeDefinition].
+									empty
 							].iterator.next
 							ref.parameter = param
 							if (value) {
@@ -280,35 +303,48 @@ class TableTransformation2 {
 						}
 					}
 				}
-				if (!guardExpr.operands.empty) {
+				if (guardExpr.operands.length == 1) {
+					transition.guard = guardExpr.operands.get(0)
+				} else if (!guardExpr.operands.empty) {
 					transition.guard = guardExpr
 				} else {
+					transition.guard = expModelFactory.createElseExpression()
 				}
-				//val empty_cell = cellIterator.next // reading empty cell, do not delete
-				//if (!empty_cell.blank) {
-				//	throw new UnsupportedOperationException("Missing empty in-out separator cell in file: " + file)
-				//}
 				for (j : 0 .. outPortNames.length - 1) {
 					val cell = cellIterator.next
 					val outPort = outPorts.get(j)
 
 					if (cell.cellType == CellType.STRING) {
 						val value = cell.stringCellValue
-						val param = outPort.outputEvents.flatMap[e|e.parameterDeclarations].filter [ p |
+						val paramIt = outPort.outputEvents.flatMap[e|e.parameterDeclarations].filter [ p |
 							p.typeDefinition instanceof EnumerableTypeDefinition
-						].iterator.next
+						].iterator
+						if (! paramIt.hasNext) {
+							throw new GammaTransformationException(
+								"Table transformation error, event enumeration parameter cannot be found: " +
+									outPort.name + " in Excel file: " + file,statechart)
+						}
+						val param = paramIt.next
 						val raiseAct = sctModelFactory.createRaiseEventAction
 						raiseAct.port = outPort
-						raiseAct.event = outPort.inputEvents.filter [ e |
-							!e.parameterDeclarations.filter[p|p.typeDefinition instanceof EnumerableTypeDefinition].empty
+						raiseAct.event = outPort.outputEvents.filter [ e |
+							!e.parameterDeclarations.filter[p|p.typeDefinition instanceof EnumerableTypeDefinition].
+								empty
 						].iterator.next
 						val enumLitExp = expModelFactory.createEnumerationLiteralExpression
 						val typeRefExep = expModelFactory.createTypeReference
 						typeRefExep.reference = param.typeDefinition.typeDeclaration
 						enumLitExp.typeReference = typeRefExep
-						enumLitExp.reference = (param.typeDefinition as EnumerationTypeDefinition).literals.filter [ l |
+						val enumLitREfIt = (param.typeDefinition as EnumerationTypeDefinition).literals.filter [ l |
 							l.name.equals(value)
-						].iterator.next
+						].iterator
+						if (! enumLitREfIt.hasNext) {
+							throw new GammaTransformationException(
+								"Table transformation error, enumeration literal cannot be found of event: " +
+									outPort.name + "." + raiseAct.event.name + ", literal: " + value +
+									" in Excel file: " + file,statechart)
+						}
+						enumLitExp.reference = enumLitREfIt.next
 						raiseAct.arguments += enumLitExp
 						transition.effects += raiseAct;
 						if (isFirst) {
@@ -319,17 +355,24 @@ class TableTransformation2 {
 						val value = cell.numericCellValue
 						val raiseAct = sctModelFactory.createRaiseEventAction
 						raiseAct.port = outPort
-						raiseAct.event = outPort.outputEvents.filter [ e |
+						val eventIt = outPort.outputEvents.filter [ e |
 							!e.parameterDeclarations.filter[p|p.typeDefinition instanceof IntegerTypeDefinition].empty
-						].iterator.next
-						if (value==(value as int)){
+						].iterator
+						if (! eventIt.hasNext) {
+							throw new GammaTransformationException(
+								"Table transformation error, event integer parameter cannot be found: " + value +
+									" in Excel file: " + file,statechart)
+						}
+
+						raiseAct.event = eventIt.next
+						if (value == (value as int)) {
 							val intLitExp = expModelFactory.createIntegerLiteralExpression
 							intLitExp.value = new BigInteger((value as int).toString)
 							raiseAct.arguments += intLitExp
-						}else{
-							val intLitExp = expModelFactory.createDecimalLiteralExpression
-							intLitExp.value = new BigDecimal(value.toString)
-							raiseAct.arguments += intLitExp
+						} else {
+							val decLitExp = expModelFactory.createDecimalLiteralExpression
+							decLitExp.value = new BigDecimal(value.toString)
+							raiseAct.arguments += decLitExp
 						}
 						transition.effects += raiseAct;
 						if (isFirst) {
@@ -341,9 +384,15 @@ class TableTransformation2 {
 						val value = cell.booleanCellValue
 						val raiseAct = sctModelFactory.createRaiseEventAction
 						raiseAct.port = outPort
-						raiseAct.event = outPort.outputEvents.filter [ e |
+						val eventIt = outPort.outputEvents.filter [ e |
 							!e.parameterDeclarations.filter[p|p.typeDefinition instanceof BooleanTypeDefinition].empty
-						].iterator.next
+						].iterator
+						if (! eventIt.hasNext) {
+							throw new GammaTransformationException(
+								"Table transformation error, event boolean parameter cannot be found: " + value +
+									" in Excel file: " + file,statechart)
+						}
+						raiseAct.event = eventIt.next
 						if (value) {
 							raiseAct.arguments += expModelFactory.createTrueExpression
 						} else {
@@ -369,6 +418,9 @@ class TableTransformation2 {
 	}
 
 	static def simplifyName(String name) {
+		if (name == "anonym") {
+			return ""
+		}
 		var simplifiedName = name.replace(".", "_")
 		// replace formbidden characters
 		val forbiddenCharacters = #["-", ":", " ", "(", ")", "{", "}", "[", "]", "{", "}", ",", ";", ";", "%", "!", "&",

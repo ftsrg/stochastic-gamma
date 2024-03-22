@@ -213,7 +213,7 @@ class EAElementTransformation {
 			return trace.get(data.elementID) as hu.bme.mit.gamma.architecture.model.System
 		}
 		var architectureInterface = modelFactory.createArchitectureInterface
-		architectureInterface.name = data.name.simplifyName + "Interface"
+		architectureInterface.name = data.name.simplifyName + "SignalInterface"
 		val event = ifModelFactory.createEvent
 		event.name = data.name.simplifyName
 		val eventDecl = ifModelFactory.createEventDeclaration
@@ -225,7 +225,7 @@ class EAElementTransformation {
 	}
 
 	def transformReception(OperationData data) {
-		val elementGUID = data.style_ex.replace("-=1;SignalGUID=", "").replace(";", "")
+		val elementGUID = data.style_ex.replace("Reception=1;SignalGUID=", "").replace(";", "")
 		if (trace.contains(elementGUID) && trace.contains(data.element_id)) {
 			val signalInterface = trace.get(trace.get(elementGUID)) as ArchitectureInterface
 			val architectureInterface = trace.get(data.element_id) as ArchitectureInterface

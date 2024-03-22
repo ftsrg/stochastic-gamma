@@ -404,10 +404,10 @@ class SQLUtils {
 		t_connector.Name as Name,
 		t_xref.Description as Description
 	from t_connector
-	left join t_xref on t_xref.client = t_connector.ea_guid
+	left join (select * from t_xref where t_xref.Behavior = 'conveyed') t_xref 
+		on  t_connector.ea_guid = t_xref.client 
 	where 
-		(t_connector.Connector_Type = 'InformationFlow') AND
-		(t_xref.Behavior = 'conveyed');
+		(t_connector.Connector_Type = 'InformationFlow') 
 	'''
 	
 	static def getAllConnectors()'''

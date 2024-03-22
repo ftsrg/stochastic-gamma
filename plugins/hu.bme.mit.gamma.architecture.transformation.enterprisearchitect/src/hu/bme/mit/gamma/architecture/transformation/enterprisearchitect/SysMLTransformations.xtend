@@ -78,11 +78,17 @@ class SysMLTransformations {
 		}
 		var gammaInterfaces=<Interface>newArrayList
 		for (i:archInterfaces){
-			val gammaInterface=gammaTransformer.transformInterface(i)
+			gammaTransformer.transformInterface(i)
+		}
+		
+		
+		for (i:archInterfaces){
+			val gammaInterface=gammaTransformer.transformInterfaceGeneralization(i)
 			gammaTransformer.packageElement(gammaInterface)
 			gammaInterfaces+=gammaInterface
 			gammaTransformer.generateInterfaceComponent(gammaInterface)
 		}
+
 
 		
 		val primitiveFunctions=root_pkg.primitiveFunctions

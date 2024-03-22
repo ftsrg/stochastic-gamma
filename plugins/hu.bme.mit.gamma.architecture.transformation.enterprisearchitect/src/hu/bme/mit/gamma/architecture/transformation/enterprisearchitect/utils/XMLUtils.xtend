@@ -150,6 +150,9 @@ class XMLUtils {
 				if (field.nodeName == "Scope") {
 					scope = field.textContent
 				}
+				if (field.nodeName == "StyleEx") {
+					style_ex = field.textContent
+				}
 			}
 			dataList.add(new OperationData(
 				name,

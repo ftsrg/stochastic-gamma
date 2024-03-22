@@ -131,7 +131,7 @@ class EnterpriseArchitectTransformation {
 		
 		val interfaceBlockData = eaDataLoader.loadInterfaceBlocksFromPackage(packageIDs)
 		val interfaceData = eaDataLoader.loadInterfacesFromPackage(packageIDs)
-		val signalData = eaDataLoader.loadInterfacesFromPackage(packageIDs)
+		val signalData = eaDataLoader.loadAllSignals(packageIDs)
 
 		root_pkg.architectureelement += signalData.map[d|d.transformSignal].toList
 		root_pkg.architectureelement += interfaceData.map[d|d.transformInterface].toList
@@ -337,7 +337,7 @@ class EnterpriseArchitectTransformation {
 		
 		logger.log(Level.INFO, "Transform generalization")
 		val generalizationData=eaDataLoader.loadAllGeneralization
-		for (data:realizationData){
+		for (data:generalizationData){
 			data.transformGeneralization
 		}
 		
@@ -476,6 +476,7 @@ class EnterpriseArchitectTransformation {
 				} else {
 					try {
 						val port = portData.transformPort
+						//containingElement.put(port, containingElement.get(trace.get(portData.conainerID)))
 						allPorts += port
 					} catch (Exception e) {
 						logger.log(Level.SEVERE, '''

@@ -55,10 +55,12 @@ class EAConnectorTransformation {
 				var flow = modelFactory.createInformationFlow
 				flow.source = trace.get(connectorData.sourceID)
 				flow.target = trace.get(connectorData.targetID)
-				val typeID = trace.get(typeStr)
-				val type = trace.get(typeID)
+				if (!typeStr.blank) {
+					val typeID = trace.get(typeStr)
+					val type = trace.get(typeID)
+					flow.type = type as ArchitectureInterface
+				}
 				flow.name = NamingUtils.simplifyName(connectorData.Name)
-				flow.type = type as ArchitectureInterface
 				var container = containingElement.get(flow.source)
 				container.relations.add(flow)
 			}

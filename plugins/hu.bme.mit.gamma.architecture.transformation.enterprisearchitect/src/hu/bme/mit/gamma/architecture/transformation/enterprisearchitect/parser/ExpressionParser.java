@@ -2,9 +2,11 @@ package hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.parser;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Iterator;
 
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.traceability.ElementTrace;
 import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException;
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException;
 import hu.bme.mit.gamma.architecture.transformation.traceability.ArchitectureTrace;
 import hu.bme.mit.gamma.architecture.transformation.util.TransformationUtils;
 import hu.bme.mit.gamma.expression.model.DecimalLiteralExpression;
@@ -36,7 +38,8 @@ public class ExpressionParser {
 		this.trace = trace;
 	}
 
-	public Expression eval(String str, AsynchronousStatechartDefinition contextStatechart) {
+	public Expression eval(String str, AsynchronousStatechartDefinition contextStatechart)
+			throws GammaTransformationException {
 		if (str.isBlank()) {
 			return null;
 		}
@@ -55,27 +58,34 @@ public class ExpressionParser {
 		return funStream.findFirst().get();
 	}
 
-	DirectReferenceExpression searchVariable(String varName) {
-		var varStream = statechart.getVariableDeclarations().stream().filter(f -> f.getName().equals(varName));
+	DirectReferenceExpression searchVariable(String varName) throws GammaTransformationException {
+		Iterator<VariableDeclaration> varStream = statechart.getVariableDeclarations().stream()
+				.filter(f -> f.getName().equals(varName)).iterator();
 		var varRef = expFactory.createDirectReferenceExpression();
-		varRef.setDeclaration(varStream.findFirst().get());
+		if (!varStream.hasNext()) {
+			throw new GammaTransformationException(
+					"Parser Exception; Variable reference cannot be found '" + varName + "' in '" + str + "'",
+					statechart);
+		}
+		varRef.setDeclaration(varStream.next());
 		return varRef;
 	}
 
-	EventParameterReferenceExpression searchFlowProperty(String portName, String eventName) {
+	EventParameterReferenceExpression searchFlowProperty(String portName, String eventName)
+			throws GammaTransformationException {
 
 		var portIterator = StatechartModelDerivedFeatures.getAllPortsWithInput(statechart).stream()
 				.filter(p -> p.getName().matches('^' + TransformationUtils.getGammaName(portName) + ".+(In|Out)$"))
 				.iterator();
 
 		if (!portIterator.hasNext()) {
-			throw new RuntimeException(
-					"Parser Exception; Port reference cannot be found '" + portName + "' in '" + str + "'");
+			throw new GammaTransformationException(
+					"Parser Exception; Port reference cannot be found '" + portName + "' in '" + str + "'", statechart);
 		}
 		var port = portIterator.next();
 
 		if (portIterator.hasNext()) {
-			throw new RuntimeException(
+			throw new GammaTransformationException(
 					"Parser Exception; Port reference is ambigous  '" + portName + "' in '" + str + "'");
 		}
 
@@ -85,29 +95,32 @@ public class ExpressionParser {
 				.iterator();
 
 		if (!eventIterator.hasNext()) {
-			throw new RuntimeException(
-					"Parser Exception; Event reference cannot be found '" + eventName + "' in '" + str + "'");
+			throw new GammaTransformationException(
+					"Parser Exception; Event reference cannot be found '" + eventName + "' in '" + str + "'",
+					statechart);
 		}
 		var event = eventIterator.next();
 
 		if (eventIterator.hasNext()) {
-			throw new RuntimeException(
-					"Parser Exception; Event reference is ambigous  '" + eventName + "' in '" + str + "'");
+			throw new GammaTransformationException(
+					"Parser Exception; Event reference is ambigous  '" + eventName + "' in '" + str + "'", statechart);
 		}
 
 		var paramIterator = event.getParameterDeclarations().stream()
 				.filter(p -> p.getName().equals(TransformationUtils.getGammaName(eventName))).iterator();
 
 		if (!paramIterator.hasNext()) {
-			throw new RuntimeException(
-					"Parser Exception; Parameter reference cannot be found '" + eventName + "' in '" + str + "'");
+			throw new GammaTransformationException(
+					"Parser Exception; Parameter reference cannot be found '" + eventName + "' in '" + str + "'",
+					statechart);
 		}
 
 		var param = paramIterator.next();
 
 		if (paramIterator.hasNext()) {
-			throw new RuntimeException(
-					"Parser Exception; Parameter reference is ambigous  '" + eventName + "' in '" + str + "'");
+			throw new GammaTransformationException(
+					"Parser Exception; Parameter reference is ambigous  '" + eventName + "' in '" + str + "'",
+					statechart);
 		}
 
 		var ref = ifFactory.createEventParameterReferenceExpression();
@@ -135,11 +148,11 @@ public class ExpressionParser {
 		return false;
 	}
 
-	Expression parse() {
+	Expression parse() throws GammaTransformationException {
 		nextChar();
 		Expression x = parseExpression();
 		if (pos < str.length())
-			throw new RuntimeException("Unexpected: " + (char) ch);
+			throw new GammaTransformationException("Unexpected: " + (char) ch,statechart);
 		return x;
 	}
 
@@ -150,7 +163,7 @@ public class ExpressionParser {
 	// | functionName `(` expression `)` | functionName factor
 	// | factor `^` factor
 
-	Expression parseExpression() {
+	Expression parseExpression() throws GammaTransformationException {
 		Expression x = parseTerm();
 		for (;;) {
 			if (eat('+')) {
@@ -177,7 +190,7 @@ public class ExpressionParser {
 		}
 	}
 
-	Expression parseTerm() {
+	Expression parseTerm() throws GammaTransformationException {
 		Expression x = parseFactor();
 		for (;;) {
 			if (eat('*')) {
@@ -225,7 +238,7 @@ public class ExpressionParser {
 		return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_' || (ch >= '0' && ch <= '9');
 	}
 
-	Expression parseFactor() {
+	Expression parseFactor() throws GammaTransformationException {
 
 		if (eat('+')) {
 			var plus = expFactory.createUnaryPlusExpression();
@@ -255,8 +268,9 @@ public class ExpressionParser {
 		int startPos = this.pos;
 		if (eat('(')) { // parentheses
 			x = parseExpression();
-			if (!eat(')'))
-				throw new RuntimeException("Parser Exception; Missing ')' in " + str + " at " + pos);
+			if (!eat(')')) {
+				throw new GammaTransformationException("Parser Exception; Missing ')' in " + str + " at " + pos,statechart);
+			}
 		}
 		/*
 		 * else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers while ((ch >=
@@ -274,10 +288,12 @@ public class ExpressionParser {
 				x = expFactory.createTrueExpression();
 			} else if (str1.equals("false")) {
 				x = expFactory.createFalseExpression();
+			}else if (str1.equals("else")) {
+				x = expFactory.createElseExpression();
 			} else if (eat('(')) {
 				x = parseExpression();
 				if (!eat(')')) {
-					throw new RuntimeException("Missing ')' after argument to " + str1);
+					throw new GammaTransformationException("Missing ')' after argument to " + str1,statechart);
 				} else {
 
 				}
@@ -306,36 +322,38 @@ public class ExpressionParser {
 
 				var enumDecls = trace.getInterfacePackage().getTypeDeclarations().stream()
 						.filter(decl -> decl.getType() instanceof EnumerableTypeDefinition)
-						.filter(decl -> decl.getName().equals(TransformationUtils.getGammaName(str1)+"_Enum")).toList();
+						.filter(decl -> decl.getName().equals(TransformationUtils.getGammaName(str1) + "_Enum"))
+						.toList();
 
-				if(enumDecls.size()==0) {
-					throw new RuntimeException(
-							"Parser Exception; Enum Type reference is not found '" + str1 + "' in '" + str + "'");
+				if (enumDecls.size() == 0) {
+					throw new GammaTransformationException(
+							"Parser Exception; Enum Type reference is not found '" + str1 + "' in '" + str + "'",statechart);
 				}
 
-				if(enumDecls.size()>1) {
-					throw new RuntimeException(
-							"Parser Exception; Enum Type reference is ambigous '" + str1 + "' in '" + str + "'");
+				if (enumDecls.size() > 1) {
+					throw new GammaTransformationException(
+							"Parser Exception; Enum Type reference is ambigous '" + str1 + "' in '" + str + "'",statechart);
 				}
-				
-				var enumLitExp=expFactory.createEnumerationLiteralExpression();
-				var typeRef=expFactory.createTypeReference();
-				var enumDecl=enumDecls.get(0);
+
+				var enumLitExp = expFactory.createEnumerationLiteralExpression();
+				var typeRef = expFactory.createTypeReference();
+				var enumDecl = enumDecls.get(0);
 				typeRef.setReference(enumDecl);
 				enumLitExp.setTypeReference(typeRef);
-				var enumLits=((EnumerationTypeDefinition) enumDecl.getType()).getLiterals().stream().filter(lit->lit.getName().equals(str2)).toList();
-				if(enumLits.size()==0) {
-					throw new RuntimeException(
-							"Parser Exception; Enum Literal reference is not found '" + str2 + "' in '" + str + "'");
+				var enumLits = ((EnumerationTypeDefinition) enumDecl.getType()).getLiterals().stream()
+						.filter(lit -> lit.getName().equals(str2)).toList();
+				if (enumLits.size() == 0) {
+					throw new GammaTransformationException(
+							"Parser Exception; Enum Literal reference is not found '" + str2 + "' in '" + str + "'",statechart);
 				}
 
-				if(enumLits.size()>1) {
-					throw new RuntimeException(
-							"Parser Exception; Enum Literal reference is ambigous '" + str2 + "' in '" + str + "'");
+				if (enumLits.size() > 1) {
+					throw new GammaTransformationException(
+							"Parser Exception; Enum Literal reference is ambigous '" + str2 + "' in '" + str + "'",statechart);
 				}
 				enumLitExp.setReference(enumLits.get(0));
-				
-				x=enumLitExp;
+
+				x = enumLitExp;
 
 			} else {
 				BigInteger intLiteral = null;
@@ -357,12 +375,12 @@ public class ExpressionParser {
 			 * Math.sin(Math.toRadians(x)); else if (func.equals("cos")) x =
 			 * Math.cos(Math.toRadians(x)); else if (func.equals("tan")) x =
 			 * Math.tan(Math.toRadians(x)); else throw new
-			 * RuntimeException("Unknown function: " + func);
+			 * GammaTransformationException("Unknown function: " + func);
 			 * 
 			 */
 		} else {
-			throw new RuntimeException("Parser Error; Unexpected character: " + (char) ch + " ASCII code :" + ch
-					+ " in expression: " + str + " at " + pos);
+			throw new GammaTransformationException("Parser Error; Unexpected character: " + (char) ch + " ASCII code :"
+					+ ch + " in expression: " + str + " at " + pos,statechart);
 		}
 
 		// if (eat('^'))

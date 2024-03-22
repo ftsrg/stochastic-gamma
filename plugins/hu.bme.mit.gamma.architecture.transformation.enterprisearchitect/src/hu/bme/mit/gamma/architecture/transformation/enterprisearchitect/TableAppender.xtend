@@ -13,6 +13,8 @@ import hu.bme.mit.gamma.action.model.ActionModelFactory
 import java.io.File
 import java.io.FileInputStream
 import hu.bme.mit.gamma.logictable.transformation.TableTransformation2
+import java.util.logging.Logger
+import java.util.logging.Level
 
 class TableAppender {
 	val FileData fileData
@@ -25,6 +27,8 @@ class TableAppender {
 	val ifModelFactory = InterfaceModelFactory.eINSTANCE
 	val actModelFactory = ActionModelFactory.eINSTANCE
 
+	protected Logger logger = Logger.getLogger("GammaLogger");
+	
 	new(ArchitectureTrace architectureTrace, ElementTrace elementTrace) {
 		this.fileData = elementTrace.fileData
 		this.elementTrace = elementTrace
@@ -68,6 +72,7 @@ class TableAppender {
 		val transformation=new TableTransformation2
 		for (sct:fileMap.keySet){
 			val file=fileMap.get(sct)
+			logger.log(Level.INFO,"Transforming Excel table: "+file)
 			transformation.generate(file,interfaces,sct)
 		}
 
