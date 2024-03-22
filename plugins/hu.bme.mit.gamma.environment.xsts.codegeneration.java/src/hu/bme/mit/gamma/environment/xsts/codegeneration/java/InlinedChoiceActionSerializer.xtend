@@ -55,7 +55,21 @@ class InlinedChoiceActionSerializer extends ActionSerializer {
 			«xSts.entryEventTransition.action.originalWrittenVariables.serializeFinalizationAssignments»
 		'''
 	}
-	
+
+	override serializeVariableReset(XSTS xSts) '''
+		«xSts.variableInitializingTransition.action.serialize»
+		«xSts.variableInitializingTransition.action.originalWrittenVariables.serializeFinalizationAssignments»
+	'''
+
+	override serializeStateConfigurationReset(XSTS xSts) '''
+		«xSts.configurationInitializingTransition.action.serialize»
+		«xSts.configurationInitializingTransition.action.originalWrittenVariables.serializeFinalizationAssignments»
+	'''
+
+	override serializeEntryEventRaise(XSTS xSts) '''
+		«xSts.entryEventTransition.action.serialize»
+		«xSts.entryEventTransition.action.originalWrittenVariables.serializeFinalizationAssignments»
+	'''
 	// Note that only the first transition is serialized
 	override CharSequence serializeChangeState(XSTS xSts) {
 		val variableDeclarations = xSts.variableDeclarations.map[it.originalVariable].filter(VariableDeclaration).toSet

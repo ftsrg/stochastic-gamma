@@ -23,6 +23,10 @@ abstract class ActionSerializer {
 	protected final extension ExpressionUtil expressionUtil = ExpressionUtil.INSTANCE
 	protected final extension GammaEcoreUtil ecoreUtil = GammaEcoreUtil.INSTANCE
 	protected final extension ExpressionModelFactory expressionModelFactory = ExpressionModelFactory.eINSTANCE
+
+	abstract def CharSequence serializeVariableReset(XSTS xSts)
+	abstract def CharSequence serializeStateConfigurationReset(XSTS xSts)
+	abstract def CharSequence serializeEntryEventRaise(XSTS xSts)
 	
 	abstract def CharSequence serializeInitializingAction(XSTS xSts)
 	abstract def CharSequence serializeChangeState(XSTS xSts)

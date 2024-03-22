@@ -18,6 +18,7 @@ import hu.bme.mit.gamma.xsts.model.XSTS
 
 import static extension hu.bme.mit.gamma.codegeneration.java.util.Namings.*
 import static extension hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures.*
+import static extension hu.bme.mit.gamma.expression.derivedfeatures.ExpressionModelDerivedFeatures.*
 import static extension hu.bme.mit.gamma.xsts.derivedfeatures.XstsDerivedFeatures.*
 import static extension hu.bme.mit.gamma.xsts.transformation.util.LowlevelNamings.*
 import hu.bme.mit.gamma.statechart.statechart.TimeoutDeclaration
@@ -86,13 +87,34 @@ class StatechartWrapperCodeGenerator {
 			}
 			
 			public void reset() {
+				this.handleBeforeReset();
+				this.resetVariables();
+				this.resetStateConfigurations();
+				this.raiseEntryEvents();
+				this.handleAfterReset();
+			}
+
+			public void handleBeforeReset() {
 				// Clearing the in events
 				insertQueue = true;
 				processQueue = false;
 				eventQueue1.clear();
 				eventQueue2.clear();
-				//
-				«CLASS_NAME.toFirstLower».reset();
+			}
+
+			public void resetVariables() {
+				«CLASS_NAME.toFirstLower».resetVariables();
+			}
+
+			public void resetStateConfigurations() {
+				«CLASS_NAME.toFirstLower».resetStateConfigurations();
+			}
+
+			public void raiseEntryEvents() {
+				«CLASS_NAME.toFirstLower».raiseEntryEvents();
+			}
+
+			public void handleAfterReset() {
 				timer.saveTime(this);
 				notifyListeners();
 				«IF gammaStatechart.hasInternalPort»handleInternalEvents();«ENDIF»

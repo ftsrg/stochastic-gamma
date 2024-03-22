@@ -37,7 +37,18 @@ class CommonizedVariableActionSerializer extends ActionSerializer {
 	override serializeInitializingAction(XSTS xSts) '''
 		«xSts.initializingAction.serialize»
 	'''
-	
+
+	override serializeVariableReset(XSTS xSts) '''
+		«xSts.variableInitializingTransition.action.serialize»
+	'''
+
+	override serializeStateConfigurationReset(XSTS xSts) '''
+		«xSts.configurationInitializingTransition.action.serialize»
+	'''
+
+	override serializeEntryEventRaise(XSTS xSts) '''
+		«xSts.entryEventTransition.action.serialize»
+	'''
 	// Note that only the first transition is serialized
 	override CharSequence serializeChangeState(XSTS xSts) '''
 		private void changeState() {

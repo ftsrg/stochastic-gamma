@@ -11,6 +11,7 @@ import hu.bme.mit.gamma.expression.model.Type;
 import hu.bme.mit.gamma.statechart.composite.AsynchronousAdapter;
 import hu.bme.mit.gamma.statechart.composite.ControlSpecification;
 import hu.bme.mit.gamma.statechart.composite.MessageQueue;
+import hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures;
 import hu.bme.mit.gamma.statechart.interface_.AnyTrigger;
 import hu.bme.mit.gamma.statechart.interface_.Clock;
 import hu.bme.mit.gamma.statechart.interface_.Port;
@@ -272,12 +273,104 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.append("@Override");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("public void reset() {");
+      _builder.append("public void reset(){");
       _builder.newLine();
       _builder.append("\t\t");
-      String _generateWrappedComponentName_1 = this.nameGenerator.generateWrappedComponentName(component);
-      _builder.append(_generateWrappedComponentName_1, "\t\t");
-      _builder.append(".reset();");
+      _builder.append("this.handleBeforeReset();");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("this.resetVariables();");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("this.resetStateConfigurations();");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("this.raiseEntryEvents();");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("this.handleAfterReset();");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("public void handleBeforeReset() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("interrupt();");
+      _builder.newLine();
+      {
+        boolean _isEmpty_2 = component.getClocks().isEmpty();
+        boolean _not_2 = (!_isEmpty_2);
+        if (_not_2) {
+          _builder.append("\t\t");
+          _builder.append("if (timerService != null) {");
+          _builder.newLine();
+          {
+            Collection<QueuesOfClocks.Match> _allMatches = QueuesOfClocks.Matcher.on(this.trace.engine).getAllMatches(component, null, null);
+            for(final QueuesOfClocks.Match match : _allMatches) {
+              _builder.append("\t\t");
+              _builder.append("\t\t");
+              _builder.append("timerService.unsetTimer(createTimerCallback(), ");
+              String _name_4 = match.getClock().getName();
+              _builder.append(_name_4, "\t\t\t\t");
+              _builder.append(");");
+              _builder.newLineIfNotEmpty();
+              _builder.append("\t\t");
+              _builder.append("\t\t");
+              _builder.append("timerService.setTimer(createTimerCallback(), ");
+              String _name_5 = match.getClock().getName();
+              _builder.append(_name_5, "\t\t\t\t");
+              _builder.append(", ");
+              String _valueInMs = this.getValueInMs(match.getClock().getTimeSpecification());
+              _builder.append(_valueInMs, "\t\t\t\t");
+              _builder.append(", true);");
+              _builder.newLineIfNotEmpty();
+            }
+          }
+          _builder.append("\t\t");
+          _builder.append("\t");
+          _builder.append("}");
+          _builder.newLine();
+        }
+      }
+      _builder.append("\t\t");
+      _builder.append("//");
+      _builder.newLine();
+      _builder.append("\t\t");
+      CharSequence _executeHandleBeforeReset = this.compositeComponentCodeGenerator.executeHandleBeforeReset(component);
+      _builder.append(_executeHandleBeforeReset, "\t\t");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.append("}");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("\t");
+      CharSequence _generateResetMethods = this.compositeComponentCodeGenerator.generateResetMethods(component);
+      _builder.append(_generateResetMethods, "\t");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("public void handleAfterReset() {");
+      _builder.newLine();
+      _builder.append("\t\t");
+      CharSequence _executeHandleAfterReset = this.compositeComponentCodeGenerator.executeHandleAfterReset(component);
+      _builder.append(_executeHandleAfterReset, "\t\t");
+      _builder.newLineIfNotEmpty();
+      _builder.append("\t\t");
+      _builder.append("//");
+      _builder.newLine();
+      _builder.append("\t\t");
+      {
+        boolean _hasInternalPort = StatechartModelDerivedFeatures.hasInternalPort(component);
+        if (_hasInternalPort) {
+          _builder.append("handleInternalEvents();");
+        }
+      }
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       _builder.append("}");
@@ -291,8 +384,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.append("private void init() {");
       _builder.newLine();
       _builder.append("\t\t");
-      String _generateWrappedComponentName_2 = this.nameGenerator.generateWrappedComponentName(component);
-      _builder.append(_generateWrappedComponentName_2, "\t\t");
+      String _generateWrappedComponentName_1 = this.nameGenerator.generateWrappedComponentName(component);
+      _builder.append(_generateWrappedComponentName_1, "\t\t");
       _builder.append(" = new ");
       String _generateComponentClassName_4 = this.nameGenerator.generateComponentClassName(component.getWrappedComponent().getType());
       _builder.append(_generateComponentClassName_4, "\t\t");
@@ -327,8 +420,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
         for(final MessageQueue queue_1 : _sortWith) {
           _builder.append("\t\t");
           _builder.append("__asyncQueue.addSubQueue(\"");
-          String _name_4 = queue_1.getName();
-          _builder.append(_name_4, "\t\t");
+          String _name_6 = queue_1.getName();
+          _builder.append(_name_6, "\t\t");
           _builder.append("\", -(");
           BigInteger _priority = queue_1.getPriority();
           _builder.append(_priority, "\t\t");
@@ -338,34 +431,34 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.append(");");
           _builder.newLineIfNotEmpty();
           _builder.append("\t\t");
-          String _name_5 = queue_1.getName();
-          _builder.append(_name_5, "\t\t");
+          String _name_7 = queue_1.getName();
+          _builder.append(_name_7, "\t\t");
           _builder.append(" = __asyncQueue.getSubQueue(\"");
-          String _name_6 = queue_1.getName();
-          _builder.append(_name_6, "\t\t");
+          String _name_8 = queue_1.getName();
+          _builder.append(_name_8, "\t\t");
           _builder.append("\");");
           _builder.newLineIfNotEmpty();
         }
       }
       _builder.append("\t\t");
       {
-        boolean _isEmpty_2 = component.getClocks().isEmpty();
-        boolean _not_2 = (!_isEmpty_2);
-        if (_not_2) {
+        boolean _isEmpty_3 = component.getClocks().isEmpty();
+        boolean _not_3 = (!_isEmpty_3);
+        if (_not_3) {
           _builder.append("// Creating clock callbacks for the single timer service");
         }
       }
       _builder.newLineIfNotEmpty();
       {
-        Collection<QueuesOfClocks.Match> _allMatches = QueuesOfClocks.Matcher.on(this.trace.getEngine()).getAllMatches(component, null, null);
-        for(final QueuesOfClocks.Match match : _allMatches) {
+        Collection<QueuesOfClocks.Match> _allMatches_1 = QueuesOfClocks.Matcher.on(this.trace.getEngine()).getAllMatches(component, null, null);
+        for(final QueuesOfClocks.Match match_1 : _allMatches_1) {
           _builder.append("\t\t");
           _builder.append("timerService.setTimer(createTimerCallback(), ");
-          String _name_7 = match.getClock().getName();
-          _builder.append(_name_7, "\t\t");
+          String _name_9 = match_1.getClock().getName();
+          _builder.append(_name_9, "\t\t");
           _builder.append(", ");
-          String _valueInMs = this.getValueInMs(match.getClock().getTimeSpecification());
-          _builder.append(_valueInMs, "\t\t");
+          String _valueInMs_1 = this.getValueInMs(match_1.getClock().getTimeSpecification());
+          _builder.append(_valueInMs_1, "\t\t");
           _builder.append(", true);");
           _builder.newLineIfNotEmpty();
         }
@@ -379,9 +472,9 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.append("\t");
       _builder.newLine();
       {
-        boolean _isEmpty_3 = component.getClocks().isEmpty();
-        boolean _not_3 = (!_isEmpty_3);
-        if (_not_3) {
+        boolean _isEmpty_4 = component.getClocks().isEmpty();
+        boolean _not_4 = (!_isEmpty_4);
+        if (_not_4) {
           _builder.append("\t");
           _builder.append("private ");
           _builder.append(Namings.TIMER_CALLBACK_INTERFACE, "\t");
@@ -406,23 +499,23 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.append("switch (eventId) {");
           _builder.newLine();
           {
-            Collection<QueuesOfClocks.Match> _allMatches_1 = QueuesOfClocks.Matcher.on(this.trace.getEngine()).getAllMatches(component, null, null);
-            for(final QueuesOfClocks.Match match_1 : _allMatches_1) {
+            Collection<QueuesOfClocks.Match> _allMatches_2 = QueuesOfClocks.Matcher.on(this.trace.getEngine()).getAllMatches(component, null, null);
+            for(final QueuesOfClocks.Match match_2 : _allMatches_2) {
               _builder.append("\t");
               _builder.append("\t\t\t\t");
               _builder.append("case ");
-              String _name_8 = match_1.getClock().getName();
-              _builder.append(_name_8, "\t\t\t\t\t");
+              String _name_10 = match_2.getClock().getName();
+              _builder.append(_name_10, "\t\t\t\t\t");
               _builder.append(":");
               _builder.newLineIfNotEmpty();
               _builder.append("\t");
               _builder.append("\t\t\t\t");
               _builder.append("\t");
-              String _name_9 = match_1.getQueue().getName();
-              _builder.append(_name_9, "\t\t\t\t\t\t");
+              String _name_11 = match_2.getQueue().getName();
+              _builder.append(_name_11, "\t\t\t\t\t\t");
               _builder.append(".offer(new Event(\"");
-              String _name_10 = match_1.getClock().getName();
-              _builder.append(_name_10, "\t\t\t\t\t\t");
+              String _name_12 = match_2.getClock().getName();
+              _builder.append(_name_12, "\t\t\t\t\t\t");
               _builder.append("\"));");
               _builder.newLineIfNotEmpty();
               _builder.append("\t");
@@ -646,8 +739,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.newLineIfNotEmpty();
           _builder.append("\t");
           _builder.append("\t\t");
-          String _generateWrappedComponentName_3 = this.nameGenerator.generateWrappedComponentName(component);
-          _builder.append(_generateWrappedComponentName_3, "\t\t\t");
+          String _generateWrappedComponentName_2 = this.nameGenerator.generateWrappedComponentName(component);
+          _builder.append(_generateWrappedComponentName_2, "\t\t\t");
           _builder.append(".get");
           String _firstUpper_11 = StringExtensions.toFirstUpper(port_3.getName());
           _builder.append(_firstUpper_11, "\t\t\t");
@@ -677,8 +770,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.append("\t");
           _builder.append("\t\t");
           _builder.append("return ");
-          String _generateWrappedComponentName_4 = this.nameGenerator.generateWrappedComponentName(component);
-          _builder.append(_generateWrappedComponentName_4, "\t\t\t");
+          String _generateWrappedComponentName_3 = this.nameGenerator.generateWrappedComponentName(component);
+          _builder.append(_generateWrappedComponentName_3, "\t\t\t");
           _builder.append(".get");
           String _firstUpper_13 = StringExtensions.toFirstUpper(port_3.getName());
           _builder.append(_firstUpper_13, "\t\t\t");
@@ -864,8 +957,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
                 _builder.appendImmediate(" || ", "\t\t");
               }
               _builder.append("portName.equals(\"");
-              String _name_11 = port_4.getName();
-              _builder.append(_name_11, "\t\t");
+              String _name_13 = port_4.getName();
+              _builder.append(_name_13, "\t\t");
               _builder.append("\")");
             }
           }
@@ -884,8 +977,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
                 _builder.appendImmediate(" || ", "\t\t");
               }
               _builder.append("portName.equals(\"");
-              String _name_12 = clock_1.getName();
-              _builder.append(_name_12, "\t\t");
+              String _name_14 = clock_1.getName();
+              _builder.append(_name_14, "\t\t");
               _builder.append("\")");
             }
           }
@@ -958,20 +1051,20 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
               _builder.newLine();
             } else {
               {
-                Collection<AnyPortTriggersOfWrappers.Match> _allMatches_2 = AnyPortTriggersOfWrappers.Matcher.on(this.trace.getEngine()).getAllMatches(component, controlSpecification, null, null);
-                for(final AnyPortTriggersOfWrappers.Match match_2 : _allMatches_2) {
+                Collection<AnyPortTriggersOfWrappers.Match> _allMatches_3 = AnyPortTriggersOfWrappers.Matcher.on(this.trace.getEngine()).getAllMatches(component, controlSpecification, null, null);
+                for(final AnyPortTriggersOfWrappers.Match match_3 : _allMatches_3) {
                   _builder.append("\t\t");
                   _builder.append("// Port trigger");
                   _builder.newLine();
                   _builder.append("\t\t");
                   _builder.append("if (eventName.length == 2 && eventName[0].equals(\"");
-                  String _name_13 = match_2.getPort().getName();
-                  _builder.append(_name_13, "\t\t");
+                  String _name_15 = match_3.getPort().getName();
+                  _builder.append(_name_15, "\t\t");
                   _builder.append("\")) {");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
                   _builder.append("\t");
-                  CharSequence _generateRunCycle_1 = this.generateRunCycle(match_2.getControlFunction(), this.nameGenerator.generateWrappedComponentName(component));
+                  CharSequence _generateRunCycle_1 = this.generateRunCycle(match_3.getControlFunction(), this.nameGenerator.generateWrappedComponentName(component));
                   _builder.append(_generateRunCycle_1, "\t\t\t");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
@@ -984,23 +1077,23 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
                 }
               }
               {
-                Collection<PortEventTriggersOfWrappers.Match> _allMatches_3 = PortEventTriggersOfWrappers.Matcher.on(this.trace.getEngine()).getAllMatches(component, controlSpecification, null, null, null);
-                for(final PortEventTriggersOfWrappers.Match match_3 : _allMatches_3) {
+                Collection<PortEventTriggersOfWrappers.Match> _allMatches_4 = PortEventTriggersOfWrappers.Matcher.on(this.trace.getEngine()).getAllMatches(component, controlSpecification, null, null, null);
+                for(final PortEventTriggersOfWrappers.Match match_4 : _allMatches_4) {
                   _builder.append("\t\t");
                   _builder.append("// Port event trigger");
                   _builder.newLine();
                   _builder.append("\t\t");
                   _builder.append("if (eventName.length == 2 && eventName[0].equals(\"");
-                  String _name_14 = match_3.getPort().getName();
-                  _builder.append(_name_14, "\t\t");
+                  String _name_16 = match_4.getPort().getName();
+                  _builder.append(_name_16, "\t\t");
                   _builder.append("\") && eventName[1].equals(\"");
-                  String _name_15 = match_3.getEvent().getName();
-                  _builder.append(_name_15, "\t\t");
+                  String _name_17 = match_4.getEvent().getName();
+                  _builder.append(_name_17, "\t\t");
                   _builder.append("\")) {");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
                   _builder.append("\t");
-                  CharSequence _generateRunCycle_2 = this.generateRunCycle(match_3.getControlFunction(), this.nameGenerator.generateWrappedComponentName(component));
+                  CharSequence _generateRunCycle_2 = this.generateRunCycle(match_4.getControlFunction(), this.nameGenerator.generateWrappedComponentName(component));
                   _builder.append(_generateRunCycle_2, "\t\t\t");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
@@ -1013,20 +1106,20 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
                 }
               }
               {
-                Collection<ClockTriggersOfWrappers.Match> _allMatches_4 = ClockTriggersOfWrappers.Matcher.on(this.trace.getEngine()).getAllMatches(component, controlSpecification, null, null);
-                for(final ClockTriggersOfWrappers.Match match_4 : _allMatches_4) {
+                Collection<ClockTriggersOfWrappers.Match> _allMatches_5 = ClockTriggersOfWrappers.Matcher.on(this.trace.getEngine()).getAllMatches(component, controlSpecification, null, null);
+                for(final ClockTriggersOfWrappers.Match match_5 : _allMatches_5) {
                   _builder.append("\t\t");
                   _builder.append("// Clock trigger");
                   _builder.newLine();
                   _builder.append("\t\t");
                   _builder.append("if (eventName.length == 1 && eventName[0].equals(\"");
-                  String _name_16 = match_4.getClock().getName();
-                  _builder.append(_name_16, "\t\t");
+                  String _name_18 = match_5.getClock().getName();
+                  _builder.append(_name_18, "\t\t");
                   _builder.append("\")) {");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
                   _builder.append("\t");
-                  CharSequence _generateRunCycle_3 = this.generateRunCycle(match_4.getControlFunction(), this.nameGenerator.generateWrappedComponentName(component));
+                  CharSequence _generateRunCycle_3 = this.generateRunCycle(match_5.getControlFunction(), this.nameGenerator.generateWrappedComponentName(component));
                   _builder.append(_generateRunCycle_3, "\t\t\t");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t");
@@ -1103,8 +1196,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.newLineIfNotEmpty();
       _builder.append("\t\t");
       _builder.append("return ");
-      String _generateWrappedComponentName_5 = this.nameGenerator.generateWrappedComponentName(component);
-      _builder.append(_generateWrappedComponentName_5, "\t\t");
+      String _generateWrappedComponentName_4 = this.nameGenerator.generateWrappedComponentName(component);
+      _builder.append(_generateWrappedComponentName_4, "\t\t");
       _builder.append(";");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
@@ -1123,9 +1216,9 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.append("\t");
           _builder.append("\t");
           {
-            boolean _isEmpty_4 = component.getClocks().isEmpty();
-            boolean _not_4 = (!_isEmpty_4);
-            if (_not_4) {
+            boolean _isEmpty_5 = component.getClocks().isEmpty();
+            boolean _not_5 = (!_isEmpty_5);
+            if (_not_5) {
               _builder.append("timerService = timer;");
             }
           }
@@ -1135,8 +1228,8 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           {
             boolean _needTimer_2 = this.timingDeterminer.needTimer(component.getWrappedComponent().getType());
             if (_needTimer_2) {
-              String _generateWrappedComponentName_6 = this.nameGenerator.generateWrappedComponentName(component);
-              _builder.append(_generateWrappedComponentName_6, "\t\t");
+              String _generateWrappedComponentName_5 = this.nameGenerator.generateWrappedComponentName(component);
+              _builder.append(_generateWrappedComponentName_5, "\t\t");
               _builder.append(".setTimer(timer);");
             }
           }

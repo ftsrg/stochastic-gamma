@@ -165,9 +165,27 @@ class EnvironmentSynchronousCompositeComponentCodeGenerator extends SynchronousC
 			/** Resets the contained statemachines recursively. Must be called to initialize the component. */
 			@Override
 			public void reset() {
-				«FOR instance : component.components»
-					«instance.name».reset();
-				«ENDFOR»				
+				this.handleBeforeReset();
+				this.resetVariables();
+				this.resetStateConfigurations();
+				this.raiseEntryEvents();
+				this.handleAfterReset();
+			}
+
+			public void handleBeforeReset() {
+				//
+				«component.executeHandleBeforeReset»
+				«IF component instanceof EnvironmentSynchronousCompositeComponent»
+					«FOR port : component.ports.filter[p|p.detPortBindings.empty]»
+						«port.name.toFirstLower».reset();
+					«ENDFOR»
+				«ENDIF»
+			}
+
+			«component.generateResetMethods»
+
+			public void handleAfterReset() {
+				«component.executeHandleAfterReset»
 				«IF component instanceof CascadeCompositeComponent»
 					// Setting only a single queue for cascade statecharts
 					«FOR instance : component.components.filter[it.type instanceof StatechartDefinition]»
@@ -177,7 +195,7 @@ class EnvironmentSynchronousCompositeComponentCodeGenerator extends SynchronousC
 				«IF component instanceof EnvironmentSynchronousCompositeComponent»
 					«FOR envComp : component.environmentComponents»
 						«IF envComp instanceof EnvironmentSynchronousCompositeComponentInstance»
-							«envComp.name».reset();
+							//«envComp.name».reset();
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»

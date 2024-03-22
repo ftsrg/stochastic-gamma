@@ -78,8 +78,38 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 			
 			/** Resets the wrapped component. Must be called to initialize the component. */
 			@Override
-			public void reset() {
-				«component.generateWrappedComponentName».reset();
+			public void reset(){
+				this.handleBeforeReset();
+				this.resetVariables();
+				this.resetStateConfigurations();
+				this.raiseEntryEvents();
+				this.handleAfterReset();
+			}
+			
+			public void handleBeforeReset() {
+				interrupt();
+				«IF !component.clocks.empty»
+				if (timerService != null) {
+						«FOR match : QueuesOfClocks.Matcher.on(engine).getAllMatches(component, null, null)»
+							timerService.unsetTimer(createTimerCallback(), «match.clock.name»);
+							timerService.setTimer(createTimerCallback(), «match.clock.name», «match.clock.timeSpecification.valueInMs», true);
+						«ENDFOR»
+					}
+				«ENDIF»
+«««				Queues cannot be reset due to message sending upon reset (in other components)
+«««				«FOR queue : component.messageQueues»
+«««					«queue.name».clear();
+«««				«ENDFOR»
+				//
+				«component.executeHandleBeforeReset»
+			}
+			
+			«component.generateResetMethods»
+			
+			public void handleAfterReset() {
+				«component.executeHandleAfterReset»
+				//
+				«IF component.hasInternalPort»handleInternalEvents();«ENDIF»
 			}
 			
 			/** Creates the subqueues, clocks and enters the wrapped synchronous component. */

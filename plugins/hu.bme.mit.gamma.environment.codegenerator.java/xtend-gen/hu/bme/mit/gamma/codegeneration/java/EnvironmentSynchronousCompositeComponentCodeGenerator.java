@@ -366,31 +366,83 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
     _builder.append("\t");
     _builder.append("public void reset() {");
     _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.handleBeforeReset();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.resetVariables();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.resetStateConfigurations();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.raiseEntryEvents();");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.handleAfterReset();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("public void handleBeforeReset() {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("//");
+    _builder.newLine();
+    _builder.append("\t\t");
+    CharSequence _executeHandleBeforeReset = this.compositeComponentCodeGenerator.executeHandleBeforeReset(component);
+    _builder.append(_executeHandleBeforeReset, "\t\t");
+    _builder.newLineIfNotEmpty();
     {
-      EList<SynchronousComponentInstance> _components_1 = component.getComponents();
-      for(final SynchronousComponentInstance instance_4 : _components_1) {
-        _builder.append("\t\t");
-        String _name_6 = instance_4.getName();
-        _builder.append(_name_6, "\t\t");
-        _builder.append(".reset();");
-        _builder.newLineIfNotEmpty();
+      if ((component instanceof EnvironmentSynchronousCompositeComponent)) {
+        {
+          final Function1<Port, Boolean> _function = (Port p) -> {
+            return Boolean.valueOf(EnvironmentModelDerivedFeatures.getDetPortBindings(p).isEmpty());
+          };
+          Iterable<Port> _filter = IterableExtensions.<Port>filter(((EnvironmentSynchronousCompositeComponent)component).getPorts(), _function);
+          for(final Port port_1 : _filter) {
+            _builder.append("\t\t");
+            String _firstLower_1 = StringExtensions.toFirstLower(port_1.getName());
+            _builder.append(_firstLower_1, "\t\t");
+            _builder.append(".reset();");
+            _builder.newLineIfNotEmpty();
+          }
+        }
       }
     }
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("\t");
+    CharSequence _generateResetMethods = this.compositeComponentCodeGenerator.generateResetMethods(component);
+    _builder.append(_generateResetMethods, "\t");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("public void handleAfterReset() {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    CharSequence _executeHandleAfterReset = this.compositeComponentCodeGenerator.executeHandleAfterReset(component);
+    _builder.append(_executeHandleAfterReset, "\t\t");
+    _builder.newLineIfNotEmpty();
     {
       if ((component instanceof CascadeCompositeComponent)) {
         _builder.append("\t\t");
         _builder.append("// Setting only a single queue for cascade statecharts");
         _builder.newLine();
         {
-          final Function1<SynchronousComponentInstance, Boolean> _function = (SynchronousComponentInstance it) -> {
+          final Function1<SynchronousComponentInstance, Boolean> _function_1 = (SynchronousComponentInstance it) -> {
             SynchronousComponent _type = it.getType();
             return Boolean.valueOf((_type instanceof StatechartDefinition));
           };
-          Iterable<SynchronousComponentInstance> _filter = IterableExtensions.<SynchronousComponentInstance>filter(((CascadeCompositeComponent)component).getComponents(), _function);
-          for(final SynchronousComponentInstance instance_5 : _filter) {
+          Iterable<SynchronousComponentInstance> _filter_1 = IterableExtensions.<SynchronousComponentInstance>filter(((CascadeCompositeComponent)component).getComponents(), _function_1);
+          for(final SynchronousComponentInstance instance_4 : _filter_1) {
             _builder.append("\t\t");
-            String _name_7 = instance_5.getName();
-            _builder.append(_name_7, "\t\t");
+            String _name_6 = instance_4.getName();
+            _builder.append(_name_6, "\t\t");
             _builder.append(".change");
             String _firstUpper_3 = StringExtensions.toFirstUpper(this.INSERT_QUEUE);
             _builder.append(_firstUpper_3, "\t\t");
@@ -408,8 +460,9 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
             {
               if ((envComp instanceof EnvironmentSynchronousCompositeComponentInstance)) {
                 _builder.append("\t\t");
-                String _name_8 = ((EnvironmentSynchronousCompositeComponentInstance)envComp).getName();
-                _builder.append(_name_8, "\t\t");
+                _builder.append("//");
+                String _name_7 = ((EnvironmentSynchronousCompositeComponentInstance)envComp).getName();
+                _builder.append(_name_7, "\t\t");
                 _builder.append(".reset();");
                 _builder.newLineIfNotEmpty();
               }
@@ -447,28 +500,28 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         {
           if (((!(channelMatch.getProvidedPort().getInstance() instanceof ElementaryEnvironmentComponentInstance)) && (!(channelMatch.getRequiredPort().getInstance() instanceof ElementaryEnvironmentComponentInstance)))) {
             _builder.append("\t\t");
-            String _name_9 = channelMatch.getProvidedPort().getInstance().getName();
-            _builder.append(_name_9, "\t\t");
+            String _name_8 = channelMatch.getProvidedPort().getInstance().getName();
+            _builder.append(_name_8, "\t\t");
             _builder.append(".get");
             String _firstUpper_4 = StringExtensions.toFirstUpper(channelMatch.getProvidedPort().getPort().getName());
             _builder.append(_firstUpper_4, "\t\t");
             _builder.append("().registerListener(");
-            String _name_10 = channelMatch.getRequiredPort().getInstance().getName();
-            _builder.append(_name_10, "\t\t");
+            String _name_9 = channelMatch.getRequiredPort().getInstance().getName();
+            _builder.append(_name_9, "\t\t");
             _builder.append(".get");
             String _firstUpper_5 = StringExtensions.toFirstUpper(channelMatch.getRequiredPort().getPort().getName());
             _builder.append(_firstUpper_5, "\t\t");
             _builder.append("());");
             _builder.newLineIfNotEmpty();
             _builder.append("\t\t");
-            String _name_11 = channelMatch.getRequiredPort().getInstance().getName();
-            _builder.append(_name_11, "\t\t");
+            String _name_10 = channelMatch.getRequiredPort().getInstance().getName();
+            _builder.append(_name_10, "\t\t");
             _builder.append(".get");
             String _firstUpper_6 = StringExtensions.toFirstUpper(channelMatch.getRequiredPort().getPort().getName());
             _builder.append(_firstUpper_6, "\t\t");
             _builder.append("().registerListener(");
-            String _name_12 = channelMatch.getProvidedPort().getInstance().getName();
-            _builder.append(_name_12, "\t\t");
+            String _name_11 = channelMatch.getProvidedPort().getInstance().getName();
+            _builder.append(_name_11, "\t\t");
             _builder.append(".get");
             String _firstUpper_7 = StringExtensions.toFirstUpper(channelMatch.getProvidedPort().getPort().getName());
             _builder.append(_firstUpper_7, "\t\t");
@@ -487,14 +540,14 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         {
           if (((!(channelMatch_1.getProvidedPort().getInstance() instanceof ElementaryEnvironmentComponentInstance)) && (!(channelMatch_1.getRequiredPort().getInstance() instanceof ElementaryEnvironmentComponentInstance)))) {
             _builder.append("\t\t");
-            String _name_13 = channelMatch_1.getProvidedPort().getInstance().getName();
-            _builder.append(_name_13, "\t\t");
+            String _name_12 = channelMatch_1.getProvidedPort().getInstance().getName();
+            _builder.append(_name_12, "\t\t");
             _builder.append(".get");
             String _firstUpper_8 = StringExtensions.toFirstUpper(channelMatch_1.getProvidedPort().getPort().getName());
             _builder.append(_firstUpper_8, "\t\t");
             _builder.append("().registerListener(");
-            String _name_14 = channelMatch_1.getRequiredPort().getInstance().getName();
-            _builder.append(_name_14, "\t\t");
+            String _name_13 = channelMatch_1.getRequiredPort().getInstance().getName();
+            _builder.append(_name_13, "\t\t");
             _builder.append(".get");
             String _firstUpper_9 = StringExtensions.toFirstUpper(channelMatch_1.getRequiredPort().getPort().getName());
             _builder.append(_firstUpper_9, "\t\t");
@@ -607,8 +660,8 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
               if (_not) {
                 _builder.append("\t");
                 _builder.append("\t\t");
-                String _name_15 = portBinding.getInstancePortReference().getInstance().getName();
-                _builder.append(_name_15, "\t\t\t");
+                String _name_14 = portBinding.getInstancePortReference().getInstance().getName();
+                _builder.append(_name_14, "\t\t\t");
                 _builder.append(".get");
                 String _firstUpper_17 = StringExtensions.toFirstUpper(portBinding.getInstancePortReference().getPort().getName());
                 _builder.append(_firstUpper_17, "\t\t\t");
@@ -937,8 +990,8 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         _builder.append("\t");
         _builder.append("\t");
         _builder.append("return ");
-        String _firstLower_1 = StringExtensions.toFirstLower(systemPort.getName());
-        _builder.append(_firstLower_1, "\t\t");
+        String _firstLower_2 = StringExtensions.toFirstLower(systemPort.getName());
+        _builder.append(_firstLower_2, "\t\t");
         _builder.append(";");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -977,11 +1030,11 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
     _builder.append("public void notifyAllListeners() {");
     _builder.newLine();
     {
-      EList<SynchronousComponentInstance> _components_2 = component.getComponents();
-      for(final SynchronousComponentInstance subcomponent : _components_2) {
+      EList<SynchronousComponentInstance> _components_1 = component.getComponents();
+      for(final SynchronousComponentInstance subcomponent : _components_1) {
         _builder.append("\t\t");
-        String _name_16 = subcomponent.getName();
-        _builder.append(_name_16, "\t\t");
+        String _name_15 = subcomponent.getName();
+        _builder.append(_name_15, "\t\t");
         _builder.append(".notifyAllListeners();");
         _builder.newLineIfNotEmpty();
       }
@@ -995,8 +1048,8 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
             {
               if ((envComp_1 instanceof EnvironmentSynchronousCompositeComponentInstance)) {
                 _builder.append("\t\t");
-                String _name_17 = ((EnvironmentSynchronousCompositeComponentInstance)envComp_1).getName();
-                _builder.append(_name_17, "\t\t");
+                String _name_16 = ((EnvironmentSynchronousCompositeComponentInstance)envComp_1).getName();
+                _builder.append(_name_16, "\t\t");
                 _builder.append(".notifyListeners();");
                 _builder.newLineIfNotEmpty();
               }
@@ -1044,16 +1097,16 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         _builder.append("s() {");
         _builder.newLineIfNotEmpty();
         {
-          final Function1<SynchronousComponentInstance, Boolean> _function_1 = (SynchronousComponentInstance it) -> {
+          final Function1<SynchronousComponentInstance, Boolean> _function_2 = (SynchronousComponentInstance it) -> {
             SynchronousComponent _type = it.getType();
             return Boolean.valueOf((!(_type instanceof CascadeCompositeComponent)));
           };
-          Iterable<SynchronousComponentInstance> _filter_1 = IterableExtensions.<SynchronousComponentInstance>filter(((SynchronousCompositeComponent)component).getComponents(), _function_1);
-          for(final SynchronousComponentInstance instance_6 : _filter_1) {
+          Iterable<SynchronousComponentInstance> _filter_2 = IterableExtensions.<SynchronousComponentInstance>filter(((SynchronousCompositeComponent)component).getComponents(), _function_2);
+          for(final SynchronousComponentInstance instance_5 : _filter_2) {
             _builder.append("\t");
             _builder.append("\t");
-            String _name_18 = instance_6.getName();
-            _builder.append(_name_18, "\t\t");
+            String _name_17 = instance_5.getName();
+            _builder.append(_name_17, "\t\t");
             _builder.append(".change");
             String _firstUpper_38 = StringExtensions.toFirstUpper(this.EVENT_QUEUE);
             _builder.append(_firstUpper_38, "\t\t");
@@ -1090,16 +1143,16 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         _builder.append("\t\t");
         _builder.append("return ");
         {
-          EList<SynchronousComponentInstance> _components_3 = component.getComponents();
+          EList<SynchronousComponentInstance> _components_2 = component.getComponents();
           boolean _hasElements_5 = false;
-          for(final SynchronousComponentInstance instance_7 : _components_3) {
+          for(final SynchronousComponentInstance instance_6 : _components_2) {
             if (!_hasElements_5) {
               _hasElements_5 = true;
             } else {
               _builder.appendImmediate(" && ", "\t\t");
             }
-            String _name_19 = instance_7.getName();
-            _builder.append(_name_19, "\t\t");
+            String _name_18 = instance_6.getName();
+            _builder.append(_name_18, "\t\t");
             _builder.append(".is");
             String _firstUpper_40 = StringExtensions.toFirstUpper(this.EVENT_QUEUE);
             _builder.append(_firstUpper_40, "\t\t");
@@ -1197,24 +1250,24 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
     _builder.newLine();
     {
       List<SynchronousComponentInstance> _scheduledInstances = EnvironmentModelDerivedFeatures.getScheduledInstances(component);
-      for(final SynchronousComponentInstance instance_8 : _scheduledInstances) {
+      for(final SynchronousComponentInstance instance_7 : _scheduledInstances) {
         {
-          if ((instance_8 instanceof ElementaryEnvironmentComponentInstance)) {
+          if ((instance_7 instanceof ElementaryEnvironmentComponentInstance)) {
             _builder.append("\t\t");
-            String _scheduleCall = this.envUtil.getScheduleCall(((ElementaryEnvironmentComponentInstance)instance_8));
+            String _scheduleCall = this.envUtil.getScheduleCall(((ElementaryEnvironmentComponentInstance)instance_7));
             _builder.append(_scheduleCall, "\t\t");
             _builder.newLineIfNotEmpty();
           } else {
-            if (((component instanceof CascadeCompositeComponent) && (instance_8.getType() instanceof SynchronousCompositeComponent))) {
+            if (((component instanceof CascadeCompositeComponent) && (instance_7.getType() instanceof SynchronousCompositeComponent))) {
               _builder.append("\t\t");
-              String _name_20 = instance_8.getName();
-              _builder.append(_name_20, "\t\t");
+              String _name_19 = instance_7.getName();
+              _builder.append(_name_19, "\t\t");
               _builder.append(".runCycle();");
               _builder.newLineIfNotEmpty();
             } else {
               _builder.append("\t\t");
-              String _name_21 = instance_8.getName();
-              _builder.append(_name_21, "\t\t");
+              String _name_20 = instance_7.getName();
+              _builder.append(_name_20, "\t\t");
               _builder.append(".runComponent();");
               _builder.newLineIfNotEmpty();
             }
@@ -1226,12 +1279,12 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
       if ((component instanceof EnvironmentSynchronousCompositeComponent)) {
         {
           EList<EnvironmentComponentInstance> _environmentComponents_5 = ((EnvironmentSynchronousCompositeComponent)component).getEnvironmentComponents();
-          for(final EnvironmentComponentInstance instance_9 : _environmentComponents_5) {
+          for(final EnvironmentComponentInstance instance_8 : _environmentComponents_5) {
             {
-              if ((instance_9 instanceof EnvironmentSynchronousCompositeComponentInstance)) {
+              if ((instance_8 instanceof EnvironmentSynchronousCompositeComponentInstance)) {
                 _builder.append("\t\t");
-                String _name_22 = ((EnvironmentSynchronousCompositeComponentInstance)instance_9).getName();
-                _builder.append(_name_22, "\t\t");
+                String _name_21 = ((EnvironmentSynchronousCompositeComponentInstance)instance_8).getName();
+                _builder.append(_name_21, "\t\t");
                 _builder.append(".runCycle();");
                 _builder.newLineIfNotEmpty();
               }
@@ -1270,15 +1323,15 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         _builder.append(" timer) {");
         _builder.newLineIfNotEmpty();
         {
-          EList<SynchronousComponentInstance> _components_4 = component.getComponents();
-          for(final SynchronousComponentInstance instance_10 : _components_4) {
+          EList<SynchronousComponentInstance> _components_3 = component.getComponents();
+          for(final SynchronousComponentInstance instance_9 : _components_3) {
             {
-              boolean _needTimer_2 = this.timingDeterminer.needTimer(instance_10.getType());
+              boolean _needTimer_2 = this.timingDeterminer.needTimer(instance_9.getType());
               if (_needTimer_2) {
                 _builder.append("\t");
                 _builder.append("\t");
-                String _name_23 = instance_10.getName();
-                _builder.append(_name_23, "\t\t");
+                String _name_22 = instance_9.getName();
+                _builder.append(_name_22, "\t\t");
                 _builder.append(".setTimer(timer);");
                 _builder.newLineIfNotEmpty();
               }
@@ -1300,9 +1353,9 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
     _builder.append("/**  Getter for component instances, e.g., enabling to check their states. */");
     _builder.newLine();
     {
-      EList<SynchronousComponentInstance> _components_5 = component.getComponents();
+      EList<SynchronousComponentInstance> _components_4 = component.getComponents();
       boolean _hasElements_6 = false;
-      for(final SynchronousComponentInstance instance_11 : _components_5) {
+      for(final SynchronousComponentInstance instance_10 : _components_4) {
         if (!_hasElements_6) {
           _hasElements_6 = true;
         } else {
@@ -1310,18 +1363,18 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         }
         _builder.append("\t");
         _builder.append("public ");
-        String _generateComponentClassName_5 = this.nameGenerator.generateComponentClassName(instance_11.getType());
+        String _generateComponentClassName_5 = this.nameGenerator.generateComponentClassName(instance_10.getType());
         _builder.append(_generateComponentClassName_5, "\t");
         _builder.append(" get");
-        String _firstUpper_43 = StringExtensions.toFirstUpper(instance_11.getName());
+        String _firstUpper_43 = StringExtensions.toFirstUpper(instance_10.getName());
         _builder.append(_firstUpper_43, "\t");
         _builder.append("() {");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t");
         _builder.append("return ");
-        String _name_24 = instance_11.getName();
-        _builder.append(_name_24, "\t\t");
+        String _name_23 = instance_10.getName();
+        _builder.append(_name_23, "\t\t");
         _builder.append(";");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
@@ -1338,16 +1391,16 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
         _builder.newLine();
         {
           EList<EnvironmentComponentInstance> _environmentComponents_6 = ((EnvironmentSynchronousCompositeComponent)component).getEnvironmentComponents();
-          for(final EnvironmentComponentInstance instance_12 : _environmentComponents_6) {
+          for(final EnvironmentComponentInstance instance_11 : _environmentComponents_6) {
             {
-              if ((instance_12 instanceof EnvironmentSynchronousCompositeComponentInstance)) {
+              if ((instance_11 instanceof EnvironmentSynchronousCompositeComponentInstance)) {
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("public ");
-                String _generateComponentClassName_6 = this.nameGenerator.generateComponentClassName(((EnvironmentSynchronousCompositeComponentInstance)instance_12).getType());
+                String _generateComponentClassName_6 = this.nameGenerator.generateComponentClassName(((EnvironmentSynchronousCompositeComponentInstance)instance_11).getType());
                 _builder.append(_generateComponentClassName_6, "\t\t");
                 _builder.append(" get");
-                String _firstUpper_44 = StringExtensions.toFirstUpper(((EnvironmentSynchronousCompositeComponentInstance)instance_12).getName());
+                String _firstUpper_44 = StringExtensions.toFirstUpper(((EnvironmentSynchronousCompositeComponentInstance)instance_11).getName());
                 _builder.append(_firstUpper_44, "\t\t");
                 _builder.append("() {");
                 _builder.newLineIfNotEmpty();
@@ -1355,8 +1408,8 @@ public class EnvironmentSynchronousCompositeComponentCodeGenerator extends Synch
                 _builder.append("\t");
                 _builder.append("\t");
                 _builder.append("return ");
-                String _name_25 = ((EnvironmentSynchronousCompositeComponentInstance)instance_12).getName();
-                _builder.append(_name_25, "\t\t\t");
+                String _name_24 = ((EnvironmentSynchronousCompositeComponentInstance)instance_11).getName();
+                _builder.append(_name_24, "\t\t\t");
                 _builder.append(";");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t");
