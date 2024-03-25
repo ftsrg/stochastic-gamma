@@ -30,6 +30,10 @@ class Util {
 	static def keyword(Port port){
 		return '''«FOR param : port.parameters SEPARATOR "\\n"»«port.key(param)»«ENDFOR»'''
 	}
+	static def keyword(Port port,ComponentInstance instance){
+		return '''«FOR param : port.parameters SEPARATOR "\\n"»«port.key(param,instance)»«ENDFOR»'''
+	}
+	
 	
 	static def keyword(ComponentInstance instance){
 		val type =instance.derivedType
@@ -50,10 +54,6 @@ class Util {
 			return ""
 		}
 		
-	}
-	
-	static def keyword(Port port,ComponentInstance instance){
-		return '''«FOR param : port.parameters SEPARATOR "\\n"»«port.key(param,instance)»«ENDFOR»'''
 	}
 	
 	static def keyword(Region region){

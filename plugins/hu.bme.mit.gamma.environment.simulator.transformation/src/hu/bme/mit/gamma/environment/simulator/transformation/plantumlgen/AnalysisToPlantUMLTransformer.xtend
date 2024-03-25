@@ -25,9 +25,9 @@ class AnalysisToPlantUMLTransformer {
 
 	def String executeWBS(ComponentInstance inst,String namespace){
 	return 
-'''@startmindmap
+'''@startwbs
 «transformWBS(inst,namespace,"*")»
-@endmindmap'''
+@endwbs'''
 	}
 
 	

@@ -243,9 +243,9 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				} else {
 					throw e;
 				}
-				sleep(1000);
-				refresh();
-				build();
+				//sleep(1000);
+				//refresh();
+				//build();
 				sleep(1000);
 			}
 		}
@@ -258,7 +258,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 		serialize(gammaTrace.getInterfacePackage(), containerName, gammaTrace.getInterfacePackage().getName() + ".gcd");
 		serialize(gammaTrace.getPrimitiveFunctionPackages(), ".gcd", gammaTrace, monitor);
 		serialize(gammaTrace.getInterfaceComponentPackages(), ".gcd", gammaTrace, monitor);
-		serialize(gammaTrace.getComponentFunctionPackages(), ".gcd", gammaTrace, monitor);
+		serialize(gammaTrace.getComponentFunctionPackages(), ".sgcd", gammaTrace, monitor);
 		serialize(gammaTrace.getCommunicationComponentPackages(), ".gcd", gammaTrace, monitor);
 		serialize(gammaTrace.getSubsystemHardwarePackages(), ".sgcd", gammaTrace, monitor);
 		serialize(gammaTrace.getSubsystemPackages(), ".sgcd", gammaTrace, monitor);

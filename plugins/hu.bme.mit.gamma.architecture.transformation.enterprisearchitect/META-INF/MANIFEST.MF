@@ -19,7 +19,9 @@ Require-Bundle: com.google.guava,
  com.google.inject;bundle-version="7.0.0",
  org.eclipse.core.resources;bundle-version="3.19.100",
  org.eclipse.jface;bundle-version="3.31.0",
- hu.bme.mit.gamma.logictable.transformation;bundle-version="1.0.0"
+ hu.bme.mit.gamma.logictable.transformation;bundle-version="1.0.0",
+ hu.bme.mit.gamma.environment.analysis.model;bundle-version="0.1.0",
+ hu.bme.mit.gamma.environment.model;bundle-version="0.1.0"
 Export-Package: hu.bme.mit.gamma.architecture.transformation.enterprisearchitect,
  hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes,
  hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.traceability,

@@ -36,6 +36,7 @@ import static extension hu.bme.mit.gamma.architecture.transformation.util.Transf
 import static extension hu.bme.mit.gamma.statechart.derivedfeatures.StatechartModelDerivedFeatures.*
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.OperationData
 import hu.bme.mit.gamma.statechart.statechart.StatechartDefinition
+import hu.bme.mit.gamma.statechart.interface_.Persistency
 
 class GammaAppender {
 
@@ -447,7 +448,7 @@ class GammaAppender {
 				if (lhsStr.contains(".")) {
 					val fpList = lhsStr.split("\\.")
 					val portName = fpList.get(0).replace(" ", "")
-					val eventName = fpList.get(1).replace(" ", "")
+					val fpName = fpList.get(1).replace(" ", "")
 					val exp = parser.eval(rhsStr, statechart)
 					val act = sctModelFactory.createRaiseEventAction
 					val portList = statechart.allPortsWithOutput.filter[p|p.name.contains(portName.gammaName)].toList
@@ -459,20 +460,36 @@ class GammaAppender {
 						throw new GammaTransformationException('''Port reference "«portName»" in action "«actionStr»" is not found ''',
 							statechart)
 					}
-					act.port = portList.get(0)
-					val eventList = act.port.allEvents.filter[e|e.name.equals("changeOf" + eventName.toFirstUpper)].
+					val port = portList.get(0)
+					act.port = port
+					val eventList = act.port.allEvents.filter[e|e.name.equals("changeOf" + fpName.toFirstUpper)].
 						toList
 					if (eventList.length > 1) {
-						throw new GammaTransformationException('''Event reference "«eventName»" in action "«actionStr»" is ambigous ''',
+						throw new GammaTransformationException('''Event reference "«fpName»" in action "«actionStr»" is ambigous ''',
 							statechart)
 					}
 					if (eventList.length == 0) {
-						throw new GammaTransformationException('''Event reference "«eventName»" in action "«actionStr»" is not found ''',
+						throw new GammaTransformationException('''Event reference "«fpName»" in action "«actionStr»" is not found ''',
 							statechart)
 					}
 					act.event = eventList.get(0)
 					act.arguments += exp
-					effects += act
+					val varRef=parser.searchVariable("var_"+port.name+"_"+fpName)
+					val ifExp=actModelFactory.createIfStatement
+					val eqExp=expModelFactory.createInequalityExpression
+					val branch=actModelFactory.createBranch
+					val block=actModelFactory.createBlock
+					val setVar=actModelFactory.createAssignmentStatement
+					setVar.lhs = varRef.clone
+					setVar.rhs = exp.clone
+					block.actions+=setVar
+					eqExp.leftOperand=varRef
+					eqExp.rightOperand=exp.clone
+					block.actions+=act
+					branch.action = block
+					branch.guard = eqExp
+					ifExp.conditionals+=branch
+					effects += ifExp
 				} else {
 					val act = actModelFactory.createAssignmentStatement
 					act.lhs = parser.eval(statementList.get(0), statechart) as ReferenceExpression
@@ -591,6 +608,22 @@ class GammaAppender {
 			processAttributeData(data)
 		}
 
+		for (sct_pkg:archTrace.primitiveFunctionPackages){
+			val sct=sct_pkg.allComponents.get(0) as AsynchronousStatechartDefinition
+			for (port:sct.ports){
+				for (pevent:port.outputEvents){
+					if (pevent.persistency==Persistency.PERSISTENT){
+						for (param: pevent.parameterDeclarations){
+							val varDecl=expModelFactory.createVariableDeclaration
+							varDecl.name = "var_"+port.name+"_"+param.name
+							varDecl.type = param.type.clone
+							sct.variableDeclarations+=varDecl
+						}
+					}
+				}
+			}
+		}
+		
 		for (data : statemachineData.transitionData) {
 			createTransition(data)
 		}

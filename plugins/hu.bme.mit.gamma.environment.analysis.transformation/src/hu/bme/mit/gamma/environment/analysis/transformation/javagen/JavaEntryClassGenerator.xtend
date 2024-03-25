@@ -14,6 +14,7 @@ import hu.bme.mit.gamma.environment.analysis.ObserveParameter
 import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
 import hu.bme.mit.gamma.codegeneration.java.util.TimingDeterminer
 import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
+import static extension hu.bme.mit.gamma.codegeneration.java.util.Namings.*
 
 class JavaEntryClassGenerator {
 	
@@ -37,7 +38,21 @@ class JavaEntryClassGenerator {
 		«FOR a : component.aspect»
 			import «packageName».interfaces.«a.event.port.interfaceRealization.interface.name.toFirstUpper»Interface;
 		«ENDFOR»
+
+		«FOR a : component.conditions»
+			import «packageName».interfaces.«a.event.port.interfaceRealization.interface.name.toFirstUpper»Interface;
+		«ENDFOR»
+
+		«FOR a : analysismethod.endcondition»
+			import «packageName».interfaces.«a.event.port.interfaceRealization.interface.name.toFirstUpper»Interface;
+		«ENDFOR»
 		
+		«FOR _package : component.containingPackage.componentImports.toSet»
+			import «_package.getPackageString(packageName
+				
+			)».*;
+		«ENDFOR»
+				
 		//import py4j.GatewayServer; great old times... :)
 		
 		

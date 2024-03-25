@@ -52,13 +52,13 @@ public class ExpressionParser {
 
 	int pos = -1, ch;
 
-	FunctionDeclaration searchOperation(String operationName, String args) {
+	public FunctionDeclaration searchOperation(String operationName, String args) {
 		var funStream = ((Package) statechart.eContainer()).getFunctionDeclarations().stream()
 				.filter(f -> f.getName().equals(operationName));
 		return funStream.findFirst().get();
 	}
 
-	DirectReferenceExpression searchVariable(String varName) throws GammaTransformationException {
+	public DirectReferenceExpression searchVariable(String varName) throws GammaTransformationException {
 		Iterator<VariableDeclaration> varStream = statechart.getVariableDeclarations().stream()
 				.filter(f -> f.getName().equals(varName)).iterator();
 		var varRef = expFactory.createDirectReferenceExpression();
@@ -71,7 +71,7 @@ public class ExpressionParser {
 		return varRef;
 	}
 
-	EventParameterReferenceExpression searchFlowProperty(String portName, String eventName)
+	public EventParameterReferenceExpression searchFlowProperty(String portName, String eventName)
 			throws GammaTransformationException {
 
 		var portIterator = StatechartModelDerivedFeatures.getAllPortsWithInput(statechart).stream()

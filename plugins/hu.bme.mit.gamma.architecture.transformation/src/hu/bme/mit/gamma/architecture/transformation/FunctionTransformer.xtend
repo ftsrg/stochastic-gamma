@@ -38,7 +38,7 @@ class FunctionTransformer {
 	val ArchitectureFunction function
 	val ArchitectureTrace trace
 	val Map<ArchitectureSubfunction, PrimitiveFunctionBuilder> builderMap = newHashMap
-	// val stochModelFactory = EnvironmentModelFactory.eINSTANCE
+	val stochModelFactory = EnvironmentModelFactory.eINSTANCE
 	val cmpModelFactory = CompositeModelFactory.eINSTANCE
 	val channelBuilder = new Channelbuilder
 	val AsynchronousCompositeComponent component
@@ -48,8 +48,8 @@ class FunctionTransformer {
 	val extension RelationTransfomer relationTransformer
 
 	new(ArchitectureFunction function, ArchitectureTrace trace) {
-		// this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
-		this.component = cmpModelFactory.createAsynchronousCompositeComponent
+		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
+		//this.component = cmpModelFactory.createAsynchronousCompositeComponent
 		this.component.name = function.gammaName
 		this.function = function
 		this.trace = trace
