@@ -217,9 +217,9 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			public void handleAfterReset() {
 				«component.executeHandleAfterReset»
 				
-«««				«FOR instance : component.initallyScheduledInstances»
-«««					«instance.name».schedule();
-«««				«ENDFOR»
+				«FOR instance : component.components»
+					//«instance.name».schedule();
+				«ENDFOR»
 			}
 			
 			/** Creates the channel mappings and enters the wrapped statemachines. */

@@ -166,7 +166,7 @@ class FunctionTransformer {
 			if (port.eContainer instanceof ArchitectureSubfunction) {
 				val subfunc = port.eContainer as ArchitectureSubfunction
 				val inst = trace.get(subfunc) as AsynchronousComponentInstance
-				val sPort = findInputPort(inst, type)
+				val sPort = findInputPort(inst, type, port.name+type.name+"In")
 				return sPort
 			} else {
 				throw new ArchitectureException("Flow target cannot recognized",
@@ -189,6 +189,21 @@ class FunctionTransformer {
 		]
 		if (matches.empty) {
 			throw new ArchitectureException("Subfunction port cannot be found in function", trace.get(instance))
+		}
+		val port = matches.get(0)
+		ports.remove(port)
+		return port
+	}
+
+	def findInputPort(AsynchronousComponentInstance instance, Interface _interface, String name) {
+		val ports = instancePorts.get(instance)
+		val matches = ports.filter [ port |
+			port.interfaceRealization.interface == _interface &&
+				port.interfaceRealization.realizationMode == RealizationMode.REQUIRED &&
+				port.name.equals(name)
+		]
+		if (matches.empty) {
+			throw new ArchitectureException("Subfunction port: '" +name+ "' cannot be found in function", trace.get(instance))
 		}
 		val port = matches.get(0)
 		ports.remove(port)

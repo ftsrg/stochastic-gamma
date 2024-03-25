@@ -45,6 +45,7 @@ import hu.bme.mit.gamma.expression.model.BooleanTypeDefinition
 import hu.bme.mit.gamma.util.GammaEcoreUtil
 import java.math.BigDecimal
 import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
+import hu.bme.mit.gamma.expression.model.VariableDeclaration
 
 class TableTransformation2 {
 
@@ -111,6 +112,18 @@ class TableTransformation2 {
 		}
 	}
 
+	
+	def createAssignment(VariableDeclaration declaration, int newValue){
+		val ref=expModelFactory.createDirectReferenceExpression()
+		ref.declaration = declaration
+		val setVar=actModelFactory.createAssignmentStatement
+		setVar.lhs = ref
+		val lit=expModelFactory.createIntegerLiteralExpression
+		lit.value=new BigInteger(newValue.toString)
+		setVar.rhs=lit
+		return setVar
+	}
+
 	def generate(String file, List<Interface> interfaces, AsynchronousStatechartDefinition statechart) {
 
 		statechart.transitionPriority = TransitionPriority.ORDER_BASED
@@ -136,6 +149,13 @@ class TableTransformation2 {
 		anyTrans.targetState = choiceState
 		anyTrans.trigger = ifModelFactory.createAnyTrigger
 		statechart.transitions += anyTrans
+		val lineVarDecl=expModelFactory.createVariableDeclaration
+		lineVarDecl.name="line_cntr_variable"
+		lineVarDecl.type=expModelFactory.createIntegerTypeDefinition
+		statechart.variableDeclarations+=lineVarDecl
+		
+		var lineCNTR=0
+		initTrans.effects+=createAssignment(lineVarDecl,1)
 
 		var inPortNames = new ArrayList<String>()
 		var outPortNames = new ArrayList<String>()
@@ -188,13 +208,23 @@ class TableTransformation2 {
 			}
 
 			while (rowIterator.hasNext) {
+				lineCNTR++
 				val row = rowIterator.next
 				val transition = sctModelFactory.createTransition
 				transition.sourceState = choiceState
 				transition.targetState = mainState
 				statechart.transitions += transition
-
+				val lineEqExpr=expModelFactory.createInequalityExpression
+				val varRef=expModelFactory.createDirectReferenceExpression
+				varRef.declaration = lineVarDecl
+				val lit=expModelFactory.createIntegerLiteralExpression
+				lit.value=new BigInteger(lineCNTR.toString)
+				lineEqExpr.leftOperand = lit
+				lineEqExpr.rightOperand=varRef
+				transition.effects+=createAssignment(lineVarDecl,lineCNTR)
+				
 				val guardExpr = expModelFactory.createAndExpression
+				
 
 				val cellIterator = row.cellIterator
 
@@ -303,9 +333,8 @@ class TableTransformation2 {
 						}
 					}
 				}
-				if (guardExpr.operands.length == 1) {
-					transition.guard = guardExpr.operands.get(0)
-				} else if (!guardExpr.operands.empty) {
+				if (!guardExpr.operands.empty) {
+					guardExpr.operands+=lineEqExpr
 					transition.guard = guardExpr
 				} else {
 					transition.guard = expModelFactory.createElseExpression()
