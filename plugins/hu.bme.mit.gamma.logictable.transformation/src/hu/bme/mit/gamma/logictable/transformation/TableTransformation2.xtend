@@ -223,6 +223,7 @@ class TableTransformation2 {
 				lineEqExpr.rightOperand=varRef
 				transition.effects+=createAssignment(lineVarDecl,lineCNTR)
 				
+				
 				val guardExpr = expModelFactory.createAndExpression
 				
 
@@ -337,7 +338,7 @@ class TableTransformation2 {
 					guardExpr.operands+=lineEqExpr
 					transition.guard = guardExpr
 				} else {
-					transition.guard = expModelFactory.createElseExpression()
+					transition.guard = lineEqExpr
 				}
 				for (j : 0 .. outPortNames.length - 1) {
 					val cell = cellIterator.next
@@ -436,6 +437,11 @@ class TableTransformation2 {
 				}
 				isFirst = false
 			}
+			val elseTrans = sctModelFactory.createTransition
+			elseTrans.sourceState = choiceState
+			elseTrans.targetState = mainState
+			statechart.transitions += elseTrans
+			elseTrans.guard=expModelFactory.createElseExpression
 			excelFile.close
 		} catch (Exception e) {
 			e.printStackTrace();

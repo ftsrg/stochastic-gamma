@@ -39,6 +39,7 @@ import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentMode
 import static extension hu.bme.mit.gamma.codegeneration.java.EventDeclarationHandler.*
 import hu.bme.mit.gamma.statechart.interface_.Event
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration
+import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
 
 class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 	
@@ -145,6 +146,31 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 					«FOR comp : component.instances»
 						if (!«comp.name».isEventQueueEmpty()){
 							System.out.println("    queues of «comp.name» is not empty");
+							«IF comp.derivedType instanceof AsynchronousStatechartDefinition»
+								System.out.println("    queues of «comp.name» is not empty");
+								for (Event event:«comp.name».getInsertQueue()){
+									System.out.print("        «comp.name»::"+event.getEvent()+" =");
+									for (Object value:event.getValue()){
+										System.out.print(" "+value.toString()+",");
+									}
+									System.out.println("");
+								}
+							«ELSEIF comp.derivedType instanceof AsynchronousCompositeComponent»
+								«FOR comp2: comp.derivedType.instances»
+									«IF comp2.derivedType instanceof AsynchronousStatechartDefinition»
+										if (!«comp.name».get«comp2.name.toFirstUpper»().isEventQueueEmpty()){
+										System.out.println("        queues of «comp.name»::«comp2.name» is not empty");
+											for (Event event:«comp.name».get«comp2.name.toFirstUpper»().getInsertQueue()){
+												System.out.print("             «comp.name»::«comp2.name»::"+event.getEvent()+" =");
+												for (Object value:event.getValue()){
+													System.out.print(" "+value.toString()+",");
+												}
+												System.out.println("");
+											}
+										}
+									«ENDIF»
+								«ENDFOR»
+							«ENDIF»
 						}
 					«ENDFOR»
 					«IF component instanceof EnvironmentAsynchronousCompositeComponent »

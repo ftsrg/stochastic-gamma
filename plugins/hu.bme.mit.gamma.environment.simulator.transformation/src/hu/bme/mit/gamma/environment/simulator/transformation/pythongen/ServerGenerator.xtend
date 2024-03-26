@@ -343,7 +343,7 @@ class MyServer(BaseHTTPRequestHandler):
 			value=str(eval("detmodel.get"+cmd.replace("«analysisComponent.name»__","").replace("__","().get")+"().toString()"))
 
 			value2=value
-			value2=value2.replace("_","::")
+			value2=value2.replace("__In","").replace("__Out","").replace("__","::")
 			value2=value2.replace("\n",";<br> ")
 			value2=value2.replace("\r","")
 			state_lines.append("<h3> Variables of "+cmd.replace("__","::")+"</h3> <p>"+value2+"\n</p>")
@@ -366,7 +366,7 @@ class MyServer(BaseHTTPRequestHandler):
 					if "__STATECHART__" in config[cmd][option]:
 						print("Eval : ", "detmodel.get"+cmd.replace("«analysisComponent.name»__","").replace("__","().get")+"().get"+config[cmd][option].replace("__STATECHART__","")+"().toString()")
 						value=str(eval("detmodel.get"+cmd.replace("«analysisComponent.name»__","").replace("__","().get")+"().get"+config[cmd][option].replace("__STATECHART__","")+"().toString()"))
-						value=value.replace("_","::")
+						value=value.replace("__In","").replace("__Out","").replace("__","::")
 						value=value.replace("\n",";<br> ")
 						value=value.replace("\r","")
 						state_lines.append("<h3>"+option+":</h3> <p>"+value+"\n</p>")

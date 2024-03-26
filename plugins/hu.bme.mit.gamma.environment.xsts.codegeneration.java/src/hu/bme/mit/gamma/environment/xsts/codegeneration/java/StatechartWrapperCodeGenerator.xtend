@@ -137,7 +137,7 @@ class StatechartWrapperCodeGenerator {
 			}
 			
 			/** Returns the event queue into which events should be put in the particular cycle. */
-			private Queue<Event> getInsertQueue() {
+			public Queue<Event> getInsertQueue() {
 				if (insertQueue) {
 					return eventQueue1;
 				}
@@ -306,7 +306,16 @@ class StatechartWrapperCodeGenerator {
 			
 			@Override
 			public String toString() {
-				return «CLASS_NAME.toFirstLower».toString();
+				String str=«CLASS_NAME.toFirstLower».toString();
+				//str=str+"\\n Input events (";
+				//for (Event event:getInsertQueue()){
+					//str=event.toString()+" : ";
+					//for (Object value:event.getValue()){
+						//str=str+" "+value.toString()+",";
+					//}
+				//}
+				//str=str+"\\n )";
+				return str;
 			}
 		}
 	'''
