@@ -31,6 +31,7 @@ import org.eclipse.ui.ide.IDE;
 
 import com.google.inject.Injector;
 
+import hu.bme.mit.gamma.architecture.model.ArchitectureElement;
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.EnterpriseArchitectTransformation;
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.GammaAppender;
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.SysMLTransformations;
@@ -65,6 +66,8 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 	protected String containerName;
 	protected String sysGUID;
 	protected String funcGUID;
+	protected String swGUID;
+	protected String hwGUID;
 
 	protected final ModelSerializer serializer = ModelSerializer.INSTANCE;
 
@@ -99,6 +102,8 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 		containerName = page.getContainerName();
 		sysGUID = page.getSystemPackageGUID();
 		funcGUID = page.getFunctionalPackageGUID();
+		swGUID = page.getSoftwarePackageGUID();
+		hwGUID = page.getHardwarePackageGUID();
 		// final String fileName = page.getFileName();
 		IRunnableWithProgress op = monitor -> {
 			EnterpriseArchitectTransformation transformation = null;
@@ -106,11 +111,13 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				// doFinish(containerName, fileName, monitor);
 				monitor.beginTask("Loading SysML models from Enterprise Architect ", 10);
 				monitor.worked(1);
-				transformation = new EnterpriseArchitectTransformation(funcGUID, sysGUID);
+				// transformation = new EnterpriseArchitectTransformation(funcGUID, sysGUID);
+				transformation = new EnterpriseArchitectTransformation(funcGUID, hwGUID, swGUID, sysGUID);
+				eaTrace=transformation.getTrace();
 				monitor.worked(1);
 				monitor.setTaskName("Transforming SysML structural and interface models to Gamma ");
 				monitor.worked(1);
-				eaTrace = transformation.execute2();
+				transformation.execute3();
 				monitor.worked(1);
 				gammaTrace = SysMLTransformations.transformArchitecture(eaTrace);
 				monitor.worked(1);
@@ -151,8 +158,13 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 			if (realException instanceof GammaTransformationException) {
 				var element = ((GammaTransformationException) realException).element;
 				if (element != null) {
-					DialogUtil.showErrorWithStackTrace("GammaTransformationException  occured at " + element.getName()
-							+ " with EA ID: " + eaTrace.get(gammaTrace.get(element)), realException);
+					if (element instanceof ArchitectureElement) {
+						DialogUtil.showErrorWithStackTrace("GammaTransformationException  occured at " + element.getName()
+						+ " with EA ID: " + eaTrace.get((ArchitectureElement)element), realException);
+					}else {
+						DialogUtil.showErrorWithStackTrace("GammaTransformationException  occured at " + element.getName()
+						+ " with EA ID: " + eaTrace.get(gammaTrace.get(element)), realException);
+					}
 				} else {
 					DialogUtil.showErrorWithStackTrace("GammaTransformationException occured at unknown element",
 							realException);
@@ -165,7 +177,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				if (element != null) {
 					DialogUtil.showErrorWithStackTrace("ArchitectureException  occured at " + element.getName()
 							+ " with EA ID: " + eaTrace.get(element), realException);
-					DialogUtil.showInfo("select * from t_objects where object_id="+Long.toString(eaTrace.get(element)));
+					//DialogUtil.showInfo("select * from t_objects where object_id=" + Long.toString(eaTrace.get(element)));
 				} else {
 					DialogUtil.showErrorWithStackTrace("ArchitectureException occured at unknown element",
 							realException);
@@ -243,9 +255,9 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				} else {
 					throw e;
 				}
-				//sleep(1000);
-				//refresh();
-				//build();
+				// sleep(1000);
+				// refresh();
+				// build();
 				sleep(1000);
 			}
 		}
@@ -261,6 +273,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 		serialize(gammaTrace.getComponentFunctionPackages(), ".sgcd", gammaTrace, monitor);
 		serialize(gammaTrace.getCommunicationComponentPackages(), ".gcd", gammaTrace, monitor);
 		serialize(gammaTrace.getSubsystemHardwarePackages(), ".sgcd", gammaTrace, monitor);
+		serialize(gammaTrace.getElectronicComponentPackages(), ".sgcd", gammaTrace, monitor);
 		serialize(gammaTrace.getSubsystemPackages(), ".sgcd", gammaTrace, monitor);
 		var syspkgs = gammaTrace.getSystemPackages();
 

@@ -25,25 +25,19 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureSubcompnent
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubfunction
 import hu.bme.mit.gamma.architecture.model.StructuralElement
 import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
+import hu.bme.mit.gamma.architecture.transformation.AbstractArchitectureTransformer
 
-class SingletonComponentBuilder {
+class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 
 	val ArchitectureSubcompnent subcomponent
-	val ArchitectureTrace trace
-	val stochModelFactory = EnvironmentModelFactory.eINSTANCE
-	static val sctModelFactory = StatechartModelFactory.eINSTANCE
-	static val cmpModelFactory = CompositeModelFactory.eINSTANCE
+	
 	val EnvironmentAsynchronousCompositeComponent component
 	val AsynchronousComponentInstance instance
 	val Map<InformationFlow, Port> inportMap = newHashMap
 	val Map<InformationFlow, Port> outportMap = newHashMap
 	val commInstances = <AsynchronousComponentInstance>newLinkedList
 	val EnvironmentEventSource failureSource
-	// val BroadcastChannel failureChannel
-	val channelBuilder = new Channelbuilder
 
-	val extension ElementTransformer elementTransformer
-	val extension RelationTransfomer relationTransformer
 	val extension FailureModelGenerator failureModelGenerator
 	var nameCNTR = 0
 	var isBuilt = false
@@ -53,16 +47,15 @@ class SingletonComponentBuilder {
 	val EnvironmentAsynchronousCompositeComponent hwComponent
 	val AsynchronousComponentInstance hwComponentInstance
 
-	new(ArchitectureSubcompnent subcompnent, ArchitectureTrace trace) {
-
+	new(ArchitectureSubcompnent subcompnent, ArchitectureTrace trace){
+		
+		super(trace)
+		
 		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		this.instance = cmpModelFactory.createAsynchronousComponentInstance
 
 		this.subcomponent = subcompnent
-		this.trace = trace
 
-		this.elementTransformer = new ElementTransformer(trace)
-		this.relationTransformer = new RelationTransfomer(trace)
 		this.failureModelGenerator = new FailureModelGenerator(trace)
 
 		this.failureSource = stochModelFactory.createEnvironmentEventSource

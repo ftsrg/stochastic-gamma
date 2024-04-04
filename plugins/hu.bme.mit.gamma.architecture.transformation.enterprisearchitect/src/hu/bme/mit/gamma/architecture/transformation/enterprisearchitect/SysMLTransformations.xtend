@@ -40,6 +40,7 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureInterface
 import hu.bme.mit.gamma.statechart.interface_.Interface
 import hu.bme.mit.gamma.architecture.transformation.FunctionTransformer
 import hu.bme.mit.gamma.architecture.transformation.SystemTransformer
+import hu.bme.mit.gamma.architecture.transformation.ComponentTransformer
 
 class SysMLTransformations {
 	
@@ -71,6 +72,8 @@ class SysMLTransformations {
 		var root_pkg=eaTrace.rootPkg
 		var gammaTrace=new ArchitectureTrace();
 		val gammaTransformer=new ElementTransformer(gammaTrace);
+		val functionTransformer=new FunctionTransformer(gammaTrace)
+		val componentTransformer=new ComponentTransformer(gammaTrace)
 		var archInterfaces=root_pkg.interfaces
 		var valueTypes=root_pkg.valueTypes
 		for (vt: valueTypes){
@@ -89,16 +92,22 @@ class SysMLTransformations {
 			gammaTransformer.generateInterfaceComponent(gammaInterface)
 		}
 
-
 		
 		val primitiveFunctions=root_pkg.primitiveFunctions
 		for (function : primitiveFunctions){
 			gammaTransformer.transformPrimitiveFunction(function)
 		}
+		
 		val componentFunctions=root_pkg.componentFunctions
 		for (function: componentFunctions){
-			FunctionTransformer.transformComponentFunction(function,gammaTrace)
+			functionTransformer.transform(function)
 		}
+		
+		val primitiveHardwareComponents=root_pkg.primitiveHardwareComponents
+		for (component: primitiveHardwareComponents){
+			componentTransformer.transform(component)
+		}
+		
 		val systems=root_pkg.system
 		for (system: systems){
 			SystemTransformer.transformSystem(system,gammaTrace)

@@ -33,6 +33,8 @@ public class SysMLImportWizardPage extends WizardPage {
 
 	private Text containerText;
 	private Text functionalPackageGUID;
+	private Text hardwarePackageGUID;
+	private Text softwarePackageGUID;
 	private Text systemPackageGUID;
 	private IEclipsePreferences preferences;
 
@@ -81,22 +83,38 @@ public class SysMLImportWizardPage extends WizardPage {
 				handleBrowse();
 			}
 		});
+
 		label = new Label(container, SWT.NULL);
 		label.setText("&Functional Package GUID:");
-		//label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
 		functionalPackageGUID = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		functionalPackageGUID.setLayoutData(gd);
 		functionalPackageGUID.addModifyListener(e -> funcChanged());
 		label = new Label(container, SWT.NULL);
+
+		label = new Label(container, SWT.NULL);
+		label.setText("&Hardware Package GUID:");
+		hardwarePackageGUID = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		hardwarePackageGUID.setLayoutData(gd);
+		hardwarePackageGUID.addModifyListener(e -> hwChanged());
+		label = new Label(container, SWT.NULL);
+
+		label = new Label(container, SWT.NULL);
+		label.setText("&Software Package GUID:");
+		softwarePackageGUID = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		softwarePackageGUID.setLayoutData(gd);
+		softwarePackageGUID.addModifyListener(e -> swChanged());
+		label = new Label(container, SWT.NULL);
+		
 		label = new Label(container, SWT.NULL);
 		label.setText("&System Package GUID:");
-		//label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		systemPackageGUID = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		systemPackageGUID.setLayoutData(gd);
 		systemPackageGUID.addModifyListener(e -> sysChanged());
+		
 		initialize();
 		dialogChanged();
 		setControl(container);
@@ -108,11 +126,15 @@ public class SysMLImportWizardPage extends WizardPage {
 
 	private void initialize() {
 		preferences = InstanceScope.INSTANCE.getNode("hu.bme.mit.gamma.environment");
-		String funcPkgGUID=preferences.get("functionalPackageGUID",null);
-		String sysPkgGUID=preferences.get("systemPackageGUID",null);
+		String funcPkgGUID=preferences.get("functionalPackageGUID","");
+		String sysPkgGUID=preferences.get("systemPackageGUID","");
+		String hwPkgGUID=preferences.get("hardwarePackageGUID","");
+		String swPkgGUID=preferences.get("softwarePackageGUID","");
 		if (funcPkgGUID!=null&&sysPkgGUID!=null) {
 			functionalPackageGUID.setText(funcPkgGUID);
 			systemPackageGUID.setText(sysPkgGUID);
+			hardwarePackageGUID.setText(hwPkgGUID);
+			softwarePackageGUID.setText(swPkgGUID);
 		}
 		if (selection != null && selection.isEmpty() == false
 				&& selection instanceof IStructuredSelection) {
@@ -200,6 +222,24 @@ public class SysMLImportWizardPage extends WizardPage {
 		}
 	}
 
+	private void hwChanged() {
+		preferences.put("hardwarePackageGUID", getHardwarePackageGUID());
+		try {
+			preferences.flush();
+		} catch (BackingStoreException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void swChanged() {
+		preferences.put("softwarePackageGUID", getSoftwarePackageGUID());
+		try {
+			preferences.flush();
+		} catch (BackingStoreException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void sysChanged() {
 		preferences.put("systemPackageGUID", getSystemPackageGUID());
 		try {
@@ -220,6 +260,14 @@ public class SysMLImportWizardPage extends WizardPage {
 
 	public String getFunctionalPackageGUID() {
 		return functionalPackageGUID.getText();
+	}
+
+	public String getHardwarePackageGUID() {
+		return hardwarePackageGUID.getText();
+	}
+
+	public String getSoftwarePackageGUID() {
+		return softwarePackageGUID.getText();
 	}
 
 	public String getSystemPackageGUID() {

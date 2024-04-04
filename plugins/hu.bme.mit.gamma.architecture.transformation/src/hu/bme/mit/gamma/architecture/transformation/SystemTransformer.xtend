@@ -30,6 +30,9 @@ import com.google.common.collect.HashBasedTable
 import hu.bme.mit.gamma.statechart.composite.AsynchronousComponentInstance
 import hu.bme.mit.gamma.architecture.model.Connector
 import hu.bme.mit.gamma.architecture.model.ArchitectureComponent
+import hu.bme.mit.gamma.architecture.model.ElectronicComponent
+import hu.bme.mit.gamma.statechart.interface_.InterfaceRealization
+import hu.bme.mit.gamma.util.GammaEcoreUtil
 
 class SystemTransformer {
 
@@ -56,8 +59,10 @@ class SystemTransformer {
 
 	val extension ElementTransformer elementTransformer
 	val extension RelationTransfomer relationTransformer
+
+	protected extension val GammaEcoreUtil gammaEcoreUtil = GammaEcoreUtil.INSTANCE
 	
-	var portCNTR=0
+	var portCNTR = 0
 
 	new(System system, ArchitectureTrace trace) {
 		this.system = system
@@ -94,37 +99,227 @@ class SystemTransformer {
 		}
 	}
 
-	def createPort(InformationFlow flow, boolean conj) {
-		val port = ifModelFactory.createPort
-		var name = flow.gammaName
-		var ifrel = ifModelFactory.createInterfaceRealization
-		val _interface = trace.get(flow.type) as Interface
-		if (name == "") {
-			name = _interface.name
-		}
-		if (conj) {
-			ifrel.realizationMode = RealizationMode.REQUIRED
-			name = name + "In"
+	/* 
+	 * 	def createPort(InformationFlow flow, boolean conj) {
+	 * 		val port = ifModelFactory.createPort
+	 * 		var name = flow.gammaName
+	 * 		var ifrel = ifModelFactory.createInterfaceRealization
+	 * 		val _interface = trace.get(flow.type) as Interface
+	 * 		if (name == "") {
+	 * 			name = _interface.name
+	 * 		}
+	 * 		if (conj) {
+	 * 			ifrel.realizationMode = RealizationMode.REQUIRED
+	 * 			name = name + "In"
+	 * 		} else {
+	 * 			ifrel.realizationMode = RealizationMode.PROVIDED
+	 * 			name = name + "Out"
+	 * 		}
+	 * 		ifrel.interface = _interface
+	 * 		port.name = name
+	 * 		port.interfaceRealization = ifrel
+	 * 		return port
+	 * 	}
+	 */
+	def transformConnector(Connector connector) {
+		if (connector.isFunctionalConnector) {
+		} else if (connector.isSubsystemConnector) {
+			val builder = new InterfaceComponentBuilder(connector, trace)
+			ifcompMap.put(connector, builder)
+			val sourcePhy = getPhyEndpoint(connector.source)
+			val targetPhy = getPhyEndpoint(connector.target)
+			ifCompTable.put(sourcePhy, targetPhy, builder)
+			ifCompTable.put(targetPhy, sourcePhy, builder)
+			if (! connector.source.isComponentPort) {
+				val sourceSubsystem = connector.sourceSubsystem
+				val sourceSubsystemBuilder = subsysMap.get(sourceSubsystem)
+				val sourceIFCompInst = builder.createInstance(sourceSubsystem)
+				sourceSubsystemBuilder.addCommInstance(sourceIFCompInst)
+			}
+			if (! connector.target.isComponentPort) {
+				val targetSubsystem = connector.targetSubsystem
+				val targetSubsystemBuilder = subsysMap.get(targetSubsystem)
+				val targetIFCompInst = builder.createInstance(targetSubsystem)
+				targetSubsystemBuilder.addCommInstance(targetIFCompInst)
+			}
+		} else if (connector.isElectronicConnector) {
+			val sourceComp = connector.source.eContainer as ArchitectureSubcompnent
+			val sourceInst = trace.get(sourceComp) as AsynchronousComponentInstance
+			val targetComp = connector.target.eContainer as ArchitectureSubcompnent
+			val targetInst = trace.get(targetComp) as AsynchronousComponentInstance
+			for (match : findConnections(connector.source as ArchitecturePort, connector.target as ArchitecturePort)) {
+				val port1 = match.get(0)
+				val port2 = match.get(1)
+				if (port1.interfaceRealization.realizationMode == RealizationMode.PROVIDED) {
+					sysChannelBuilder.add(sourceInst, port1, targetInst, port2)
+				} else {
+					sysChannelBuilder.add(targetInst, port2, sourceInst, port1)
+				}
+			}
+		} else if (connector.isElectronicInputConnector) {
+			val targetComp = connector.source.eContainer as ArchitectureSubcompnent
+			val targetInst = trace.get(targetComp) as AsynchronousComponentInstance
+			for (port2 : trace.getPhyPorts(connector.target as ArchitecturePort)) {
+				val port1=port2.clone
+				systemComponent.ports+=port1
+				trace.phyPortMap.put(connector.source as ArchitecturePort,port1)
+				port1.name=connector.source.gammaName+port2.name.replaceFirst("^"+connector.target.gammaName,"")
+				systemComponent.portBindings+=createPortBinding(port1,targetInst,port2)
+			}
+		} else if (connector.isElectronicOutputConnector) {
+			val sourceComp = connector.source.eContainer as ArchitectureSubcompnent
+			val sourceInst = trace.get(sourceComp) as AsynchronousComponentInstance
+			for (port1 : trace.getPhyPorts(connector.source as ArchitecturePort)) {
+				val port2=port1.clone
+				systemComponent.ports+=port2
+				trace.phyPortMap.put(connector.target as ArchitecturePort,port2)
+				port2.name=connector.source.gammaName+port1.name.replaceFirst("^"+connector.target.gammaName,"")
+				systemComponent.portBindings+=createPortBinding(port2,sourceInst,port1)
+			}
 		} else {
-			ifrel.realizationMode = RealizationMode.PROVIDED
-			name = name + "Out"
+			throw new ArchitectureException('''Connector is incorrectly connected in system «connector.source.name» -> «connector.target.name» ''', connector.source)
 		}
-		ifrel.interface = _interface
-		port.name = name
-		port.interfaceRealization = ifrel
-		return port
 	}
 
-	def transform(InterfaceConnector connector) {
-		var ifComponent = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
-		ifComponent.name = connector.gammaName
-		if (connector.source instanceof ArchitecturePort) {
-		}
-		if (connector.source instanceof ArchitectureSubcompnent) {
-		}
-		if (connector.target instanceof ArchitecturePort) {
-		}
-		if (connector.target instanceof ArchitectureSubcompnent) {
+	def transformFlow(InformationFlow flow) {
+		if (flow.isSubsystemFlow) {
+
+			val sourceInst = flow.flowSourceInst
+			val targetInst = flow.flowTargetInst
+			val sourcePort = getFlowSourcePort(flow)
+			val targetPort = getFlowTargetPort(flow)
+			val builder = subsysMap.get(flow.sourceSubsystem)
+			builder.addChannel(sourceInst, sourcePort, targetInst, targetPort)
+
+		} else if (flow.isSystemFlow) {
+
+			val sourceInst = flow.flowSourceInst
+			val targetInst = flow.flowTargetInst
+			val sourceSubsystem = flow.sourceSubsystem
+			val targetSubsystem = flow.targetSubsystem
+			val sourcePort = getFlowSourcePort(flow)
+			val targetPort = getFlowTargetPort(flow)
+			val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
+			val targetComponentBuilder = subsysMap.get(targetSubsystem)
+			val ifComponentBuilder = ifCompTable.get(getPhyComponent(sourceSubsystem), getPhyComponent(targetSubsystem))
+			ifComponentBuilder.addFlow(flow)
+			val sourceIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(sourceSubsystem))
+			val targetIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(targetSubsystem))
+			val inIFCompPort = ifComponentBuilder.getInPort(flow)
+			val outIFCompPort = ifComponentBuilder.getOutPort(flow)
+			val inSubsysCompPort = targetComponentBuilder.getInPort(flow)
+			val outSubsysCompPort = sourceComponentBuilder.getOutPort(flow)
+
+			// add connections
+			// func -o)- ifComp -> port -o)- port -> ifComp -o)- func
+			sourceComponentBuilder.addChannel(sourceInst, sourcePort, sourceIFCompInst, inIFCompPort)
+			sourceComponentBuilder.addBinding(outSubsysCompPort, sourceIFCompInst, outIFCompPort)
+			sysChannelBuilder.add(sourceComponentBuilder.instance, outSubsysCompPort, targetComponentBuilder.instance,
+				inSubsysCompPort)
+			targetComponentBuilder.addBinding(inSubsysCompPort, targetIFCompInst, inIFCompPort)
+			targetComponentBuilder.addChannel(targetIFCompInst, outIFCompPort, targetInst, targetPort)
+
+		} else if (flow.isSystemInputFlow) {
+
+			val sourcePort = flow.source as ArchitecturePort
+
+			val targetInst = flow.flowTargetInst
+			val targetSubsystem = flow.targetSubsystem
+			val targetPort = getFlowTargetPort(flow)
+			val targetComponentBuilder = subsysMap.get(targetSubsystem)
+			val ifComponentBuilder = ifCompTable.get(flow.source, getPhyComponent(targetSubsystem))
+			ifComponentBuilder.addFlow(flow)
+			val targetIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(targetSubsystem))
+			val inIFCompPort = ifComponentBuilder.getInPort(flow)
+			val outIFCompPort = ifComponentBuilder.getOutPort(flow)
+			val inSubsysCompPort = targetComponentBuilder.getInPort(flow)
+			val subsysInstance = targetComponentBuilder.instance
+
+			val sysPort = createPort(trace.get(flow.type) as Interface,
+				sourcePort.gammaName + "_" + flow.gammaName + "_" + portCNTR++, true)
+
+			trace.phyPortMap.put(sourcePort, sysPort)
+
+			// add connections
+			// sys.port -> subsys.port -> ifComp -o)- func
+			targetComponentBuilder.addBinding(inSubsysCompPort, targetIFCompInst, inIFCompPort)
+			targetComponentBuilder.addChannel(targetIFCompInst, outIFCompPort, targetInst, targetPort)
+			systemComponent.portBindings += createPortBinding(sysPort, subsysInstance, inSubsysCompPort)
+			systemComponent.ports += sysPort
+
+		} else if (flow.isSystemOutputFlow) {
+
+			val targetPort = flow.target as ArchitecturePort
+
+			val sourceInst = flow.flowSourceInst
+			val sourceSubsystem = flow.sourceSubsystem
+			val sourcePort = getFlowSourcePort(flow)
+			val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
+			val ifComponentBuilder = ifCompTable.get(getPhyComponent(sourceSubsystem), targetPort)
+			ifComponentBuilder.addFlow(flow)
+			val sourceIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(sourceSubsystem))
+			val inIFCompPort = ifComponentBuilder.getInPort(flow)
+			val outIFCompPort = ifComponentBuilder.getOutPort(flow)
+			val outSubsysCompPort = sourceComponentBuilder.getOutPort(flow)
+			val subsysInstance = sourceComponentBuilder.instance
+
+			val sysPort = createPort(trace.get(flow.type) as Interface,
+				targetPort.gammaName + "_" + flow.gammaName + "_" + portCNTR++, false)
+
+			trace.phyPortMap.put(targetPort, sysPort)
+
+			// add connections
+			// func -o)- ifComp -> port -> sys.port
+			sourceComponentBuilder.addChannel(sourceInst, sourcePort, sourceIFCompInst, inIFCompPort)
+			sourceComponentBuilder.addBinding(outSubsysCompPort, sourceIFCompInst, outIFCompPort)
+			systemComponent.portBindings += createPortBinding(sysPort, subsysInstance, outSubsysCompPort)
+			systemComponent.ports += sysPort
+
+		} else if (flow.isFromHWFlow) {
+			
+			val type=flow.flowType
+			val name=flow.gammaName
+			
+			val targetInst = flow.flowTargetInst
+			val targetSubsystem = flow.targetSubsystem
+			val targetPort = getFlowTargetPort(flow)
+			val targetComponentBuilder = subsysMap.get(targetSubsystem)
+			
+			val sourcePort=findConnection(flow.source as ArchitecturePort,type,name,RealizationMode.PROVIDED)
+			val sourceInst=trace.get(flow.source.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
+			
+			val inSubsysCompPort=createPort(type,sourceInst.name+flow.gammaName,true)
+			targetComponentBuilder.addPort(inSubsysCompPort)
+			
+			// add connections
+			// hwComp.port -o)- subsys.port -> func 
+			sysChannelBuilder.add(sourceInst, sourcePort, targetComponentBuilder.instance,
+				inSubsysCompPort)
+			targetComponentBuilder.addBinding(inSubsysCompPort, targetInst, targetPort)
+			
+		} else if (flow.isToHWFlow) {
+			
+			val type=flow.flowType
+			val name=flow.gammaName
+			
+			val sourceInst = flow.flowSourceInst
+			val sourceSubsystem = flow.sourceSubsystem
+			val sourcePort = getFlowSourcePort(flow)
+			val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
+			
+			val targetPort=findConnection(flow.target as ArchitecturePort,type,name,RealizationMode.REQUIRED)
+			val targetInst=trace.get(flow.target.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
+			
+			val outSubsysCompPort=createPort(flow.flowType,sourceInst.name+flow.gammaName,false)
+			sourceComponentBuilder.addPort(outSubsysCompPort)
+			
+			// add connections
+			// func -> subsys.port -o)- hwComp.port
+			sourceComponentBuilder.addBinding(outSubsysCompPort, sourceInst, sourcePort)
+			sysChannelBuilder.add(sourceComponentBuilder.instance, outSubsysCompPort, targetInst, targetPort)
+			
+		} else {
+			throw new ArchitectureException("The information flow is incorrectly connected", flow.source)
 		}
 	}
 
@@ -140,9 +335,13 @@ class SystemTransformer {
 
 		// create builder for the subsystems
 		for (subcomponent : system.subcompnents) {
-			if (!swAllocationMap.containsKey(subcomponent)) {
-				val builder = new SingletonComponentBuilder(subcomponent, trace)
-				subsysMap.put(subcomponent, builder)
+			if (subcomponent.type instanceof ElectronicComponent) {
+				systemComponent.components+=subcomponent.transformSubcomponent
+			} else {
+				if (!swAllocationMap.containsKey(subcomponent)) {
+					val builder = new SingletonComponentBuilder(subcomponent, trace)
+					subsysMap.put(subcomponent, builder)
+				}
 			}
 		}
 		for (swcomponent : swAllocationMap.keySet) {
@@ -150,12 +349,12 @@ class SystemTransformer {
 		}
 
 		// transforming the component functions into Gamma Components
-		for (subcomponent : system.subcompnents) {
-			val subsysBuilder = subsysMap.get(getPhyComponent(subcomponent))
-			for (subfunction : subcomponent.subfunctions) {
-				val function = subfunction.type as ArchitectureFunction
-				val functionTransformer = new FunctionTransformer(function, trace)
-				functionTransformer.execute
+		for (subsystem: system.subcompnents.filter[c|c.isSubsystem]) {
+			val subsysBuilder = subsysMap.get(getPhyComponent(subsystem))
+			for (subfunction : subsystem.subfunctions) {
+				// val function = subfunction.type as ArchitectureFunction
+				// val functionTransformer = new FunctionTransformer(function, trace)
+				// functionTransformer.transform()
 				val func = subfunction.transformSubfunction
 				subsysBuilder.addInstance(func)
 			}
@@ -169,133 +368,20 @@ class SystemTransformer {
 
 		// transforming the interface connectors into Gamma Components
 		for (connector : system.connectors) {
-			if (! connector.isFunctionalConnector) {
-				val builder = new InterfaceComponentBuilder(connector, trace)
-				ifcompMap.put(connector, builder)
-				val sourcePhy=getPhyEndpoint(connector.source)
-				val targetPhy=getPhyEndpoint(connector.target)
-				ifCompTable.put(sourcePhy, targetPhy, builder)
-				ifCompTable.put(targetPhy, sourcePhy, builder)
-				if (! connector.source.isComponentPort) {
-					val sourceSubsystem = connector.sourceSubsystem
-					val sourceSubsystemBuilder = subsysMap.get(sourceSubsystem)
-					val sourceIFCompInst = builder.createInstance(sourceSubsystem)
-					sourceSubsystemBuilder.addCommInstance(sourceIFCompInst)
-				}
-				if (! connector.target.isComponentPort) {
-					val targetSubsystem = connector.targetSubsystem
-					val targetSubsystemBuilder = subsysMap.get(targetSubsystem)
-					val targetIFCompInst = builder.createInstance(targetSubsystem)
-					targetSubsystemBuilder.addCommInstance(targetIFCompInst)
-				}
-			}
+			connector.transformConnector
 		}
 
 		// transforming the information flows into ports and channels
-		val flows=system.informationFlows
+		val flows = system.informationFlows
 		for (flow : flows) {
-
-			if (flow.isSubsystemFlow) {
-
-				val sourceInst = flow.flowSourceInst
-				val targetInst = flow.flowTargetInst
-				val sourcePort = getFlowSourcePort(flow)
-				val targetPort = getFlowTargetPort(flow)
-				val builder = subsysMap.get(flow.sourceSubsystem)
-				builder.addChannel(sourceInst, sourcePort, targetInst, targetPort)
-
-			} else if (flow.isSystemFlow) {
-
-				val sourceInst = flow.flowSourceInst
-				val targetInst = flow.flowTargetInst
-				val sourceSubsystem = flow.sourceSubsystem
-				val targetSubsystem = flow.targetSubsystem
-				val sourcePort = getFlowSourcePort(flow)
-				val targetPort = getFlowTargetPort(flow)
-				val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
-				val targetComponentBuilder = subsysMap.get(targetSubsystem)
-				val ifComponentBuilder = ifCompTable.get(getPhyComponent(sourceSubsystem),
-					getPhyComponent(targetSubsystem))
-				ifComponentBuilder.addFlow(flow)
-				val sourceIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(sourceSubsystem))
-				val targetIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(targetSubsystem))
-				val inIFCompPort = ifComponentBuilder.getInPort(flow)
-				val outIFCompPort = ifComponentBuilder.getOutPort(flow)
-				val inSubsysCompPort = targetComponentBuilder.getInPort(flow)
-				val outSubsysCompPort = sourceComponentBuilder.getOutPort(flow)
-
-				// add connections
-				// func -o)- ifComp -> port -o)- port -> ifComp -o)- func
-				sourceComponentBuilder.addChannel(sourceInst, sourcePort, sourceIFCompInst, inIFCompPort)
-				sourceComponentBuilder.addBinding(outSubsysCompPort, sourceIFCompInst, outIFCompPort)
-				sysChannelBuilder.add(sourceComponentBuilder.instance, outSubsysCompPort,
-					targetComponentBuilder.instance, inSubsysCompPort)
-				targetComponentBuilder.addBinding(inSubsysCompPort, targetIFCompInst, inIFCompPort)
-				targetComponentBuilder.addChannel(targetIFCompInst, outIFCompPort, targetInst, targetPort)
-
-			} else if (flow.isSystemInputFlow) {
-
-				val sourcePort = flow.source as ArchitecturePort
-
-				val targetInst = flow.flowTargetInst
-				val targetSubsystem = flow.targetSubsystem
-				val targetPort = getFlowTargetPort(flow)
-				val targetComponentBuilder = subsysMap.get(targetSubsystem)
-				val ifComponentBuilder = ifCompTable.get(flow.source, getPhyComponent(targetSubsystem))
-				ifComponentBuilder.addFlow(flow)
-				val targetIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(targetSubsystem))
-				val inIFCompPort = ifComponentBuilder.getInPort(flow)
-				val outIFCompPort = ifComponentBuilder.getOutPort(flow)
-				val inSubsysCompPort = targetComponentBuilder.getInPort(flow)
-				val subsysInstance=targetComponentBuilder.instance
-
-				val sysPort = createPort(trace.get(flow.type) as Interface, flow.gammaName + "_" + sourcePort.gammaName+"_"+portCNTR++,
-					true)
-
-				// add connections
-				// sys.port -> subsys.port -> ifComp -o)- func
-				targetComponentBuilder.addBinding(inSubsysCompPort, targetIFCompInst, inIFCompPort)
-				targetComponentBuilder.addChannel(targetIFCompInst, outIFCompPort, targetInst, targetPort)
-				systemComponent.portBindings+=createPortBinding(sysPort,subsysInstance,inSubsysCompPort)
-				systemComponent.ports += sysPort
-
-			} else if (flow.isSystemOutputFlow) {
-
-				val targetPort = flow.target as ArchitecturePort
-
-				val sourceInst = flow.flowSourceInst
-				val sourceSubsystem = flow.sourceSubsystem
-				val sourcePort = getFlowSourcePort(flow)
-				val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
-				val ifComponentBuilder = ifCompTable.get(getPhyComponent(sourceSubsystem), targetPort)
-				ifComponentBuilder.addFlow(flow)
-				val sourceIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(sourceSubsystem))
-				val inIFCompPort = ifComponentBuilder.getInPort(flow)
-				val outIFCompPort = ifComponentBuilder.getOutPort(flow)
-				val outSubsysCompPort = sourceComponentBuilder.getOutPort(flow)
-				val subsysInstance=sourceComponentBuilder.instance
-
-				val sysPort = createPort(trace.get(flow.type) as Interface, flow.gammaName + "_" + targetPort.gammaName+"_"+portCNTR++,
-					false)
-
-				// add connections
-				// func -o)- ifComp -> port -> sys.port
-				sourceComponentBuilder.addChannel(sourceInst, sourcePort, sourceIFCompInst, inIFCompPort)
-				sourceComponentBuilder.addBinding(outSubsysCompPort, sourceIFCompInst, outIFCompPort)
-				systemComponent.portBindings+=createPortBinding(sysPort,subsysInstance,outSubsysCompPort)
-				systemComponent.ports += sysPort
-
-			} else {
-				throw new ArchitectureException("The information flow is incorrectly connected", flow.source)
-			}
+			flow.transformFlow
 
 		}
-		
-		for (ifcompBuilder : ifCompTable.values.toSet){
-			val ifcomp=ifcompBuilder.component
+
+		for (ifcompBuilder : ifCompTable.values.toSet) {
+			val ifcomp = ifcompBuilder.component
 			ifcomp.packageElement("communication")
 		}
-		
 
 		for (builder : subsysMap.values.toSet) {
 			builder.build
@@ -303,7 +389,7 @@ class SystemTransformer {
 			val subsysComponent = builder.component
 			subsysComponent.packageElement("subsystems")
 		}
-		
+
 		systemComponent.channels += sysChannelBuilder.build
 		systemComponent.packageElement("systems")
 
@@ -318,7 +404,8 @@ class SystemTransformer {
 				val gammaComp = trace.get(subfunc) as AsynchronousComponent
 				val sPort = findPort(gammaComp, port)
 				if (sPort === null) {
-					throw new ArchitectureException("Subfunction out port cannot be found in function: "+port.name+" : "+port.type.name, port)
+					throw new ArchitectureException(
+						"Subfunction out port cannot be found in function: " + port.name + " : " + port.type.name, port)
 				}
 				return sPort
 			}
@@ -329,7 +416,8 @@ class SystemTransformer {
 			val comp = trace.get(flow.source) as AsynchronousComponentInstance
 			var sPort = findPort(comp.type, type, name, false)
 			if (sPort === null) {
-				throw new ArchitectureException("Subfunction out port cannot be found in function: "+name+" : "+type.name, flow.source)
+				throw new ArchitectureException(
+					"Subfunction out port cannot be found in function: " + name + " : " + type.name, flow.source)
 			}
 			return sPort
 		}
@@ -343,7 +431,8 @@ class SystemTransformer {
 				val gammaComp = trace.get(subfunc) as AsynchronousComponent
 				val sPort = findPort(gammaComp, port)
 				if (sPort === null) {
-					throw new ArchitectureException("Subfunction in port cannot be found in function: "+port.name+" : "+port.type.name, port)
+					throw new ArchitectureException(
+						"Subfunction in port cannot be found in function: " + port.name + " : " + port.type.name, port)
 				}
 				return sPort
 			}
@@ -354,7 +443,8 @@ class SystemTransformer {
 			val comp = trace.get(flow.target) as AsynchronousComponentInstance
 			var sPort = findPort(comp.type, type, name, true)
 			if (sPort === null) {
-				throw new ArchitectureException("Subfunction in port cannot be found in function: "+name+" : "+type.name, flow.target)
+				throw new ArchitectureException(
+					"Subfunction in port cannot be found in function: " + name + " : " + type.name, flow.target)
 			}
 			return sPort
 		}
@@ -368,13 +458,22 @@ class SystemTransformer {
 				(element.eContainer as ArchitectureSubfunction).eContainer as ArchitectureSubcompnent)
 		} else if (element instanceof ArchitectureSubfunction) {
 			return getPhyComponent(element.eContainer as ArchitectureSubcompnent)
-		} else  if (element instanceof ArchitectureSubcompnent) {
+		} else if (element instanceof ArchitectureSubcompnent) {
 			return getPhyComponent(element as ArchitectureSubcompnent)
 		} else {
-			throw new ArchitectureException("Endpoint is not found",element)
+			throw new ArchitectureException("Endpoint is not found", element)
 		}
 	}
 	
+
+	def isFromHWFlow(InformationFlow flow) {
+		return flow.source.isSubcomponentPort && (flow.target.isSubfunctionPort || flow.target.isSubfunction)
+	}
+
+	def isToHWFlow(InformationFlow flow) {
+		return flow.target.isSubcomponentPort && (flow.source.isSubfunctionPort || flow.source.isSubfunction)
+	}
+
 	def isSubsystemFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
@@ -396,7 +495,7 @@ class SystemTransformer {
 		}
 		return (sourceComp === targetComp)
 	}
-	
+
 	def isSystemFlow(InformationFlow flow) {
 		val source = flow.source
 		val target = flow.target
@@ -418,5 +517,5 @@ class SystemTransformer {
 		}
 		return !(sourceComp === targetComp)
 	}
-	
+
 }

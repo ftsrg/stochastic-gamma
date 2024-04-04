@@ -6,7 +6,7 @@
     <semanticResources>platform:/resource/hu.bme.mit.gamma.statechart.model/model/interface.ecore</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_iBpfUJTnEe6hGKw9yeTcZQ">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_kElAYJTnEe6hGKw9yeTcZQ" name=" architecture class diagram" repPath="#_kEWW4JTnEe6hGKw9yeTcZQ" changeId="1708450160634">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_kElAYJTnEe6hGKw9yeTcZQ" name=" architecture class diagram" repPath="#_kEWW4JTnEe6hGKw9yeTcZQ" changeId="1711625450930">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="architecture.ecore#/"/>
       </ownedRepresentationDescriptors>
@@ -352,6 +352,10 @@
             <children xmi:type="notation:Node" xmi:id="_PQio8LoDEe68V9xST2Fo6A" type="3010" element="_PQbUMLoDEe68V9xST2Fo6A">
               <styles xmi:type="notation:FontStyle" xmi:id="_PQio8boDEe68V9xST2Fo6A" fontName="Segoe UI" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_PQio8roDEe68V9xST2Fo6A"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_oUwNkOz2Ee6A7uR8JalT3w" type="3010" element="_oT8VQez2Ee6A7uR8JalT3w">
+              <styles xmi:type="notation:FontStyle" xmi:id="_oUwNkez2Ee6A7uR8JalT3w" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_oUwNkuz2Ee6A7uR8JalT3w"/>
             </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_PQha1boDEe68V9xST2Fo6A"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_PQha1roDEe68V9xST2Fo6A"/>
@@ -2661,6 +2665,14 @@
         <target xmi:type="ecore:EReference" href="platform:/resource/hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface/events"/>
         <semanticElements xmi:type="ecore:EReference" href="platform:/resource/hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface/events"/>
         <ownedStyle xmi:type="diagram:BundledImage" uid="_PQb7QLoDEe68V9xST2Fo6A" labelAlignment="LEFT" color="114,159,207">
+          <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EReferenceNode']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EReferenceNode']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_oT8VQez2Ee6A7uR8JalT3w" name=" invariants : Expression" tooltipText="">
+        <target xmi:type="ecore:EReference" href="platform:/resource/hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface/invariants"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface/invariants"/>
+        <ownedStyle xmi:type="diagram:BundledImage" uid="_oT-KcOz2Ee6A7uR8JalT3w" labelAlignment="LEFT" color="114,159,207">
           <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EReferenceNode']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EReferenceNode']"/>

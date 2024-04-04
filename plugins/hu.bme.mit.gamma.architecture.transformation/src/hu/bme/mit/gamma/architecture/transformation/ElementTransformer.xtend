@@ -43,6 +43,9 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureElement
 import hu.bme.mit.gamma.architecture.transformation.builder.FailureModelGenerator
 import hu.bme.mit.gamma.statechart.interface_.Event
 import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
+import java.util.Collection
+import java.util.List
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
 
 class ElementTransformer {
 
@@ -395,6 +398,40 @@ class ElementTransformer {
 
 	def findPort(AsynchronousComponent component, ArchitecturePort archPort) {
 		return findPort(component, trace.get(archPort) as Interface, archPort.gammaName, archPort.conjugated)
+	}
+	
+
+	def findConnections(ArchitecturePort p1, ArchitecturePort p2) {
+		val matches = <List<Port>>newLinkedList
+		val ports1 = trace.getPhyPorts(p1)
+		val ports2 = trace.getPhyPorts(p2)
+		val p1name = p1.name.gammaName
+		val p2name = p2.name.gammaName
+		for (port1 : ports1) {
+			val p2matches = ports2.filter [ p |
+				p.name.replaceFirst('''(In|Out)$''', "").replaceFirst("^" + p2name, "") ==
+					port1.name.replaceFirst("^" + p1name, "").replaceFirst('''(In|Out)$''', "")
+			].toList
+			if (p2matches.size != 1) {
+				throw new ArchitectureException(
+					'''Cannot connect functional endpoints of physical connector endpoints [« p1.name»:«p1.type.name»::«port1.name»] -> [«p2.name»:«p2.type.name» «p2matches.size»::(«ports2.map[p|p.name].toList.toString»)] matches''', p1)
+			}
+			matches.add(<Port>newLinkedList(port1, p2matches.get(0)))
+		}
+		return matches
+	}
+
+	def findConnection(ArchitecturePort aPort, Interface interface_, String name, RealizationMode realizationMode) {
+		val ports = trace.getPhyPorts(aPort)
+		val pname = aPort.name.gammaName
+		val p2matches = ports.filter [ p |
+			p.name.replaceFirst('''«interface_.name»(In|Out)$''', "").replaceFirst("^" + pname, "") == name
+		].filter[p|p.interfaceRealization.realizationMode == realizationMode].toList
+		if (p2matches.size != 1) {
+			throw new ArchitectureException(
+				'''Cannot connect functional end-points of physical connector endpoints «aPort.name»:«aPort.type.name»| [«ports.map[p|p.name+":"+p.interface.name].toList»] ----	 «name»:«interface_.name» with «p2matches.size» matches''', aPort)
+		}
+		return p2matches.get(0)
 	}
 
 	def getGammaSource(InformationFlow flow) {

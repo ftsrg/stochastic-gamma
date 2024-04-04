@@ -22,6 +22,7 @@ import hu.bme.mit.gamma.architecture.model.ValueType
 import hu.bme.mit.gamma.architecture.model.System
 import hu.bme.mit.gamma.architecture.model.Connector
 import hu.bme.mit.gamma.architecture.model.Allocation
+import hu.bme.mit.gamma.architecture.model.ElectronicComponent
 
 class TransformationUtils {
 
@@ -113,6 +114,10 @@ class TransformationUtils {
 
 	static def getSystem(ArchitecturePackage pkg){
 		return pkg.architectureelement.filter[e | e instanceof System].map[e|e as System].filter[sys|(!sys.relations.empty) && (!sys.subcompnents.empty) ].toList
+	}
+
+	static def getPrimitiveHardwareComponents(ArchitecturePackage pkg){
+		return pkg.architectureelement.filter[e | e instanceof ElectronicComponent].map[e|e as ElectronicComponent].filter[comp|(comp.subcompnents.empty) && (!comp.subfunctions.empty) ].toList
 	}
 
 	static def getComponentFunctions(ArchitecturePackage pkg){

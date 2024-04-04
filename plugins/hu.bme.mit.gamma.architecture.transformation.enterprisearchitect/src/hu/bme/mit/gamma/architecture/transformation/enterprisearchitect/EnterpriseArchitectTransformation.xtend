@@ -113,6 +113,33 @@ class EnterpriseArchitectTransformation {
 		trace.rootPkg = root_pkg
 	}
 
+	new(
+		String functionPackageGUID,
+		String hardwarePackageGUID,
+		String softwarePackageGUID,
+		String systemPackageGUID
+	) {
+		val pid = EAUtils.searchPID
+		this.functionPackageGUID = functionPackageGUID
+		this.electricalPackageGUID = hardwarePackageGUID
+		this.softwarePackageGUID = softwarePackageGUID
+		this.mechanicalPackageGUID = ""
+		this.systemPackageGUID = systemPackageGUID
+
+		repository = Services.GetRepository(pid as int)
+		trace = new ElementTrace()
+		modelFactory = ModelFactory.eINSTANCE
+		containingElement = newHashMap
+		containingElement2 = newHashMap
+		// eaDataLoader = new EADataLoader(repository, trace)
+		eaDataLoader = new EADataLoader(repository)
+		elementTransformation = new EAElementTransformation(trace, containingElement)
+		connectorTransformation = new EAConnectorTransformation(repository, trace, containingElement)
+		root_pkg = createPackage("ArchitectureModel")
+
+		trace.rootPkg = root_pkg
+	}
+
 	def showElement(ArchitectureElement element) {
 		val elementObj = repository.GetElementByID(trace.get(element).intValue)
 		repository.ShowInProjectView(elementObj)
@@ -192,16 +219,11 @@ class EnterpriseArchitectTransformation {
 		logger.log(Level.INFO, "Transforming functional models")
 
 		val functionalPackageData = packageData.getContainedPackage(functionPackageGUID)
-
 		transformInterfaces(functionalPackageData)
-
 		val functionData = eaDataLoader.loadBlocksFromPackage(functionalPackageData)
-		// val functionInterfaceData = eaDataLoader.loadInterfaceBlocksFromPackage(functionalPackageData)
 		val functions = functionData.map[d|d.transformFunction]
-		// val functionInterfaces = functionInterfaceData.map[d|d.transformInterface]
 		root_pkg.architectureelement += functions
-		// root_pkg.architectureelement += functionInterfaces
-		// logger.log(Level.INFO, "Transforming system models")
+		
 		val systemPackageData = packageData.getContainedPackage(systemPackageGUID)
 		val systemData = eaDataLoader.loadBlocksFromPackage(systemPackageData)
 		val systemInterfaceData = eaDataLoader.loadInterfaceBlocksFromPackage(systemPackageData)
@@ -215,19 +237,7 @@ class EnterpriseArchitectTransformation {
 
 		logger.log(Level.INFO, "Transforming value types and flow properties")
 
-		//val allFlowPropertiesData = eaDataLoader.loadAllFlowProperties(functionalPackageData)
-		
-
 		val xrefData = eaDataLoader.loadAllXRefData
-		//val objectPropertyData = eaDataLoader.loadAllObjectPropertyData
-
-		// val allValueTypes = allValueTypeData.map[d|d.transformValueType].toList
-		//root_pkg.architectureelement += allValueTypes
-		/*val allFlowProperties = allFlowPropertiesData.map[d|d.transformFlowProperty].toList
-		val directionMap = objectPropertyData.createDirectionMap
-		for (flowProp : allFlowProperties) {
-			flowProp.direction = directionMap.get(trace.get(flowProp))
-		}*/
 
 		var allSubfunctions = <ArchitectureSubfunction>newLinkedList
 		var allSubcomponent = <ArchitectureSubcompnent>newLinkedList
@@ -353,9 +363,7 @@ class EnterpriseArchitectTransformation {
 
 	}
 
-	def execute() {
-
-		var root_pkg = createPackage("ArchitectureModel")
+	def execute3() {
 
 		logger.log(Level.INFO, "Loading packages")
 
@@ -364,13 +372,11 @@ class EnterpriseArchitectTransformation {
 		logger.log(Level.INFO, "Transforming functional models")
 
 		val functionalPackageData = packageData.getContainedPackage(functionPackageGUID)
+		transformInterfaces(functionalPackageData)
 		val functionData = eaDataLoader.loadBlocksFromPackage(functionalPackageData)
-		val functionInterfaceData = eaDataLoader.loadInterfaceBlocksFromPackage(functionalPackageData)
 		val functions = functionData.map[d|d.transformFunction]
-		val functionInterfaces = functionInterfaceData.map[d|d.transformInterface]
 		root_pkg.architectureelement += functions
-		root_pkg.architectureelement += functionInterfaces
-
+		
 		logger.log(Level.INFO, "Transforming electrical models")
 
 		val electricalPackageData = packageData.getContainedPackage(electricalPackageGUID)
@@ -380,19 +386,9 @@ class EnterpriseArchitectTransformation {
 		val electricalInterfaces = electricalInterfaceData.map[d|d.transformInterface]
 		root_pkg.architectureelement += electricalComponents
 		root_pkg.architectureelement += electricalInterfaces
-
-		logger.log(Level.INFO, "Transforming mechanical models")
-
-		val mechanicalPackageData = packageData.getContainedPackage(mechanicalPackageGUID)
-		val mechanicalData = eaDataLoader.loadBlocksFromPackage(mechanicalPackageData)
-		val mechanicalInterfaceData = eaDataLoader.loadInterfaceBlocksFromPackage(mechanicalPackageData)
-		val mechanicalComponents = mechanicalData.map[d|d.transformElectronicComponent]
-		val mechanicalInterfaces = mechanicalInterfaceData.map[d|d.transformInterface]
-		root_pkg.architectureelement += mechanicalComponents
-		root_pkg.architectureelement += mechanicalInterfaces
-
+		
 		logger.log(Level.INFO, "Transforming software models")
-
+		/* 
 		val softwarePackageData = packageData.getContainedPackage(softwarePackageGUID)
 		val softwareData = eaDataLoader.loadBlocksFromPackage(softwarePackageData)
 		val softwareInterfaceData = eaDataLoader.loadInterfaceBlocksFromPackage(softwarePackageData)
@@ -400,9 +396,9 @@ class EnterpriseArchitectTransformation {
 		val softwareInterfaces = softwareInterfaceData.map[d|d.transformInterface]
 		root_pkg.architectureelement += softwareComponents
 		root_pkg.architectureelement += softwareInterfaces
-
+		*/		
 		logger.log(Level.INFO, "Transforming system models")
-
+		
 		val systemPackageData = packageData.getContainedPackage(systemPackageGUID)
 		val systemData = eaDataLoader.loadBlocksFromPackage(systemPackageData)
 		val systemInterfaceData = eaDataLoader.loadInterfaceBlocksFromPackage(systemPackageData)
@@ -414,17 +410,18 @@ class EnterpriseArchitectTransformation {
 		val allParts = eaDataLoader.loadAllParts
 		val allPortData = eaDataLoader.loadAllPorts
 
+		logger.log(Level.INFO, "Transforming value types and flow properties")
+
+		val xrefData = eaDataLoader.loadAllXRefData
+
 		var allSubfunctions = <ArchitectureSubfunction>newLinkedList
 		var allSubcomponent = <ArchitectureSubcompnent>newLinkedList
 
 		functions.forEach[c|containingElement.put(c, c)]
 		electricalComponents.forEach[c|containingElement.put(c, c)]
-		mechanicalComponents.forEach[c|containingElement.put(c, c)]
-		softwareComponents.forEach[c|containingElement.put(c, c)]
 		systemComponents.forEach[c|containingElement.put(c, c)]
-
+ 
 		logger.log(Level.INFO, "Transforming parts and ports")
-
 		var shall_run = true
 		while (shall_run) {
 			shall_run = false
@@ -447,7 +444,8 @@ class EnterpriseArchitectTransformation {
 								allSubfunctions += subfunction
 								containingElement.put(subfunction, containingElement.get(container))
 							}
-							if ((type instanceof ArchitectureComponent) || (type instanceof System)) {
+							if ((type instanceof ArchitectureComponent) ||
+								(type instanceof hu.bme.mit.gamma.architecture.model.System)) {
 								val subcomponent = part.transformSubcomponent
 								allSubcomponent += subcomponent
 								containingElement.put(subcomponent, containingElement.get(container))
@@ -465,22 +463,25 @@ class EnterpriseArchitectTransformation {
 			}
 		}
 		val allPorts = <ArchitecturePort>newLinkedList
-		for (portData : allPortData) {
-			if (trace.contains(portData.conainerID)) {
-				if (portData.PDATA1 === null || portData.PDATA1 == "") {
-					logger.log(Level.WARNING, '''Port «portData.name» with GUID=«portData.GUID» has no type''')
-				} else if (! trace.contains(portData.PDATA1)) {
+		val conjugationMap = xrefData.createConjugationMap
+		for (port : allPortData) {
+			if (trace.contains(port.conainerID)) {
+				if (port.PDATA1 === null || port.PDATA1 == "") {
+					logger.log(Level.WARNING, '''Port «port.name» with GUID=«port.GUID» has no type''')
+				} else if (! trace.contains(port.PDATA1)) {
 					logger.log(
 						Level.
-							SEVERE, '''The type of port «portData.name» with GUID=«portData.GUID» has no type, Type GUID=«portData.PDATA1»''')
+							SEVERE, '''The type of port «port.name» with GUID=«port.GUID» has no type, Type GUID=«port.PDATA1»''')
 				} else {
 					try {
-						val port = portData.transformPort
-						//containingElement.put(port, containingElement.get(trace.get(portData.conainerID)))
-						allPorts += port
+						if (conjugationMap.containsKey(port.GUID)) {
+							allPorts += port.transformPort(conjugationMap.get(port.GUID))
+						} else {
+							allPorts += port.transformPort
+						}
 					} catch (Exception e) {
 						logger.log(Level.SEVERE, '''
-							An exception occured during the transformation of port «portData.name» with GUID=«portData.GUID», PDATA1=«portData.PDATA1», ParentID=«portData.conainerID»
+							An exception occured during the transformation of port «port.name» with GUID=«port.GUID», PDATA1=«port.PDATA1», ParentID=«port.conainerID»
 						''')
 						e.printStackTrace
 					}
@@ -490,11 +491,15 @@ class EnterpriseArchitectTransformation {
 
 		allPorts.forEach[p|containingElement.put(p, containingElement.get(p.eContainer as StructuralElement))]
 
+		logger.log(Level.INFO, "Transform information flows")
+
 		val flowData = eaDataLoader.loadAllFlows
 		var allFlows = <InformationFlow>newLinkedList
 		for (data : flowData) {
 			data.transformFlow
 		}
+
+		logger.log(Level.INFO, "Transform allocations")
 
 		val allocationData = eaDataLoader.loadAllAllocation
 		var allAllocation = <Allocation>newLinkedList
@@ -502,28 +507,43 @@ class EnterpriseArchitectTransformation {
 			allAllocation.add(data.transformAllocation)
 		}
 
+		logger.log(Level.INFO, "Transform connectors")
+
 		val connectorData = eaDataLoader.loadAllConnectors
 		var allConnectors = <Connector>newLinkedList
 		for (data : connectorData) {
 			allConnectors.add(data.transformConnector)
 		}
 
-		val interfaceConnectorData = eaDataLoader.loadAllInterfaceConnectors
-		var allInterfaceConnectors = <Connector>newLinkedList
-		for (data : interfaceConnectorData) {
-			allInterfaceConnectors.add(data.transformInterfaceConnector)
+		logger.log(Level.INFO, "Transform realizations")
+		val realizationData=eaDataLoader.loadAllRealization
+		for (data:realizationData){
+			data.transformRealization
 		}
-
-		val union = allFlows + allAllocation + allConnectors + allInterfaceConnectors
+		
+		logger.log(Level.INFO, "Transform generalization")
+		val generalizationData=eaDataLoader.loadAllGeneralization
+		for (data:generalizationData){
+			data.transformGeneralization
+		}
+		
 		
 		logger.log(Level.INFO, "Loading statemachine data")
 		
 		trace.statemachineData=new StatemachineData(eaDataLoader,functionalPackageData)
+		trace.fileData=new FileData(eaDataLoader,functionalPackageData)
 		
-		logger.log(Level.INFO, "Transformation is finished")
+		logger.log(Level.INFO, "Architecture Transformation is finished")
 
-		return root_pkg
+		return trace
 
 	}
+
+	def getTrace(){
+		return trace;
+	}
+
+
+
 
 }

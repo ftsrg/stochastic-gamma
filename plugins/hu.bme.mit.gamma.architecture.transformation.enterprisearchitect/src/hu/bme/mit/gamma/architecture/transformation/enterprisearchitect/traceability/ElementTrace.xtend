@@ -12,6 +12,7 @@ import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
 import hu.bme.mit.gamma.architecture.model.ArchitecturePackage
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.StatemachineData
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.FileData
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
 
 class ElementTrace {
 	
@@ -89,7 +90,7 @@ class ElementTrace {
 
 	protected def check(ArchitectureElement element){
 		if(!contains(element)){
-			throw new ArchitectureException("ArchitectureElement cannot be found in architecture trace: "+element.name+" "+element.class)
+			throw new GammaTransformationException("ArchitectureElement cannot be found in architecture trace: "+element.name+" "+element.class)
 		}
 	}
 

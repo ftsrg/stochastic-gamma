@@ -13,6 +13,13 @@ import hu.bme.mit.gamma.statechart.interface_.Package
 import hu.bme.mit.gamma.statechart.interface_.Component
 import java.io.File
 import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
+import hu.bme.mit.gamma.architecture.model.ArchitecturePort
+import java.util.Set
+import hu.bme.mit.gamma.statechart.interface_.Port
+import com.google.common.collect.Multimap
+import com.google.common.collect.ArrayListMultimap
+import hu.bme.mit.gamma.architecture.model.ArchitectureSubcompnent
+import hu.bme.mit.gamma.architecture.transformation.errors.ArchitectureException
 
 class ArchitectureTrace {
 
@@ -23,42 +30,41 @@ class ArchitectureTrace {
 	protected HashMap<Type, ValueType> typeMap2 = <Type, ValueType>newHashMap
 	protected HashMap<Component, Package> packageMap = <Component, Package>newHashMap
 	protected HashMap<Package, String> pathMap = <Package, String>newHashMap
+	public final Multimap<ArchitecturePort, Port> phyPortMap = ArrayListMultimap.create();
 
 	protected val Package interfacePackage
-	
-	
 
 	new() {
 		interfacePackage = InterfaceModelFactory.eINSTANCE.createPackage
 		interfacePackage.name = "interfaces"
-		pathMap.put(interfacePackage,"interfaces")
+		pathMap.put(interfacePackage, "interfaces")
 	}
 
-	def addComponentPackage(Component component, Package pkg){
-		if (packageMap.keySet.contains(component)){
-			throw new GammaTransformationException("Component is already packaged : "+component.name,component)
+	def addComponentPackage(Component component, Package pkg) {
+		if (packageMap.keySet.contains(component)) {
+			throw new GammaTransformationException("Component is already packaged : " + component.name, component)
 		}
-		packageMap.put(component,pkg)
-		pathMap.put(pkg,"")
+		packageMap.put(component, pkg)
+		pathMap.put(pkg, "")
 	}
-	
-	def setPackagePath(Package pkg, String path){
-		if (path.empty){
-			pathMap.put(pkg,path)
-		}else{	
-			pathMap.put(pkg,"/"+path)
+
+	def setPackagePath(Package pkg, String path) {
+		if (path.empty) {
+			pathMap.put(pkg, path)
+		} else {
+			pathMap.put(pkg, "/" + path)
 		}
 	}
-	
-	def getPackagePath(Package pkg){
-		if(pathMap.containsKey(pkg)){
+
+	def getPackagePath(Package pkg) {
+		if (pathMap.containsKey(pkg)) {
 			return pathMap.get(pkg)
-		}else{
+		} else {
 			return ""
 		}
 	}
 
-	def getPackage(Component component){
+	def getPackage(Component component) {
 		return packageMap.get(component)
 	}
 
@@ -67,22 +73,22 @@ class ArchitectureTrace {
 	}
 
 	def add(ValueType valueType, Type type) {
-		if (contains(type)){
-			throw new GammaTransformationException("Value Type already transformed",valueType)
+		if (contains(type)) {
+			throw new GammaTransformationException("Value Type already transformed", valueType)
 		}
 		typeMap.put(valueType, type)
 		typeMap2.put(type, valueType)
 	}
 
 	def get(ValueType valueType) {
-		if (!contains(valueType)){
-			throw new GammaTransformationException("Value Type not transformed",valueType)
+		if (!contains(valueType)) {
+			throw new GammaTransformationException("Value Type not transformed", valueType)
 		}
 		return typeMap.get(valueType)
 	}
 
 	def get(Type type) {
-		if (!contains(type)){
+		if (!contains(type)) {
 			throw new GammaTransformationException("Type not transformed")
 		}
 		return typeMap2.get(type)
@@ -99,15 +105,15 @@ class ArchitectureTrace {
 	}
 
 	def get(ArchitectureElement element) {
-		if (!contains(element)){
-			throw new GammaTransformationException("Element not transformed",element)
+		if (!contains(element)) {
+			throw new GammaTransformationException("Element not transformed", element)
 		}
 		return arch2gamma.get(element)
 	}
 
 	def get(NamedElement element) {
-		if (!contains(element)){
-			throw new GammaTransformationException("Element not traced",element)
+		if (!contains(element)) {
+			throw new GammaTransformationException("Element not traced", element)
 		}
 		return gamma2arch.get(element)
 	}
@@ -119,55 +125,75 @@ class ArchitectureTrace {
 	def AsynchronousStatechartDefinition getInterfaceComponent(Interface _interface) {
 		return interfaceMap.get(get(_interface))
 	}
-	
-	def getPackages(){
+
+	def getPackages() {
 		return packageMap.values.toSet
 	}
-	
-	def getPrimitiveFunctionPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/primitive_functions"].toSet
+
+	def getPrimitiveFunctionPackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/primitive_functions"].toSet
 	}
-	
-	def getComponentFunctionPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/component_functions"].toSet
+
+	def getComponentFunctionPackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/component_functions"].toSet
 	}
-	
-	def getInterfaceComponentPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/interface_components"].toSet
+
+	def getInterfaceComponentPackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/interface_components"].toSet
 	}
-	
-	def getCommunicationComponentPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/communication"].toSet
+
+	def getCommunicationComponentPackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/communication"].toSet
 	}
-	
-	def getSubsystemHardwarePackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/subsystem_hardware"].toSet
+
+	def getElectronicComponentPackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/electronic_components"].toSet
 	}
-	
-	
-	def getSubsystemPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/subsystems"].toSet
+
+	def getSubsystemHardwarePackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/subsystem_hardware"].toSet
 	}
-	
-	def getSystemPackages(){
-		return packageMap.values.filter[p|pathMap.get(p)=="/systems"].toSet
+
+	def getSubsystemPackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/subsystems"].toSet
 	}
-	
-	def contains(ArchitectureElement element){
+
+	def getSystemPackages() {
+		return packageMap.values.filter[p|pathMap.get(p) == "/systems"].toSet
+	}
+
+	def contains(ArchitectureElement element) {
 		return arch2gamma.containsKey(element)
 	}
-	def contains(NamedElement element){
+
+	def contains(NamedElement element) {
 		return gamma2arch.containsKey(element)
 	}
-	def contains(Type type){
+
+	def contains(Type type) {
 		return typeMap2.containsKey(type)
 	}
-	def contains(ValueType type){
+
+	def contains(ValueType type) {
 		return typeMap.containsKey(type)
 	}
-	def contains(Package pkg){
+
+	def contains(Package pkg) {
 		return pathMap.containsKey(pkg)
 	}
-	
-	
+
+	def getPhyPorts(ArchitecturePort port) {
+		if (port.eContainer instanceof ArchitectureSubcompnent) {
+			val realPort = (port.eContainer as ArchitectureSubcompnent).type.ports.filter[p|p.name == port.name].filter [ p |
+				p.type === port.type
+			].filter[p|p.conjugated == port.conjugated]
+			if (realPort.size!=1){
+				throw new ArchitectureException("Inconsistent physical subcomponent-component type ports, "+realPort.size+" matches",port)
+			}
+			return phyPortMap.get(realPort.get(0))
+		}else{
+			return phyPortMap.get(port)
+		}		
+	}
+
 }

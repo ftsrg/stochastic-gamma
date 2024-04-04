@@ -18,9 +18,12 @@ import hu.bme.mit.gamma.statechart.interface_.Interface
 import hu.bme.mit.gamma.architecture.model.ArchitectureElement
 import hu.bme.mit.gamma.architecture.model.ArchitectureComponent
 import hu.bme.mit.gamma.architecture.model.ArchitectureSubcompnent
+import hu.bme.mit.gamma.architecture.model.System
 import hu.bme.mit.gamma.architecture.model.Connector
 import hu.bme.mit.gamma.architecture.model.Generalisation
 import hu.bme.mit.gamma.architecture.model.ArchitectureInterface
+import hu.bme.mit.gamma.architecture.model.FunctionalElement
+import hu.bme.mit.gamma.architecture.model.ElectronicComponent
 
 class RelationTransfomer {
 
@@ -53,6 +56,24 @@ class RelationTransfomer {
 		return false
 	}
 
+	static def isInPortBinding2(InformationFlow flow) {
+		if (flow.source instanceof ArchitecturePort) {
+			if (flow.source.eContainer instanceof ArchitectureComponent) {
+				return true
+			}
+		}
+		return false
+	}
+
+	static def isOutPortBinding2(InformationFlow flow) {
+		if (flow.target instanceof ArchitecturePort) {
+			if (flow.target.eContainer instanceof ArchitectureComponent) {
+				return true
+			}
+		}
+		return false
+	}
+
 	static def isPort(ArchitectureElement element) {
 		return element instanceof ArchitecturePort
 	}
@@ -67,6 +88,21 @@ class RelationTransfomer {
 	static def isFunctionPort(ArchitectureElement element) {
 		if (element.isPort) {
 			return element.eContainer instanceof ArchitectureFunction
+		}
+		return false
+	}
+
+	static def isSubsystem(ArchitectureElement element) {
+		if (element instanceof ArchitectureSubcompnent) {
+			return element.type instanceof System
+		}
+		return false
+	}
+
+	static def isFunctionalPort(ArchitectureElement element) {
+		if (element.isPort) {
+			return (element.eContainer instanceof ArchitectureFunction) ||
+				(element.eContainer instanceof ArchitectureSubfunction )
 		}
 		return false
 	}
@@ -96,6 +132,55 @@ class RelationTransfomer {
 	static def isFunctionalConnector(Connector connector) {
 		return connector.source.isSubfunctionPort || connector.source.isSubfunction ||
 			connector.target.isSubfunctionPort || connector.target.isSubfunction
+	}
+
+	// true if  subsys(.port) --conn-- subsys(.port)
+	static def isSubsystemEnd(ArchitectureElement element) {
+		if (element instanceof ArchitecturePort) {
+			if (element.eContainer instanceof ArchitectureSubcompnent) {
+				if ((element.eContainer as ArchitectureSubcompnent).type instanceof System) {
+					return true
+				}
+			}
+			return false
+		} else {
+			if (element instanceof ArchitectureSubcompnent) {
+				if ((element as ArchitectureSubcompnent).type instanceof System) {
+					return true
+				}
+			}
+		}
+		return false
+	}
+
+	// true if  hwcomp(.port) --conn-- hwcomp(.port)
+	static def isElectronicEnd(ArchitectureElement element) {
+		if (element instanceof ArchitecturePort) {
+			if (element.eContainer instanceof ArchitectureSubcompnent) {
+				if ((element.eContainer as ArchitectureSubcompnent).type instanceof ElectronicComponent) {
+					return true
+				}
+			}
+		}
+		return false
+	}
+
+	static def isSubsystemConnector(Connector connector) {
+		return (connector.source.isSubsystemEnd && connector.target.isSubsystemEnd) ||
+			(connector.source.isSubsystemEnd && connector.target.isComponentPort) ||
+			(connector.target.isSubsystemEnd && connector.source.isComponentPort)
+	}
+
+	static def isElectronicConnector(Connector connector) {
+		return connector.source.isElectronicEnd && connector.target.isElectronicEnd
+	}
+
+	static def isElectronicInputConnector(Connector connector) {
+		return connector.target.isElectronicEnd && connector.source.isComponentPort
+	}
+
+	static def isElectronicOutputConnector(Connector connector) {
+		return connector.source.isElectronicEnd && connector.target.isComponentPort
 	}
 
 	static def isSystemFlow(InformationFlow flow) {
@@ -176,7 +261,7 @@ class RelationTransfomer {
 
 	def getFlowType(InformationFlow flow) {
 		var flowType = flow.type
-		if (flow.target.isPort) {
+		if (flow.target.isFunctionalPort) {
 			val targetPort = flow.target as ArchitecturePort
 			if (flowType === null) {
 				flowType = targetPort.type
@@ -184,7 +269,7 @@ class RelationTransfomer {
 				throw new ArchitectureException("Inconsistent flow types at target", flow)
 			}
 		}
-		if (flow.source.isPort) {
+		if (flow.source.isFunctionalPort) {
 			val sourcePort = flow.source as ArchitecturePort
 			if (flowType === null) {
 				flowType = sourcePort.type
@@ -196,21 +281,6 @@ class RelationTransfomer {
 			throw new ArchitectureException("Flow type is not defined", flow)
 		}
 		return trace.get(flowType) as Interface
-	}
-
-	def transformSystemFlow(InformationFlow flow) {
-	}
-
-	def transformFunctionFlow(InformationFlow flow) {
-	}
-
-	def transformFunctionInputFlow(InformationFlow flow) {
-	}
-
-	def transformFunctionOutputFlow(InformationFlow flow) {
-	}
-
-	def transformInterfaceConnector(InterfaceConnector connector) {
 	}
 
 	def getFlowSourceInst(InformationFlow flow) {
