@@ -443,15 +443,19 @@ class EnterpriseArchitectTransformation {
 								val subfunction = part.transformSubfunction
 								allSubfunctions += subfunction
 								containingElement.put(subfunction, containingElement.get(container))
-							}
-							if ((type instanceof ArchitectureComponent) ||
+								shall_run = true
+							} else if ((type instanceof ArchitectureComponent) ||
 								(type instanceof hu.bme.mit.gamma.architecture.model.System)) {
 								val subcomponent = part.transformSubcomponent
 								allSubcomponent += subcomponent
 								containingElement.put(subcomponent, containingElement.get(container))
+								shall_run = true
 
+							} else {
+								logger.log(
+								Level.
+									SEVERE,'''Type of part has unrecognized type: «type.class.toGenericString», Part GUID="«part.GUID»" ''')
 							}
-							shall_run = true
 						}
 					}
 				} catch (Exception e) {

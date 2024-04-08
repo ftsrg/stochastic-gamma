@@ -35,7 +35,7 @@ class AnalysisToPlantUMLTransformer {
 		if (inst instanceof EnvironmentAsynchronousCompositeComponentInstance){
 			return '''
 			component "[[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name» «inst.name» : «inst.type.name»]]" {
-				«FOR comp_inst : inst.type.components»
+				«FOR comp_inst : inst.type.components.sortBy[c|c.name]»
 				«transform(comp_inst,namespace+"__"+inst.name.toFirstUpper)»
 				«ENDFOR»
 			}
@@ -44,7 +44,7 @@ class AnalysisToPlantUMLTransformer {
 		if (inst instanceof EnvironmentSynchronousCompositeComponentInstance){
 			return '''
 			component "[[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name» «inst.name» : «inst.type.name»]]" {
-				«FOR comp_inst : inst.type.components»
+				«FOR comp_inst : inst.type.components.sortBy[c|c.name]»
 				«transform(comp_inst,namespace+"__"+inst.name)»
 				«ENDFOR»
 			}
@@ -53,7 +53,7 @@ class AnalysisToPlantUMLTransformer {
 		if (inst instanceof EnvironmentCascadeCompositeComponentInstance){
 			return '''
 			component "[[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name» «inst.name» : «inst.type.name»]]" {
-				«FOR comp_inst : inst.type.components»
+				«FOR comp_inst : inst.type.components.sortBy[c|c.name]»
 				«transform(comp_inst,namespace+"__"+inst.name)»
 				«ENDFOR»
 			}
@@ -103,7 +103,7 @@ class AnalysisToPlantUMLTransformer {
 		if (inst instanceof EnvironmentAsynchronousCompositeComponentInstance){
 			return '''
 			«stars» «inst.name» : «inst.type.name» [[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name.toFirstUpper» link]]
-			«FOR comp_inst : inst.type.components»
+			«FOR comp_inst : inst.type.components.sortBy[c|c.name]»
 			«transformWBS(comp_inst,namespace+"__"+inst.name.toFirstUpper,stars+"*")»
 			«ENDFOR»
 			'''
@@ -111,7 +111,7 @@ class AnalysisToPlantUMLTransformer {
 		if (inst instanceof EnvironmentSynchronousCompositeComponentInstance){
 			return '''
 			«stars» «inst.name» : «inst.type.name» [[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name.toFirstUpper» link]]
-			«FOR comp_inst : inst.type.components»
+			«FOR comp_inst : inst.type.components.sortBy[c|c.name]»
 			«transformWBS(comp_inst,namespace+"__"+inst.name.toFirstUpper,stars+"*")»
 			«ENDFOR»
 			'''
@@ -119,7 +119,7 @@ class AnalysisToPlantUMLTransformer {
 		if (inst instanceof EnvironmentCascadeCompositeComponentInstance){
 			return '''
 			«stars» «inst.name» : «inst.type.name» [[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name.toFirstUpper» link]]
-			«FOR comp_inst : inst.type.components»
+			«FOR comp_inst : inst.type.components.sortBy[c|c.name]»
 			«transformWBS(comp_inst,namespace+"__"+inst.name.toFirstUpper,stars+"*")»
 			«ENDFOR»
 			'''
@@ -129,7 +129,7 @@ class AnalysisToPlantUMLTransformer {
 			if (t instanceof AsynchronousCompositeComponent){
 			return '''
 			«stars» «inst.name» : «inst.type.name.toFirstUpper» [[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name.toFirstUpper» link]]
-			«FOR comp_inst : t.components»
+			«FOR comp_inst : t.components.sortBy[c|c.name]»
 			«transformWBS(comp_inst,namespace+"__"+inst.name.toFirstUpper,stars+"*")»
 			«ENDFOR»
 			'''
@@ -146,7 +146,7 @@ class AnalysisToPlantUMLTransformer {
 		if (t instanceof SynchronousCompositeComponent){
 			return '''
 			«stars» «inst.name» : «inst.type.name» [[http://localhost:8080/?dname=DiagramCMD--«namespace»__«inst.name.toFirstUpper» link]]
-			«FOR comp_inst : t.components»
+			«FOR comp_inst : t.components.sortBy[c|c.name]»
 			«transformWBS(comp_inst,namespace+"__"+inst.name.toFirstUpper,stars+"*")»
 			«ENDFOR»
 			'''

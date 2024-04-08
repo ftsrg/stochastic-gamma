@@ -309,6 +309,18 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 				}
 			«ENDIF»
 			
+
+			public String getInQueue(){
+				String str="Input events (";
+				for (Event event:__asyncQueue){
+					str=str+event.getEvent().toString()+" : ";
+					for (Object value:event.getValue()){
+						str=str+" "+value.toString()+",";
+					}
+				}
+				str=str+")";
+				return str;
+			}
 		}
 		'''
 	}

@@ -105,7 +105,7 @@ class Util {
 		if (port.parameters.isEmpty) {
 			return ""
 		}else{
-			return  
+			return
 	'''
 	note "«port.keyword(instance)»" as note_«instance.name»_«port.name»
 	note_«instance.name»_«port.name» .. «instance.name»__«port.name»

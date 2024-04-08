@@ -120,7 +120,7 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 	 */
 	def getInPort(InformationFlow flow) {
 		val type = trace.get(flow.type) as Interface
-		val inport = type.createPort(flow.inPortName + nameCNTR, true)
+		val inport = type.createPort(flow.name + "_" + nameCNTR, true)
 		component.ports += inport
 		inportMap.put(flow, inport)
 		nameCNTR++
@@ -129,7 +129,7 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 
 	def getOutPort(InformationFlow flow) {
 		val type = trace.get(flow.type) as Interface
-		val outport = type.createPort(flow.outPortName + nameCNTR, false)
+		val outport = type.createPort(flow.name + "_" + nameCNTR, false)
 		component.ports += outport
 		outportMap.put(flow, outport)
 		nameCNTR++

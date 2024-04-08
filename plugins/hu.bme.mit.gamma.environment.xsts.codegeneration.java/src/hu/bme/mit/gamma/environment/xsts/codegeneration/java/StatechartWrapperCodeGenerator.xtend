@@ -307,14 +307,19 @@ class StatechartWrapperCodeGenerator {
 			@Override
 			public String toString() {
 				String str=«CLASS_NAME.toFirstLower».toString();
-				//str=str+"\\n Input events (";
-				//for (Event event:getInsertQueue()){
-					//str=event.toString()+" : ";
-					//for (Object value:event.getValue()){
-						//str=str+" "+value.toString()+",";
-					//}
-				//}
-				//str=str+"\\n )";
+				str=str+"\n "+getInQueue();
+				return str;
+			}
+			
+			public String getInQueue(){
+				String str="Input events (";
+				for (Event event:getInsertQueue()){
+					str=str+event.getEvent().toString()+" : ";
+					for (Object value:event.getValue()){
+						str=str+" "+value.toString()+",";
+					}
+				}
+				str=str+")";
 				return str;
 			}
 		}

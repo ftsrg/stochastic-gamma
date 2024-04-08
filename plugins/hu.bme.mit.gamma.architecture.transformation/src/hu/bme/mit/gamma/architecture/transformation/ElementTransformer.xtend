@@ -46,6 +46,9 @@ import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
 import java.util.Collection
 import java.util.List
 import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
+import hu.bme.mit.gamma.statechart.statechart.SchedulingOrder
+import hu.bme.mit.gamma.statechart.statechart.TransitionPriority
+import hu.bme.mit.gamma.statechart.interface_.ComponentAnnotation
 
 class ElementTransformer {
 
@@ -124,6 +127,9 @@ class ElementTransformer {
 		for (archPort : architectureFunction.ports) {
 			sct.ports += transformPort(archPort)
 		}
+		sct.schedulingOrder = SchedulingOrder.TOP_DOWN
+		sct.transitionPriority = TransitionPriority.VALUE_BASED
+		sct.annotations+=sctModelFactory.createRunUponExternalEventOrInternalTimeoutAnnotation
 
 		for (failureInterface : architectureFunction.providedInterfaces) {
 			val gammaIf = trace.get(failureInterface) as Interface
@@ -363,6 +369,7 @@ class ElementTransformer {
 	}
 
 	def createPort(Interface _interface, String name, boolean conj) {
+		//val name=_name.gammaName
 		val port = ifModelFactory.createPort
 		var ifrel = ifModelFactory.createInterfaceRealization
 		var gname = ""
@@ -433,8 +440,7 @@ class ElementTransformer {
 		}
 		return p2matches.get(0)
 	}
-
-	def getGammaSource(InformationFlow flow) {
+	/*def getGammaSource(InformationFlow flow) {
 		if (flow.source instanceof ArchitecturePort) {
 			val port = flow.source as ArchitecturePort
 			if (port.eContainer instanceof ArchitectureFunction) {
@@ -447,7 +453,7 @@ class ElementTransformer {
 			}
 		}
 		if (flow.source instanceof ArchitectureSubfunction) {
-			val type = trace.get(flow.type) as Interface
+			val type = flow.flowtype
 			val name = flow.outPortName
 			val comp = trace.get(flow.source) as AsynchronousComponent
 			return findPort(comp, type, name, false)
@@ -472,7 +478,7 @@ class ElementTransformer {
 			val comp = trace.get(flow.source) as AsynchronousComponent
 			return findPort(comp, type, name, true)
 		}
-	}
+	}*/
 
 	def transformSubfunction(ArchitectureSubfunction subfunction) {
 		val inst = cmpModelFactory.createAsynchronousComponentInstance

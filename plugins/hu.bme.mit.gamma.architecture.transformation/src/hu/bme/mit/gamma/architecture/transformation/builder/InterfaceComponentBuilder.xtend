@@ -121,8 +121,13 @@ class InterfaceComponentBuilder {
 	
 	def addFlow(InformationFlow flow){
 		val type = trace.get(flow.type) as Interface
-		val inport = type.createPort(flow.inPortName+nameCNTR,true)
-		val outport = type.createPort(flow.outPortName+nameCNTR,false)
+		var portName=flow.gammaName
+		if (portName.blank){
+			portName=flow.source.gammaName
+		}
+		portName=portName+nameCNTR+"_"
+		val inport = type.createPort(portName,true)
+		val outport = type.createPort(portName,false)
 		component.ports+=inport
 		component.ports+=outport
 		inportMap.put(flow,inport)

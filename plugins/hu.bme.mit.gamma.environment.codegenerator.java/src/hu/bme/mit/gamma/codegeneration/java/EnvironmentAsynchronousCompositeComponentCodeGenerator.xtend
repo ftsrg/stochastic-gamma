@@ -1,11 +1,11 @@
 /********************************************************************************
  * Copyright (c) 2018-2020 Contributors to the Gamma project
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * SPDX-License-Identifier: EPL-1.0
  ********************************************************************************/
 package hu.bme.mit.gamma.codegeneration.java
@@ -41,11 +41,11 @@ import hu.bme.mit.gamma.statechart.interface_.Event
 import hu.bme.mit.gamma.expression.model.ParameterDeclaration
 import hu.bme.mit.gamma.statechart.statechart.AsynchronousStatechartDefinition
 
-class EnvironmentAsynchronousCompositeComponentCodeGenerator{
-	
+class EnvironmentAsynchronousCompositeComponentCodeGenerator {
+
 	protected final String PACKAGE_NAME
 
-	// 
+	//
 	protected final extension TimingDeterminer timingDeterminer = TimingDeterminer.INSTANCE
 	protected final extension Trace trace
 	protected final extension NameGenerator nameGenerator
@@ -53,9 +53,9 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 	protected final extension ComponentCodeGenerator componentCodeGenerator
 	protected final extension CompositeComponentCodeGenerator compositeComponentCodeGenerator
 	protected val envUtil = ElementaryEnvironmentComponentUtility.INSTANCE
-    
+
 	new(String packageName, Trace trace) {
-		val SDA=EventDeclarationHandler
+		val SDA = EventDeclarationHandler
 		this.PACKAGE_NAME = packageName
 		this.trace = trace
 		this.nameGenerator = new NameGenerator(this.PACKAGE_NAME)
@@ -63,27 +63,27 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 		this.componentCodeGenerator = new ComponentCodeGenerator(this.trace)
 		this.compositeComponentCodeGenerator = new CompositeComponentCodeGenerator(this.PACKAGE_NAME, this.trace)
 	}
-	
+
 	/**
-	* Creates the Java code of the asynchronous composite class, containing asynchronous components.
-	*/
-	
-	protected def generateEnvironmentInports(AbstractAsynchronousCompositeComponent component){
+	 * Creates the Java code of the asynchronous composite class, containing asynchronous components.
+	 */
+	protected def generateEnvironmentInports(AbstractAsynchronousCompositeComponent component) {
 		'''
-		«IF component instanceof EnvironmentAsynchronousCompositeComponent»
-		«var comp=component as EnvironmentAsynchronousCompositeComponent»
-		«var types=comp.environmentComponents
+			«IF component instanceof EnvironmentAsynchronousCompositeComponent»
+				«var comp=component as EnvironmentAsynchronousCompositeComponent»
+				«var types=comp.environmentComponents
 			.filter[c|c instanceof EnvironmentAsynchronousCompositeComponentInstance]
 				.map[c|c as EnvironmentAsynchronousCompositeComponentInstance]
 					.map[c|c.type]»
-		«FOR t : types»
-			import «PACKAGE_NAME».«t.name.toLowerCase».*;
-		«ENDFOR»
-		«ENDIF»
+				«FOR t : types»
+					import «PACKAGE_NAME».«t.name.toLowerCase».*;
+				«ENDFOR»
+			«ENDIF»
 		'''
 	}
-	
-	protected def createEnvironmentAsynchronousCompositeComponentClass( AbstractAsynchronousCompositeComponent component, int channelId1, int channelId2) '''
+
+	protected def createEnvironmentAsynchronousCompositeComponentClass(AbstractAsynchronousCompositeComponent component,
+		int channelId1, int channelId2) '''
 		package «component.generateComponentPackageName»;
 		
 		«component.generateCompositeSystemImports»
@@ -125,8 +125,10 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 			«envUtil.registerFunc»
 			
 			public boolean isEventQueueEmpty(){
-				return «FOR comp : component.instances SEPARATOR " && " » «comp.name».isEventQueueEmpty() «ENDFOR»«IF component.components.empty»true«ENDIF» «IF component instanceof EnvironmentAsynchronousCompositeComponent » «IF !component.environmentComponents.empty»&& «ENDIF» «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR» «ENDIF»;
+				return «FOR comp : component.instances SEPARATOR " && "» «comp.name».isEventQueueEmpty() «ENDFOR»«IF component.components.empty»true«ENDIF» «IF component instanceof EnvironmentAsynchronousCompositeComponent » «IF !component.environmentComponents.empty»&& «ENDIF» «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR» «ENDIF»;
 			}
+			
+			private final int MAX_SCHEDULE=20;
 			
 			public void schedule(){
 				int cntr=0;
@@ -140,39 +142,11 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 						«ENDFOR»
 					«ENDIF»
 					cntr++;
-				}while(!isEventQueueEmpty() && cntr < 10);
-				if (cntr==10) {
+				}while(!isEventQueueEmpty() && cntr < MAX_SCHEDULE);
+				
+				if (cntr==MAX_SCHEDULE) {
 					System.out.println("Infinite scheduling in «component.name»! -----------");
-					«FOR comp : component.instances»
-						if (!«comp.name».isEventQueueEmpty()){
-							System.out.println("    queues of «comp.name» is not empty");
-							«IF comp.derivedType instanceof AsynchronousStatechartDefinition»
-								System.out.println("    queues of «comp.name» is not empty");
-								for (Event event:«comp.name».getInsertQueue()){
-									System.out.print("        «comp.name»::"+event.getEvent()+" =");
-									for (Object value:event.getValue()){
-										System.out.print(" "+value.toString()+",");
-									}
-									System.out.println("");
-								}
-							«ELSEIF comp.derivedType instanceof AsynchronousCompositeComponent»
-								«FOR comp2: comp.derivedType.instances»
-									«IF comp2.derivedType instanceof AsynchronousStatechartDefinition»
-										if (!«comp.name».get«comp2.name.toFirstUpper»().isEventQueueEmpty()){
-										System.out.println("        queues of «comp.name»::«comp2.name» is not empty");
-											for (Event event:«comp.name».get«comp2.name.toFirstUpper»().getInsertQueue()){
-												System.out.print("             «comp.name»::«comp2.name»::"+event.getEvent()+" =");
-												for (Object value:event.getValue()){
-													System.out.print(" "+value.toString()+",");
-												}
-												System.out.println("");
-											}
-										}
-									«ENDIF»
-								«ENDFOR»
-							«ENDIF»
-						}
-					«ENDFOR»
+					System.out.println(getInQueue());
 					«IF component instanceof EnvironmentAsynchronousCompositeComponent »
 						«FOR inst : component.environmentComponents»
 							if (!«envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)»){
@@ -396,9 +370,23 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 				«ENDFOR»
 			«ENDIF»
 			
+
+			public String getInQueue(){
+				if (!isEventQueueEmpty()){
+					String str="Input of components [";
+					«FOR instance : component.components SEPARATOR "\n"»
+						str=str+"\n    «instance.name» : "+«instance.name».getInQueue().replace("    ","      ");
+					«ENDFOR»
+					str=str+"]";
+					return str;
+				}else{
+					return "";
+				}
+			}
+			
 		}
 	'''
-	
+
 	/**
 	 * Generates methods that for in-event raisings in the case of composite components.
 	 */
@@ -411,14 +399,13 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 				«ENDFOR»	
 			}
 		«ENDFOR»
-	'''	
+	'''
 
-	
 	/**
 	 * Generates methods for out-event check delegations in the case of composite components.
 	 */
 	def CharSequence delegateDetOutMethods(Port systemPort) '''
-«««		Simple flag checks
+		«««		Simple flag checks
 		«FOR event : systemPort.outputEvents»
 			@Override
 			public boolean isRaised«event.name.toFirstUpper»() {
@@ -430,33 +417,35 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator{
 					«ENDFOR»
 				«ENDIF»
 			}
-«««			ValueOf checks
+		«««			ValueOf checks
 			«FOR parameter : event.parameterDeclarations»
-			
-				«IF systemPort.detPortBindings.empty» 
-					«parameter.type.transformType» «parameter.generateName»=«ExpressionSerializer.INSTANCE.serialize(parameter.type.defaultExpression)»;
-				«ENDIF»
-				@Override
-				public «parameter.type.transformType» get«parameter.name.toFirstUpper»() {
-					«IF systemPort.detPortBindings.empty»
-						«IF parameter.type.primitive»
-							return «parameter.name»;
-						«ELSE»
-							return null;
-						«ENDIF»
-					«ELSE»
-						«FOR connector : systemPort.detPortBindings»
-							return «connector.instancePortReference.instance.name».get«connector.instancePortReference.port.name.toFirstUpper»().get«parameter.name.toFirstUpper»();
-						«ENDFOR»
+				
+					«IF systemPort.detPortBindings.empty» 
+						«parameter.type.transformType» «parameter.generateName»=«ExpressionSerializer.INSTANCE.serialize(parameter.type.defaultExpression)»;
 					«ENDIF»
-				}
+					@Override
+					public «parameter.type.transformType» get«parameter.name.toFirstUpper»() {
+						«IF systemPort.detPortBindings.empty»
+							«IF parameter.type.primitive»
+								return «parameter.name»;
+							«ELSE»
+								return null;
+							«ENDIF»
+						«ELSE»
+							«FOR connector : systemPort.detPortBindings»
+								return «connector.instancePortReference.instance.name».get«connector.instancePortReference.port.name.toFirstUpper»().get«parameter.name.toFirstUpper»();
+							«ENDFOR»
+						«ENDIF»
+					}
 			«ENDFOR»
 		«ENDFOR»
 	'''
-	
+
 	def generateName(ParameterDeclaration parameter) '''«parameter.name.toFirstLower»'''
-	
-	def generateParameters(Event event) '''«FOR parameter : event.parameterDeclarations SEPARATOR ", "»«parameter.type.transformType» «parameter.generateName»«ENDFOR»'''
-	
-	def generateArguments(Event event) '''«FOR parameter : event.parameterDeclarations SEPARATOR ", "»«parameter.generateName»«ENDFOR»'''
+
+	def generateParameters(
+		Event event) '''«FOR parameter : event.parameterDeclarations SEPARATOR ", "»«parameter.type.transformType» «parameter.generateName»«ENDFOR»'''
+
+	def generateArguments(
+		Event event) '''«FOR parameter : event.parameterDeclarations SEPARATOR ", "»«parameter.generateName»«ENDFOR»'''
 }

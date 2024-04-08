@@ -75,7 +75,7 @@ class TransformationUtils {
 	static def getFailureInterfaceName(ArchitectureInterface architectureInterface){
 		return architectureInterface.gammaName
 	}
-	
+	/*
 	static def outPortName(InformationFlow flow){
 		return flow.gammaName+flow.type.gammaName+"Out"
 	}
@@ -83,7 +83,7 @@ class TransformationUtils {
 	static def inPortName(InformationFlow flow){
 		return flow.gammaName+flow.type.gammaName+"In"
 	}
-	
+	 */
 	static def getGammaName(String archName) {
 		var name = archName
 		if (name === null || name.empty || name.blank ) {

@@ -33,6 +33,7 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureComponent
 import hu.bme.mit.gamma.architecture.model.ElectronicComponent
 import hu.bme.mit.gamma.statechart.interface_.InterfaceRealization
 import hu.bme.mit.gamma.util.GammaEcoreUtil
+import hu.bme.mit.gamma.statechart.interface_.Port
 
 class SystemTransformer {
 
@@ -61,7 +62,7 @@ class SystemTransformer {
 	val extension RelationTransfomer relationTransformer
 
 	protected extension val GammaEcoreUtil gammaEcoreUtil = GammaEcoreUtil.INSTANCE
-	
+
 	var portCNTR = 0
 
 	new(System system, ArchitectureTrace trace) {
@@ -160,24 +161,27 @@ class SystemTransformer {
 			val targetComp = connector.source.eContainer as ArchitectureSubcompnent
 			val targetInst = trace.get(targetComp) as AsynchronousComponentInstance
 			for (port2 : trace.getPhyPorts(connector.target as ArchitecturePort)) {
-				val port1=port2.clone
-				systemComponent.ports+=port1
-				trace.phyPortMap.put(connector.source as ArchitecturePort,port1)
-				port1.name=connector.source.gammaName+port2.name.replaceFirst("^"+connector.target.gammaName,"")
-				systemComponent.portBindings+=createPortBinding(port1,targetInst,port2)
+				val port1 = port2.clone
+				systemComponent.ports += port1
+				trace.phyPortMap.put(connector.source as ArchitecturePort, port1)
+				port1.name = connector.source.gammaName + "_" +
+					port2.name.replaceFirst("^" + connector.target.gammaName, "")
+				systemComponent.portBindings += createPortBinding(port1, targetInst, port2)
 			}
 		} else if (connector.isElectronicOutputConnector) {
 			val sourceComp = connector.source.eContainer as ArchitectureSubcompnent
 			val sourceInst = trace.get(sourceComp) as AsynchronousComponentInstance
 			for (port1 : trace.getPhyPorts(connector.source as ArchitecturePort)) {
-				val port2=port1.clone
-				systemComponent.ports+=port2
-				trace.phyPortMap.put(connector.target as ArchitecturePort,port2)
-				port2.name=connector.source.gammaName+port1.name.replaceFirst("^"+connector.target.gammaName,"")
-				systemComponent.portBindings+=createPortBinding(port2,sourceInst,port1)
+				val port2 = port1.clone
+				systemComponent.ports += port2
+				trace.phyPortMap.put(connector.target as ArchitecturePort, port2)
+				port2.name = connector.target.gammaName + "_" +
+					port1.name.replaceFirst("^" + connector.target.gammaName, "")
+				systemComponent.portBindings += createPortBinding(port2, sourceInst, port1)
 			}
 		} else {
-			throw new ArchitectureException('''Connector is incorrectly connected in system «connector.source.name» -> «connector.target.name» ''', connector.source)
+			throw new ArchitectureException('''Connector is incorrectly connected in system «connector.source.name» -> «connector.target.name» ''',
+				connector.source)
 		}
 	}
 
@@ -222,6 +226,8 @@ class SystemTransformer {
 		} else if (flow.isSystemInputFlow) {
 
 			val sourcePort = flow.source as ArchitecturePort
+			
+			val type=flow.flowType
 
 			val targetInst = flow.flowTargetInst
 			val targetSubsystem = flow.targetSubsystem
@@ -235,21 +241,31 @@ class SystemTransformer {
 			val inSubsysCompPort = targetComponentBuilder.getInPort(flow)
 			val subsysInstance = targetComponentBuilder.instance
 
-			val sysPort = createPort(trace.get(flow.type) as Interface,
-				sourcePort.gammaName + "_" + flow.gammaName + "_" + portCNTR++, true)
+			val portName = flow.source.gammaName + "_" + flow.gammaName
+			val portNameFull = flow.source.gammaName + "_" + flow.gammaName+type.name+"In"
+			var Port sysPort = null
+			val sysPortIt = trace.phyPortMap.get(sourcePort).filter[p|p.name == portNameFull].iterator
+			if (sysPortIt.hasNext){
+				sysPort=sysPortIt.next
+			}else{
+				sysPort = createPort(type, portName, true)
+				trace.phyPortMap.put(sourcePort, sysPort)
+				systemComponent.ports += sysPort
+			}
+			
 
-			trace.phyPortMap.put(sourcePort, sysPort)
 
 			// add connections
 			// sys.port -> subsys.port -> ifComp -o)- func
 			targetComponentBuilder.addBinding(inSubsysCompPort, targetIFCompInst, inIFCompPort)
 			targetComponentBuilder.addChannel(targetIFCompInst, outIFCompPort, targetInst, targetPort)
 			systemComponent.portBindings += createPortBinding(sysPort, subsysInstance, inSubsysCompPort)
-			systemComponent.ports += sysPort
 
 		} else if (flow.isSystemOutputFlow) {
 
 			val targetPort = flow.target as ArchitecturePort
+			
+			val type=flow.flowType
 
 			val sourceInst = flow.flowSourceInst
 			val sourceSubsystem = flow.sourceSubsystem
@@ -263,8 +279,8 @@ class SystemTransformer {
 			val outSubsysCompPort = sourceComponentBuilder.getOutPort(flow)
 			val subsysInstance = sourceComponentBuilder.instance
 
-			val sysPort = createPort(trace.get(flow.type) as Interface,
-				targetPort.gammaName + "_" + flow.gammaName + "_" + portCNTR++, false)
+			val sysPort = createPort(type,
+				targetPort.gammaName + "_" + flow.gammaName, false)
 
 			trace.phyPortMap.put(targetPort, sysPort)
 
@@ -276,48 +292,49 @@ class SystemTransformer {
 			systemComponent.ports += sysPort
 
 		} else if (flow.isFromHWFlow) {
-			
-			val type=flow.flowType
-			val name=flow.gammaName
-			
+
+			val type = flow.flowType
+			val name = flow.gammaName
+
 			val targetInst = flow.flowTargetInst
 			val targetSubsystem = flow.targetSubsystem
 			val targetPort = getFlowTargetPort(flow)
 			val targetComponentBuilder = subsysMap.get(targetSubsystem)
-			
-			val sourcePort=findConnection(flow.source as ArchitecturePort,type,name,RealizationMode.PROVIDED)
-			val sourceInst=trace.get(flow.source.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
-			
-			val inSubsysCompPort=createPort(type,sourceInst.name+flow.gammaName,true)
+
+			val sourcePort = findConnection(flow.source as ArchitecturePort, type, name, RealizationMode.PROVIDED)
+			val sourceInst = trace.get(
+				flow.source.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
+
+			val inSubsysCompPort = createPort(type, sourceInst.name + flow.gammaName, true)
 			targetComponentBuilder.addPort(inSubsysCompPort)
-			
+
 			// add connections
 			// hwComp.port -o)- subsys.port -> func 
-			sysChannelBuilder.add(sourceInst, sourcePort, targetComponentBuilder.instance,
-				inSubsysCompPort)
+			sysChannelBuilder.add(sourceInst, sourcePort, targetComponentBuilder.instance, inSubsysCompPort)
 			targetComponentBuilder.addBinding(inSubsysCompPort, targetInst, targetPort)
-			
+
 		} else if (flow.isToHWFlow) {
-			
-			val type=flow.flowType
-			val name=flow.gammaName
-			
+
+			val type = flow.flowType
+			val name = flow.gammaName
+
 			val sourceInst = flow.flowSourceInst
 			val sourceSubsystem = flow.sourceSubsystem
 			val sourcePort = getFlowSourcePort(flow)
 			val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
-			
-			val targetPort=findConnection(flow.target as ArchitecturePort,type,name,RealizationMode.REQUIRED)
-			val targetInst=trace.get(flow.target.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
-			
-			val outSubsysCompPort=createPort(flow.flowType,sourceInst.name+flow.gammaName,false)
+
+			val targetPort = findConnection(flow.target as ArchitecturePort, type, name, RealizationMode.REQUIRED)
+			val targetInst = trace.get(
+				flow.target.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
+
+			val outSubsysCompPort = createPort(flow.flowType, sourceInst.name + flow.gammaName, false)
 			sourceComponentBuilder.addPort(outSubsysCompPort)
-			
+
 			// add connections
 			// func -> subsys.port -o)- hwComp.port
 			sourceComponentBuilder.addBinding(outSubsysCompPort, sourceInst, sourcePort)
 			sysChannelBuilder.add(sourceComponentBuilder.instance, outSubsysCompPort, targetInst, targetPort)
-			
+
 		} else {
 			throw new ArchitectureException("The information flow is incorrectly connected", flow.source)
 		}
@@ -336,7 +353,7 @@ class SystemTransformer {
 		// create builder for the subsystems
 		for (subcomponent : system.subcompnents) {
 			if (subcomponent.type instanceof ElectronicComponent) {
-				systemComponent.components+=subcomponent.transformSubcomponent
+				systemComponent.components += subcomponent.transformSubcomponent
 			} else {
 				if (!swAllocationMap.containsKey(subcomponent)) {
 					val builder = new SingletonComponentBuilder(subcomponent, trace)
@@ -349,7 +366,7 @@ class SystemTransformer {
 		}
 
 		// transforming the component functions into Gamma Components
-		for (subsystem: system.subcompnents.filter[c|c.isSubsystem]) {
+		for (subsystem : system.subcompnents.filter[c|c.isSubsystem]) {
 			val subsysBuilder = subsysMap.get(getPhyComponent(subsystem))
 			for (subfunction : subsystem.subfunctions) {
 				// val function = subfunction.type as ArchitectureFunction
@@ -411,8 +428,8 @@ class SystemTransformer {
 			}
 		}
 		if (flow.source instanceof ArchitectureSubfunction) {
-			val type = trace.get(flow.type) as Interface
-			val name = flow.outPortName
+			val type = flow.flowType
+			val name = flow.name+type.name+"Out"
 			val comp = trace.get(flow.source) as AsynchronousComponentInstance
 			var sPort = findPort(comp.type, type, name, false)
 			if (sPort === null) {
@@ -438,8 +455,8 @@ class SystemTransformer {
 			}
 		}
 		if (flow.target instanceof ArchitectureSubfunction) {
-			val type = trace.get(flow.type) as Interface
-			val name = flow.inPortName
+			val type = flow.flowType
+			val name = flow.name+type.name+"In"
 			val comp = trace.get(flow.target) as AsynchronousComponentInstance
 			var sPort = findPort(comp.type, type, name, true)
 			if (sPort === null) {
@@ -464,7 +481,6 @@ class SystemTransformer {
 			throw new ArchitectureException("Endpoint is not found", element)
 		}
 	}
-	
 
 	def isFromHWFlow(InformationFlow flow) {
 		return flow.source.isSubcomponentPort && (flow.target.isSubfunctionPort || flow.target.isSubfunction)
