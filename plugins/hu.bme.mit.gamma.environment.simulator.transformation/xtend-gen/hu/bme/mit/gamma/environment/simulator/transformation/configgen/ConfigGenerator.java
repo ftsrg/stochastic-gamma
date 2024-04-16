@@ -119,7 +119,7 @@ public class ConfigGenerator {
                         Iterable<ParameterDeclaration> _parameters_1 = Util.parameters(port_1);
                         for(final ParameterDeclaration param_1 : _parameters_1) {
                           _builder_1.append("    ");
-                          CharSequence _key_1 = Util.key(port_1, param_1, inst);
+                          String _key_1 = Util.key(port_1, param_1, inst);
                           _builder_1.append(_key_1, "    ");
                           _builder_1.append(" : \"");
                           String _firstUpper_3 = StringExtensions.toFirstUpper(inst.getName());

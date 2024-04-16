@@ -12,7 +12,7 @@ with open("viz_config.yml", "r") as ymlfile:
 hostName = "localhost"
 serverPort = 8080
 
-diagrams = ["system_context_diagram.svg","trq_calc.svg","tsu_diag.svg"]
+diagrams = ["system_context_diagram.svg"]
 diagram_cmd_dict = dict()
 diagram_name_dict = dict()
 diagram_url_dict = dict()

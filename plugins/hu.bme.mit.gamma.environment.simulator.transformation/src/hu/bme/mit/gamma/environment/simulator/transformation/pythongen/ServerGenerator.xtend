@@ -66,7 +66,7 @@ with open("config_sct.yml", "r") as ymlfile:
 hostName = "localhost"
 serverPort = 8080
 
-diagrams = ["system_context_diagram.svg","trq_calc.svg","tsu_diag.svg"]
+diagrams = ["system_context_diagram.svg"]
 diagram_cmd_dict = dict()
 diagram_name_dict = dict()
 diagram_url_dict = dict()
@@ -372,13 +372,13 @@ class MyServer(BaseHTTPRequestHandler):
 						value=value.replace("\r","")
 						state_lines.append("<h3>"+option+":</h3> <p>"+value+"\n</p>")
 					else:
-						param=option.split("_")[-1].replace('$','')
+						param=config[cmd][option].split("::")[-1]
 						print("Eval : ","detmodel.get"+cmd.replace("«analysisComponent.name»__","").replace("__","().get")+"().get"+config[cmd][option].replace("::","().get")+"()")
 						value=str(eval("detmodel.get"+cmd.replace("«analysisComponent.name»__","").replace("__","().get")+"().get"+config[cmd][option].replace("::","().get")+"()"))
-						s=""
+						s=":"
 						if len(value)+len(param)<len(option):
 							for i in range(len(option)-len(value)-len(param)):
-								s=s+"."
+								s=s+"\u00A0"
 						diagram_svg=diagram_svg.replace(option,param+s+value)
 		self.wfile.write(bytes(diagram_svg, "utf-8"))
 		

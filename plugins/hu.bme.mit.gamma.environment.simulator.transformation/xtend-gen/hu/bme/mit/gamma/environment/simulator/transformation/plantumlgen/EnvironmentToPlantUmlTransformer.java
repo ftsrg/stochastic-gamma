@@ -269,7 +269,7 @@ public class EnvironmentToPlantUmlTransformer {
                 } else {
                   _builder.appendImmediate("\\n ", "");
                 }
-                CharSequence _key = Util.key(port, param, component);
+                String _key = Util.key(port, param, component);
                 _builder.append(_key);
               }
             }
