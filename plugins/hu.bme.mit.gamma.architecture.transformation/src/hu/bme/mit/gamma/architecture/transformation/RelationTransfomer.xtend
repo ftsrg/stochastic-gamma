@@ -138,6 +138,23 @@ class RelationTransfomer {
 	static def isSubsystemEnd(ArchitectureElement element) {
 		if (element instanceof ArchitecturePort) {
 			if (element.eContainer instanceof ArchitectureSubcompnent) {
+				if ((element.eContainer as ArchitectureSubcompnent).type instanceof ArchitectureComponent) {
+					return !(element.eContainer as ArchitectureSubcompnent).subfunctions.empty
+				}
+			}
+			return false
+		} else {
+			if (element instanceof ArchitectureSubcompnent) {
+				if ((element as ArchitectureSubcompnent).type instanceof ArchitectureComponent) {
+					return !(element as ArchitectureSubcompnent).subfunctions.empty
+				}
+			}
+		}
+		return false
+	}
+	static def isSubsystemEnd2(ArchitectureElement element) {
+		if (element instanceof ArchitecturePort) {
+			if (element.eContainer instanceof ArchitectureSubcompnent) {
 				if ((element.eContainer as ArchitectureSubcompnent).type instanceof System) {
 					return true
 				}
@@ -155,6 +172,14 @@ class RelationTransfomer {
 
 	// true if  hwcomp(.port) --conn-- hwcomp(.port)
 	static def isElectronicEnd(ArchitectureElement element) {
+		if (element instanceof ArchitecturePort) {
+			if (element.eContainer instanceof ArchitectureSubcompnent) {
+				return (element.eContainer as ArchitectureSubcompnent).subfunctions.empty
+			}
+		}
+		return false
+	}
+	static def isElectronicEnd2(ArchitectureElement element) {
 		if (element instanceof ArchitecturePort) {
 			if (element.eContainer instanceof ArchitectureSubcompnent) {
 				if ((element.eContainer as ArchitectureSubcompnent).type instanceof ElectronicComponent) {

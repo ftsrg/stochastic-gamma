@@ -353,11 +353,12 @@ class MyServer(BaseHTTPRequestHandler):
 			value=value.replace(" ","")
 			values=value.split("|")
 			for pair in values:
-				vars=pair.split('=')
-				var_name=vars[0]
-				var_value=vars[1]
-				if var_name in config_sct[diagram_name_dict[cmd.replace("__","::")]]:
-					diagram_svg=diagram_svg.replace(">"+var_value,'font-weight="bold" text-decoration = "underline">'+var_value)
+				if '=' in pair:
+					vars=pair.split('=')
+					var_name=vars[0]
+					var_value=vars[1]
+					if var_name in config_sct[diagram_name_dict[cmd.replace("__","::")]]:
+						diagram_svg=diagram_svg.replace(">"+var_value,'font-weight="bold" text-decoration = "underline">'+var_value)
 		elif cmd!='':
 			for option in config[cmd].keys():
 				if option != "dummy":

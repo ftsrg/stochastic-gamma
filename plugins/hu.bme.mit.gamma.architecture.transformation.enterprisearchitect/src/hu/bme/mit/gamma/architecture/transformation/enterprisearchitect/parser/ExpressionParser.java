@@ -173,9 +173,9 @@ public class ExpressionParser {
 				x = mulExp;
 			} // multiplication
 			else if (eat('-')) {
-				var mulExp = expFactory.createDivExpression();
-				mulExp.setLeftOperand(x);
-				mulExp.setRightOperand(parseTerm());
+					var mulExp = expFactory.createDivExpression();
+					mulExp.setLeftOperand(x);
+					mulExp.setRightOperand(parseTerm());
 				x = mulExp;
 			} // division
 			else if (eat('|')) {
@@ -183,6 +183,12 @@ public class ExpressionParser {
 				orExp.getOperands().add(x);
 				orExp.getOperands().add(parseTerm());
 				x = orExp;
+			} // division
+			else if (eat('^')) {
+				var xorExp = expFactory.createXorExpression();
+				xorExp.getOperands().add(x);
+				xorExp.getOperands().add(parseTerm());
+				x = xorExp;
 			} // division
 			else {
 				return x;

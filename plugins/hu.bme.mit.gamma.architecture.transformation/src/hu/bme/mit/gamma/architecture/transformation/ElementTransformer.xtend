@@ -416,8 +416,8 @@ class ElementTransformer {
 		val p2name = p2.name.gammaName
 		for (port1 : ports1) {
 			val p2matches = ports2.filter [ p |
-				p.name.replaceFirst('''(In|Out)$''', "").replaceFirst("^" + p2name, "") ==
-					port1.name.replaceFirst("^" + p1name, "").replaceFirst('''(In|Out)$''', "")
+				p.name.replaceFirst('''(In|Out)$''', "").replaceFirst("^" + p2name+"_", "") ==
+					port1.name.replaceFirst("^" + p1name+"_", "").replaceFirst('''(In|Out)$''', "")
 			].toList
 			if (p2matches.size != 1) {
 				throw new ArchitectureException(
@@ -432,7 +432,7 @@ class ElementTransformer {
 		val ports = trace.getPhyPorts(aPort)
 		val pname = aPort.name.gammaName
 		val p2matches = ports.filter [ p |
-			p.name.replaceFirst('''«interface_.name»(In|Out)$''', "").replaceFirst("^" + pname, "") == name
+			p.name.replaceFirst('''«interface_.name»(In|Out)$''', "").replaceFirst("^" + pname+"_", "") == name
 		].filter[p|p.interfaceRealization.realizationMode == realizationMode].toList
 		if (p2matches.size != 1) {
 			throw new ArchitectureException(

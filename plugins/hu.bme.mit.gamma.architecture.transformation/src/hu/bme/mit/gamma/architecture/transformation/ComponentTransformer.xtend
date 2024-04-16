@@ -71,7 +71,7 @@ class ComponentTransformer extends AbstractArchitectureTransformer {
 				val compPort = flow.source as ArchitecturePort
 				val targetInst = flow.flowTargetInst
 				val targetPort = getFlowTargetPortLoose(flow)
-				val port = createPort(flowType,compPort.name.gammaName+flow.gammaName,true)
+				val port = createPort(flowType,compPort.name.gammaName+"_"+flow.gammaName,true)
 				trace.phyPortMap.put(compPort,port)
 				gammaComp.ports+=port
 				gammaComp.portBindings += createPortBinding(port, targetInst, targetPort)
@@ -79,7 +79,7 @@ class ComponentTransformer extends AbstractArchitectureTransformer {
 				val compPort = flow.target as ArchitecturePort
 				val sourceInst = flow.flowSourceInst
 				val sourcePort = getFlowSourcePortLoose(flow)
-				val port = createPort(flowType,compPort.name.gammaName+flow.gammaName,false)
+				val port = createPort(flowType,compPort.name.gammaName+"_"+flow.gammaName,false)
 				trace.phyPortMap.put(compPort,port)
 				gammaComp.ports+=port
 				gammaComp.portBindings += createPortBinding(port, sourceInst, sourcePort)

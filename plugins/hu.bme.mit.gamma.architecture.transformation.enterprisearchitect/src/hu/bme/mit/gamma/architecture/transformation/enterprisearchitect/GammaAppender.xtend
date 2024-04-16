@@ -37,6 +37,7 @@ import static extension hu.bme.mit.gamma.statechart.derivedfeatures.StatechartMo
 import hu.bme.mit.gamma.architecture.transformation.enterprisearchitect.datatypes.OperationData
 import hu.bme.mit.gamma.statechart.statechart.StatechartDefinition
 import hu.bme.mit.gamma.statechart.interface_.Persistency
+import java.util.regex.Pattern
 
 class GammaAppender {
 
@@ -115,8 +116,8 @@ class GammaAppender {
 		return data.name == "CustomProperties" && data.type == "element property" &&
 			data.description.contains("OwningRegion")
 	}
-	
-	def appendEmmptySct(StatechartDefinition sct){
+
+	def appendEmmptySct(StatechartDefinition sct) {
 		val main_region = sctModelFactory.createRegion
 		main_region.name = "main_region"
 		val init = sctModelFactory.createInitialState
@@ -133,24 +134,29 @@ class GammaAppender {
 	}
 
 	def createRegion(XrefData data) {
-		val descList = data.description.split(";")
-		val name = descList.get(1).replace("Name=", "")
-		val guid = descList.get(3).replace("GUID=", "")
-		val conatinerGuid = data.client
 
-		val region = sctModelFactory.createRegion
-		region.name = name.gammaName+regionCNTR++
-		guid2gamma.put(guid, region)
+		val descriptionList = data.description.split("@ENDPAR;")
 
-		val container = getByGUID(conatinerGuid)
-		if (container instanceof AsynchronousStatechartDefinition) {
-			container.regions += region
-			guid2statemachine.put(guid, container)
-		} else if (container instanceof State) {
-			container.regions += region
-			guid2statemachine.put(guid, guid2statemachine.get(container))
-		} else {
-			throw new GammaTransformationException("Region cannot be mapped to container " + guid, container)
+		for (descrition : descriptionList) {
+			val descList = descrition.split(";")
+			val name = descList.get(1).replace("Name=", "")
+			val guid = descList.get(3).replace("GUID=", "")
+			val conatinerGuid = data.client
+
+			val region = sctModelFactory.createRegion
+			region.name = name.gammaName + regionCNTR++
+			guid2gamma.put(guid, region)
+
+			val container = getByGUID(conatinerGuid)
+			if (container instanceof AsynchronousStatechartDefinition) {
+				container.regions += region
+				guid2statemachine.put(guid, container)
+			} else if (container instanceof State) {
+				container.regions += region
+				guid2statemachine.put(guid, guid2statemachine.get(container))
+			} else {
+				throw new GammaTransformationException("Region cannot be mapped to container " + guid, container)
+			}
 		}
 	}
 
@@ -182,8 +188,9 @@ class GammaAppender {
 			guid2gamma.put(data.GUID, container)
 			id2statemachine.put(new Long(data.elementID), container)
 		} else {
-			//logger.log(Level.WARNING, '''Container od statemachine is not transformed to Gamma GUID=«data.GUID»''')
-			throw new GammaTransformationException("Block can have statemachine if it contains no internal structure", container)
+			// logger.log(Level.WARNING, '''Container od statemachine is not transformed to Gamma GUID=«data.GUID»''')
+			throw new GammaTransformationException("Block can have statemachine if it contains no internal structure",
+				container)
 		}
 	}
 
@@ -343,22 +350,40 @@ class GammaAppender {
 						val portName = fpRefList.get(0)
 						val fpName = fpRefList.get(1)
 						val eventTrig = ifModelFactory.createEventTrigger
-						val ref = sctModelFactory.createPortEventReference
-						val portIt = statemachine.ports.filter[p|p.name.contains(portName)].iterator
-						if (!portIt.hasNext()) {
-							throw new GammaTransformationException(
-								"Trigger Parser Exception; Port reference cannot be found: '" + portName + "' in '" + triggerStr + "'", statemachine);
+
+						if (fpName.equals("any")) {
+							val ref = sctModelFactory.createAnyPortEventReference
+							val portIt = statemachine.ports.filter[p|p.name.contains(portName)].iterator
+							if (!portIt.hasNext()) {
+								throw new GammaTransformationException(
+									"Trigger Parser Exception; Port reference cannot be found: '" + portName +
+										"' in '" + triggerStr + "'", statemachine);
+							}
+							ref.port = portIt.next
+							val eventIt = ref.port.interfaceRealization.interface.events.filter [ e |
+								e.event.name.equals("changeOf" + fpName.toFirstUpper)
+							].iterator
+							eventTrig.eventReference = ref
+						} else {
+							val ref = sctModelFactory.createPortEventReference
+							val portIt = statemachine.ports.filter[p|p.name.contains(portName)].iterator
+							if (!portIt.hasNext()) {
+								throw new GammaTransformationException(
+									"Trigger Parser Exception; Port reference cannot be found: '" + portName +
+										"' in '" + triggerStr + "'", statemachine);
+							}
+							ref.port = portIt.next
+							val eventIt = ref.port.interfaceRealization.interface.events.filter [ e |
+								e.event.name.equals("changeOf" + fpName.toFirstUpper)
+							].iterator
+							if (!eventIt.hasNext()) {
+								throw new GammaTransformationException(
+									"Trigger Parser Exception; Event reference cannot be found '" + "changeOf" +
+										fpName.toFirstUpper + "' in '" + triggerStr + "'", statemachine);
+							}
+							ref.event = eventIt.next.event
+							eventTrig.eventReference = ref
 						}
-						ref.port = portIt.next
-						val eventIt = ref.port.interfaceRealization.interface.events.filter [ e |
-							e.event.name.equals("changeOf" + fpName.toFirstUpper)
-						].iterator
-						if (!eventIt.hasNext()) {
-							throw new GammaTransformationException(
-								"Trigger Parser Exception; Event reference cannot be found '" + "changeOf" + fpName.toFirstUpper + "' in '" + triggerStr + "'", statemachine);
-						}
-						ref.event = eventIt.next.event
-						eventTrig.eventReference = ref
 						transition.trigger = eventTrig
 
 					} else if (triggerStr.replace(" ", "").contains(".any")) {
@@ -370,7 +395,8 @@ class GammaAppender {
 						val portIt = statemachine.ports.filter[p|p.name.contains(portName)].iterator
 						if (!portIt.hasNext()) {
 							throw new GammaTransformationException(
-								"Trigger Parser Exception; Port reference cannot be found: '" + portName + "' in '" + triggerStr + "'", statemachine);
+								"Trigger Parser Exception; Port reference cannot be found: '" + portName + "' in '" +
+									triggerStr + "'", statemachine);
 						}
 						ref.port = portIt.next
 						eventTrig.eventReference = ref
@@ -384,7 +410,8 @@ class GammaAppender {
 						val portIt = statemachine.ports.filter[p|p.name.contains(portName)].iterator
 						if (!portIt.hasNext()) {
 							throw new GammaTransformationException(
-								"Trigger Parser Exception; Port reference cannot be found: '" + portName + "' in '" + triggerStr + "'", statemachine);
+								"Trigger Parser Exception; Port reference cannot be found: '" + portName + "' in '" +
+									triggerStr + "'", statemachine);
 						}
 						ref.port = portIt.next
 						val eventIt = ref.port.interfaceRealization.interface.events.filter [ e |
@@ -392,7 +419,8 @@ class GammaAppender {
 						].iterator
 						if (!eventIt.hasNext()) {
 							throw new GammaTransformationException(
-								"Trigger Parser Exception; Event reference cannot be found '" + eventName + "' in '" + triggerStr + "'", statemachine);
+								"Trigger Parser Exception; Event reference cannot be found '" + eventName + "' in '" +
+									triggerStr + "'", statemachine);
 						}
 						eventTrig.eventReference = ref
 						transition.trigger = eventTrig
@@ -401,14 +429,14 @@ class GammaAppender {
 						val eventIt = statemachine.inputEvents.filter[e|e.name == signalRefStr].iterator
 						if (!eventIt.hasNext) {
 							throw new GammaTransformationException(
-								"Statemachine signal trigger cannot be found: " + triggerStr.gammaName)
+								"Statemachine signal trigger cannot be found: " + triggerStr.gammaName, statemachine)
 						}
 						val event = eventIt.next
 						val portList = statemachine.ports.filter[p|p.inputEvents.contains(event)].toList
 						if (portList.length != 1) {
 							throw new GammaTransformationException(
 								"Statemachine signal trigger source port cannot be found: " + triggerStr.gammaName +
-									", " + portList.length + "  matches")
+									", " + portList.length + "  matches", statemachine)
 						}
 						val eventTrig = ifModelFactory.createEventTrigger
 						val ref = sctModelFactory.createPortEventReference
@@ -462,8 +490,7 @@ class GammaAppender {
 					}
 					val port = portList.get(0)
 					act.port = port
-					val eventList = act.port.allEvents.filter[e|e.name.equals("changeOf" + fpName.toFirstUpper)].
-						toList
+					val eventList = act.port.allEvents.filter[e|e.name.equals("changeOf" + fpName.toFirstUpper)].toList
 					if (eventList.length > 1) {
 						throw new GammaTransformationException('''Event reference "«fpName»" in action "«actionStr»" is ambigous ''',
 							statechart)
@@ -474,21 +501,21 @@ class GammaAppender {
 					}
 					act.event = eventList.get(0)
 					act.arguments += exp
-					val varRef=parser.searchVariable("var_"+port.name+"_"+fpName)
-					val ifExp=actModelFactory.createIfStatement
-					val eqExp=expModelFactory.createInequalityExpression
-					val branch=actModelFactory.createBranch
-					val block=actModelFactory.createBlock
-					val setVar=actModelFactory.createAssignmentStatement
+					val varRef = parser.searchVariable("var_" + port.name + "_" + fpName)
+					val ifExp = actModelFactory.createIfStatement
+					val eqExp = expModelFactory.createInequalityExpression
+					val branch = actModelFactory.createBranch
+					val block = actModelFactory.createBlock
+					val setVar = actModelFactory.createAssignmentStatement
 					setVar.lhs = varRef.clone
 					setVar.rhs = exp.clone
-					block.actions+=setVar
-					eqExp.leftOperand=varRef
-					eqExp.rightOperand=exp.clone
-					block.actions+=act
+					block.actions += setVar
+					eqExp.leftOperand = varRef
+					eqExp.rightOperand = exp.clone
+					block.actions += act
 					branch.action = block
 					branch.guard = eqExp
-					ifExp.conditionals+=branch
+					ifExp.conditionals += branch
 					effects += ifExp
 				} else {
 					val act = actModelFactory.createAssignmentStatement
@@ -497,19 +524,37 @@ class GammaAppender {
 					effects += act
 				}
 
-			} else if (actionStr.matches("^raise.+")) {
-				val eventStrList = actionStr.replaceAll("^raise", "").split("\\(")
-				val eventStr = eventStrList.get(0)
-				val argStr = effectStringList.get(1).replace(')', '')
-				val fpList = eventStr.split(".")
-				val portName = fpList.get(0).replace(" ", "")
-				val eventName = fpList.get(1).replace(" ", "")
-				val exp = parser.eval(argStr, statechart)
+			} else if (actionStr.matches("^(raise|send).+")) {
+				// val split_reg='''\\('''
+				// val eventStrList = actionStr.replaceAll("^(raise|send)", "").split(split_reg)
+				if (!actionStr.matches('''.+\..+\(.*\)''')) {
+					throw new GammaTransformationException("Raised event must end with '( ... )' : " + actionStr,
+						statechart)
+				}
+				val actionStr2 = actionStr.replaceAll('''^(raise|send)\s*''', "")
+				val eventStr = actionStr2.substring(0, actionStr2.indexOf('(')) // eventStrList.get(0)
+				val argStr = actionStr2.substring(actionStr2.indexOf('(') + 1, actionStr2.indexOf(')')) // effectStringList.get(1).replace(')', '')
+				val portName = eventStr.substring(0, eventStr.indexOf('.')).replace(" ", '')
+				val eventName = eventStr.substring(eventStr.indexOf('.') + 1).replace(" ", '')
+
 				val act = sctModelFactory.createRaiseEventAction
-				act.port = statechart.ports.filter[p|p.name.contains(portName)].toList.get(0)
-				act.event = act.port.allEvents.filter[e|e.name.equals("changeOf" + eventName.toFirstUpper)].toList.
-					get(0)
-				act.arguments += exp
+				val portList = statechart.ports.filter[p|p.name.contains(portName)].toList
+				if (portList.size != 1) {
+					throw new GammaTransformationException('''Port not found for raised event '«portName»' statechart ports are «statechart.ports.map[p|p.name].toList» matches are «portList.map[p|p.name]»''',
+						statechart)
+				}
+				act.port = portList.get(0)
+				val eventList = act.port.allEvents.filter[e|e.name.equals(eventName)].toList
+				if (eventList.size != 1) {
+					throw new GammaTransformationException('''Port event not found for raised event '«portName».«eventName»' statechart port events are «act.port.allEvents.map[e|e.name].toList» matches are «eventList.map[e|e.name]»''',
+						statechart)
+				}
+				act.event = eventList.get(0)
+
+				if (!argStr.blank) {
+					val exp = parser.eval(argStr, statechart)
+					act.arguments += exp
+				}
 				effects += act
 
 			} else {
@@ -549,20 +594,19 @@ class GammaAppender {
 			}
 		}
 
-
 		for (data : statemachineData.statemachineData) {
 			processStatemachine(data)
 		}
 
 		var shallRun = true
-		val processedStates=<ElementData> newHashSet
-		while (shallRun){
+		val processedStates = <ElementData>newHashSet
+		while (shallRun) {
 			shallRun = false
 			for (data : statemachineData.stateData) {
-				if ((!processedStates.contains(data))&& id2statemachine.containsKey(data.conainerID)){
+				if ((!processedStates.contains(data)) && id2statemachine.containsKey(data.conainerID)) {
 					createState(data)
 					processedStates.add(data)
-					shallRun=true
+					shallRun = true
 				}
 			}
 		}
@@ -583,7 +627,7 @@ class GammaAppender {
 
 		val regionDataBuff = <XrefData>newHashSet
 		val regionContDataBuff = <XrefData>newHashSet
-		
+
 		shallRun = true
 		while (shallRun) {
 			shallRun = false
@@ -608,22 +652,24 @@ class GammaAppender {
 			processAttributeData(data)
 		}
 
-		for (sct_pkg:archTrace.primitiveFunctionPackages){
-			val sct=sct_pkg.allComponents.get(0) as AsynchronousStatechartDefinition
-			for (port:sct.ports){
-				for (pevent:port.outputEvents){
-					if (pevent.persistency==Persistency.PERSISTENT){
-						for (param: pevent.parameterDeclarations){
-							val varDecl=expModelFactory.createVariableDeclaration
-							varDecl.name = "var_"+port.name+"_"+param.name
-							varDecl.type = param.type.clone
-							sct.variableDeclarations+=varDecl
+		for (sct_pkg : archTrace.primitiveFunctionPackages) {
+			val sct = sct_pkg.allComponents.get(0) as AsynchronousStatechartDefinition
+			if (sct.transitions.empty) {
+				for (port : sct.ports) {
+					for (pevent : port.outputEvents) {
+						if (pevent.persistency == Persistency.PERSISTENT) {
+							for (param : pevent.parameterDeclarations) {
+								val varDecl = expModelFactory.createVariableDeclaration
+								varDecl.name = "var_" + port.name + "_" + param.name
+								varDecl.type = param.type.clone
+								sct.variableDeclarations += varDecl
+							}
 						}
 					}
 				}
 			}
 		}
-		
+
 		for (data : statemachineData.transitionData) {
 			createTransition(data)
 		}
@@ -631,10 +677,10 @@ class GammaAppender {
 		for (data : statemachineData.operationData) {
 			processOperation(data)
 		}
-		
-		for (sct_pkg:archTrace.primitiveFunctionPackages){
-			val sct=sct_pkg.allComponents.get(0) as AsynchronousStatechartDefinition
-			if (sct.regions.empty){
+
+		for (sct_pkg : archTrace.primitiveFunctionPackages) {
+			val sct = sct_pkg.allComponents.get(0) as AsynchronousStatechartDefinition
+			if (sct.regions.empty) {
 				appendEmmptySct(sct)
 			}
 		}

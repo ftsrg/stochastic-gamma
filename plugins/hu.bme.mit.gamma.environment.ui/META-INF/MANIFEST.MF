@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: hu.bme.mit.gamma.environment.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Import-Package: hu.bme.mit.gamma.ui.taskhandler
 Require-Bundle: org.eclipse.jface,
  org.eclipse.osgi,
  org.eclipse.core.resources,
@@ -36,6 +35,7 @@ Require-Bundle: org.eclipse.jface,
  hu.bme.mit.gamma.environment.language.ide;bundle-version="1.0.0",
  hu.bme.mit.gamma.environment.language.ui;bundle-version="1.0.0",
  hu.bme.mit.gamma.language.util;bundle-version="2.9.0",
- hu.bme.mit.gamma.environment.language.utils;bundle-version="1.0.0"
+ hu.bme.mit.gamma.environment.language.utils;bundle-version="1.0.0",
+ hu.bme.mit.gamma.environment.model
 Automatic-Module-Name: hu.bme.mit.gamma.environment.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-17

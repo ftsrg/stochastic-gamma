@@ -126,6 +126,7 @@ class TableTransformation2 {
 
 	def generate(String file, List<Interface> interfaces, AsynchronousStatechartDefinition statechart) {
 
+		//statechart.variableDeclarations.clear
 		statechart.transitionPriority = TransitionPriority.ORDER_BASED
 		statechart.schedulingOrder = SchedulingOrder.TOP_DOWN
 		val mainRegion = sctModelFactory.createRegion
@@ -221,7 +222,17 @@ class TableTransformation2 {
 				lit.value=new BigInteger(lineCNTR.toString)
 				lineEqExpr.leftOperand = lit
 				lineEqExpr.rightOperand=varRef
-				transition.effects+=createAssignment(lineVarDecl,lineCNTR)
+				
+				
+					val ifExp = actModelFactory.createIfStatement
+					val branch = actModelFactory.createBranch
+					val block = actModelFactory.createBlock
+					branch.guard = lineEqExpr
+					branch.action = block
+					block.actions+=createAssignment(lineVarDecl,lineCNTR)
+					ifExp.conditionals += branch
+					transition.effects+=ifExp
+					
 				
 				
 				val guardExpr = expModelFactory.createAndExpression
@@ -334,11 +345,13 @@ class TableTransformation2 {
 						}
 					}
 				}
-				if (!guardExpr.operands.empty) {
-					guardExpr.operands+=lineEqExpr
+				if (guardExpr.operands.size>1) {
+					//guardExpr.operands+=lineEqExpr
 					transition.guard = guardExpr
-				} else {
-					transition.guard = lineEqExpr
+				} else if (guardExpr.operands.size==1) {
+					transition.guard = guardExpr.operands.get(0)
+				}else {
+					transition.guard = expModelFactory.createElseExpression
 				}
 				for (j : 0 .. outPortNames.length - 1) {
 					val cell = cellIterator.next
@@ -376,7 +389,7 @@ class TableTransformation2 {
 						}
 						enumLitExp.reference = enumLitREfIt.next
 						raiseAct.arguments += enumLitExp
-						transition.effects += raiseAct;
+						block.actions += raiseAct;
 						if (isFirst) {
 							initTrans.effects += raiseAct.clone
 						}
@@ -404,7 +417,7 @@ class TableTransformation2 {
 							decLitExp.value = new BigDecimal(value.toString)
 							raiseAct.arguments += decLitExp
 						}
-						transition.effects += raiseAct;
+						block.actions += raiseAct;
 						if (isFirst) {
 							initTrans.effects += raiseAct.clone
 						}
@@ -428,7 +441,7 @@ class TableTransformation2 {
 						} else {
 							raiseAct.arguments += expModelFactory.createFalseExpression
 						}
-						transition.effects += raiseAct;
+						block.actions += raiseAct;
 						if (isFirst) {
 							initTrans.effects += raiseAct.clone
 						}
@@ -437,11 +450,11 @@ class TableTransformation2 {
 				}
 				isFirst = false
 			}
-			val elseTrans = sctModelFactory.createTransition
+			/*val elseTrans = sctModelFactory.createTransition
 			elseTrans.sourceState = choiceState
 			elseTrans.targetState = mainState
 			statechart.transitions += elseTrans
-			elseTrans.guard=expModelFactory.createElseExpression
+			elseTrans.guard=expModelFactory.createElseExpression*/
 			excelFile.close
 		} catch (Exception e) {
 			e.printStackTrace();

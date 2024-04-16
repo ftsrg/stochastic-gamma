@@ -25,11 +25,11 @@ class XRefUtils {
 	}
 	
 	static def isConjugated(XrefData data){
-		if(data.description.contains("@VALU=0@ENDVALU;")){
+		if(data.description.contains("@PROP=@NAME=isConjugated@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=0@ENDVALU;")){
 			return false
-		} else if(data.description.contains("@VALU=-1@ENDVALU;")){
+		} else if(data.description.contains("@PROP=@NAME=isConjugated@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=-1@ENDVALU;")){
 			return true
-		} else if(data.description.contains("@VALU=1@ENDVALU;")){
+		} else if(data.description.contains("@PROP=@NAME=isConjugated@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;")){
 			return true
 		} else {
 			throw new MissingFormatArgumentException("Conjugation cannot be parsed from XRef data: "+data.supplier+" and "+data.description)

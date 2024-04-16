@@ -44,7 +44,6 @@ import hu.bme.mit.gamma.dialog.DialogUtil;
 import hu.bme.mit.gamma.statechart.interface_.Package;
 import hu.bme.mit.gamma.environment.language.ui.internal.LanguageActivator;
 import hu.bme.mit.gamma.environment.language.ui.serializer.EnvironmentLanguageSerializer;
-import hu.bme.mit.gamma.ui.taskhandler.TaskHandler.ModelSerializer;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 //import hu.bme.mit.gamma.language.util.serialization.GammaLanguageSerializer;
@@ -69,9 +68,9 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 	protected String swGUID;
 	protected String hwGUID;
 
-	protected final ModelSerializer serializer = ModelSerializer.INSTANCE;
+//	protected final ModelSerializer serializer = ModelSerializer.INSTANCE;
 
-	final int MAXTRY = 10;
+	final int MAXTRY = 15;
 
 	/**
 	 * Constructor for SysMLImportWizard.
@@ -113,7 +112,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				monitor.worked(1);
 				// transformation = new EnterpriseArchitectTransformation(funcGUID, sysGUID);
 				transformation = new EnterpriseArchitectTransformation(funcGUID, hwGUID, swGUID, sysGUID);
-				eaTrace=transformation.getTrace();
+				eaTrace = transformation.getTrace();
 				monitor.worked(1);
 				monitor.setTaskName("Transforming SysML structural and interface models to Gamma ");
 				monitor.worked(1);
@@ -159,11 +158,17 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				var element = ((GammaTransformationException) realException).element;
 				if (element != null) {
 					if (element instanceof ArchitectureElement) {
-						DialogUtil.showErrorWithStackTrace("GammaTransformationException  occured at " + element.getName()
-						+ " with EA ID: " + eaTrace.get((ArchitectureElement)element), realException);
-					}else {
-						DialogUtil.showErrorWithStackTrace("GammaTransformationException  occured at " + element.getName()
-						+ " with EA ID: " + eaTrace.get(gammaTrace.get(element)), realException);
+						DialogUtil
+								.showErrorWithStackTrace(
+										"GammaTransformationException  occured at " + element.getName()
+												+ " with EA ID: " + eaTrace.get((ArchitectureElement) element),
+										realException);
+					} else {
+						DialogUtil
+								.showErrorWithStackTrace(
+										"GammaTransformationException  occured at " + element.getName()
+												+ " with EA ID: " + eaTrace.get(gammaTrace.get(element)),
+										realException);
 					}
 				} else {
 					DialogUtil.showErrorWithStackTrace("GammaTransformationException occured at unknown element",
@@ -177,7 +182,8 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				if (element != null) {
 					DialogUtil.showErrorWithStackTrace("ArchitectureException  occured at " + element.getName()
 							+ " with EA ID: " + eaTrace.get(element), realException);
-					//DialogUtil.showInfo("select * from t_objects where object_id=" + Long.toString(eaTrace.get(element)));
+					// DialogUtil.showInfo("select * from t_objects where object_id=" +
+					// Long.toString(eaTrace.get(element)));
 				} else {
 					DialogUtil.showErrorWithStackTrace("ArchitectureException occured at unknown element",
 							realException);
@@ -246,6 +252,7 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 					logger.log(Level.INFO,
 							"Saving " + pkg.getName() + " into " + containerName + gammaTrace.getPackagePath(pkg));
 					serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + appendix);
+					serializedPackages.add(pkg);
 				}
 				break;
 			} catch (RuntimeException e) {
@@ -255,16 +262,15 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				} else {
 					throw e;
 				}
-				// sleep(1000);
-				// refresh();
-				// build();
+				// sleep(1000); // refresh(); // build();
 				sleep(1000);
 			}
 		}
 		monitor.worked(len);
 	}
 
-	protected void serialize(ArchitectureTrace gammaTrace, IProgressMonitor monitor) throws IOException, CoreException {
+	protected void serialize2(ArchitectureTrace gammaTrace, IProgressMonitor monitor)
+			throws IOException, CoreException {
 		build();
 		monitor.beginTask("Saving models ", gammaTrace.getPackages().size());
 		serialize(gammaTrace.getInterfacePackage(), containerName, gammaTrace.getInterfacePackage().getName() + ".gcd");
@@ -278,6 +284,69 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 		var syspkgs = gammaTrace.getSystemPackages();
 
 		serialize(gammaTrace.getSystemPackages(), ".sgcd", gammaTrace, monitor);
+
+		return;
+
+	}
+
+	protected Set<Package> serializedPackages;
+
+	protected boolean canSerialize(Package pkg) {
+		for (Package impPkg : pkg.getImports()) {
+			if (!serializedPackages.contains(impPkg)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	protected void serialize(ArchitectureTrace gammaTrace, IProgressMonitor monitor) throws IOException, CoreException {
+		monitor.beginTask("Saving models ", gammaTrace.getPackages().size());
+		build();
+		serializedPackages = new HashSet<Package>();
+		serialize(gammaTrace.getInterfacePackage(), containerName, gammaTrace.getInterfacePackage().getName() + ".gcd");
+		serialize(gammaTrace.getPrimitiveFunctionPackages(), ".gcd", gammaTrace, monitor);
+		serialize(gammaTrace.getInterfaceComponentPackages(), ".gcd", gammaTrace, monitor);
+		serialize(gammaTrace.getComponentFunctionPackages(), ".sgcd", gammaTrace, monitor);
+		serialize(gammaTrace.getCommunicationComponentPackages(), ".gcd", gammaTrace, monitor);
+		serialize(gammaTrace.getSubsystemHardwarePackages(), ".sgcd", gammaTrace, monitor);
+		serialize(gammaTrace.getElectronicComponentPackages(), ".sgcd", gammaTrace, monitor);
+		serialize(gammaTrace.getSubsystemPackages(), ".sgcd", gammaTrace, monitor);
+		monitor.worked(1);
+		serializedPackages.add(gammaTrace.getInterfacePackage());
+		boolean shallRun = true;
+		while (shallRun) {
+			shallRun=false;
+			for (Package pkg : gammaTrace.getPackages()) {
+				if ((!serializedPackages.contains(pkg)) & canSerialize(pkg)) {
+					String extension = ".sgcd";
+					if (pkg.getComponents().isEmpty()) {
+						extension = ".gcd";
+					} else if (gammaTrace.getPackagePath(pkg).contains("primitive")
+							|| gammaTrace.getPackagePath(pkg).contains("interface")
+							|| gammaTrace.getPackagePath(pkg).contains("communication")) {
+						extension = ".gcd";
+					}
+					extension = ".sgcd";
+					for (int i = 1; i <= MAXTRY; i++) {
+						try {
+							serialize(pkg, containerName + gammaTrace.getPackagePath(pkg), pkg.getName() + extension);
+							serializedPackages.add(pkg);
+							break;
+						} catch (RuntimeException e) {
+							if (e.getMessage().contains("No EObjectDescription could be found in Scope")
+									&& e.getMessage() != null && (i < MAXTRY)) {
+								e.printStackTrace();
+							} else {throw e;}
+							// sleep(1000);	// refresh(); // build();
+							sleep(1000);
+						}
+					}
+					monitor.worked(1);
+					shallRun = true;
+				}
+			}
+		}
 
 		return;
 

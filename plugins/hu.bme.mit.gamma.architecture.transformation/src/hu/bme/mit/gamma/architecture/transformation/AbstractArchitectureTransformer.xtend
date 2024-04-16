@@ -61,7 +61,7 @@ abstract class AbstractArchitectureTransformer {
 
 		if (flow.source instanceof ArchitecturePort) {
 			val port = flow.source as ArchitecturePort
-			val name = port.gammaName
+			val name = port.name.gammaName
 			if (port.eContainer instanceof ArchitectureSubfunction) {
 				val subfunc = port.eContainer as ArchitectureSubfunction
 				val inst = trace.get(subfunc) as AsynchronousComponentInstance
@@ -90,7 +90,7 @@ abstract class AbstractArchitectureTransformer {
 			if (port.eContainer instanceof ArchitectureSubfunction) {
 				val subfunc = port.eContainer as ArchitectureSubfunction
 				val inst = trace.get(subfunc) as AsynchronousComponentInstance
-				val sPort = findInputPortLoose(inst, type, port.name + type.name + "In")
+				val sPort = findInputPortLoose(inst, type, port.name.gammaName)
 				return sPort
 			} else {
 				throw new ArchitectureException("Flow target cannot recognized",
@@ -112,7 +112,7 @@ abstract class AbstractArchitectureTransformer {
 				port.interfaceRealization.realizationMode == RealizationMode.REQUIRED
 		]
 		if (matches.empty) {
-			throw new ArchitectureException("Subfunction port cannot be found in function", trace.get(instance))
+			throw new ArchitectureException('''Subfunction port with type: '«_interface.name»"" cannot be found in function: '«instance.name»' «instance.type.ports.map[p|p.name]» ''', trace.get(instance))
 		}
 		val port = matches.get(0)
 		ports.remove(port)
@@ -121,12 +121,17 @@ abstract class AbstractArchitectureTransformer {
 
 	def findInputPortLoose(AsynchronousComponentInstance instance, Interface _interface, String name) {
 		val ports = instancePorts.get(instance)
+		var _name=name
+		if (!name.matches('''.*«_interface.name»In$''')){
+			_name=name+_interface.name+"In"
+		} 
+		val namef=_name
 		val matches = ports.filter [ port |
 			port.interfaceRealization.interface == _interface &&
-				port.interfaceRealization.realizationMode == RealizationMode.REQUIRED && port.name.equals(name)
+				port.interfaceRealization.realizationMode == RealizationMode.REQUIRED && port.name== namef
 		]
 		if (matches.empty) {
-			throw new ArchitectureException("Subfunction port: '" + name + "' cannot be found in function",
+			throw new ArchitectureException('''Subfunction port: '«namef»' cannot be found in function: '«instance.name»' «instance.type.ports.map[p|p.name]» ''',
 				trace.get(instance))
 		}
 		val port = matches.get(0)
@@ -136,6 +141,11 @@ abstract class AbstractArchitectureTransformer {
 
 	def findOutputPortLoose(AsynchronousComponentInstance instance, Interface _interface, String name) {
 		val ports = instance.type.ports
+		var _name=name
+		if (!name.matches('''.*«_interface.name»Out$''')){
+			_name=name+_interface.name+"Out"
+		}
+		val namef=_name
 		var Iterable<Port> matches
 		if (name.isBlank) {
 			matches = ports.filter [ port |
@@ -145,17 +155,17 @@ abstract class AbstractArchitectureTransformer {
 		} else {
 			matches = ports.filter [ port |
 				port.interfaceRealization.interface == _interface &&
-					port.interfaceRealization.realizationMode == RealizationMode.PROVIDED && name.contains(port.name)
+					port.interfaceRealization.realizationMode == RealizationMode.PROVIDED && namef==port.name
 			]
 			if (matches.empty) {
 				matches = ports.filter [ port |
 					port.interfaceRealization.interface == _interface &&
 						port.interfaceRealization.realizationMode == RealizationMode.PROVIDED
-				]
+				]	
 			}
 		}
 		if (matches.empty) {
-			throw new ArchitectureException("Subfunction port cannot be found in function", trace.get(instance))
+			throw new ArchitectureException('''Subfunction port: '«namef»' cannot be found in function: '«instance.name»' «instance.type.ports.map[p|p.name]» ''', trace.get(instance))
 		}
 		val port = matches.get(0)
 		return port

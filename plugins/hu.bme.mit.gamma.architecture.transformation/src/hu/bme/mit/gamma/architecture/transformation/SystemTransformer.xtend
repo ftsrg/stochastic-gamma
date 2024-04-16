@@ -72,6 +72,8 @@ class SystemTransformer {
 		this.systemComponent = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		this.elementTransformer = new ElementTransformer(trace)
 		this.relationTransformer = new RelationTransfomer(trace)
+		
+		trace.add(system, systemComponent)
 	}
 
 	def getPhyComponent(ArchitectureSubfunction subfunction) {
@@ -165,7 +167,7 @@ class SystemTransformer {
 				systemComponent.ports += port1
 				trace.phyPortMap.put(connector.source as ArchitecturePort, port1)
 				port1.name = connector.source.gammaName + "_" +
-					port2.name.replaceFirst("^" + connector.target.gammaName, "")
+					port2.name.replaceFirst("^" + connector.target.gammaName+"_", "")
 				systemComponent.portBindings += createPortBinding(port1, targetInst, port2)
 			}
 		} else if (connector.isElectronicOutputConnector) {
@@ -176,7 +178,7 @@ class SystemTransformer {
 				systemComponent.ports += port2
 				trace.phyPortMap.put(connector.target as ArchitecturePort, port2)
 				port2.name = connector.target.gammaName + "_" +
-					port1.name.replaceFirst("^" + connector.target.gammaName, "")
+					port1.name.replaceFirst("^" + connector.source.gammaName+"_", "")
 				systemComponent.portBindings += createPortBinding(port2, sourceInst, port1)
 			}
 		} else {
@@ -280,7 +282,7 @@ class SystemTransformer {
 			val subsysInstance = sourceComponentBuilder.instance
 
 			val sysPort = createPort(type,
-				targetPort.gammaName + "_" + flow.gammaName, false)
+				targetPort.name.gammaName + "_" + flow.gammaName, false)
 
 			trace.phyPortMap.put(targetPort, sysPort)
 
@@ -352,7 +354,7 @@ class SystemTransformer {
 
 		// create builder for the subsystems
 		for (subcomponent : system.subcompnents) {
-			if (subcomponent.type instanceof ElectronicComponent) {
+			if (subcomponent.subfunctions.isEmpty) {
 				systemComponent.components += subcomponent.transformSubcomponent
 			} else {
 				if (!swAllocationMap.containsKey(subcomponent)) {
