@@ -48,6 +48,7 @@ class PyroSimulatorGenerator {
 DEBUG=False
 # manually build the java code
 BUILD=False
+INIT_GEN=False
 # synchronization of elementary stochastic components in synchronous composition
 IESC_SYNC=False
 
@@ -172,7 +173,7 @@ def state2num(state):
 			# schedule the asynchronous component
 			detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
 			
-			if DEBUG:
+			if DEBUG and INIT_GEN:
 				print("Initial events: ---------------------------------------------")
 				dprint('note over stochmodel ')
 				dprint('| Source of the event | Name of the event | Time of the event |')
@@ -195,7 +196,7 @@ def state2num(state):
 					if (float(gamma_time) < stoch_time) and (float(gamma_time)<=(simTime-stochmodel.time)*time_conv):
 						if DEBUG:
 							print("Gamma timed event simulation++++++++++++")
-							dprint(f'detmodel -> detmodel : "Gamma timeout, {str(stochmodel.time)} ms"')
+							dprint(f'detmodel -> detmodel : "Gamma timeout, {gamma_time} ms at {str(stochmodel.time)}"')
 						detmodel.timer.elapse(gamma_time)
 						detmodel.get«analysis_component.analyzedComponent.name.toFirstUpper»().schedule()
 					# if Stochastic Event Generator has the earliest alarm clock

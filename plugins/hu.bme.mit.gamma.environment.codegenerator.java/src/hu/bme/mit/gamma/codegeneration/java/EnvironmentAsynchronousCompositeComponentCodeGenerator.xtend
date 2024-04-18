@@ -128,7 +128,7 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator {
 				return «FOR comp : component.instances SEPARATOR " && "» «comp.name».isEventQueueEmpty() «ENDFOR»«IF component.components.empty»true«ENDIF» «IF component instanceof EnvironmentAsynchronousCompositeComponent » «IF !component.environmentComponents.empty»&& «ENDIF» «FOR inst : component.environmentComponents SEPARATOR " && "» «envUtil.getIsEmptyCall(inst as ElementaryEnvironmentComponentInstance)» «ENDFOR» «ENDIF»;
 			}
 			
-			private final int MAX_SCHEDULE=20;
+			private final int MAX_SCHEDULE=15;
 			
 			public void schedule(){
 				int cntr=0;
@@ -146,6 +146,16 @@ class EnvironmentAsynchronousCompositeComponentCodeGenerator {
 				
 				if (cntr==MAX_SCHEDULE) {
 					System.out.println("Infinite scheduling in «component.name»! -----------");
+					System.out.println(getInQueue());
+					System.out.println("Execute extra scheduling step...");
+					«FOR inst : component.instances»
+						«inst.name».schedule();
+					«ENDFOR»
+					«IF component instanceof EnvironmentAsynchronousCompositeComponent»
+						«FOR inst : component.environmentComponents»
+							«envUtil.getScheduleCall(inst as ElementaryEnvironmentComponentInstance)»
+						«ENDFOR»
+					«ENDIF»
 					System.out.println(getInQueue());
 					«IF component instanceof EnvironmentAsynchronousCompositeComponent »
 						«FOR inst : component.environmentComponents»

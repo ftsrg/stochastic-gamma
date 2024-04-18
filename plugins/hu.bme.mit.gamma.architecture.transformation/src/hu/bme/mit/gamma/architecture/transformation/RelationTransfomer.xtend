@@ -263,6 +263,16 @@ class RelationTransfomer {
 		val target = flow.target
 		return target.isComponentPort && (source.isSubfunctionPort || source.isSubfunction)
 	}
+	
+	
+	def isFromHWFlow(InformationFlow flow) {
+		return flow.source.isSubcomponentPort && (flow.target.isSubfunctionPort || flow.target.isSubfunction)
+	}
+
+	def isToHWFlow(InformationFlow flow) {
+		return flow.target.isSubcomponentPort && (flow.source.isSubfunctionPort || flow.source.isSubfunction)
+	}
+	
 
 	def createInstancePortRef(ComponentInstance inst, Port port) {
 		val ref = cmpModelFactory.createInstancePortReference()

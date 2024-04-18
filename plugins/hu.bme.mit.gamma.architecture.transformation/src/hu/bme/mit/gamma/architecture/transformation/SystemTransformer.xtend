@@ -35,7 +35,7 @@ import hu.bme.mit.gamma.statechart.interface_.InterfaceRealization
 import hu.bme.mit.gamma.util.GammaEcoreUtil
 import hu.bme.mit.gamma.statechart.interface_.Port
 
-class SystemTransformer {
+class SystemTransformer extends AbstractArchitectureTransformer {
 
 	static def transformSystem(System system, ArchitectureTrace trace) {
 		val transformer = new SystemTransformer(system, trace)
@@ -66,6 +66,7 @@ class SystemTransformer {
 	var portCNTR = 0
 
 	new(System system, ArchitectureTrace trace) {
+		super(trace)
 		this.system = system
 		this.trace = trace
 		this.allocationTrace = new AllocationTrace(system)
@@ -414,60 +415,6 @@ class SystemTransformer {
 
 	}
 
-	def getFlowSourcePort(InformationFlow flow) {
-
-		if (flow.source instanceof ArchitecturePort) {
-			val port = flow.source as ArchitecturePort
-			if (port.eContainer instanceof ArchitectureSubfunction) {
-				val subfunc = port.eContainer as ArchitectureSubfunction
-				val gammaComp = trace.get(subfunc) as AsynchronousComponent
-				val sPort = findPort(gammaComp, port)
-				if (sPort === null) {
-					throw new ArchitectureException(
-						"Subfunction out port cannot be found in function: " + port.name + " : " + port.type.name, port)
-				}
-				return sPort
-			}
-		}
-		if (flow.source instanceof ArchitectureSubfunction) {
-			val type = flow.flowType
-			val name = flow.name+type.name+"Out"
-			val comp = trace.get(flow.source) as AsynchronousComponentInstance
-			var sPort = findPort(comp.type, type, name, false)
-			if (sPort === null) {
-				throw new ArchitectureException(
-					"Subfunction out port cannot be found in function: " + name + " : " + type.name, flow.source)
-			}
-			return sPort
-		}
-	}
-
-	def getFlowTargetPort(InformationFlow flow) {
-		if (flow.target instanceof ArchitecturePort) {
-			val port = flow.target as ArchitecturePort
-			if (port.eContainer instanceof ArchitectureSubfunction) {
-				val subfunc = port.eContainer as ArchitectureSubfunction
-				val gammaComp = trace.get(subfunc) as AsynchronousComponent
-				val sPort = findPort(gammaComp, port)
-				if (sPort === null) {
-					throw new ArchitectureException(
-						"Subfunction in port cannot be found in function: " + port.name + " : " + port.type.name, port)
-				}
-				return sPort
-			}
-		}
-		if (flow.target instanceof ArchitectureSubfunction) {
-			val type = flow.flowType
-			val name = flow.name+type.name+"In"
-			val comp = trace.get(flow.target) as AsynchronousComponentInstance
-			var sPort = findPort(comp.type, type, name, true)
-			if (sPort === null) {
-				throw new ArchitectureException(
-					"Subfunction in port cannot be found in function: " + name + " : " + type.name, flow.target)
-			}
-			return sPort
-		}
-	}
 
 	def getPhyEndpoint(ArchitectureElement element) {
 		if (element.isComponentPort) {
@@ -482,14 +429,6 @@ class SystemTransformer {
 		} else {
 			throw new ArchitectureException("Endpoint is not found", element)
 		}
-	}
-
-	def isFromHWFlow(InformationFlow flow) {
-		return flow.source.isSubcomponentPort && (flow.target.isSubfunctionPort || flow.target.isSubfunction)
-	}
-
-	def isToHWFlow(InformationFlow flow) {
-		return flow.target.isSubcomponentPort && (flow.source.isSubfunctionPort || flow.source.isSubfunction)
 	}
 
 	def isSubsystemFlow(InformationFlow flow) {

@@ -391,14 +391,13 @@ class ElementTransformer {
 		val relPorts = component.ports.filter [ port |
 			port.interfaceRealization.interface == _interface && port.interfaceRealization.realizationMode == relMode
 		].toList
-
 		val exactMatches = relPorts.filter[port|port.name == name].toList
 		if (!exactMatches.isEmpty) {
 			return exactMatches.get(0)
-		}
-		val anonymMatches = relPorts.filter[port|port.name == ""]
-		if (anonymMatches.length == 1) {
-			return anonymMatches.get(0)
+		}else if (relPorts.length == 1) {
+			return relPorts.get(0)
+		} else {
+			return null;
 		}
 
 	}

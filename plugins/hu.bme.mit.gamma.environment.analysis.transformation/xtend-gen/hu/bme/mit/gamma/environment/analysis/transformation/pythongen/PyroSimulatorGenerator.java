@@ -73,6 +73,8 @@ public class PyroSimulatorGenerator {
       _builder.newLine();
       _builder.append("BUILD=False");
       _builder.newLine();
+      _builder.append("INIT_GEN=False");
+      _builder.newLine();
       _builder.append("# synchronization of elementary stochastic components in synchronous composition");
       _builder.newLine();
       _builder.append("IESC_SYNC=False");
@@ -349,7 +351,7 @@ public class PyroSimulatorGenerator {
       _builder.append("\t");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("if DEBUG:");
+      _builder.append("if DEBUG and INIT_GEN:");
       _builder.newLine();
       _builder.append("\t\t");
       _builder.append("print(\"Initial events: ---------------------------------------------\")");
@@ -416,7 +418,7 @@ public class PyroSimulatorGenerator {
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("\t\t");
-          _builder.append("dprint(f\'detmodel -> detmodel : \"Gamma timeout, {str(stochmodel.time)} ms\"\')");
+          _builder.append("dprint(f\'detmodel -> detmodel : \"Gamma timeout, {gamma_time} ms at {str(stochmodel.time)}\"\')");
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("\t");

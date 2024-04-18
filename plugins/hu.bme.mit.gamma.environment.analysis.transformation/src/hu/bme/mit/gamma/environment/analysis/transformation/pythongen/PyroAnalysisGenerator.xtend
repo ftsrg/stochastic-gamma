@@ -42,6 +42,7 @@ class PyroAnalysisGenerator {
 					for i in range(10):
 						print(simulate())
 				else:
+					t0=time.time()
 					# run importance sampling
 					«generateInference(analysisComp.analysismethod)»
 					print("run inference algorithm...")
@@ -49,7 +50,9 @@ class PyroAnalysisGenerator {
 					«FOR aspect : analysisComp.aspect»
 						 «aspect.marginalName» = pyro.infer.EmpiricalMarginal(inference, "«aspect.pyroName»")
 					«ENDFOR»
+					t1=time.time()
 					# visualize results
+					print(f"Analysis is finished in {t1-t0} s")
 					print("Results of the analysis: ")
 					«FOR aspect : analysisComp.aspect»
 						 print("Estimated «aspect.pyroName» = ",round(«aspect.marginalName».mean.item(),4))

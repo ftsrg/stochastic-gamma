@@ -44,7 +44,7 @@ class SimulatorTransformer {
 			var source = generatorPlantUML.getComponentPlantUmlCode(component)
 			var diagramData = new DiagramData(source)
 			var svg = diagramData.getSvg(0)
-			futil.saveString(basePackageURI+File.separator+"simulator-gen"+File.separator+component.name+".svg",svg)
+			futil.saveString(basePackageURI+File.separator+"simulator-gen/figures"+File.separator+component.name+".svg",svg)
 		}
 		var server = generatorPython.generate(analysisComponent)
 		futil.saveString(basePackageURI+File.separator+"simulator-gen"+File.separator+"webserver.py",server)
@@ -55,7 +55,7 @@ class SimulatorTransformer {
 		var overall_puml=analysisTransformer.executeWBS(analysisComponent.analyzedComponent,analysisComponent.name)
 		var diagramData2 = new DiagramData(overall_puml)
 		var svg = diagramData2.getSvg(0)
-		futil.saveString(basePackageURI+File.separator+"simulator-gen"+File.separator+"overall_structure.svg",svg)
+		futil.saveString(basePackageURI+File.separator+"simulator-gen/figures"+File.separator+"overall_structure.svg",svg)
 	}
 	
 }

@@ -187,4 +187,59 @@ abstract class AbstractArchitectureTransformer {
 		}
 
 	}
+	
+	def getFlowSourcePort(InformationFlow flow) {
+
+		if (flow.source instanceof ArchitecturePort) {
+			val port = flow.source as ArchitecturePort
+			if (port.eContainer instanceof ArchitectureSubfunction) {
+				val subfunc = port.eContainer as ArchitectureSubfunction
+				val gammaComp = trace.get(subfunc) as AsynchronousComponent
+				val sPort = findPort(gammaComp, port)
+				if (sPort === null) {
+					throw new ArchitectureException(
+						"Subfunction out port cannot be found in function: " + port.name + " : " + port.type.name, port)
+				}
+				return sPort
+			}
+		}
+		if (flow.source instanceof ArchitectureSubfunction) {
+			val type = flow.flowType
+			val name = flow.name+type.name+"Out"
+			val comp = trace.get(flow.source) as AsynchronousComponentInstance
+			var sPort = findPort(comp.type, type, name, false)
+			if (sPort === null) {
+				throw new ArchitectureException(
+					"Subfunction out port cannot be found in function: " + name + " : " + type.name, flow.source)
+			}
+			return sPort
+		}
+	}
+
+	def getFlowTargetPort(InformationFlow flow) {
+		if (flow.target instanceof ArchitecturePort) {
+			val port = flow.target as ArchitecturePort
+			if (port.eContainer instanceof ArchitectureSubfunction) {
+				val subfunc = port.eContainer as ArchitectureSubfunction
+				val gammaComp = trace.get(subfunc) as AsynchronousComponent
+				val sPort = findPort(gammaComp, port)
+				if (sPort === null) {
+					throw new ArchitectureException(
+						"Subfunction in port cannot be found in function: " + port.name + " : " + port.type.name, port)
+				}
+				return sPort
+			}
+		}
+		if (flow.target instanceof ArchitectureSubfunction) {
+			val type = flow.flowType
+			val name = flow.name+type.name+"In"
+			val comp = trace.get(flow.target) as AsynchronousComponentInstance
+			var sPort = findPort(comp.type, type, name, true)
+			if (sPort === null) {
+				throw new ArchitectureException(
+					"Subfunction in port cannot be found in function: " + name + " : " + type.name, flow.target)
+			}
+			return sPort
+		}
+	}
 }

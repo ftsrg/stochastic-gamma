@@ -17,6 +17,7 @@ import hu.bme.mit.gamma.expression.model.ExpressionModelFactory
 import java.math.BigDecimal
 import hu.bme.mit.gamma.statechart.interface_.Event
 import hu.bme.mit.gamma.statechart.interface_.EventDirection
+import hu.bme.mit.gamma.environment.model.EnvironmentEventSource
 
 class FailureModelGenerator {
 	
@@ -54,10 +55,23 @@ class FailureModelGenerator {
 	
 	def generateSource(String name,Interface _interface){
 		
+		val failureSource=generateSource(name)
+		failureSource.addPort(_interface)
+
+		return failureSource
+	}
+	
+	def generateSource(String name){
+		
 		val failureSource=stochModelFactory.createEnvironmentEventSource
-		failureSource.name = name + "_Failures"+nameCNTR++
-		val failurePort=ElementTransformer._createPort(_interface,"failures",false)
-		failureSource.outports+=failurePort
+		failureSource.name = name + "_Failures"//+nameCNTR++
+
+		return failureSource
+	}
+	
+	def addPort(EnvironmentEventSource source,Interface _interface){
+		val failurePort=ElementTransformer._createPort(_interface,"",false)
+		source.outports+=failurePort
 		val failureRule= stochModelFactory.createStochasticRule
 		val filter= stochModelFactory.createComponentFilter
 		val dist= distModelFactory.createExponentialRandomVariable
@@ -66,9 +80,10 @@ class FailureModelGenerator {
 		dist.rate = rate
 		failureRule.stochasticModel = dist
 		failureRule.filter+=filter
-		failureSource.behaviorRules+=failureRule
+		source.behaviorRules+=failureRule
 
-		return failureSource
+		return failurePort
+		
 	}
 	
 }

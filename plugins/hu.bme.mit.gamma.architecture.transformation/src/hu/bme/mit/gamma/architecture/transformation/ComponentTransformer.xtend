@@ -22,66 +22,60 @@ import hu.bme.mit.gamma.architecture.model.ArchitecturePort
 
 class ComponentTransformer extends AbstractArchitectureTransformer {
 
-	//val ArchitectureComponent archComp
-	//val AsynchronousCompositeComponent gammaComp
-
-	//val EnvironmentAsynchronousCompositeComponent hwComponent
-	//val AsynchronousComponentInstance hwComponentInstance
-
+	// val ArchitectureComponent archComp
+	// val AsynchronousCompositeComponent gammaComp
+	// val EnvironmentAsynchronousCompositeComponent hwComponent
+	// val AsynchronousComponentInstance hwComponentInstance
 	val extension FailureModelGenerator failureModelGenerator
 
 	new(ArchitectureTrace trace) {
 		super(trace)
 
-
 		this.failureModelGenerator = new FailureModelGenerator(trace)
-
 
 	}
 
-	def transform(ArchitectureComponent component) {		
-		
+	def transform(ArchitectureComponent component) {
+
 		val archComp = component
-		
+
 		val gammaComp = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		gammaComp.name = archComp.gammaName
-		
+
 		val hwComponent = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		hwComponent.name = component.name + "_HardwareModel"
-		
+
 		val hwComponentInstance = cmpModelFactory.createAsynchronousComponentInstance
 		hwComponentInstance.name = "inst_" + component.name + "_HardwareModel"
 		hwComponentInstance.type = hwComponent
 		hwComponent.packageElement("subsystem_hardware")
 
 		gammaComp.components += hwComponentInstance
-		trace.add(archComp,gammaComp)
-		
-		
+		trace.add(archComp, gammaComp)
+
 		for (subfunc : archComp.subfunctions) {
 			val inst = subfunc.transformSubfunction
 			gammaComp.components += inst
 			instancePorts.put(inst, inst.type.ports.toSet)
 		}
-		
-		
+
 		for (flow : archComp.informationFlows) {
-			val flowType=flow.flowType
+			val flowType = flow.flowType
 			if (flow.isInPortBinding2) {
 				val compPort = flow.source as ArchitecturePort
 				val targetInst = flow.flowTargetInst
 				val targetPort = getFlowTargetPortLoose(flow)
-				val port = createPort(flowType,compPort.name.gammaName+"_"+flow.gammaName,true)
-				trace.phyPortMap.put(compPort,port)
-				gammaComp.ports+=port
+				val port = createPort(flowType, compPort.name.gammaName + "_" + flow.gammaName, true)
+				trace.phyPortMap.put(compPort, port)
+				gammaComp.ports += port
 				gammaComp.portBindings += createPortBinding(port, targetInst, targetPort)
 			} else if (flow.isOutPortBinding2) {
 				val compPort = flow.target as ArchitecturePort
 				val sourceInst = flow.flowSourceInst
 				val sourcePort = getFlowSourcePortLoose(flow)
-				val port = createPort(flowType,compPort.name.gammaName+"_"+flow.gammaName,false)
-				trace.phyPortMap.put(compPort,port)
-				gammaComp.ports+=port
+				val port = createPort(flowType, compPort.name.gammaName + "_" + flow.gammaName, false)
+				trace.phyPortMap.put(compPort, port)
+				gammaComp.ports += port
 				gammaComp.portBindings += createPortBinding(port, sourceInst, sourcePort)
 			} else {
 				val sourceInst = flow.flowSourceInst
@@ -91,22 +85,21 @@ class ComponentTransformer extends AbstractArchitectureTransformer {
 				channelBuilder.add(sourceInst, sourcePort, targetInst, targetPort)
 			}
 		}
-		
+
 		// adding failure propagation channels
 		for (subfunc : archComp.subfunctions) {
 			val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
 			val funcComp = funcCompInst.type
 			for (subsubfunc : subfunc.type.subfunctions) {
+			val source = generateSource(subfunc.gammaName+"___" + subsubfunc.gammaName)
 				for (archInterface : subsubfunc.type.providedInterfaces) {
 					val gammaInterface = trace.get(archInterface) as Interface
-					val source = generateSource(subfunc.gammaName + "_" + subsubfunc.gammaName + "_" +
-						gammaInterface.name, gammaInterface)
 					val outPort = createPort(gammaInterface, subfunc.gammaName + "_" + subsubfunc.gammaName, false)
 
 					val inPort = findPort(funcComp, gammaInterface,
 						subsubfunc.gammaName + gammaInterface.name + "In", true)
 
-					val sourcePort = source.outports.get(0)
+					val sourcePort = source.addPort(gammaInterface)
 					// hw.source -> hw.port -o)- subfunc.port
 					hwComponent.ports += outPort
 					channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
@@ -116,27 +109,26 @@ class ComponentTransformer extends AbstractArchitectureTransformer {
 				}
 			}
 
-				for (archInterface : subfunc.type.providedInterfaces) {
-					val gammaInterface = trace.get(archInterface) as Interface
-					val source = generateSource(subfunc.gammaName + "_" +
-						gammaInterface.name, gammaInterface)
-					val outPort = createPort(gammaInterface, subfunc.gammaName, false)
+			val source = generateSource(subfunc.gammaName)
+			for (archInterface : subfunc.type.providedInterfaces) {
+				val gammaInterface = trace.get(archInterface) as Interface
+				val outPort = createPort(gammaInterface, subfunc.gammaName, false)
 
-					val inPort = findPort(funcComp, gammaInterface,
-						gammaInterface.name + "In", true)
+				val inPort = findPort(funcComp, gammaInterface, gammaInterface.name + "In", true)
 
-					val sourcePort = source.outports.get(0)
-					// hw.source -> hw.port -o)- subfunc.port
-					hwComponent.ports += outPort
-					channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
-					hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
-					hwComponent.environmentComponents += source
+				val sourcePort = source.addPort(gammaInterface)
+				
+				// hw.source -> hw.port -o)- subfunc.port
+				hwComponent.ports += outPort
+				channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
+				hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
+				hwComponent.environmentComponents += source
 
-				}
+			}
 		// component.packageElement("subsystems")
 		}
-		
-		gammaComp.channels+=channelBuilder.build
+
+		gammaComp.channels += channelBuilder.build
 		gammaComp.packageElement("electronic_components")
 		return gammaComp
 	}

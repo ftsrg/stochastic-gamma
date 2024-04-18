@@ -99,13 +99,13 @@ for diagram in diagram_name_dict.keys():
 	diagram_url_dict.update({cmd : diagram})
 	svg = ""
 	#svg = Path(name+".svg",encoding='utf-8', errors='space_it').read_text()
-	with open(name+".svg",encoding='UTF-8', errors='space_it') as f:
+	with open("figures/"+name+".svg",encoding='UTF-8', errors='space_it') as f:
 		svg =  f.read()
 	svg=svg.replace("Â","").replace("Ă","").replace("Â","")
 	diagram_svg_dict.update({cmd : svg})
 
 overall_diagram_svg=""
-with open("overall_structure.svg",encoding='UTF-8', errors='space_it') as f:
+with open("figures/overall_structure.svg",encoding='UTF-8', errors='space_it') as f:
 	overall_diagram_svg =  f.read()
 	overall_diagram_svg=overall_diagram_svg.replace("Â","").replace("Ă","").replace("Â","")
 

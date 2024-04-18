@@ -70,6 +70,9 @@ public class PyroAnalysisGenerator {
     _builder.append("else:");
     _builder.newLine();
     _builder.append("\t\t\t");
+    _builder.append("t0=time.time()");
+    _builder.newLine();
+    _builder.append("\t\t\t");
     _builder.append("# run importance sampling");
     _builder.newLine();
     _builder.append("\t\t\t");
@@ -96,7 +99,13 @@ public class PyroAnalysisGenerator {
       }
     }
     _builder.append("\t\t\t");
+    _builder.append("t1=time.time()");
+    _builder.newLine();
+    _builder.append("\t\t\t");
     _builder.append("# visualize results");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("print(f\"Analysis is finished in {t1-t0} s\")");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("print(\"Results of the analysis: \")");

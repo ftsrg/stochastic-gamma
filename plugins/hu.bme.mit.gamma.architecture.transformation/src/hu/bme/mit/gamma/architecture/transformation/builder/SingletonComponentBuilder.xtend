@@ -65,9 +65,9 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 		instance.type = component
 
 		hwComponent = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
-		hwComponent.name = component.name + "_HardwareModel" + (hwNameCNTR)
+		hwComponent.name = component.name + "_HardwareModel" //+ (hwNameCNTR)
 		hwComponentInstance = cmpModelFactory.createAsynchronousComponentInstance
-		hwComponentInstance.name = instance.name + "_HardwareModel" + (hwNameCNTR++)
+		hwComponentInstance.name = instance.name + "_HardwareModel" //+ (hwNameCNTR++)
 		hwComponentInstance.type = hwComponent
 		hwComponent.packageElement("subsystem_hardware")
 		addInstance(hwComponentInstance)
@@ -197,16 +197,15 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 				val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
 				val funcComp = funcCompInst.type
 				for (subsubfunc : subfunc.type.subfunctions) {
+					val source = generateSource(subfunc.gammaName+"___" + subsubfunc.gammaName)
 					for (archInterface : subsubfunc.type.providedInterfaces) {
 						val gammaInterface = trace.get(archInterface) as Interface
-						val source = generateSource(subfunc.gammaName + "_" + subsubfunc.gammaName + "_" +
-							gammaInterface.name, gammaInterface)
-						val outPort = createPort(gammaInterface, subfunc.gammaName + "_" + subsubfunc.gammaName, false)
+						val outPort = createPort(gammaInterface, subfunc.gammaName + "___" + subsubfunc.gammaName, false)
 
 						val inPort = findPort(funcComp, gammaInterface,
 							subsubfunc.gammaName + gammaInterface.name + "In", true)
 
-						val sourcePort = source.outports.get(0)
+						val sourcePort = source.addPort(gammaInterface)
 						// hw.source -> hw.port -o)- subfunc.port
 						hwComponent.ports += outPort
 						addChannel(hwComponentInstance, outPort, funcCompInst, inPort)

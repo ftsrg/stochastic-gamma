@@ -347,7 +347,8 @@ public class SysMLImportWizard extends Wizard implements INewWizard {
 				}
 			}
 		}
-
+		refresh(); 
+		build();
 		return;
 
 	}
