@@ -133,35 +133,38 @@ class XMLUtils {
 			var String GUID
 			var String scope
 
-			for (j : 0 .. fields.length - 1) {
-				var field = fields.item(j)
-				if (field.nodeName == "Name") {
-					name = field.textContent
+			if (row_nodes.length > 0) {
+				for (j : 0 .. fields.length - 1) {
+					var field = fields.item(j)
+					if (field.nodeName == "Name") {
+						name = field.textContent
+					}
+					if (field.nodeName == "Object_ID") {
+						element_id = Long.valueOf(field.textContent)
+					}
+					if (field.nodeName == "Type") {
+						type = field.textContent
+					}
+					if (field.nodeName == "ea_guid") {
+						GUID = field.textContent
+					}
+					if (field.nodeName == "Scope") {
+						scope = field.textContent
+					}
+					if (field.nodeName == "StyleEx") {
+						style_ex = field.textContent
+					}
 				}
-				if (field.nodeName == "Object_ID") {
-					element_id = Long.valueOf(field.textContent)
-				}
-				if (field.nodeName == "Type") {
-					type = field.textContent
-				}
-				if (field.nodeName == "ea_guid") {
-					GUID = field.textContent
-				}
-				if (field.nodeName == "Scope") {
-					scope = field.textContent
-				}
-				if (field.nodeName == "StyleEx") {
-					style_ex = field.textContent
-				}
+				dataList.add(new OperationData(
+					name,
+					type,
+					element_id,
+					style_ex,
+					GUID,
+					scope
+				))
 			}
-			dataList.add(new OperationData(
-				name,
-				type,
-				element_id,
-				style_ex,
-				GUID,
-				scope
-			))
+
 		}
 		return dataList
 	}
@@ -183,63 +186,66 @@ class XMLUtils {
 			var long lowerBound
 			var long upperBound
 
-			for (j : 0 .. fields.length - 1) {
-				var field = fields.item(j)
-				if (field.nodeName == "Name") {
-					name = field.textContent
-				}
-				if (field.nodeName == "Object_ID") {
-					element_id = Long.valueOf(field.textContent)
-				}
-				if (field.nodeName == "Classifier") {
-					if (field.textContent.isBlank){
-						type_id = -1
-					}else{
-						type_id = Long.valueOf(field.textContent)
+			if (row_nodes.length > 0) {
+				for (j : 0 .. fields.length - 1) {
+					var field = fields.item(j)
+					if (field.nodeName == "Name") {
+						name = field.textContent
+					}
+					if (field.nodeName == "Object_ID") {
+						element_id = Long.valueOf(field.textContent)
+					}
+					if (field.nodeName == "Classifier") {
+						if (field.textContent.isBlank) {
+							type_id = -1
+						} else {
+							type_id = Long.valueOf(field.textContent)
+						}
+					}
+					if (field.nodeName == "LowerBound") {
+						if (field.textContent.isBlank) {
+							lowerBound = -1
+						} else {
+							lowerBound = Long.valueOf(field.textContent)
+						}
+					}
+					if (field.nodeName == "UpperBound") {
+						if (field.textContent.isBlank) {
+							upperBound = -1
+						} else {
+							upperBound = Long.valueOf(field.textContent)
+						}
+					}
+					if (field.nodeName == "Const") {
+						if (field.textContent.isBlank) {
+							isConst = false
+						} else {
+							isConst = Long.valueOf(field.textContent) != 0
+						}
+					}
+					if (field.nodeName == "Type") {
+						type = field.textContent
+					}
+					if (field.nodeName == "Scope") {
+						scope = field.textContent
+					}
+					if (field.nodeName == "ea_guid") {
+						GUID = field.textContent
 					}
 				}
-				if (field.nodeName == "LowerBound") {
-					if (field.textContent.isBlank){
-						lowerBound = -1
-					}else{
-						lowerBound = Long.valueOf(field.textContent)
-					}
-				}
-				if (field.nodeName == "UpperBound") {
-					if (field.textContent.isBlank){
-						upperBound = -1
-					}else{
-						upperBound = Long.valueOf(field.textContent)
-					}
-				}
-				if (field.nodeName == "Const") {
-					if (field.textContent.isBlank){
-						isConst = false
-					}else{
-						isConst = Long.valueOf(field.textContent)!=0
-					}
-				}
-				if (field.nodeName == "Type") {
-					type = field.textContent
-				}
-				if (field.nodeName == "Scope") {
-					scope = field.textContent
-				}
-				if (field.nodeName == "ea_guid") {
-					GUID = field.textContent
-				}
+				dataList.add(new AttributeData(
+					name,
+					element_id,
+					type_id,
+					scope,
+					GUID,
+					type,
+					isConst,
+					lowerBound,
+					upperBound
+				))
 			}
-			dataList.add(new AttributeData(
-				name,
-				element_id,
-				type_id,
-				scope,
-				GUID,
-				type,
-				isConst,
-				lowerBound,
-				upperBound
-			))
+
 		}
 		return dataList
 	}
@@ -258,39 +264,42 @@ class XMLUtils {
 			var String description = ""
 			var String behavior = ""
 
-			for (j : 0 .. fields.length - 1) {
-				var field = fields.item(j)
-				if (field.nodeName == "Name") {
-					name = field.textContent
+			if (row_nodes.length > 0) {
+				for (j : 0 .. fields.length - 1) {
+					var field = fields.item(j)
+					if (field.nodeName == "Name") {
+						name = field.textContent
+					}
+					if (field.nodeName == "Type") {
+						type = field.textContent
+					}
+					if (field.nodeName == "Client") {
+						client = field.textContent
+					}
+					if (field.nodeName == "Supplier") {
+						supplier = field.textContent
+					}
+					if (field.nodeName == "Link") {
+						link = field.textContent
+					}
+					if (field.nodeName == "Description") {
+						description = field.textContent
+					}
+					if (field.nodeName == "Behavior") {
+						behavior = field.textContent
+					}
 				}
-				if (field.nodeName == "Type") {
-					type = field.textContent
-				}
-				if (field.nodeName == "Client") {
-					client = field.textContent
-				}
-				if (field.nodeName == "Supplier") {
-					supplier = field.textContent
-				}
-				if (field.nodeName == "Link") {
-					link = field.textContent
-				}
-				if (field.nodeName == "Description") {
-					description = field.textContent
-				}
-				if (field.nodeName == "Behavior") {
-					behavior = field.textContent
-				}
+				dataList.add(new XrefData(
+					name,
+					type,
+					client,
+					supplier,
+					link,
+					description,
+					behavior
+				))
 			}
-			dataList.add(new XrefData(
-				name,
-				type,
-				client,
-				supplier,
-				link,
-				description,
-				behavior
-			))
+
 		}
 		return dataList
 	}
@@ -306,34 +315,37 @@ class XMLUtils {
 			var String notes = ""
 			var long elementID = -1
 
-			for (j : 0 .. fields.length - 1) {
-				var field = fields.item(j)
-				if (field.nodeName == "Property") {
-					property = field.textContent
+			if (row_nodes.length > 0) {
+				for (j : 0 .. fields.length - 1) {
+					var field = fields.item(j)
+					if (field.nodeName == "Property") {
+						property = field.textContent
+					}
+					if (field.nodeName == "Value") {
+						value = field.textContent
+					}
+					if (field.nodeName == "Notes") {
+						notes = field.textContent
+					}
+					if (field.nodeName == "Object_ID") {
+						elementID = Long.valueOf(field.textContent)
+					}
 				}
-				if (field.nodeName == "Value") {
-					value = field.textContent
+				if (property === null || property == "") {
+					throw new MissingFormatArgumentException("Property of ObjectProperty is not in XML : " + xml)
 				}
-				if (field.nodeName == "Notes") {
-					notes = field.textContent
+				if (elementID == -1) {
+					throw new MissingFormatArgumentException(
+						"Object ID of related element of ObjectProperty is not in XML : " + xml)
 				}
-				if (field.nodeName == "Object_ID") {
-					elementID = Long.valueOf(field.textContent)
-				}
+				dataList.add(new ObjectPropertyData(
+					property,
+					value,
+					notes,
+					elementID
+				))
 			}
-			if (property === null || property == "") {
-				throw new MissingFormatArgumentException("Property of ObjectProperty is not in XML : " + xml)
-			}
-			if (elementID == -1) {
-				throw new MissingFormatArgumentException(
-					"Object ID of related element of ObjectProperty is not in XML : " + xml)
-			}
-			dataList.add(new ObjectPropertyData(
-				property,
-				value,
-				notes,
-				elementID
-			))
+
 		}
 		return dataList
 	}
@@ -342,31 +354,36 @@ class XMLUtils {
 		var dataList = <ObjectFileData>newLinkedList
 		var document = parseXML(xml)
 		var row_nodes = document.getElementsByTagName("Row")
-		for (i : 0 .. row_nodes.length - 1) {
-			var fields = row_nodes.item(i).childNodes
-			var String name = ""
-			var String type = ""
-			var long elementID = -1
+		if (row_nodes.length > 0) {
+			for (i : 0 .. row_nodes.length - 1) {
+				var fields = row_nodes.item(i).childNodes
+				var String name = ""
+				var String type = ""
+				var long elementID = -1
 
-			for (j : 0 .. fields.length - 1) {
-				var field = fields.item(j)
-				if (field.nodeName == "FileName") {
-					name = field.textContent
+				for (j : 0 .. fields.length - 1) {
+					var field = fields.item(j)
+					if (field.nodeName == "FileName") {
+						name = field.textContent
+					}
+					if (field.nodeName == "Type") {
+						type = field.textContent
+					}
+					if (field.nodeName == "Object_ID") {
+						elementID = Long.valueOf(field.textContent)
+					}
 				}
-				if (field.nodeName == "Type") {
-					type = field.textContent
+				if (elementID == -1) {
+					throw new MissingFormatArgumentException(
+						"Object ID of related element of ObjectProperty is not in XML : " + xml)
 				}
-				if (field.nodeName == "Object_ID") {
-					elementID = Long.valueOf(field.textContent)
-				}
+				dataList.add(new ObjectFileData(
+					name,
+					type,
+					elementID
+				))
 			}
-			if (elementID == -1) {
-				throw new MissingFormatArgumentException(
-					"Object ID of related element of ObjectProperty is not in XML : " + xml)
-			}
-			dataList.add(new ObjectFileData(
-				name,type,elementID
-			))
+
 		}
 		return dataList
 	}
