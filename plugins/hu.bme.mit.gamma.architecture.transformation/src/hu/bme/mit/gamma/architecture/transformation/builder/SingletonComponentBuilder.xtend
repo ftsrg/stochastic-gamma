@@ -244,7 +244,7 @@ class SingletonComponentBuilder extends AbstractArchitectureTransformer {
 
 			// communication failures
 			for (commInst : commInstances) {
-				val source = generateSource(commInst.name + "_Failures", elementTransformer.failureInterface)
+				val source = generateSource(commInst.name , elementTransformer.failureInterface)
 				val outPort = createPort(elementTransformer.failureInterface, commInst.name + "Failures", false)
 				hwComponent.environmentComponents += source
 
