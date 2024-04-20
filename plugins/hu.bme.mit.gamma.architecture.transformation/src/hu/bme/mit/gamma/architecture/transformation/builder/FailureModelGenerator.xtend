@@ -65,13 +65,6 @@ class FailureModelGenerator {
 		
 		val failureSource=stochModelFactory.createEnvironmentEventSource
 		failureSource.name = name + "_Failures"//+nameCNTR++
-
-		return failureSource
-	}
-	
-	def addPort(EnvironmentEventSource source,Interface _interface){
-		val failurePort=ElementTransformer._createPort(_interface,"",false)
-		source.outports+=failurePort
 		val failureRule= stochModelFactory.createStochasticRule
 		val filter= stochModelFactory.createComponentFilter
 		val dist= distModelFactory.createExponentialRandomVariable
@@ -80,7 +73,28 @@ class FailureModelGenerator {
 		dist.rate = rate
 		failureRule.stochasticModel = dist
 		failureRule.filter+=filter
-		source.behaviorRules+=failureRule
+		failureSource.behaviorRules+=failureRule
+		
+		
+
+		return failureSource
+	}
+	def addPort(EnvironmentEventSource source,Interface _interface){
+		addPort(source, _interface,"")
+	}
+	
+	def addPort(EnvironmentEventSource source,Interface _interface,String name){
+		val failurePort=ElementTransformer._createPort(_interface,name,false)
+		source.outports+=failurePort/* 
+		val failureRule= stochModelFactory.createStochasticRule
+		val filter= stochModelFactory.createComponentFilter
+		val dist= distModelFactory.createExponentialRandomVariable
+		val rate = expModelFactory.createDecimalLiteralExpression
+		rate.value = new BigDecimal(defaultRate)
+		dist.rate = rate
+		failureRule.stochasticModel = dist
+		failureRule.filter+=filter
+		source.behaviorRules+=failureRule*/
 
 		return failurePort
 		

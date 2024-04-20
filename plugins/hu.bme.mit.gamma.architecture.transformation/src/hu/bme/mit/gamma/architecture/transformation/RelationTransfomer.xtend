@@ -24,6 +24,11 @@ import hu.bme.mit.gamma.architecture.model.Generalisation
 import hu.bme.mit.gamma.architecture.model.ArchitectureInterface
 import hu.bme.mit.gamma.architecture.model.FunctionalElement
 import hu.bme.mit.gamma.architecture.model.ElectronicComponent
+import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
+import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
+import hu.bme.mit.gamma.statechart.interface_.Component
+import hu.bme.mit.gamma.statechart.composite.CompositeComponent
+import hu.bme.mit.gamma.expression.model.NamedElement
 
 class RelationTransfomer {
 
@@ -282,6 +287,31 @@ class RelationTransfomer {
 	}
 
 	def createPortBinding(Port port, ComponentInstance inst, Port instPort) {
+		if (port ===null){
+			throw new GammaTransformationException('''null port in instance port reference in binding''',instPort)
+		}
+		if (inst ===null){
+			throw new GammaTransformationException('''null instance in instance port reference in binding''',instPort)
+		}
+		if (instPort ===null){
+			throw new GammaTransformationException('''null instance port in instance port reference in binding''',instPort)
+		}
+		/* 
+		if (inst.derivedType ===null){
+			throw new GammaTransformationException('''null instance type in instance port reference in binding''',inst)
+		}
+		if (!inst.derivedType.ports.contains(instPort)){
+			throw new GammaTransformationException('''Inconsistent instance port in instance port reference '«inst.name».«instPort.name»' in binding''',instPort)
+		}*/
+		if (port.eContainer ===null){
+			throw new GammaTransformationException('''Inconsistent composite port econtainer is null in instance port reference '«inst.name».«instPort.name»' in binding''',instPort)
+		}
+		if (inst.eContainer ===null){
+			throw new GammaTransformationException('''Inconsistent instance econtainer is null in instance port reference '«inst.name».«instPort.name»' in binding''',inst)
+		}
+		if (inst.eContainer!==port.eContainer){
+			throw new GammaTransformationException('''Inconsistent instance container='«(inst.eContainer as NamedElement).name»' in instance port reference '«(port.eContainer as CompositeComponent).name»::«inst.name».«instPort.name»' in binding''',port.eContainer as CompositeComponent)
+		}
 		val bind = cmpModelFactory.createPortBinding
 		bind.instancePortReference = createInstancePortRef(inst, instPort)
 		bind.compositeSystemPort = port

@@ -284,6 +284,7 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 
 			val sysPort = createPort(type,
 				targetPort.name.gammaName + "_" + flow.gammaName, false)
+			systemComponent.ports += sysPort
 
 			trace.phyPortMap.put(targetPort, sysPort)
 
@@ -292,7 +293,6 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			sourceComponentBuilder.addChannel(sourceInst, sourcePort, sourceIFCompInst, inIFCompPort)
 			sourceComponentBuilder.addBinding(outSubsysCompPort, sourceIFCompInst, outIFCompPort)
 			systemComponent.portBindings += createPortBinding(sysPort, subsysInstance, outSubsysCompPort)
-			systemComponent.ports += sysPort
 
 		} else if (flow.isFromHWFlow) {
 
@@ -360,6 +360,7 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			} else {
 				if (!swAllocationMap.containsKey(subcomponent)) {
 					val builder = new SingletonComponentBuilder(subcomponent, trace)
+					systemComponent.components += builder.instance as AsynchronousComponentInstance
 					subsysMap.put(subcomponent, builder)
 				}
 			}
@@ -405,7 +406,6 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 
 		for (builder : subsysMap.values.toSet) {
 			builder.build
-			systemComponent.components += builder.instance as AsynchronousComponentInstance
 			val subsysComponent = builder.component
 			subsysComponent.packageElement("subsystems")
 		}

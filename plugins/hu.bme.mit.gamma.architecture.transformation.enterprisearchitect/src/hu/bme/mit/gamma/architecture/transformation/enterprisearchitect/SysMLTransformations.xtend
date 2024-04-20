@@ -43,76 +43,78 @@ import hu.bme.mit.gamma.architecture.transformation.SystemTransformer
 import hu.bme.mit.gamma.architecture.transformation.ComponentTransformer
 
 class SysMLTransformations {
-	
-	//final static String functionPackageGUID="";
-	final static String electricalPackageGUID="";
-	final static String mechanicalPackageGUID="";
-	final static String softwarePackageGUID="";
-	//final static String systemPackageGUID="";
-	
-	
-	
-	static def transformInterface(String folderURI){		
-		var pkgID=77;
+
+	// final static String functionPackageGUID="";
+	final static String electricalPackageGUID = "";
+	final static String mechanicalPackageGUID = "";
+	final static String softwarePackageGUID = "";
+
+	// final static String systemPackageGUID="";
+	static def transformInterface(String folderURI) {
+		var pkgID = 77;
 		var loader = EAUtils.createDataLoader();
-		var data=loader.loadAllInterfaceFromPackage(pkgID);
-		var eaTrace=new ElementTrace();
-		var archTansformer=new EAElementTransformation(eaTrace, newHashMap);
-		var gammaTrace=new ArchitectureTrace();
-		var gammaTransformer=new ElementTransformer(gammaTrace);
-		var archInterface=archTansformer.transformInterface(data.get(0));
-		var gammaInterface=gammaTransformer.transformInterface(archInterface)
+		var data = loader.loadAllInterfaceFromPackage(pkgID);
+		var eaTrace = new ElementTrace();
+		var archTansformer = new EAElementTransformation(eaTrace, newHashMap);
+		var gammaTrace = new ArchitectureTrace();
+		var gammaTransformer = new ElementTransformer(gammaTrace);
+		var archInterface = archTansformer.transformInterface(data.get(0));
+		var gammaInterface = gammaTransformer.transformInterface(archInterface)
 		gammaTransformer.packageElement(gammaInterface)
-		//val serializer = new StatechartLanguageSerializer();
-		
-		//serializer.serialize(gammaTrace.interfacePackage, folderURI,gammaInterface.getName()+".gcd" );
+	// val serializer = new StatechartLanguageSerializer();
+	// serializer.serialize(gammaTrace.interfacePackage, folderURI,gammaInterface.getName()+".gcd" );
 	}
-	
-	static def transformArchitecture(ElementTrace eaTrace){
-		var root_pkg=eaTrace.rootPkg
-		var gammaTrace=new ArchitectureTrace();
-		val gammaTransformer=new ElementTransformer(gammaTrace);
-		val functionTransformer=new FunctionTransformer(gammaTrace)
-		val componentTransformer=new ComponentTransformer(gammaTrace)
-		var archInterfaces=root_pkg.interfaces
-		var valueTypes=root_pkg.valueTypes
-		for (vt: valueTypes){
+
+	static def transformArchitecture(ElementTrace eaTrace) {
+		var root_pkg = eaTrace.rootPkg
+		var gammaTrace = new ArchitectureTrace();
+		val gammaTransformer = new ElementTransformer(gammaTrace);
+		val functionTransformer = new FunctionTransformer(gammaTrace)
+		val componentTransformer = new ComponentTransformer(gammaTrace)
+		var archInterfaces = root_pkg.interfaces
+		var valueTypes = root_pkg.valueTypes
+		for (vt : valueTypes) {
 			gammaTransformer.transformValueType(vt)
 		}
-		var gammaInterfaces=<Interface>newArrayList
-		for (i:archInterfaces){
+		var gammaInterfaces = <Interface>newArrayList
+		for (i : archInterfaces) {
 			gammaTransformer.transformInterface(i)
 		}
-		
-		
-		for (i:archInterfaces){
-			val gammaInterface=gammaTransformer.transformInterfaceGeneralization(i)
+
+		for (i : archInterfaces) {
+			val gammaInterface = gammaTransformer.transformInterfaceGeneralization(i)
 			gammaTransformer.packageElement(gammaInterface)
-			gammaInterfaces+=gammaInterface
+			gammaInterfaces += gammaInterface
 			gammaTransformer.generateInterfaceComponent(gammaInterface)
 		}
 
-		
-		val primitiveFunctions=root_pkg.primitiveFunctions
-		for (function : primitiveFunctions){
+		val primitiveFunctions = root_pkg.primitiveFunctions
+		for (function : primitiveFunctions) {
 			gammaTransformer.transformPrimitiveFunction(function)
 		}
-		
-		val componentFunctions=root_pkg.componentFunctions
-		for (function: componentFunctions){
-			functionTransformer.transform(function)
+
+		val componentFunctions = root_pkg.componentFunctions
+		var shallRun = true
+		while (shallRun) {
+			shallRun = false
+			for (function : componentFunctions) {
+				if (gammaTransformer.isTransformable(function)){
+					functionTransformer.transform(function)
+					shallRun=true
+				}
+			}
 		}
-		
-		val primitiveHardwareComponents=root_pkg.primitiveHardwareComponents
-		for (component: primitiveHardwareComponents){
+
+		val primitiveHardwareComponents = root_pkg.primitiveHardwareComponents
+		for (component : primitiveHardwareComponents) {
 			componentTransformer.transform(component)
 		}
-		
-		val systems=root_pkg.system
-		for (system: systems){
-			SystemTransformer.transformSystem(system,gammaTrace)
+
+		val systems = root_pkg.system
+		for (system : systems) {
+			SystemTransformer.transformSystem(system, gammaTrace)
 		}
-		
+
 		return gammaTrace
 	}
 }

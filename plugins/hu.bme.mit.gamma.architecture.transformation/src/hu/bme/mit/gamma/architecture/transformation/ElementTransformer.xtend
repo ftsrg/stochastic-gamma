@@ -357,13 +357,17 @@ class ElementTransformer {
 		var gname = ""
 		if (conj) {
 			ifrel.realizationMode = RealizationMode.REQUIRED
-			gname = name + _interface.name + "In"
+			gname = _interface.name + "In"
 		} else {
 			ifrel.realizationMode = RealizationMode.PROVIDED
-			gname = name + _interface.name + "Out"
+			gname =  _interface.name + "Out"
 		}
 		ifrel.interface = _interface
-		port.name = gname
+		if (name.matches("^.*"+gname+"$")){
+			port.name=name
+		}else{
+			port.name = name+gname
+		}
 		port.interfaceRealization = ifrel
 		return port
 	}
@@ -375,13 +379,17 @@ class ElementTransformer {
 		var gname = ""
 		if (conj) {
 			ifrel.realizationMode = RealizationMode.REQUIRED
-			gname = name + _interface.name + "In"
+			gname = _interface.name + "In"
 		} else {
 			ifrel.realizationMode = RealizationMode.PROVIDED
-			gname = name + _interface.name + "Out"
+			gname =  _interface.name + "Out"
 		}
 		ifrel.interface = _interface
-		port.name = gname
+		if (name.matches("^.*"+gname+"$")){
+			port.name=name
+		}else{
+			port.name = name+gname
+		}
 		port.interfaceRealization = ifrel
 		return port
 	}
@@ -504,6 +512,18 @@ class ElementTransformer {
 		}
 		trace.add(function, statechart)
 		return statechart
+	}
+	
+	def isTransformable(ArchitectureFunction function){
+		if (trace.contains(function)){
+			return false
+		}
+		for (subfunc : function.subfunctions){
+			if(!trace.contains(subfunc.type)){
+				return false
+			}
+		}
+		return true
 	}
 
 }

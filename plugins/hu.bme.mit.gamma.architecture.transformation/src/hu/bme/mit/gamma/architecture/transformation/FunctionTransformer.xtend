@@ -95,6 +95,14 @@ class FunctionTransformer extends AbstractArchitectureTransformer{
 		// adding failure ports and binding
 		// failurePort -> func.failurePort
 		for (subfunc : function.subfunctions){
+			for (instPort : subfunc.allProvidedInterfacePorts){
+				val inst=trace.get(subfunc) as AsynchronousComponentInstance
+				val port=instPort.clone
+				port.name=subfunc.gammaName+SEP+port.name
+				component.ports+=port
+				component.portBindings+=createPortBinding(port,inst,instPort)
+			}
+			/* 
 			for (archInterface : subfunc.type.providedInterfaces){
 				val gammaInterface=trace.get(archInterface) as Interface;
 				val inst=trace.get(subfunc) as AsynchronousComponentInstance
@@ -102,7 +110,7 @@ class FunctionTransformer extends AbstractArchitectureTransformer{
 				component.ports+=port
 				val instPort=findInputPortLoose(inst,gammaInterface)
 				component.portBindings+=createPortBinding(port,inst,instPort)
-			}
+			}*/
 		}
 
 		component.channels += channelBuilder.build

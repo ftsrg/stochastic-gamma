@@ -19,6 +19,8 @@ import hu.bme.mit.gamma.statechart.composite.AsynchronousComponentInstance
 import hu.bme.mit.gamma.architecture.transformation.builder.FailureModelGenerator
 import hu.bme.mit.gamma.statechart.interface_.Port
 import hu.bme.mit.gamma.architecture.model.ArchitecturePort
+import hu.bme.mit.gamma.statechart.interface_.InterfaceRealization
+import hu.bme.mit.gamma.statechart.interface_.RealizationMode
 
 class ComponentTransformer extends AbstractArchitectureTransformer {
 
@@ -88,43 +90,67 @@ class ComponentTransformer extends AbstractArchitectureTransformer {
 
 		// adding failure propagation channels
 		for (subfunc : archComp.subfunctions) {
-			val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
-			val funcComp = funcCompInst.type
-			for (subsubfunc : subfunc.type.subfunctions) {
-			val source = generateSource(subfunc.gammaName+"___" + subsubfunc.gammaName)
-				for (archInterface : subsubfunc.type.providedInterfaces) {
-					val gammaInterface = trace.get(archInterface) as Interface
-					val outPort = createPort(gammaInterface, subfunc.gammaName + "_" + subsubfunc.gammaName, false)
-
-					val inPort = findPort(funcComp, gammaInterface,
-						subsubfunc.gammaName + gammaInterface.name + "In", true)
-
-					val sourcePort = source.addPort(gammaInterface)
-					// hw.source -> hw.port -o)- subfunc.port
-					hwComponent.ports += outPort
-					channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
-					hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
-					hwComponent.environmentComponents += source
-
-				}
-			}
-
-			val source = generateSource(subfunc.gammaName)
-			for (archInterface : subfunc.type.providedInterfaces) {
-				val gammaInterface = trace.get(archInterface) as Interface
-				val outPort = createPort(gammaInterface, subfunc.gammaName, false)
-
-				val inPort = findPort(funcComp, gammaInterface, gammaInterface.name + "In", true)
-
-				val sourcePort = source.addPort(gammaInterface)
-				
-				// hw.source -> hw.port -o)- subfunc.port
-				hwComponent.ports += outPort
-				channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
-				hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
+			if (subfunc.allProvidedInterfacePorts.length > 0) {
+				val source = generateSource(subfunc.gammaName)
+				val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
 				hwComponent.environmentComponents += source
 
+				for (inPort : subfunc.allProvidedInterfacePorts) {
+					val inst = trace.get(subfunc) as AsynchronousComponentInstance
+					val _interface=inPort.interfaceRealization.interface
+					val outPort = inPort.clone
+					outPort.interfaceRealization.realizationMode = RealizationMode.PROVIDED
+					outPort.name = subfunc.gammaName+SEP+inPort.name.replaceFirst(_interface.name+"In$", "")
+
+					val sourcePort = source.addPort(inPort.interface,inPort.name.replaceFirst(_interface.name+"In$", "Out"))
+
+					// hw.source -> hw.port -o)- subfunc.port
+					hwComponent.ports += outPort
+					// hwComponent.environmentComponents += source
+					channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
+					hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
+				}
+
 			}
+
+		/* 
+		 * val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
+		 * val funcComp = funcCompInst.type
+		 * for (subsubfunc : subfunc.type.subfunctions) {
+		 * val source = generateSource(subfunc.gammaName + "___" + subsubfunc.gammaName)
+		 * for (archInterface : subsubfunc.type.providedInterfaces) {
+		 * 		val gammaInterface = trace.get(archInterface) as Interface
+		 * 		val outPort = createPort(gammaInterface, subfunc.gammaName + "_" + subsubfunc.gammaName, false)
+
+		 * 		val inPort = findPort(funcComp, gammaInterface,
+		 * 			subsubfunc.gammaName + gammaInterface.name + "In", true)
+
+		 * 		val sourcePort = source.addPort(gammaInterface)
+		 * 		// hw.source -> hw.port -o)- subfunc.port
+		 * 		hwComponent.ports += outPort
+		 * 		channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
+		 * 		hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
+		 * 		hwComponent.environmentComponents += source
+
+		 * 	}
+		 * }
+
+
+		 * for (archInterface : subfunc.type.providedInterfaces) {
+		 * 	val gammaInterface = trace.get(archInterface) as Interface
+		 * 	val outPort = createPort(gammaInterface, subfunc.gammaName, false)
+
+		 * 	val inPort = findPort(funcComp, gammaInterface, gammaInterface.name + "In", true)
+
+		 * 	val sourcePort = source.addPort(gammaInterface)
+		 * 	
+		 * 	// hw.source -> hw.port -o)- subfunc.port
+		 * 	hwComponent.ports += outPort
+		 * 	channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
+		 * 	hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
+		 * 	hwComponent.environmentComponents += source
+
+		 }*/
 		// component.packageElement("subsystems")
 		}
 

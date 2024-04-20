@@ -26,11 +26,12 @@ import hu.bme.mit.gamma.architecture.model.ArchitectureSubfunction
 import hu.bme.mit.gamma.architecture.model.StructuralElement
 import hu.bme.mit.gamma.architecture.transformation.errors.GammaTransformationException
 import hu.bme.mit.gamma.architecture.transformation.AbstractArchitectureTransformer
+import hu.bme.mit.gamma.statechart.interface_.RealizationMode
 
-class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
+class SingletonComponentBuilder extends AbstractArchitectureTransformer {
 
 	val ArchitectureSubcompnent subcomponent
-	
+
 	val EnvironmentAsynchronousCompositeComponent component
 	val AsynchronousComponentInstance instance
 	val Map<InformationFlow, Port> inportMap = newHashMap
@@ -47,10 +48,10 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 	val EnvironmentAsynchronousCompositeComponent hwComponent
 	val AsynchronousComponentInstance hwComponentInstance
 
-	new(ArchitectureSubcompnent subcompnent, ArchitectureTrace trace){
-		
+	new(ArchitectureSubcompnent subcompnent, ArchitectureTrace trace) {
+
 		super(trace)
-		
+
 		this.component = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
 		this.instance = cmpModelFactory.createAsynchronousComponentInstance
 
@@ -65,9 +66,9 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 		instance.type = component
 
 		hwComponent = stochModelFactory.createEnvironmentAsynchronousCompositeComponent
-		hwComponent.name = component.name + "_HardwareModel" //+ (hwNameCNTR)
+		hwComponent.name = component.name + "_HardwareModel" // + (hwNameCNTR)
 		hwComponentInstance = cmpModelFactory.createAsynchronousComponentInstance
-		hwComponentInstance.name = instance.name + "_HardwareModel" //+ (hwNameCNTR++)
+		hwComponentInstance.name = instance.name + "_HardwareModel" // + (hwNameCNTR++)
 		hwComponentInstance.type = hwComponent
 		hwComponent.packageElement("subsystem_hardware")
 		addInstance(hwComponentInstance)
@@ -194,34 +195,58 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 
 			// creating failure propagation channels
 			for (subfunc : subcomponent.subfunctions) {
-				val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
-				val funcComp = funcCompInst.type
-				for (subsubfunc : subfunc.type.subfunctions) {
-					val source = generateSource(subfunc.gammaName+"___" + subsubfunc.gammaName)
-					for (archInterface : subsubfunc.type.providedInterfaces) {
-						val gammaInterface = trace.get(archInterface) as Interface
-						val outPort = createPort(gammaInterface, subfunc.gammaName + "___" + subsubfunc.gammaName, false)
+				if (subfunc.allProvidedInterfacePorts.length > 0) {
+					val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
+					val source = generateSource(subfunc.gammaName)
+					hwComponent.environmentComponents += source
+					for (inPort : subfunc.allProvidedInterfacePorts) {
+						val inst = trace.get(subfunc) as AsynchronousComponentInstance
+						val _interface=inPort.interfaceRealization.interface
+						val outPort = inPort.clone
+						outPort.interfaceRealization.realizationMode = RealizationMode.PROVIDED
+						outPort.name = subfunc.gammaName + "___" + outPort.name.replaceFirst("In$", "Out")
 
-						val inPort = findPort(funcComp, gammaInterface,
-							subsubfunc.gammaName + gammaInterface.name + "In", true)
+						val sourcePort = source.addPort(inPort.interface, inPort.name.replaceFirst(_interface.name+"In$", ""))
 
-						val sourcePort = source.addPort(gammaInterface)
 						// hw.source -> hw.port -o)- subfunc.port
 						hwComponent.ports += outPort
-						addChannel(hwComponentInstance, outPort, funcCompInst, inPort)
+						// hwComponent.environmentComponents += source
+						channelBuilder.add(hwComponentInstance, outPort, funcCompInst, inPort)
 						hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
-						hwComponent.environmentComponents += source
-
 					}
+
 				}
 
+			/* 				
+			 * 				val funcCompInst = trace.get(subfunc) as AsynchronousComponentInstance
+			 * 				val funcComp = funcCompInst.type
+			 * 				for (subsubfunc : subfunc.type.subfunctions) {
+			 * 					val source = generateSource(subfunc.gammaName+"___" + subsubfunc.gammaName)
+
+			 * 					for (archInterface : subsubfunc.type.providedInterfaces) {
+			 * 						val gammaInterface = trace.get(archInterface) as Interface
+			 * 						val outPort = createPort(gammaInterface, subfunc.gammaName + "___" + subsubfunc.gammaName, false)
+
+			 * 						val inPort = findPort(funcComp, gammaInterface,
+			 * 							subsubfunc.gammaName + gammaInterface.name + "In", true)
+
+			 * 						val sourcePort = source.addPort(gammaInterface)
+			 * 						// hw.source -> hw.port -o)- subfunc.port
+			 * 						hwComponent.ports += outPort
+			 * 						addChannel(hwComponentInstance, outPort, funcCompInst, inPort)
+			 * 						hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
+			 * 						hwComponent.environmentComponents += source
+
+			 * 					}
+			 }*/
 			// component.packageElement("subsystems")
 			}
 
 			// communication failures
 			for (commInst : commInstances) {
 				val source = generateSource(commInst.name + "_Failures", elementTransformer.failureInterface)
-				val outPort = createPort(elementTransformer.failureInterface, commInst.name+"Failures", false)
+				val outPort = createPort(elementTransformer.failureInterface, commInst.name + "Failures", false)
+				hwComponent.environmentComponents += source
 
 				val inPort = commInst.type.failurePort
 				hwComponent.ports += outPort
@@ -230,7 +255,6 @@ class SingletonComponentBuilder  extends AbstractArchitectureTransformer{
 				// hw.source -> hw.port -o)- commInst.port
 				addChannel(hwComponentInstance, outPort, commInst, inPort)
 				hwComponent.portBindings += createPortBinding(outPort, source, sourcePort)
-				hwComponent.environmentComponents += source
 
 			}
 

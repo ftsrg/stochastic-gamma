@@ -23,6 +23,7 @@ import hu.bme.mit.gamma.architecture.model.System
 import hu.bme.mit.gamma.architecture.model.Connector
 import hu.bme.mit.gamma.architecture.model.Allocation
 import hu.bme.mit.gamma.architecture.model.ElectronicComponent
+import hu.bme.mit.gamma.statechart.composite.AsynchronousComponentInstance
 
 class TransformationUtils {
 
@@ -160,5 +161,5 @@ class TransformationUtils {
 		return component.ports.filter[p | p.interfaceRealization.realizationMode == RealizationMode.REQUIRED].toList
 	}
 
-
+	public static val String SEP="___"
 }
