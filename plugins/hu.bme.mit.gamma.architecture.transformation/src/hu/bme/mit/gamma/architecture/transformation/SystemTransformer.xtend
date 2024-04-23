@@ -179,7 +179,7 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 				systemComponent.ports += port1
 				trace.phyPortMap.put(connector.source as ArchitecturePort, port1)
 				port1.name = connector.source.gammaName + "_" +
-					port2.name.replaceFirst("^" + connector.target.gammaName+"_", "")
+					port2.name.replaceFirst("^" + targetPort.name.gammaName+"_", "")
 				systemComponent.portBindings += createPortBinding(port1, targetInst, port2)
 			}
 		} else if (connector.isElectronicOutputConnector) {
@@ -191,7 +191,7 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 				systemComponent.ports += port2
 				trace.phyPortMap.put(connector.target as ArchitecturePort, port2)
 				port2.name = connector.target.gammaName + "_" +
-					port1.name.replaceFirst("^" + connector.source.gammaName+"_", "")
+					port1.name.replaceFirst("^" + sourcePort.name.gammaName+"_", "")
 				systemComponent.portBindings += createPortBinding(port2, sourceInst, port1)
 			}
 		} else {
