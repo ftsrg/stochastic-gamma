@@ -182,6 +182,14 @@ public class EnvironmentToPlantUmlTransformer {
     _builder.append("</style>");
     _builder.newLine();
     _builder.newLine();
+    _builder.append("skinparam component {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("backgroundColor DarkKhaki");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
     _builder.append("skinparam shadowing false");
     _builder.newLine();
     _builder.append("\'skinparam linetype ortho");
@@ -204,7 +212,7 @@ public class EnvironmentToPlantUmlTransformer {
     _builder.newLine();
     _builder.append("skinparam padding 2");
     _builder.newLine();
-    _builder.append("skinparam componentStyle rectangle");
+    _builder.append("\'skinparam componentStyle rectangle");
     _builder.newLine();
     _builder.newLine();
     _builder.append("component \"");
@@ -233,7 +241,7 @@ public class EnvironmentToPlantUmlTransformer {
         _builder.append("\" as ");
         String _name_3 = component.getName();
         _builder.append(_name_3, "\t");
-        _builder.append("  {");
+        _builder.append(" #EEEEEE  {");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
         _builder.append("\t");

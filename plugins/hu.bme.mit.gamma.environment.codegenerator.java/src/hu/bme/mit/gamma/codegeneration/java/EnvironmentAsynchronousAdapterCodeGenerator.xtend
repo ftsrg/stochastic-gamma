@@ -312,12 +312,16 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 
 			public String getInQueue(){
 				String str="Input events (";
-				for (Event event:__asyncQueue){
-					str=str+event.getEvent().toString()+" : ";
-					for (Object value:event.getValue()){
-						str=str+" "+value.toString()+",";
+				«FOR subqueue:component.messageQueues.sortWith(a, b | -1 * (a.priority.compareTo(b.priority)))»
+					str=str+"«subqueue.name» [";
+					for (Event event:«subqueue.name»){
+						str=str+event.getEvent().toString()+" : ";
+						for (Object value:event.getValue()){
+							str=str+" "+value.toString()+",";
+						}
 					}
-				}
+					str=str+"], ";
+				«ENDFOR»
 				str=str+")";
 				return str;
 			}

@@ -85,7 +85,7 @@ sim_stoch_events=dict()
 raised_events=list()
 
 diagram_name_dict = {
-	«FOR diagramName : diagramNames»
+	«FOR diagramName : diagramNames.sort»
 		«diagramName»,
 	«ENDFOR»
 }
@@ -130,6 +130,8 @@ for component in stochmodel.components.keys():
 				failure_names.append(name)
 				failure_dict.update({name:call})
 
+failure_names=sorted(failure_names)
+
 pfailure_names=[]
 pfailure_dict=dict()
 for component in stochmodel.components.keys():
@@ -145,6 +147,8 @@ for component in stochmodel.components.keys():
 				call=comp.calls[port][pevent]
 				pfailure_names.append(name)
 				pfailure_dict.update({name:call})
+
+pfailure_names=sorted(pfailure_names)
 
 detmodel.reset()
 detmodel.getDetModel().schedule()

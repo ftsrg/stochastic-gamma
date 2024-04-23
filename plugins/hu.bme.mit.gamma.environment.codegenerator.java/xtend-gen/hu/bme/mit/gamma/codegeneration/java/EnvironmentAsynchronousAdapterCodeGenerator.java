@@ -1252,24 +1252,49 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.append("\t\t");
       _builder.append("String str=\"Input events (\";");
       _builder.newLine();
-      _builder.append("\t\t");
-      _builder.append("for (Event event:__asyncQueue){");
-      _builder.newLine();
-      _builder.append("\t\t\t");
-      _builder.append("str=str+event.getEvent().toString()+\" : \";");
-      _builder.newLine();
-      _builder.append("\t\t\t");
-      _builder.append("for (Object value:event.getValue()){");
-      _builder.newLine();
-      _builder.append("\t\t\t\t");
-      _builder.append("str=str+\" \"+value.toString()+\",\";");
-      _builder.newLine();
-      _builder.append("\t\t\t");
-      _builder.append("}");
-      _builder.newLine();
-      _builder.append("\t\t");
-      _builder.append("}");
-      _builder.newLine();
+      {
+        final Comparator<MessageQueue> _function_1 = (MessageQueue a, MessageQueue b) -> {
+          int _compareTo = a.getPriority().compareTo(b.getPriority());
+          return ((-1) * _compareTo);
+        };
+        List<MessageQueue> _sortWith_1 = IterableExtensions.<MessageQueue>sortWith(component.getMessageQueues(), _function_1);
+        for(final MessageQueue subqueue : _sortWith_1) {
+          _builder.append("\t\t");
+          _builder.append("str=str+\"");
+          String _name_19 = subqueue.getName();
+          _builder.append(_name_19, "\t\t");
+          _builder.append(" [\";");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t\t");
+          _builder.append("for (Event event:");
+          String _name_20 = subqueue.getName();
+          _builder.append(_name_20, "\t\t");
+          _builder.append("){");
+          _builder.newLineIfNotEmpty();
+          _builder.append("\t\t");
+          _builder.append("\t");
+          _builder.append("str=str+event.getEvent().toString()+\" : \";");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("\t");
+          _builder.append("for (Object value:event.getValue()){");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("\t\t");
+          _builder.append("str=str+\" \"+value.toString()+\",\";");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("\t");
+          _builder.append("}");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("}");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("str=str+\"], \";");
+          _builder.newLine();
+        }
+      }
       _builder.append("\t\t");
       _builder.append("str=str+\")\";");
       _builder.newLine();

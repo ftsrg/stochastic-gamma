@@ -130,6 +130,10 @@ class EnvironmentToPlantUmlTransformer {
 			}
 			</style>
 			
+			skinparam component {
+				backgroundColor DarkKhaki
+			}
+			
 			skinparam shadowing false
 			'skinparam linetype ortho
 			!theme plain
@@ -141,12 +145,12 @@ class EnvironmentToPlantUmlTransformer {
 			skinparam ComponentStereotypeFontSize 10
 			skinparam HeaderFontSize 12
 			skinparam padding 2
-			skinparam componentStyle rectangle
+			'skinparam componentStyle rectangle
 			
 			component "«composite.name»"<<«composite.kindString»>> {
 				
 				«FOR component : composite.derivedComponents.sortBy[c|c.name]»
-					component "<size:12>«component.name»:\n<size:12>«component.derivedType.name»" as «component.name»  {
+					component "<size:12>«component.name»:\n<size:12>«component.derivedType.name»" as «component.name» #EEEEEE  {
 ««««						json «component.name»_Outputs {
 ««««						«FOR port : component.derivedType.allPortsWithOutput SEPARATOR ", \n"»"«port.name»" : [«FOR param : port.parameters SEPARATOR ", "»"«key(port,param,component)»"«ENDFOR»]«ENDFOR»
 						

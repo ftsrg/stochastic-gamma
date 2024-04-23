@@ -121,7 +121,7 @@ class InterfaceComponentBuilder {
 	}
 	
 	def addFlow(InformationFlow flow){
-		val type = trace.get(flow.type) as Interface
+		val type = flow.flowType
 		var portName=flow.gammaName
 		if (portName.blank){
 			portName=flow.source.gammaName
@@ -134,7 +134,7 @@ class InterfaceComponentBuilder {
 		inportMap.put(flow,inport)
 		outportMap.put(flow,outport)
 		val ifInst = cmpModelFactory.createAsynchronousComponentInstance
-		ifInst.name=flow.gammaName+flow.type.name+portNameCNTR++
+		ifInst.name=flow.gammaName+type.name+portNameCNTR++
 		val ifType= trace.getInterfaceComponent(type)
 		ifInst.type = ifType
 		component.components+=ifInst

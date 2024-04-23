@@ -221,6 +221,9 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
 			val targetComponentBuilder = subsysMap.get(targetSubsystem)
 			val ifComponentBuilder = ifCompTable.get(getPhyComponent(sourceSubsystem), getPhyComponent(targetSubsystem))
+			if (ifComponentBuilder===null){
+				throw new ArchitectureException ("Communication component is not found, maybe a connector is missing",flow.source)
+			}
 			ifComponentBuilder.addFlow(flow)
 			val sourceIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(sourceSubsystem))
 			val targetIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(targetSubsystem))
@@ -249,6 +252,9 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			val targetPort = getFlowTargetPort(flow)
 			val targetComponentBuilder = subsysMap.get(targetSubsystem)
 			val ifComponentBuilder = ifCompTable.get(flow.source, getPhyComponent(targetSubsystem))
+			if (ifComponentBuilder===null){
+				throw new ArchitectureException ("Communication component is not found, maybe a connector is missing",flow.source)
+			}
 			ifComponentBuilder.addFlow(flow)
 			val targetIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(targetSubsystem))
 			val inIFCompPort = ifComponentBuilder.getInPort(flow)
@@ -287,6 +293,9 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			val sourcePort = getFlowSourcePort(flow)
 			val sourceComponentBuilder = subsysMap.get(sourceSubsystem)
 			val ifComponentBuilder = ifCompTable.get(getPhyComponent(sourceSubsystem), targetPort)
+			if (ifComponentBuilder===null){
+				throw new ArchitectureException ("Communication component is not found, maybe a connector is missing",flow.target)
+			}
 			ifComponentBuilder.addFlow(flow)
 			val sourceIFCompInst = ifComponentBuilder.getInstance(getPhyComponent(sourceSubsystem))
 			val inIFCompPort = ifComponentBuilder.getInPort(flow)
