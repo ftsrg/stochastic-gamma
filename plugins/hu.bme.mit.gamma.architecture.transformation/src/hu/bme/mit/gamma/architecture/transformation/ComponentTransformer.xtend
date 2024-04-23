@@ -100,7 +100,7 @@ class ComponentTransformer extends AbstractArchitectureTransformer {
 					val _interface=inPort.interfaceRealization.interface
 					val outPort = inPort.clone
 					outPort.interfaceRealization.realizationMode = RealizationMode.PROVIDED
-					outPort.name = subfunc.gammaName+SEP+inPort.name.replaceFirst(_interface.name+"In$", "")
+					outPort.name = subfunc.gammaName+SEP+inPort.name.replaceFirst("In$", "Out")
 
 					val sourcePort = source.addPort(inPort.interface,inPort.name.replaceFirst(_interface.name+"In$", "Out"))
 

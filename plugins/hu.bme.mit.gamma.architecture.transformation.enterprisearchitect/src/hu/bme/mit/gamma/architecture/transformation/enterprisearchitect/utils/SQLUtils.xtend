@@ -368,7 +368,7 @@ class SQLUtils {
 	*
 	from t_object 
 	where Object_Type = "Part" and
-	(Stereotype is null or Stereotype="")
+	(Stereotype is null or Stereotype="" or Stereotype="JunctionPart")
 	'''
 	
 	static def getAllEnumLiterals()'''

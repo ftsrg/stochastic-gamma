@@ -32,6 +32,8 @@ import hu.bme.mit.gamma.statechart.interface_.Port;
 
 public class EnvironmentModelDerivedFeatures extends StatechartModelDerivedFeatures {
 	
+	public static EnvironmentModelDerivedFeatures INSTANCE=new EnvironmentModelDerivedFeatures();
+	
 	public static List<EnvironmentComponentInstance> getEnvironmentComponents (CompositeComponent composite){
 		List<EnvironmentComponentInstance> components=new ArrayList();
 		if (composite instanceof EnvironmentSynchronousCompositeComponent) {

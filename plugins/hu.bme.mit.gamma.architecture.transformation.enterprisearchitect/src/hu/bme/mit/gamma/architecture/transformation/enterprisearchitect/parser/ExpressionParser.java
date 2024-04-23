@@ -44,7 +44,7 @@ public class ExpressionParser {
 			return null;
 		}
 		this.statechart = contextStatechart;
-		this.str = str;
+		this.str = str.replaceAll("(\\r|\\n|\\r\\n)+", " ");
 		pos = -1;
 		ch = ' ';
 		return parse();

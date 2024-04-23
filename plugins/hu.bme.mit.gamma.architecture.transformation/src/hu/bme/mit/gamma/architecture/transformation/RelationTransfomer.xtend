@@ -177,6 +177,11 @@ class RelationTransfomer {
 
 	// true if  hwcomp(.port) --conn-- hwcomp(.port)
 	static def isElectronicEnd(ArchitectureElement element) {
+		if (element instanceof ArchitectureSubcompnent){
+			if (element.subfunctions.empty){
+				return true
+			}
+		}
 		if (element instanceof ArchitecturePort) {
 			if (element.eContainer instanceof ArchitectureSubcompnent) {
 				return (element.eContainer as ArchitectureSubcompnent).subfunctions.empty
@@ -184,6 +189,7 @@ class RelationTransfomer {
 		}
 		return false
 	}
+	
 	static def isElectronicEnd2(ArchitectureElement element) {
 		if (element instanceof ArchitecturePort) {
 			if (element.eContainer instanceof ArchitectureSubcompnent) {

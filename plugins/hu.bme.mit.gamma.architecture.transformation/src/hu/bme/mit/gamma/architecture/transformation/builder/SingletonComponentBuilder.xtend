@@ -41,6 +41,7 @@ class SingletonComponentBuilder extends AbstractArchitectureTransformer {
 
 	val extension FailureModelGenerator failureModelGenerator
 	var nameCNTR = 0
+	var instNameCNTR = 0
 	var isBuilt = false
 
 	static var hwNameCNTR = 0
@@ -151,12 +152,14 @@ class SingletonComponentBuilder extends AbstractArchitectureTransformer {
 
 	def addInstance(AsynchronousComponentInstance instance) {
 		component.components += instance
+		instance.name=instance.name+"_"+instNameCNTR++
 	// add failure propagation channels?
 	}
 
 	def addCommInstance(AsynchronousComponentInstance instance) {
 		commInstances += instance
 		component.components += instance
+		instance.name=instance.name+"_"+instNameCNTR++
 	// add failure propagation channels?
 	}
 
@@ -243,9 +246,10 @@ class SingletonComponentBuilder extends AbstractArchitectureTransformer {
 			}
 
 			// communication failures
+			var cntr=0
 			for (commInst : commInstances) {
-				val source = generateSource(commInst.name , elementTransformer.failureInterface)
-				val outPort = createPort(elementTransformer.failureInterface, commInst.name + "Failures", false)
+				val source = generateSource(commInst.name+cntr , elementTransformer.failureInterface)
+				val outPort = createPort(elementTransformer.failureInterface, commInst.name + "Failures"+cntr++, false)
 				hwComponent.environmentComponents += source
 
 				val inPort = commInst.type.failurePort

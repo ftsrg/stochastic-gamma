@@ -132,7 +132,7 @@ abstract class AbstractArchitectureTransformer {
 		val matches = ports.filter [ port |
 			port.interfaceRealization.interface == _interface &&
 				port.interfaceRealization.realizationMode == RealizationMode.REQUIRED && port.name == namef
-		]
+		].toList
 		if (matches.empty) {
 			throw new ArchitectureException('''Subfunction port: '«namef»' cannot be found in function: '«instance.name»' «instance.type.ports.map[p|p.name]» ''',
 				trace.get(instance))
@@ -198,8 +198,8 @@ abstract class AbstractArchitectureTransformer {
 			val port = flow.source as ArchitecturePort
 			if (port.eContainer instanceof ArchitectureSubfunction) {
 				val subfunc = port.eContainer as ArchitectureSubfunction
-				val gammaComp = trace.get(subfunc) as AsynchronousComponent
-				val sPort = findPort(gammaComp, port)
+				val gammaComp = trace.get(subfunc) as AsynchronousComponentInstance
+				val sPort = findPort(gammaComp.type, port)
 				if (sPort === null) {
 					throw new ArchitectureException(
 						"Subfunction out port cannot be found in function: " + port.name + " : " + port.type.name, port)
@@ -225,8 +225,8 @@ abstract class AbstractArchitectureTransformer {
 			val port = flow.target as ArchitecturePort
 			if (port.eContainer instanceof ArchitectureSubfunction) {
 				val subfunc = port.eContainer as ArchitectureSubfunction
-				val gammaComp = trace.get(subfunc) as AsynchronousComponent
-				val sPort = findPort(gammaComp, port)
+				val gammaComp = trace.get(subfunc) as AsynchronousComponentInstance
+				val sPort = findPort(gammaComp.type, port)
 				if (sPort === null) {
 					throw new ArchitectureException(
 						"Subfunction in port cannot be found in function: " + port.name + " : " + port.type.name, port)

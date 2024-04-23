@@ -51,6 +51,7 @@ class InterfaceComponentBuilder {
 	val extension ElementTransformer elementTransformer
 	val extension RelationTransfomer relationTransformer
 	var nameCNTR=0
+	var portNameCNTR=0
 	
 	val Port failurePort
 	
@@ -65,7 +66,7 @@ class InterfaceComponentBuilder {
 		//this.failureSource=stochModelFactory.createEnvironmentEventSource
 		
 		
-		component.name = connector.gammaName
+		component.name = connector.gammaName+nameCNTR++
 		
 		failurePort=createPort(elementTransformer.failureInterface,"failureIn",true)
 		component.ports+=failurePort
@@ -125,7 +126,7 @@ class InterfaceComponentBuilder {
 		if (portName.blank){
 			portName=flow.source.gammaName
 		}
-		portName=portName+nameCNTR+"_"
+		portName=portName+nameCNTR+"_"+portNameCNTR
 		val inport = type.createPort(portName,true)
 		val outport = type.createPort(portName,false)
 		component.ports+=inport
@@ -133,7 +134,7 @@ class InterfaceComponentBuilder {
 		inportMap.put(flow,inport)
 		outportMap.put(flow,outport)
 		val ifInst = cmpModelFactory.createAsynchronousComponentInstance
-		ifInst.name=flow.gammaName+flow.type.name+nameCNTR
+		ifInst.name=flow.gammaName+flow.type.name+portNameCNTR++
 		val ifType= trace.getInterfaceComponent(type)
 		ifInst.type = ifType
 		component.components+=ifInst

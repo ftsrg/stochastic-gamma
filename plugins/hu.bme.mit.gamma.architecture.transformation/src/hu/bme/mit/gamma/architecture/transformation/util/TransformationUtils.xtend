@@ -24,6 +24,7 @@ import hu.bme.mit.gamma.architecture.model.Connector
 import hu.bme.mit.gamma.architecture.model.Allocation
 import hu.bme.mit.gamma.architecture.model.ElectronicComponent
 import hu.bme.mit.gamma.statechart.composite.AsynchronousComponentInstance
+import java.text.Normalizer
 
 class TransformationUtils {
 
@@ -87,6 +88,7 @@ class TransformationUtils {
 	 */
 	static def getGammaName(String archName) {
 		var name = archName
+		name=Normalizer.normalize(name, Normalizer.Form.NFD)
 		if (name === null || name.empty || name.blank ) {
 			return ""
 		}

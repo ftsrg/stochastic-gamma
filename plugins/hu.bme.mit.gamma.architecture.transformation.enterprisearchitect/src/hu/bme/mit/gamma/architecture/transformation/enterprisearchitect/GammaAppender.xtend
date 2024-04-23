@@ -360,9 +360,6 @@ class GammaAppender {
 										"' in '" + triggerStr + "'", statemachine);
 							}
 							ref.port = portIt.next
-							val eventIt = ref.port.interfaceRealization.interface.events.filter [ e |
-								e.event.name.equals("changeOf" + fpName.toFirstUpper)
-							].iterator
 							eventTrig.eventReference = ref
 						} else {
 							val ref = sctModelFactory.createPortEventReference
@@ -373,15 +370,15 @@ class GammaAppender {
 										"' in '" + triggerStr + "'", statemachine);
 							}
 							ref.port = portIt.next
-							val eventIt = ref.port.interfaceRealization.interface.events.filter [ e |
-								e.event.name.equals("changeOf" + fpName.toFirstUpper)
+							val eventIt = ref.port.allEvents.filter [ e |
+								e.name.equals("changeOf" + fpName.toFirstUpper)
 							].iterator
 							if (!eventIt.hasNext()) {
 								throw new GammaTransformationException(
 									"Trigger Parser Exception; Event reference cannot be found '" + "changeOf" +
 										fpName.toFirstUpper + "' in '" + triggerStr + "'", statemachine);
 							}
-							ref.event = eventIt.next.event
+							ref.event = eventIt.next
 							eventTrig.eventReference = ref
 						}
 						transition.trigger = eventTrig
@@ -414,14 +411,15 @@ class GammaAppender {
 									triggerStr + "'", statemachine);
 						}
 						ref.port = portIt.next
-						val eventIt = ref.port.interfaceRealization.interface.events.filter [ e |
-							e.event.name.equals(eventName)
+						val eventIt = ref.port.allEvents.filter [ e |
+							e.name.equals(eventName)
 						].iterator
 						if (!eventIt.hasNext()) {
 							throw new GammaTransformationException(
 								"Trigger Parser Exception; Event reference cannot be found '" + eventName + "' in '" +
 									triggerStr + "'", statemachine);
 						}
+						ref.event = eventIt.next
 						eventTrig.eventReference = ref
 						transition.trigger = eventTrig
 					} else {
@@ -466,7 +464,7 @@ class GammaAppender {
 			return effects
 		}
 
-		var effectStringList = effectString.split(";");
+		var effectStringList = effectString.replaceAll("(\\r|\\n|\\r\\n)+", "").split(";");
 		for (actionStr : effectStringList) {
 			if (actionStr.isBlank) {
 			} else if (actionStr.contains(":=")) {
@@ -558,7 +556,7 @@ class GammaAppender {
 				effects += act
 
 			} else {
-				throw new RuntimeException('''Action "«actionStr»" in Effect "«effectString»" cannot be parsed''')
+				throw new GammaTransformationException('''Action "«actionStr»" in Effect "«effectString»" cannot be parsed''',statechart)
 			}
 		}
 

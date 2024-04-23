@@ -34,6 +34,8 @@ import hu.bme.mit.gamma.architecture.model.ElectronicComponent
 import hu.bme.mit.gamma.statechart.interface_.InterfaceRealization
 import hu.bme.mit.gamma.util.GammaEcoreUtil
 import hu.bme.mit.gamma.statechart.interface_.Port
+import java.util.Set
+import hu.bme.mit.gamma.architecture.model.ArchitectureInterface
 
 class SystemTransformer extends AbstractArchitectureTransformer {
 
@@ -57,6 +59,8 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 	val Table<ArchitectureElement, ArchitectureElement, InterfaceComponentBuilder> ifCompTable = HashBasedTable.create
 	val swAllocationMap = <ArchitectureSubcompnent, ArchitectureSubcompnent>newHashMap
 	val functionAllocationMap = <ArchitectureSubfunction, ArchitectureSubcompnent>newHashMap
+	
+	val notconnectedPhyPorts=<ArchitectureSubcompnent,Set<ArchitecturePort>>newHashMap
 
 	val extension ElementTransformer elementTransformer
 	val extension RelationTransfomer relationTransformer
@@ -75,6 +79,10 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 		this.relationTransformer = new RelationTransfomer(trace)
 		
 		trace.add(system, systemComponent)
+		
+		for (subcomp:system.subcompnents){
+			notconnectedPhyPorts.put(subcomp,subcomp.type.ports.toSet)
+		}
 	}
 
 	def getPhyComponent(ArchitectureSubfunction subfunction) {
@@ -147,11 +155,13 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 				targetSubsystemBuilder.addCommInstance(targetIFCompInst)
 			}
 		} else if (connector.isElectronicConnector) {
-			val sourceComp = connector.source.eContainer as ArchitectureSubcompnent
+			val sourceComp = connector.source.endpointComp
 			val sourceInst = trace.get(sourceComp) as AsynchronousComponentInstance
-			val targetComp = connector.target.eContainer as ArchitectureSubcompnent
+			val targetComp = connector.target.endpointComp
 			val targetInst = trace.get(targetComp) as AsynchronousComponentInstance
-			for (match : findConnections(connector.source as ArchitecturePort, connector.target as ArchitecturePort)) {
+			val sourcePort = connector.sourcePort
+			val targetPort = connector.targetPort
+			for (match : findConnections(sourcePort, targetPort)) {
 				val port1 = match.get(0)
 				val port2 = match.get(1)
 				if (port1.interfaceRealization.realizationMode == RealizationMode.PROVIDED) {
@@ -161,9 +171,10 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 				}
 			}
 		} else if (connector.isElectronicInputConnector) {
-			val targetComp = connector.source.eContainer as ArchitectureSubcompnent
+			val targetComp = connector.target.endpointComp
 			val targetInst = trace.get(targetComp) as AsynchronousComponentInstance
-			for (port2 : trace.getPhyPorts(connector.target as ArchitecturePort)) {
+			val targetPort = connector.targetPort
+			for (port2 : trace.getPhyPorts(targetPort)) {
 				val port1 = port2.clone
 				systemComponent.ports += port1
 				trace.phyPortMap.put(connector.source as ArchitecturePort, port1)
@@ -172,9 +183,10 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 				systemComponent.portBindings += createPortBinding(port1, targetInst, port2)
 			}
 		} else if (connector.isElectronicOutputConnector) {
-			val sourceComp = connector.source.eContainer as ArchitectureSubcompnent
+			val sourceComp = connector.source.endpointComp
 			val sourceInst = trace.get(sourceComp) as AsynchronousComponentInstance
-			for (port1 : trace.getPhyPorts(connector.source as ArchitecturePort)) {
+			val sourcePort = connector.sourcePort
+			for (port1 : trace.getPhyPorts(sourcePort)) {
 				val port2 = port1.clone
 				systemComponent.ports += port2
 				trace.phyPortMap.put(connector.target as ArchitecturePort, port2)
@@ -308,7 +320,7 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			val sourceInst = trace.get(
 				flow.source.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
 
-			val inSubsysCompPort = createPort(type, sourceInst.name + flow.gammaName, true)
+			val inSubsysCompPort = createPort(type, sourceInst.name + SEP + flow.source.gammaName +"_"+ flow.gammaName, true)
 			targetComponentBuilder.addPort(inSubsysCompPort)
 
 			// add connections
@@ -330,7 +342,7 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			val targetInst = trace.get(
 				flow.target.eContainer as ArchitectureSubcompnent) as AsynchronousComponentInstance
 
-			val outSubsysCompPort = createPort(flow.flowType, sourceInst.name + flow.gammaName, false)
+			val outSubsysCompPort = createPort(flow.flowType, sourceInst.name +SEP + flow.target.gammaName +"_"+ flow.gammaName, false)
 			sourceComponentBuilder.addPort(outSubsysCompPort)
 
 			// add connections
@@ -473,6 +485,95 @@ class SystemTransformer extends AbstractArchitectureTransformer {
 			return false
 		}
 		return !(sourceComp === targetComp)
+	}
+	
+	def ArchitectureSubcompnent getEndpointComp(ArchitectureElement element){
+		if (element instanceof ArchitectureSubcompnent) {
+			return element
+		}else if (element instanceof ArchitecturePort && element.eContainer instanceof ArchitectureSubcompnent){
+			return element.eContainer as ArchitectureSubcompnent
+		} else {
+			throw new ArchitectureException("Electronic commenction endpoint component cannot be recognized",element)
+		}		
+	}
+	
+	def ArchitecturePort getTargetPort(Connector connector){
+		if (connector.target instanceof ArchitecturePort) {
+			val instPort = connector.target as ArchitecturePort
+			val typePort=findPort(instPort .eContainer as ArchitectureSubcompnent,instPort.type,instPort.name)
+			notconnectedPhyPorts.get(instPort.eContainer).remove(typePort)
+			return typePort
+		} else if (connector.target instanceof ArchitectureSubcompnent){
+			if (connector.source instanceof ArchitecturePort){
+				val portType=(connector.source as ArchitecturePort).type
+				val typePort=findPort(connector.target as ArchitectureSubcompnent,portType)
+				notconnectedPhyPorts.get(connector.target).remove(typePort)
+				return typePort
+			}else if (connector.source instanceof ArchitectureSubcompnent) {
+				val typePort=findPort(connector.target as ArchitectureSubcompnent)
+				notconnectedPhyPorts.get(connector.target).remove(typePort)
+				return typePort
+			}else{
+				throw new ArchitectureException('''At least one connector endpoint must be a subcomponent port or a subcomponent ''',connector.source)
+			}
+		} else {
+			throw new ArchitectureException("Electronic commenction endpoint port cannot be recognized",connector.target)
+		}		
+		
+	}
+	
+	def ArchitecturePort getSourcePort(Connector connector){
+		if (connector.source instanceof ArchitecturePort) {
+			val instPort = connector.source as ArchitecturePort
+			val typePort=findPort(instPort.eContainer as ArchitectureSubcompnent,instPort.type,instPort.name)
+			notconnectedPhyPorts.get(instPort.eContainer).remove(typePort)
+			return typePort
+		} else if (connector.source instanceof ArchitectureSubcompnent){
+			if (connector.target instanceof ArchitecturePort){
+				val portType=(connector.target as ArchitecturePort).type
+				val typePort=findPort(connector.source as ArchitectureSubcompnent,portType)
+				notconnectedPhyPorts.get(connector.source).remove(typePort)
+				return typePort
+			}else if (connector.target instanceof ArchitectureSubcompnent) {
+				val typePort=findPort(connector.source as ArchitectureSubcompnent)
+				notconnectedPhyPorts.get(connector.source).remove(typePort)
+				return typePort
+			}else{
+				throw new ArchitectureException('''At least one connector endpoint must be a subcomponent port or a subcomponent ''',connector.target)
+			}
+		} else {
+			throw new ArchitectureException("Electronic commenction endpoint port cannot be recognized",connector.source)
+		}		
+		
+	}
+	
+
+	
+	def ArchitecturePort findPort(ArchitectureSubcompnent subcompnent){
+		val portIt=notconnectedPhyPorts.get(subcompnent).iterator
+		if (!portIt.hasNext){
+			throw new ArchitectureException('''Subcomponent port cannot be found ''',subcompnent)
+		}
+		val port =portIt.next
+		return port
+	}
+
+	def ArchitecturePort findPort(ArchitectureSubcompnent subcompnent,ArchitectureInterface _interface){
+		val portIt=notconnectedPhyPorts.get(subcompnent).filter[p|p.type===_interface].iterator
+		if (!portIt.hasNext){
+			throw new ArchitectureException('''Subcomponent port cannot be found with interface type: '«_interface.name»' ''',subcompnent)
+		}
+		val port =portIt.next
+		return port
+	}
+
+	def ArchitecturePort findPort(ArchitectureSubcompnent subcompnent,ArchitectureInterface _interface,String name){
+		val portIt=notconnectedPhyPorts.get(subcompnent).filter[p|p.type===_interface].filter[p|p.name==name].iterator
+		if (!portIt.hasNext){
+			throw new ArchitectureException('''Subcomponent port cannot be found '«name»:«_interface.name»' ''',subcompnent)
+		}
+		val port =portIt.next
+		return port
 	}
 
 }

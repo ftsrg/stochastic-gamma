@@ -129,7 +129,7 @@ class ElementTransformer {
 		}
 		sct.schedulingOrder = SchedulingOrder.TOP_DOWN
 		sct.transitionPriority = TransitionPriority.VALUE_BASED
-		sct.annotations+=sctModelFactory.createRunUponExternalEventOrInternalTimeoutAnnotation
+		sct.annotations += sctModelFactory.createRunUponExternalEventOrInternalTimeoutAnnotation
 
 		for (failureInterface : architectureFunction.providedInterfaces) {
 			val gammaIf = trace.get(failureInterface) as Interface
@@ -166,9 +166,24 @@ class ElementTransformer {
 		comp.transitions += tr1
 
 		for (event : inport.inputEvents) {
+			
+			val event_main_region = sctModelFactory.createRegion
+			event_main_region.name = event.name+"_main_region"
+			val event_init = sctModelFactory.createInitialState
+			event_init.name = event.name+"_init_state"
+			val event_state1 = sctModelFactory.createState
+			event_state1.name = event.name+"_Operational_State"
+			event_main_region.stateNodes += event_init
+			event_main_region.stateNodes += event_state1
+			state1.regions += event_main_region
+			val event_tr1 = sctModelFactory.createTransition
+			event_tr1.sourceState = event_init
+			event_tr1.targetState = event_state1
+			comp.transitions += event_tr1
+			
 			val tr = sctModelFactory.createTransition
-			tr.sourceState = state1
-			tr.targetState = state1
+			tr.sourceState = event_state1
+			tr.targetState = event_state1
 			val eventRef = sctModelFactory.createPortEventReference
 			val trig = ifModelFactory.createEventTrigger
 			eventRef.port = inport
@@ -360,20 +375,20 @@ class ElementTransformer {
 			gname = _interface.name + "In"
 		} else {
 			ifrel.realizationMode = RealizationMode.PROVIDED
-			gname =  _interface.name + "Out"
+			gname = _interface.name + "Out"
 		}
 		ifrel.interface = _interface
-		if (name.matches("^.*"+gname+"$")){
-			port.name=name
-		}else{
-			port.name = name+gname
+		if (name.matches("^.*" + gname + "$")) {
+			port.name = name
+		} else {
+			port.name = name + gname
 		}
 		port.interfaceRealization = ifrel
 		return port
 	}
 
 	def createPort(Interface _interface, String name, boolean conj) {
-		//val name=_name.gammaName
+		// val name=_name.gammaName
 		val port = ifModelFactory.createPort
 		var ifrel = ifModelFactory.createInterfaceRealization
 		var gname = ""
@@ -382,13 +397,13 @@ class ElementTransformer {
 			gname = _interface.name + "In"
 		} else {
 			ifrel.realizationMode = RealizationMode.PROVIDED
-			gname =  _interface.name + "Out"
+			gname = _interface.name + "Out"
 		}
 		ifrel.interface = _interface
-		if (name.matches("^.*"+gname+"$")){
-			port.name=name
-		}else{
-			port.name = name+gname
+		if (name.matches("^.*" + gname + "$")) {
+			port.name = name
+		} else {
+			port.name = name + gname
 		}
 		port.interfaceRealization = ifrel
 		return port
@@ -402,7 +417,7 @@ class ElementTransformer {
 		val exactMatches = relPorts.filter[port|port.name == name].toList
 		if (!exactMatches.isEmpty) {
 			return exactMatches.get(0)
-		}else if (relPorts.length == 1) {
+		} else if (relPorts.length == 1) {
 			return relPorts.get(0)
 		} else {
 			return null;
@@ -411,9 +426,8 @@ class ElementTransformer {
 	}
 
 	def findPort(AsynchronousComponent component, ArchitecturePort archPort) {
-		return findPort(component, trace.get(archPort) as Interface, archPort.gammaName, archPort.conjugated)
+		return findPort(component, trace.get(archPort.type) as Interface, archPort.gammaName, archPort.conjugated)
 	}
-	
 
 	def findConnections(ArchitecturePort p1, ArchitecturePort p2) {
 		val matches = <List<Port>>newLinkedList
@@ -423,12 +437,15 @@ class ElementTransformer {
 		val p2name = p2.name.gammaName
 		for (port1 : ports1) {
 			val p2matches = ports2.filter [ p |
-				p.name.replaceFirst('''(In|Out)$''', "").replaceFirst("^" + p2name+"_", "") ==
-					port1.name.replaceFirst("^" + p1name+"_", "").replaceFirst('''(In|Out)$''', "")
+				p.name.replaceFirst('''(In|Out)$''', "").replaceFirst("^" + p2name + "_", "") ==
+					port1.name.replaceFirst("^" + p1name + "_", "").replaceFirst('''(In|Out)$''', "")
+			].filter[ p | 
+				p.interfaceRealization.realizationMode != port1.interfaceRealization.realizationMode
 			].toList
 			if (p2matches.size != 1) {
 				throw new ArchitectureException(
-					'''Cannot connect functional endpoints of physical connector endpoints [« p1.name»:«p1.type.name»::«port1.name»] -> [«p2.name»:«p2.type.name» «p2matches.size»::(«ports2.map[p|p.name].toList.toString»)] matches''', p1)
+					'''Cannot connect functional endpoints of physical connector endpoints [«p1.name»:«p1.type.name»::«port1.name»] -> [«p2.name»:«p2.type.name» «p2matches.size»::(«ports2.map[p|p.name].toList.toString»)] matches''',
+					p1)
 			}
 			matches.add(<Port>newLinkedList(port1, p2matches.get(0)))
 		}
@@ -439,54 +456,55 @@ class ElementTransformer {
 		val ports = trace.getPhyPorts(aPort)
 		val pname = aPort.name.gammaName
 		val p2matches = ports.filter [ p |
-			p.name.replaceFirst('''«interface_.name»(In|Out)$''', "").replaceFirst("^" + pname+"_", "") == name
+			p.name.replaceFirst('''«interface_.name»(In|Out)$''', "").replaceFirst("^" + pname + "_", "") == name
 		].filter[p|p.interfaceRealization.realizationMode == realizationMode].toList
 		if (p2matches.size != 1) {
 			throw new ArchitectureException(
-				'''Cannot connect functional end-points of physical connector endpoints «aPort.name»:«aPort.type.name»| [«ports.map[p|p.name+":"+p.interface.name].toList»] ----	 «name»:«interface_.name» with «p2matches.size» matches''', aPort)
+				'''Cannot connect functional end-points of physical connector endpoints «aPort.name»:«aPort.type.name»  |  «ports.map[p|p.name+":"+p.interface.name].toList»  ----  «name»:«interface_.name» with «p2matches.size» matches''',
+				aPort)
 		}
 		return p2matches.get(0)
 	}
+
 	/*def getGammaSource(InformationFlow flow) {
-		if (flow.source instanceof ArchitecturePort) {
-			val port = flow.source as ArchitecturePort
-			if (port.eContainer instanceof ArchitectureFunction) {
-				return trace.get(port) as Port
-			}
-			if (port.eContainer instanceof ArchitectureSubfunction) {
-				val subfunc = port.eContainer as ArchitectureSubfunction
-				val gammaComp = trace.get(subfunc) as AsynchronousComponent
-				return findPort(gammaComp, port)
-			}
-		}
-		if (flow.source instanceof ArchitectureSubfunction) {
-			val type = flow.flowtype
-			val name = flow.outPortName
-			val comp = trace.get(flow.source) as AsynchronousComponent
-			return findPort(comp, type, name, false)
-		}
-	}
+	 * 	if (flow.source instanceof ArchitecturePort) {
+	 * 		val port = flow.source as ArchitecturePort
+	 * 		if (port.eContainer instanceof ArchitectureFunction) {
+	 * 			return trace.get(port) as Port
+	 * 		}
+	 * 		if (port.eContainer instanceof ArchitectureSubfunction) {
+	 * 			val subfunc = port.eContainer as ArchitectureSubfunction
+	 * 			val gammaComp = trace.get(subfunc) as AsynchronousComponent
+	 * 			return findPort(gammaComp, port)
+	 * 		}
+	 * 	}
+	 * 	if (flow.source instanceof ArchitectureSubfunction) {
+	 * 		val type = flow.flowtype
+	 * 		val name = flow.outPortName
+	 * 		val comp = trace.get(flow.source) as AsynchronousComponent
+	 * 		return findPort(comp, type, name, false)
+	 * 	}
+	 * }
 
-	def getGammaTarget(InformationFlow flow) {
-		if (flow.target instanceof ArchitecturePort) {
-			val port = flow.target as ArchitecturePort
-			if (port.eContainer instanceof ArchitectureFunction) {
-				return trace.get(port) as Port
-			}
-			if (port.eContainer instanceof ArchitectureSubfunction) {
-				val subfunc = port.eContainer as ArchitectureSubfunction
-				val gammaComp = trace.get(subfunc) as AsynchronousComponent
-				return findPort(gammaComp, port)
-			}
-		}
-		if (flow.target instanceof ArchitectureSubfunction) {
-			val type = trace.get(flow.type) as Interface
-			val name = flow.outPortName
-			val comp = trace.get(flow.source) as AsynchronousComponent
-			return findPort(comp, type, name, true)
-		}
-	}*/
-
+	 * def getGammaTarget(InformationFlow flow) {
+	 * 	if (flow.target instanceof ArchitecturePort) {
+	 * 		val port = flow.target as ArchitecturePort
+	 * 		if (port.eContainer instanceof ArchitectureFunction) {
+	 * 			return trace.get(port) as Port
+	 * 		}
+	 * 		if (port.eContainer instanceof ArchitectureSubfunction) {
+	 * 			val subfunc = port.eContainer as ArchitectureSubfunction
+	 * 			val gammaComp = trace.get(subfunc) as AsynchronousComponent
+	 * 			return findPort(gammaComp, port)
+	 * 		}
+	 * 	}
+	 * 	if (flow.target instanceof ArchitectureSubfunction) {
+	 * 		val type = trace.get(flow.type) as Interface
+	 * 		val name = flow.outPortName
+	 * 		val comp = trace.get(flow.source) as AsynchronousComponent
+	 * 		return findPort(comp, type, name, true)
+	 * 	}
+	 }*/
 	def transformSubfunction(ArchitectureSubfunction subfunction) {
 		val inst = cmpModelFactory.createAsynchronousComponentInstance
 		inst.name = subfunction.gammaName
@@ -513,13 +531,13 @@ class ElementTransformer {
 		trace.add(function, statechart)
 		return statechart
 	}
-	
-	def isTransformable(ArchitectureFunction function){
-		if (trace.contains(function)){
+
+	def isTransformable(ArchitectureFunction function) {
+		if (trace.contains(function)) {
 			return false
 		}
-		for (subfunc : function.subfunctions){
-			if(!trace.contains(subfunc.type)){
+		for (subfunc : function.subfunctions) {
+			if (!trace.contains(subfunc.type)) {
 				return false
 			}
 		}
