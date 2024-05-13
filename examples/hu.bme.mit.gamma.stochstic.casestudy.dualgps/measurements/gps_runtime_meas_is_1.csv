@@ -1,0 +1,6 @@
+script,runtime
+simulator-gen/reliability_cond_2_simulator.py,5.518261909484863
+simulator-gen/reliability_cond_4_simulator.py,5.648958206176758
+simulator-gen/reliability_cond_8_simulator.py,6.099218845367432
+simulator-gen/reliability_cond_16_simulator.py,7.171111583709717
+simulator-gen/reliability_cond_32_simulator.py,9.06665563583374

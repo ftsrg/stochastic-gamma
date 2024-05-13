@@ -1,0 +1,6 @@
+script,runtime
+simulator-gen/conditionalserviceavailability_2_simulator.py,10.080046892166138
+simulator-gen/conditionalserviceavailability_4_simulator.py,12.477487802505493
+simulator-gen/conditionalserviceavailability_8_simulator.py,20.350786685943604
+simulator-gen/conditionalserviceavailability_16_simulator.py,41.89419603347778
+simulator-gen/conditionalserviceavailability_32_simulator.py,77.29293489456177

@@ -24,7 +24,7 @@ analysis ServiceAvailability {
 	probability of event system.Failures.newEvent;
 	@Configuration(ImportanceSampling){
 		simulation number = 50
-		simulation time = 3.0
+		simulation time = 1.0
 		warmup time = 0.0
 		end condition raised event system.CarLeave.newEvent
 	}

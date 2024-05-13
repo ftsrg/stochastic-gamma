@@ -1,0 +1,58 @@
+package orion_benchmark_system_32
+import "orion_stoch_env_param"
+import "interfaces"
+import "summarizer_adapter"
+stochastic async OrionBenchMarkSystem_Param_32(timerMean : decimal)[
+	port SystemConnStatus : provides ConnectionState 
+]
+{
+    component subSystem1_ : Orion_Environment_Param(timerMean)
+    component subSystem2_ : Orion_Environment_Param(timerMean)
+    component subSystem3_ : Orion_Environment_Param(timerMean)
+    component subSystem4_ : Orion_Environment_Param(timerMean)
+    component subSystem5_ : Orion_Environment_Param(timerMean)
+    component subSystem6_ : Orion_Environment_Param(timerMean)
+    component subSystem7_ : Orion_Environment_Param(timerMean)
+    component subSystem8_ : Orion_Environment_Param(timerMean)
+    component subSystem9_ : Orion_Environment_Param(timerMean)
+    component subSystem10 : Orion_Environment_Param(timerMean)
+    component subSystem11 : Orion_Environment_Param(timerMean)
+    component subSystem12 : Orion_Environment_Param(timerMean)
+    component subSystem13 : Orion_Environment_Param(timerMean)
+    component subSystem14 : Orion_Environment_Param(timerMean)
+    component subSystem15 : Orion_Environment_Param(timerMean)
+    component subSystem16 : Orion_Environment_Param(timerMean)
+	component summarizer : Summarizer_Adapter
+    channel [subSystem1_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem2_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem3_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem4_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem5_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem6_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem7_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem8_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem9_.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem10.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem11.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem12.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem13.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem14.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem15.SystemConnStatus] -o)- [summarizer.inPort]
+    channel [subSystem16.SystemConnStatus] -o)- [summarizer.inPort]
+	bind SystemConnStatus->summarizer.outPort
+}
+
+analysis Orion_Performance_Cond_32 {
+    in stochastic component orion : OrionBenchMarkSystem_Param_32(sample(uniform from=4, to=20)) 
+    mean time of event orion.SystemConnStatus.conn ;
+    @Conditions{
+        observe time event orion.SystemConnStatus.conn ~ Normal(16.0,1.0)
+    }
+    @Configuration(ImportanceSampling){
+        end condition raised event orion.SystemConnStatus.conn
+        simulation time = 300.0
+        batch sample size = 120
+        simulation number = 10000
+        joint sampling = true
+    }
+} 

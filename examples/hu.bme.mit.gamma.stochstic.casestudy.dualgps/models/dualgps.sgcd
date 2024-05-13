@@ -34,10 +34,10 @@ stochastic async DualGPS [
 analysis Reliability {
 in stochastic component system : DualGPS
 mean time of event system.Communication.failstop;
-@Configuration(ImportanceSampling){
+@Configuration(Simulation){
 	end condition raised event system.Communication.failstop 
 	simulation time = 100.0
-	simulation number = 50
-	warmup time = 0.0
+	simulation number = 10000
+	batch sample size = 2
 }
 }

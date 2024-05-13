@@ -1,4 +1,4 @@
-package dualgps_cond
+package dualgps_cond_2
 import "interfaces"
 import "gpsadapter"
 import "voteradapter"
@@ -31,13 +31,16 @@ stochastic async ParametricDualGPS (voterFailureRate : decimal) [
 	
 }
 
-analysis Reliability {
-in stochastic component system : ParametricDualGPS(sample(uniform from=0,to=10))
+analysis Reliability_Cond {
+in stochastic component system : ParametricDualGPS(sample(uniform from=2,to=10))
 mean time of event system.Communication.failstop;
+@Conditions{
+	observe time event system.Communication.failstop ~ Normal(0.4,0.1)
+}
 @Configuration(ImportanceSampling){
 	end condition raised event system.Communication.failstop 
 	simulation time = 100.0
-	simulation number = 50
-	warmup time = 0.0
+	simulation number = 10000
+	batch sample size = 2
 }
 }

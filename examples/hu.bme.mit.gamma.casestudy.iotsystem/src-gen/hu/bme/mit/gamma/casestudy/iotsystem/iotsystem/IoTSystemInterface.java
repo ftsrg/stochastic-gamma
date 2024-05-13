@@ -5,8 +5,8 @@ import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.EventStreamInterface;
 
 public interface IoTSystemInterface {
 	
-	EventStreamInterface.Provided getCarLeave();
 	EventStreamInterface.Provided getFailures();
+	EventStreamInterface.Provided getCarLeave();
 	
 	void reset();
 	
