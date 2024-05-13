@@ -259,10 +259,11 @@ class StatechartWrapperCodeGenerator {
 			
 			@Override
 			public long getEarliestTime(){
+				«IF xSts.hasClockVariable»int elapsedTime = (int) timer.getElapsedTime(this, TimeUnit.MILLISECOND);
 				long earliestTime=Long.MAX_VALUE;
 				«FOR timeout : gammaStatechart.timeoutDeclarations»
 					long «timeout.name»Limit=«ExpressionEvaluator.INSTANCE.evaluate(TimeoutValueRetriever.INSTANCE.getValueOfTimeout(timeout))»;
-					long «timeout.name»Time= «CLASS_NAME.toFirstLower».get«timeoutMap.get(timeout).name.toFirstUpper»();
+					long «timeout.name»Time= «CLASS_NAME.toFirstLower».get«timeoutMap.get(timeout).name.toFirstUpper»()+elapsedTime;
 					long «timeout.name»RemainingTime=«timeout.name»Limit-«timeout.name»Time;
 					if ( («timeout.name»Time>=0) 
 						&& («timeout.name»RemainingTime > 0)
@@ -271,6 +272,9 @@ class StatechartWrapperCodeGenerator {
 					}
 				«ENDFOR»
 				return earliestTime;
+				«ELSE»
+					return Long.MAX_VALUE;
+				«ENDIF»
 			}
 			
 			public boolean isStateActive(String region, String state) {
@@ -315,8 +319,10 @@ class StatechartWrapperCodeGenerator {
 				String str="Input events (";
 				for (Event event:getInsertQueue()){
 					str=str+event.getEvent().toString()+" : ";
-					for (Object value:event.getValue()){
-						str=str+" "+value.toString()+",";
+					if (event.getValue() != null){
+						for (Object value:event.getValue()){
+							str=str+" "+value.toString()+",";
+						}
 					}
 				}
 				str=str+")";

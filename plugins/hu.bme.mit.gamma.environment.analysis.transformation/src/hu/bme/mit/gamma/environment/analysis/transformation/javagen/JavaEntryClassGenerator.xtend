@@ -58,7 +58,7 @@ class JavaEntryClassGenerator {
 		
 		
 		
-		public class DetModelEntryPoint  {
+		public class «component.name.toFirstUpper»EntryPoint  {
 			
 			public «compName» detModel=new «compName»(«TransformationUtility.generateDetmodelParamsInit(component)»);
 			«IF TimingDeterminer.INSTANCE.needTimer(component.analyzedComponent.type)»
@@ -77,7 +77,7 @@ class JavaEntryClassGenerator {
 			«ENDFOR»
 			
 			
-			public DetModelEntryPoint(){
+			public «component.name.toFirstUpper»EntryPoint(){
 				
 				«IF TimingDeterminer.INSTANCE.needTimer(component.analyzedComponent.type)»
 					detModel.setTimer(this.timer);
@@ -117,7 +117,10 @@ class JavaEntryClassGenerator {
 				*/
 				«FOR a : component.aspect»
 					monitorOf«TransformationUtility.generateAspectName(a)».reset();
-				«ENDFOR»											
+				«ENDFOR»
+				«FOR c : component.conditions»
+					monitorOf«TransformationUtility.generateAspectName(c)».reset();
+				«ENDFOR»	
 				«FOR endCondition : analysismethod.endcondition»
 					monitorOf«TransformationUtility.generateEndConditionName(endCondition)».reset();
 				«ENDFOR»

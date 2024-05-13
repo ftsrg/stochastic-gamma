@@ -15,6 +15,8 @@ import hu.bme.mit.gamma.environment.analysis.MeanTimeBetweenEvents
 
 import static extension hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility.*
 import hu.bme.mit.gamma.expression.util.ExpressionEvaluator
+import hu.bme.mit.gamma.environment.analysis.Simulation
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
 
 class PyroAnalysisGenerator {
 	
@@ -34,34 +36,23 @@ class PyroAnalysisGenerator {
 	}
 	
 	def generateMain(AnalysisComponent analysisComp){
+		var analysismethod = analysisComp.analysismethod as SimulationAnalysisMethod
+		val debug=analysismethod.debug
+		val jointSampling=analysismethod.jointSampling	
 		'''
 		if __name__ == "__main__":
 			try:
-				# dummy simulations for debugging
-				if DEBUG:
+				«IF debug»
+					# dummy simulations for debugging
 					for i in range(10):
 						print(simulate())
-				else:
-					t0=time.time()
-					# run importance sampling
-					«generateInference(analysisComp.analysismethod)»
-					print("run inference algorithm...")
-					inference.run()
-					«FOR aspect : analysisComp.aspect»
-						 «aspect.marginalName» = pyro.infer.EmpiricalMarginal(inference, "«aspect.pyroName»")
-					«ENDFOR»
-					t1=time.time()
-					# visualize results
-					print(f"Analysis is finished in {t1-t0} s")
-					print("Results of the analysis: ")
-					«FOR aspect : analysisComp.aspect»
-						 print("Estimated «aspect.pyroName» = ",round(«aspect.marginalName».mean.item(),4))
-					«ENDFOR»				
-					print("visualize results...")
-					«FOR aspect : analysisComp.aspect»
-						 visualizeMarginal(inference,«aspect.marginalName»,'«aspect.pyroName»')
-					«ENDFOR»
-					plt.show()
+				«ELSE»
+					«IF analysisComp.analysismethod instanceof Simulation»
+						«generateSimulationAnalysis(analysisComp)»
+					«ELSE»
+						«generateSimpleAnalysis(analysisComp)»
+					«ENDIF»
+				«ENDIF»
 			except java.lang.RuntimeException as ex:
 				print("Caught Java runtime exception : ", str(ex))
 				print(ex.stacktrace())
@@ -82,6 +73,64 @@ class PyroAnalysisGenerator {
 		'''empirical_marginal_«aspect.pyroName»'''
 	}
 	
+	def dataName(AnalysisAspect aspect){
+		'''data_«aspect.pyroName»'''
+	}
+	
+	
+	dispatch def generateSimulationAnalysis(AnalysisComponent analysisComp){
+		val simMethod = analysisComp.analysismethod as Simulation
+	return '''
+		# run simulation sampling
+		
+		print("Run simulation analysis...")
+		t0=time.time()
+		«FOR aspect : analysisComp.aspect»
+			 «aspect.dataName» =  []
+		«ENDFOR»
+		for i in range(«simMethod.simulationNumber.value»):
+			«FOR aspect : analysisComp.aspect SEPARATOR ", "»«aspect.pyroName»«ENDFOR»=simulate()
+			«FOR aspect : analysisComp.aspect»
+				«aspect.dataName».append(«aspect.pyroName»)
+			«ENDFOR»
+		t1=time.time()
+		# visualize results
+		print(f"Analysis is finished in {t1-t0} s")
+		print("Results of the analysis: ")
+		«FOR aspect : analysisComp.aspect»
+			 print("Estimated «aspect.pyroName» = ",round(stats.mean(«aspect.dataName»),4))
+		«ENDFOR»				
+		print("visualize results...")
+		«FOR aspect : analysisComp.aspect»
+			 #visualizeMarginal(inference,«aspect.marginalName»,'«aspect.pyroName»')
+		«ENDFOR»
+		plt.show()
+	'''
+	}
+	
+	dispatch def generateSimpleAnalysis(AnalysisComponent analysisComp)'''
+		
+		# run inference algorithm
+		«generateInference(analysisComp.analysismethod)»
+		print("run inference algorithm...")
+		t0=time.time()
+		inference.run()
+		«FOR aspect : analysisComp.aspect»
+			 «aspect.marginalName» = pyro.infer.EmpiricalMarginal(inference, "«aspect.pyroName»")
+		«ENDFOR»
+		t1=time.time()
+		# visualize results
+		print(f"Analysis is finished in {t1-t0} s")
+		print("Results of the analysis: ")
+		«FOR aspect : analysisComp.aspect»
+			 print("Estimated «aspect.pyroName» = ",round(«aspect.marginalName».mean.item(),4))
+		«ENDFOR»				
+		print("visualize results...")
+		«FOR aspect : analysisComp.aspect»
+			 #visualizeMarginal(inference,«aspect.marginalName»,'«aspect.pyroName»')
+		«ENDFOR»
+		plt.show()
+	'''
 	
 	dispatch def generateInference(ImportanceSampling analysisMethod){
 		var expEval=ExpressionEvaluator.INSTANCE;

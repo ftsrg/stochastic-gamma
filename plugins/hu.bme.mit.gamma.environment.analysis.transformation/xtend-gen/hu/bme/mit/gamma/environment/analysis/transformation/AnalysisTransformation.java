@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
 public class AnalysisTransformation {
@@ -23,10 +24,6 @@ public class AnalysisTransformation {
   private final FileUtil futil = FileUtil.INSTANCE;
 
   public void transformandrun(final Resource resource, final URI uri, final String packageName, final List<String> uriList, final String basePackage) {
-    String pyGenURI = ((((basePackage + File.separator) + "simulator-gen") + File.separator) + "simulator.py");
-    String gatewayGenURI = ((((((basePackage + File.separator) + "gateway-gen") + File.separator) + "javaenv") + File.separator) + "DetModelEntryPoint.java");
-    PyroSimulatorGenerator pythonGenerator = new PyroSimulatorGenerator();
-    JavaEntryClassGenerator javaGenerator = new JavaEntryClassGenerator();
     EObject _get = resource.getContents().get(0);
     hu.bme.mit.gamma.statechart.interface_.Package pck = ((hu.bme.mit.gamma.statechart.interface_.Package) _get);
     final Function1<Component, Boolean> _function = (Component e) -> {
@@ -34,6 +31,14 @@ public class AnalysisTransformation {
     };
     Component _get_1 = ((Component[])Conversions.unwrapArray(IterableExtensions.<Component>filter(pck.getComponents(), _function), Component.class))[0];
     AnalysisComponent acomp = ((AnalysisComponent) _get_1);
+    String _lowerCase = acomp.getName().toLowerCase();
+    String _plus = ((((basePackage + File.separator) + "simulator-gen") + File.separator) + _lowerCase);
+    String pyGenURI = (_plus + "_simulator.py");
+    String _firstUpper = StringExtensions.toFirstUpper(acomp.getName());
+    String _plus_1 = ((((((basePackage + File.separator) + "gateway-gen") + File.separator) + "javaenv") + File.separator) + _firstUpper);
+    String gatewayGenURI = (_plus_1 + "EntryPoint.java");
+    PyroSimulatorGenerator pythonGenerator = new PyroSimulatorGenerator();
+    JavaEntryClassGenerator javaGenerator = new JavaEntryClassGenerator();
     this.logger.log(Level.INFO, ("Python Simulator URI: " + pyGenURI));
     this.logger.log(Level.INFO, ("Java Simulator URI: " + gatewayGenURI));
     this.futil.saveString(pyGenURI, pythonGenerator.generate(acomp, packageName, basePackage).toString());

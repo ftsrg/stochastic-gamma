@@ -239,6 +239,9 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           } else {
             _builder.appendImmediate(", ", "\t");
           }
+          String _transformType = this.typeTransformer.transformType(parameter_1.getType());
+          _builder.append(_transformType, "\t");
+          _builder.append(" ");
           String _name_3 = parameter_1.getName();
           _builder.append(_name_3, "\t");
         }
@@ -299,7 +302,7 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.append("public void handleBeforeReset() {");
       _builder.newLine();
       _builder.append("\t\t");
-      _builder.append("interrupt();");
+      _builder.append("//interrupt();");
       _builder.newLine();
       {
         boolean _isEmpty_2 = component.getClocks().isEmpty();
@@ -384,6 +387,7 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
       _builder.append("private void init() {");
       _builder.newLine();
       _builder.append("\t\t");
+      _builder.append("//");
       String _generateWrappedComponentName_1 = this.nameGenerator.generateWrappedComponentName(component);
       _builder.append(_generateWrappedComponentName_1, "\t\t");
       _builder.append(" = new ");
@@ -1236,7 +1240,7 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.newLineIfNotEmpty();
           _builder.append("\t");
           _builder.append("\t");
-          _builder.append("init(); // To set the service into functioning state with clocks (so that \"after 1 s\" works with new timer as well)");
+          _builder.append("//init(); // To set the service into functioning state with clocks (so that \"after 1 s\" works with new timer as well)");
           _builder.newLine();
           _builder.append("\t");
           _builder.append("}");
@@ -1277,11 +1281,19 @@ public class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAda
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("\t");
-          _builder.append("for (Object value:event.getValue()){");
+          _builder.append("if (event.getValue() != null){");
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("\t\t");
+          _builder.append("for (Object value:event.getValue()){");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("\t\t\t");
           _builder.append("str=str+\" \"+value.toString()+\",\";");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("\t\t");
+          _builder.append("}");
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("\t");

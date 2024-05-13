@@ -1,0 +1,45 @@
+
+	@startuml
+	participant "Stochastic Models" as stochmodel
+	participant "Deteministic Models" as detmodel
+	participant "Analysis Case" as analysis
+	{2796_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.19798515737056732"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, False]) at 0.19798515737056732
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.19798515737056732
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.19798515737056732
+{2811_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.20332054793834686"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, False]) at 0.20332054793834686
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.20332054793834686
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.20332054793834686
+{2827_stop} stochmodel -> detmodel : "System.Traffic.carArrival  ::  Cars.NewEvent at 0.2761206030845642"
+{2837_start} detmodel -> stochmodel : System.Traffic.carDelay :: CarOut.NewEvent at 0.2761206030845642
+{2812_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.392468199133873"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.392468199133873
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.392468199133873
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.392468199133873
+{2797_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.3928811103105545"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.3928811103105545
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.3928811103105545
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.3928811103105545
+{2798_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.5838755071163177"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.5838755071163177
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.5838755071163177
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.5838755071163177
+{2813_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.59523706138134"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, True]) at 0.59523706138134
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.59523706138134
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.59523706138134
+{2799_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.7940988838672638"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.7940988838672638
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.7940988838672638
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.7940988838672638
+{2814_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.8022139519453049"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.8022139519453049
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.8022139519453049
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.8022139519453049
+{2837_stop} stochmodel -> detmodel : "System.Traffic.carDelay  ::  CarOut.NewEvent at 0.8526353240013123"
+{2837_start} <-> {2837_stop} : delay
+hnote over analysis 
+EndConditionSystem_CarLeave_NewEvent is reached
+endnote
+@enduml

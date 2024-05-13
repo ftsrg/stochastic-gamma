@@ -129,7 +129,7 @@ AnalysisMethod returns AnalysisModel::AnalysisMethod:
 ;
 
 SimulationAnalysisMethod returns AnalysisModel::SimulationAnalysisMethod: 
-	ImportanceSampling | MCMC
+	ImportanceSampling | MCMC | SimpleSimulation
 ;
 
 ImportanceSampling returns AnalysisModel::ImportanceSampling: 
@@ -137,6 +137,24 @@ ImportanceSampling returns AnalysisModel::ImportanceSampling:
 			((endcondition+=EndCondition)|
 			("simulation" "time" "=" simulationTime=Expression)|
 			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+			("batch" "sample" "size" "=" samplingBatchSize=IntegerLiteralExpression) |
+			("joint" "sampling" "=" jointSampling=BOOLEAN) |
+			("debug" "=" debug=BOOLEAN) |
+			("warmup" "time" "=" warmupTime=Expression))*
+	'}'
+;
+
+
+
+
+SimpleSimulation returns AnalysisModel::Simulation: 
+	'@' 'Configuration' '(' 'Simulation' ')' '{'
+			((endcondition+=EndCondition)|
+			("simulation" "time" "=" simulationTime=Expression)|
+			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+			("batch" "sample" "size" "=" samplingBatchSize=IntegerLiteralExpression) |
+			("joint" "sampling" "=" jointSampling=BOOLEAN) |
+			("debug" "=" debug=BOOLEAN) |
 			("warmup" "time" "=" warmupTime=Expression))*
 		'}'
 ;
@@ -147,10 +165,14 @@ MCMC returns AnalysisModel::MCMC:
 			("simulation" "time" "=" simulationTime=Expression)|
 			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
 			("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)|
+			("batch" "sample" "size" "=" samplingBatchSize=IntegerLiteralExpression) |
 			("kernel" "=" kernel=MCMCKernel)|
+			("joint" "sampling" "=" jointSampling=BOOLEAN) |
+			("debug" "=" debug=BOOLEAN) |
 			("warmup" "time" "=" warmupTime=Expression))*
 		'}'
 ;
+
 
 MCMCKernel returns AnalysisModel::MCMCKernel: 
 	NUTS | HMC 
@@ -225,11 +247,11 @@ MeanTimeBetweenEvents returns AnalysisModel::MeanTimeBetweenEvents:
 
 //conditions
 AssumeRaised returns AnalysisModel::AssumeRaised: 
-	'assume' 'raised' event=ComponentPortEventReference  
+	'assume' 'raised' event=ComponentPortEventReference ('~' probability=DecimalLiteralExpression)?
 ;
 
 AssumeNotRaised returns AnalysisModel::AssumeNotRaised: 
-	'assume' 'not' 'raised' event=ComponentPortEventReference  
+	'assume' 'not' 'raised' event=ComponentPortEventReference  ('~' probability=DecimalLiteralExpression)?
 ;
 
 ObserveTime returns AnalysisModel::ObserveTime: 

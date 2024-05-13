@@ -83,6 +83,7 @@ public class AnalysisFactoryImpl extends EFactoryImpl implements AnalysisFactory
 			case AnalysisPackage.SVI: return createSVI();
 			case AnalysisPackage.NUTS: return createNUTS();
 			case AnalysisPackage.HMC: return createHMC();
+			case AnalysisPackage.SIMULATION: return createSimulation();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -356,6 +357,16 @@ public class AnalysisFactoryImpl extends EFactoryImpl implements AnalysisFactory
 	public HMC createHMC() {
 		HMCImpl hmc = new HMCImpl();
 		return hmc;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Simulation createSimulation() {
+		SimulationImpl simulation = new SimulationImpl();
+		return simulation;
 	}
 
 	/**

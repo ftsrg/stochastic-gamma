@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.LinkedList;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.*;
-import hu.bme.mit.gamma.casestudy.iotsystem.camera_control.*;
-import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.camera_driver.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.camera_control.*;
 
 
 import hu.bme.mit.gamma.casestudy.iotsystem.scheduling.ElementaryComponentSchedulingInterface;
@@ -36,16 +36,45 @@ public class CameraSoftware implements CameraSoftwareInterface {
 	public CameraSoftware() {
 		cameraDriver = new CameraDriver();
 		cameraControl = new CameraControl();
-		images = new Images();
-		trafficSensing = new TrafficSensing();
+		trafficSensing = new TrafficSensing(); 
+		images = new Images(); 
 		init();
 	}
 	
 	/** Resets the contained statemachines recursively. Must be called to initialize the component. */
 	@Override
 	public void reset() {
-		cameraDriver.reset();
-		cameraControl.reset();
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+
+	public void handleBeforeReset() {
+		//
+		cameraDriver.handleBeforeReset();
+		cameraControl.handleBeforeReset();
+	}
+
+	public void resetVariables() {
+		cameraDriver.resetVariables();
+		cameraControl.resetVariables();
+	}
+	
+	public void resetStateConfigurations() {
+		cameraDriver.resetStateConfigurations();
+		cameraControl.resetStateConfigurations();
+	}
+	
+	public void raiseEntryEvents() {
+		cameraDriver.raiseEntryEvents();
+		cameraControl.raiseEntryEvents();
+	}
+
+	public void handleAfterReset() {
+		cameraDriver.handleAfterReset();
+		cameraControl.handleAfterReset();
 		// Setting only a single queue for cascade statecharts
 		cameraDriver.changeInsertQueue();
 		cameraControl.changeInsertQueue();

@@ -13,6 +13,9 @@ import hu.bme.mit.gamma.environment.model.utils.EnvironmentModelValidator
 
 import static extension hu.bme.mit.gamma.environment.model.utils.EnvironmentModelDerivedFeatures.*
 import hu.bme.mit.gamma.statechart.interface_.EventDirection
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
+import hu.bme.mit.gamma.environment.analysis.AnalysisComponent
 
 class PyroComponentClassGenerator {
 	
@@ -22,12 +25,15 @@ class PyroComponentClassGenerator {
 	PyroDistGenerator distGenerator; 
 	static Integer if_cntr=0 
 	val envUtil=ElementaryEnvironmentComponentUtility.INSTANCE
+	val SimulationAnalysisMethod analysisMethod
+	val boolean debug
 	
-	
-	new(String packageName){
+	new(String packageName,AnalysisComponent analysisComponent){
 		this.packageName=packageName
 		expEval=ExpressionEvaluator.INSTANCE;
 		distGenerator = new PyroDistGenerator
+		this.analysisMethod=analysisComponent.analysismethod as SimulationAnalysisMethod
+		this.debug=analysisMethod.debug
 	}
 	
 	def generateInterface(Interface i)
@@ -195,13 +201,15 @@ class PyroComponentClassGenerator {
 					self.event_cntr=self.event_cntr+1
 					for call in self.calls:
 						if IESC_SYNC:
-							if DEBUG:
+							«IF debug»
 								dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper»({[«TransformationUtility.generateFuncParams(event)»]}) at {self.simulator.time}')
+							«ENDIF»
 							callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
 							self.events.append(Event(self,self.simulator.time,callEvent,self.port+".«event.name.toFirstUpper»"))
 						else:
-							if DEBUG:
+							«IF debug»
 								dprint(f'detmodel <-> stochmodel : {self.name} :: {self.port}+.«event.name.toFirstUpper»({[«TransformationUtility.generateFuncParams(event)»]}) at {self.simulator.time}')
+							«ENDIF»
 							call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 				«ENDFOR»
 			
@@ -258,8 +266,9 @@ class PyroComponentClassGenerator {
 						time=self.rules["«event.name.toFirstUpper»"].calc(self.port+"."+"«event.name.toFirstUpper»",self.simulator.time)
 						self.event_cntr=self.event_cntr+1
 						failureTime=abs(time)+self.simulator.time
-						if DEBUG:
+						«IF debug»
 							dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}.«event.name.toFirstUpper» at {self.simulator.time}')
+						«ENDIF»
 						for callitem in self.calls:
 							callEvent=lambda:callitem.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
 							self.simulator.events.append(Event(self,failureTime,callEvent,self.port+".«event.name.toFirstUpper»"))
@@ -317,21 +326,24 @@ class PyroComponentClassGenerator {
 				
 					@JOverride
 					def raise«event.name.toFirstUpper»(self,«TransformationUtility.generateFuncParams(event)»):
-						port=self.portarray[self.categorical.calc()]
+						port=self.portarray[int(self.categorical.calc())]
 						eventcalls=self.calls[port]#["«event.name.toFirstUpper»"]
 						self.event_cntr=self.event_cntr+1
-						if DEBUG:
+						«IF debug»
 							dprint(f'detmodel -> stochmodel : {self.name} :: {port}+.«event.name.toFirstUpper» at {self.simulator.time}')
+						«ENDIF»
 						for call in eventcalls:
 							if call is not None:
 								if IESC_SYNC:
-									if DEBUG:
+									«IF debug»
 										dprint(f'detmodel -> stochmodel : {self.name} :: {port}+.«event.name.toFirstUpper» at {self.simulator.time}')
+									«ENDIF»
 									callEvent=lambda:call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»);
 									self.events.append(Event(self,self.simulator.time,callEvent,self.port+".«event.name.toFirstUpper»"))
 								else:
-									if DEBUG:
+									«IF debug»
 										dprint(f'detmodel <-> stochmodel : {self.name} :: {port}+.«event.name.toFirstUpper» at {self.simulator.time}')
+									«ENDIF»
 									call.raise«event.name.toFirstUpper»(«TransformationUtility.generateFuncParams(event)»)
 					«ENDFOR»
 				#«generateInterfaceSubClass(i)»

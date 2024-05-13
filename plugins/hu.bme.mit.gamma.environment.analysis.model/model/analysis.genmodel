@@ -79,7 +79,9 @@
     <genClasses image="false" ecoreClass="analysis.ecore#//ObserveCondition">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//ObserveCondition/randomvariable"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="analysis.ecore#//AssumeCondition"/>
+    <genClasses image="false" ecoreClass="analysis.ecore#//AssumeCondition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//AssumeCondition/probability"/>
+    </genClasses>
     <genClasses ecoreClass="analysis.ecore#//ObserveTime"/>
     <genClasses ecoreClass="analysis.ecore#//EndCondition"/>
     <genClasses image="false" ecoreClass="analysis.ecore#//AnalysisMethod"/>
@@ -89,6 +91,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/simulationNumber"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/warmupTime"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/simulationTime"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference analysis.ecore#//SimulationAnalysisMethod/samplingBatchSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/jointSampling"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute analysis.ecore#//SimulationAnalysisMethod/debug"/>
     </genClasses>
     <genClasses ecoreClass="analysis.ecore#//ImportanceSampling"/>
     <genClasses ecoreClass="analysis.ecore#//MCMC">
@@ -99,5 +104,6 @@
     <genClasses image="false" ecoreClass="analysis.ecore#//MCMCKernel"/>
     <genClasses ecoreClass="analysis.ecore#//NUTS"/>
     <genClasses ecoreClass="analysis.ecore#//HMC"/>
+    <genClasses ecoreClass="analysis.ecore#//Simulation"/>
   </genPackages>
 </genmodel:GenModel>

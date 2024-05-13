@@ -5,8 +5,8 @@ import java.util.List;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.*;
 
-import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.traffic_sct.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.traffic_sct.*;
 
@@ -44,13 +44,40 @@ public class TrafficAdapter implements Runnable, TrafficAdapterInterface {
 	
 	/** Resets the wrapped component. Must be called to initialize the component. */
 	@Override
-	public void reset() {
-		trafficAdapter.reset();
+	public void reset(){
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+	
+	public void handleBeforeReset() {
+		//interrupt();
+		//
+		trafficAdapter.handleBeforeReset();
+	}
+	
+	public void resetVariables() {
+		trafficAdapter.resetVariables();
+	}
+	
+	public void resetStateConfigurations() {
+		trafficAdapter.resetStateConfigurations();
+	}
+	
+	public void raiseEntryEvents() {
+		trafficAdapter.raiseEntryEvents();
+	}
+	
+	public void handleAfterReset() {
+		trafficAdapter.handleAfterReset();
+		//
 	}
 	
 	/** Creates the subqueues, clocks and enters the wrapped synchronous component. */
 	private void init() {
-		trafficAdapter = new TrafficStatechart();
+		//trafficAdapter = new TrafficStatechart();
 		// Creating subqueues: the negative conversion regarding priorities is needed,
 		// because the lbmq marks higher priority with lower integer values
 		__asyncQueue.addSubQueue("arriveQueue", -(1), (int) 1);
@@ -252,4 +279,30 @@ public class TrafficAdapter implements Runnable, TrafficAdapterInterface {
 	}
 	
 	
+
+	public String getInQueue(){
+		String str="Input events (";
+		str=str+"arriveQueue [";
+		for (Event event:arriveQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+"leaveQueue [";
+		for (Event event:leaveQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+")";
+		return str;
+	}
 }

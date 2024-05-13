@@ -1,0 +1,45 @@
+
+	@startuml
+	participant "Stochastic Models" as stochmodel
+	participant "Deteministic Models" as detmodel
+	participant "Analysis Case" as analysis
+	{15644_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.1711939424276352"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, False]) at 0.1711939424276352
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.1711939424276352
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.1711939424276352
+{15628_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.21072342991828918"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, False]) at 0.21072342991828918
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.21072342991828918
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.21072342991828918
+{15659_stop} stochmodel -> detmodel : "System.Traffic.carArrival  ::  Cars.NewEvent at 0.3502308130264282"
+{15667_start} detmodel -> stochmodel : System.Traffic.carDelay :: CarOut.NewEvent at 0.3502308130264282
+{15629_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.39372165501117706"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, True]) at 0.39372165501117706
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.39372165501117706
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.39372165501117706
+{15645_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.4075884073972702"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.4075884073972702
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.4075884073972702
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.4075884073972702
+{15630_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.5712767094373703"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, True]) at 0.5712767094373703
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.5712767094373703
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.5712767094373703
+{15646_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.6497637182474136"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.6497637182474136
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.6497637182474136
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.6497637182474136
+{15631_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.761723980307579"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, True]) at 0.761723980307579
+detmodel -> stochmodel : System.Camera1.networkLoss :: LostImages+.NewData at 0.761723980307579
+detmodel <-> stochmodel : System.Camera1.networkLoss :: LostImages+.NewData at 0.761723980307579
+{15647_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.859235018491745"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.859235018491745
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.859235018491745
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.859235018491745
+{15667_stop} stochmodel -> detmodel : "System.Traffic.carDelay  ::  CarOut.NewEvent at 0.9168459177017212"
+{15667_start} <-> {15667_stop} : delay
+hnote over analysis 
+EndConditionSystem_CarLeave_NewEvent is reached
+endnote
+@enduml

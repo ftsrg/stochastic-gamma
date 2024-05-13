@@ -8,7 +8,7 @@ import hu.bme.mit.gamma.casestudy.iotsystem.TimerInterface.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.camera_control.CameraControlStatemachine.*;
 
-public class CameraControl implements CameraControlInterface {
+public class CameraControl implements CameraControlInterface, TimedObject{
 	// Port instances
 	private Requests requests = new Requests();
 	private DriverImages driverImages = new DriverImages();
@@ -29,13 +29,34 @@ public class CameraControl implements CameraControlInterface {
 	}
 	
 	public void reset() {
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+
+	public void handleBeforeReset() {
 		// Clearing the in events
 		insertQueue = true;
 		processQueue = false;
 		eventQueue1.clear();
 		eventQueue2.clear();
-		//
-		cameraControl.reset();
+	}
+
+	public void resetVariables() {
+		cameraControl.resetVariables();
+	}
+
+	public void resetStateConfigurations() {
+		cameraControl.resetStateConfigurations();
+	}
+
+	public void raiseEntryEvents() {
+		cameraControl.raiseEntryEvents();
+	}
+
+	public void handleAfterReset() {
 		timer.saveTime(this);
 		notifyListeners();
 	}
@@ -57,7 +78,7 @@ public class CameraControl implements CameraControlInterface {
 	}
 	
 	/** Returns the event queue into which events should be put in the particular cycle. */
-	private Queue<Event> getInsertQueue() {
+	public Queue<Event> getInsertQueue() {
 		if (insertQueue) {
 			return eventQueue1;
 		}
@@ -199,6 +220,11 @@ public CameraControlStatemachine getCameraControl(){
 		this.timer = timer;
 	}
 	
+	@Override
+	public long getEarliestTime(){
+				return Long.MAX_VALUE;
+	}
+	
 	public boolean isStateActive(String region, String state) {
 		switch (region) {
 			case "main":
@@ -215,6 +241,22 @@ public CameraControlStatemachine getCameraControl(){
 	
 	@Override
 	public String toString() {
-		return cameraControl.toString();
+		String str=cameraControl.toString();
+		str=str+"\n "+getInQueue();
+		return str;
+	}
+	
+	public String getInQueue(){
+		String str="Input events (";
+		for (Event event:getInsertQueue()){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+")";
+		return str;
 	}
 }

@@ -104,6 +104,23 @@ public class VirtualTimerService implements UnifiedTimerInterface {
 				throw new IllegalArgumentException("Not supported time unit: " + timeUnit);
 		}
 	}
+	
+	public long getEarliestTime(){
+		long earliestTime=Long.MAX_VALUE;
+		for (TimeEventTask timer : timerTaskList) {
+			long timeLeft=timer.timeLeft;
+			if (earliestTime > timeLeft) { 
+				earliestTime=timeLeft;
+			}
+		}
+		for (Object object : elapsedTime.keySet()) {
+			long timeLeft=((TimedObject) object).getEarliestTime();
+			if (earliestTime > timeLeft) {
+				earliestTime=timeLeft;
+			}
+		}
+		return earliestTime;
+	}
 
 	public void reset() {
 		timerTaskList.clear();

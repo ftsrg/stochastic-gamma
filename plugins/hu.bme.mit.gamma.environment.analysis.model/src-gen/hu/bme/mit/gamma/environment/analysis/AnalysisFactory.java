@@ -265,6 +265,15 @@ public interface AnalysisFactory extends EFactory {
 	HMC createHMC();
 
 	/**
+	 * Returns a new object of class '<em>Simulation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Simulation</em>'.
+	 * @generated
+	 */
+	Simulation createSimulation();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

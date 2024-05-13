@@ -2,10 +2,10 @@ package hu.bme.mit.gamma.casestudy.iotsystem.camera_adapter;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.*;
 import java.util.Objects;
-import hu.bme.mit.gamma.casestudy.iotsystem.camera_control.*;
-import hu.bme.mit.gamma.casestudy.iotsystem.camera_software.*;
-import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.camera_driver.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.camera_software.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.camera_control.*;
 
 public class ReflectiveCameraAdapter implements ReflectiveComponentInterface {
 	
@@ -47,6 +47,10 @@ public class ReflectiveCameraAdapter implements ReflectiveComponentInterface {
 		}
 	}
 	
+	public void raiseEvent(String port, String event) {
+		raiseEvent(port, event, null);
+	}
+	
 	public void raiseEvent(String port, String event, Object[] parameters) {
 		String portEvent = port + "." + event;
 		switch (portEvent) {
@@ -62,6 +66,10 @@ public class ReflectiveCameraAdapter implements ReflectiveComponentInterface {
 			default:
 				throw new IllegalArgumentException("Not known port-in event combination: " + portEvent);
 		}
+	}
+	
+	public boolean isRaisedEvent(String port, String event) {
+		return isRaisedEvent(port, event, null);
 	}
 	
 	public boolean isRaisedEvent(String port, String event, Object[] parameters) {

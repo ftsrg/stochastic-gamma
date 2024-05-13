@@ -1,6 +1,6 @@
 package orion_stoch_env
 
-import "orion_master_adapter"
+import "orion_adapter"
 import "interfaces"
 
 stochastic async Orion_Environment [
@@ -40,10 +40,9 @@ stochastic async Orion_Environment [
 analysis Orion_Performance {
 	in stochastic component orion : Orion_Environment 
 	mean time of event orion.SystemConnStatus.conn ;
-	@Configuration(ImportanceSampling){
+	@Configuration(Simulation){
 		end condition raised event orion.SystemConnStatus.conn
-		simulation time = 10.0
-		simulation number = 50
-		warmup time = 0.0
+		simulation time = 300.0
+		simulation number = 1000
 	}
 } 

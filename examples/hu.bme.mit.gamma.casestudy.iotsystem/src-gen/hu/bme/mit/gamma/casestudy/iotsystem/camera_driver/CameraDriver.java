@@ -8,7 +8,7 @@ import hu.bme.mit.gamma.casestudy.iotsystem.TimerInterface.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.camera_driver.CameraDriverStatemachine.*;
 
-public class CameraDriver implements CameraDriverInterface {
+public class CameraDriver implements CameraDriverInterface, TimedObject{
 	// Port instances
 	private Traffic traffic = new Traffic();
 	private Requests requests = new Requests();
@@ -29,13 +29,34 @@ public class CameraDriver implements CameraDriverInterface {
 	}
 	
 	public void reset() {
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+
+	public void handleBeforeReset() {
 		// Clearing the in events
 		insertQueue = true;
 		processQueue = false;
 		eventQueue1.clear();
 		eventQueue2.clear();
-		//
-		cameraDriver.reset();
+	}
+
+	public void resetVariables() {
+		cameraDriver.resetVariables();
+	}
+
+	public void resetStateConfigurations() {
+		cameraDriver.resetStateConfigurations();
+	}
+
+	public void raiseEntryEvents() {
+		cameraDriver.raiseEntryEvents();
+	}
+
+	public void handleAfterReset() {
 		timer.saveTime(this);
 		notifyListeners();
 	}
@@ -57,7 +78,7 @@ public class CameraDriver implements CameraDriverInterface {
 	}
 	
 	/** Returns the event queue into which events should be put in the particular cycle. */
-	private Queue<Event> getInsertQueue() {
+	public Queue<Event> getInsertQueue() {
 		if (insertQueue) {
 			return eventQueue1;
 		}
@@ -202,6 +223,11 @@ public CameraDriverStatemachine getCameraDriver(){
 		this.timer = timer;
 	}
 	
+	@Override
+	public long getEarliestTime(){
+				return Long.MAX_VALUE;
+	}
+	
 	public boolean isStateActive(String region, String state) {
 		switch (region) {
 			case "main":
@@ -221,6 +247,22 @@ public CameraDriverStatemachine getCameraDriver(){
 	
 	@Override
 	public String toString() {
-		return cameraDriver.toString();
+		String str=cameraDriver.toString();
+		str=str+"\n "+getInQueue();
+		return str;
+	}
+	
+	public String getInQueue(){
+		String str="Input events (";
+		for (Event event:getInsertQueue()){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+")";
+		return str;
 	}
 }

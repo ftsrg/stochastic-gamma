@@ -116,7 +116,6 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="hu.bme.mit.gamma.action.language.ui"/>
       <plugin id="hu.bme.mit.gamma.action.model"/>
       <plugin id="hu.bme.mit.gamma.architecture.transformation"/>
-      <plugin id="hu.bme.mit.gamma.architecture.transformation.commandhandler"/>
       <plugin id="hu.bme.mit.gamma.architecture.transformation.enterprisearchitect"/>
       <plugin id="hu.bme.mit.gamma.codegeneration.java"/>
       <plugin id="hu.bme.mit.gamma.codegeneration.java.commandhandler"/>
@@ -251,8 +250,8 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="net.sourceforge.plantuml.ecore"/>
       <plugin id="net.sourceforge.plantuml.jdt"/>
       <plugin id="net.sourceforge.plantuml.lib"/>
-      <plugin id="net.sourceforge.plantuml.lib.elk" fragment="true"/>
-      <plugin id="net.sourceforge.plantuml.lib.jlatexmath" fragment="true"/>
+      <plugin id="net.sourceforge.plantuml.lib.elk"/>
+      <plugin id="net.sourceforge.plantuml.lib.jlatexmath"/>
       <plugin id="net.sourceforge.plantuml.svg"/>
       <plugin id="net.sourceforge.plantuml.text"/>
       <plugin id="org.antlr.runtime"/>
@@ -298,8 +297,8 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.buildship.compat"/>
       <plugin id="org.eclipse.buildship.core"/>
       <plugin id="org.eclipse.cdt.core.native"/>
-      <plugin id="org.eclipse.cdt.core.win32" fragment="true"/>
-      <plugin id="org.eclipse.cdt.core.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.cdt.core.win32"/>
+      <plugin id="org.eclipse.cdt.core.win32.x86_64"/>
       <plugin id="org.eclipse.collections"/>
       <plugin id="org.eclipse.compare"/>
       <plugin id="org.eclipse.compare.core"/>
@@ -313,13 +312,13 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.core.externaltools"/>
       <plugin id="org.eclipse.core.filebuffers"/>
       <plugin id="org.eclipse.core.filesystem"/>
-      <plugin id="org.eclipse.core.filesystem.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.win32.x86_64"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.net"/>
-      <plugin id="org.eclipse.core.net.win32" fragment="true"/>
-      <plugin id="org.eclipse.core.net.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.net.win32"/>
+      <plugin id="org.eclipse.core.net.win32.x86_64"/>
       <plugin id="org.eclipse.core.resources"/>
-      <plugin id="org.eclipse.core.resources.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.resources.win32.x86_64"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.debug.core"/>
@@ -343,7 +342,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.e4.ui.model.workbench"/>
       <plugin id="org.eclipse.e4.ui.progress"/>
       <plugin id="org.eclipse.e4.ui.services"/>
-      <plugin id="org.eclipse.e4.ui.swt.win32" fragment="true"/>
+      <plugin id="org.eclipse.e4.ui.swt.win32"/>
       <plugin id="org.eclipse.e4.ui.widgets"/>
       <plugin id="org.eclipse.e4.ui.workbench"/>
       <plugin id="org.eclipse.e4.ui.workbench.addons.swt"/>
@@ -394,7 +393,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.equinox.jsp.jasper"/>
       <plugin id="org.eclipse.equinox.jsp.jasper.registry"/>
       <plugin id="org.eclipse.equinox.launcher"/>
-      <plugin id="org.eclipse.equinox.launcher.win32.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.equinox.launcher.win32.win32.x86_64"/>
       <plugin id="org.eclipse.equinox.p2.artifact.repository"/>
       <plugin id="org.eclipse.equinox.p2.console"/>
       <plugin id="org.eclipse.equinox.p2.core"/>
@@ -419,10 +418,10 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
       <plugin id="org.eclipse.equinox.security.ui"/>
-      <plugin id="org.eclipse.equinox.security.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.equinox.security.win32.x86_64"/>
       <plugin id="org.eclipse.equinox.simpleconfigurator"/>
       <plugin id="org.eclipse.equinox.simpleconfigurator.manipulator"/>
-      <plugin id="org.eclipse.fx.osgi" fragment="true"/>
+      <plugin id="org.eclipse.fx.osgi"/>
       <plugin id="org.eclipse.gmf.runtime.common.core"/>
       <plugin id="org.eclipse.gmf.runtime.diagram.core"/>
       <plugin id="org.eclipse.gmf.runtime.emf.clipboard.core"/>
@@ -458,29 +457,29 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.jgit"/>
       <plugin id="org.eclipse.jgit.archive"/>
-      <plugin id="org.eclipse.jgit.gpg.bc" fragment="true"/>
+      <plugin id="org.eclipse.jgit.gpg.bc"/>
       <plugin id="org.eclipse.jgit.http.apache"/>
       <plugin id="org.eclipse.jgit.ssh.apache"/>
-      <plugin id="org.eclipse.jgit.ssh.apache.agent" fragment="true"/>
+      <plugin id="org.eclipse.jgit.ssh.apache.agent"/>
       <plugin id="org.eclipse.jsch.core"/>
       <plugin id="org.eclipse.jsch.ui"/>
       <plugin id="org.eclipse.lsp4j"/>
       <plugin id="org.eclipse.lsp4j.jsonrpc"/>
       <plugin id="org.eclipse.ltk.core.refactoring"/>
       <plugin id="org.eclipse.ltk.ui.refactoring"/>
-      <plugin id="org.eclipse.m2e.archetype.catalog" fragment="true"/>
+      <plugin id="org.eclipse.m2e.archetype.catalog"/>
       <plugin id="org.eclipse.m2e.archetype.common"/>
-      <plugin id="org.eclipse.m2e.archetype.descriptor" fragment="true"/>
-      <plugin id="org.eclipse.m2e.archetype.maven-artifact-transfer" fragment="true"/>
+      <plugin id="org.eclipse.m2e.archetype.descriptor"/>
+      <plugin id="org.eclipse.m2e.archetype.maven-artifact-transfer"/>
       <plugin id="org.eclipse.m2e.core"/>
       <plugin id="org.eclipse.m2e.core.ui"/>
-      <plugin id="org.eclipse.m2e.logback" fragment="true"/>
+      <plugin id="org.eclipse.m2e.logback"/>
       <plugin id="org.eclipse.m2e.maven.runtime"/>
       <plugin id="org.eclipse.m2e.model.edit"/>
       <plugin id="org.eclipse.m2e.workspace.cli"/>
       <plugin id="org.eclipse.mylyn.wikitext.help.ui"/>
       <plugin id="org.eclipse.osgi"/>
-      <plugin id="org.eclipse.osgi.compatibility.state" fragment="true"/>
+      <plugin id="org.eclipse.osgi.compatibility.state"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.osgi.util"/>
       <plugin id="org.eclipse.pde.build"/>
@@ -491,7 +490,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.rcp"/>
       <plugin id="org.eclipse.search"/>
       <plugin id="org.eclipse.swt"/>
-      <plugin id="org.eclipse.swt.win32.win32.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86_64"/>
       <plugin id="org.eclipse.team.core"/>
       <plugin id="org.eclipse.team.ui"/>
       <plugin id="org.eclipse.text"/>
@@ -520,7 +519,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.ui.views"/>
       <plugin id="org.eclipse.ui.views.log"/>
       <plugin id="org.eclipse.ui.views.properties.tabbed"/>
-      <plugin id="org.eclipse.ui.win32" fragment="true"/>
+      <plugin id="org.eclipse.ui.win32"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.uml2.common"/>
@@ -528,7 +527,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.uml2.uml"/>
       <plugin id="org.eclipse.urischeme"/>
       <plugin id="org.eclipse.viatra.addon.querybasedfeatures.runtime"/>
-      <plugin id="org.eclipse.viatra.addon.querybasedfeatures.runtime.validation" fragment="true"/>
+      <plugin id="org.eclipse.viatra.addon.querybasedfeatures.runtime.validation"/>
       <plugin id="org.eclipse.viatra.addon.validation.core"/>
       <plugin id="org.eclipse.viatra.query.patternlanguage.emf"/>
       <plugin id="org.eclipse.viatra.query.runtime"/>
@@ -565,7 +564,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.xtext.common.types.edit"/>
       <plugin id="org.eclipse.xtext.common.types.edit.source"/>
       <plugin id="org.eclipse.xtext.common.types.shared"/>
-      <plugin id="org.eclipse.xtext.common.types.shared.jdt38" fragment="true"/>
+      <plugin id="org.eclipse.xtext.common.types.shared.jdt38"/>
       <plugin id="org.eclipse.xtext.common.types.shared.jdt38.source"/>
       <plugin id="org.eclipse.xtext.common.types.shared.source"/>
       <plugin id="org.eclipse.xtext.common.types.source"/>
@@ -580,7 +579,7 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <plugin id="org.eclipse.xtext.java.source"/>
       <plugin id="org.eclipse.xtext.junit4"/>
       <plugin id="org.eclipse.xtext.junit4.source"/>
-      <plugin id="org.eclipse.xtext.logging" fragment="true"/>
+      <plugin id="org.eclipse.xtext.logging"/>
       <plugin id="org.eclipse.xtext.logging.source"/>
       <plugin id="org.eclipse.xtext.m2e"/>
       <plugin id="org.eclipse.xtext.m2e.source"/>

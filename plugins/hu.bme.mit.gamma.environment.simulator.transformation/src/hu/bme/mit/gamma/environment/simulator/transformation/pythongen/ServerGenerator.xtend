@@ -42,7 +42,7 @@ class ServerGenerator {
 		return 
 '''
 
-from simulator import *
+from «analysisComponent.name.toLowerCase»_simulator import *
 # Python 3 server for visualizing the simulator
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time

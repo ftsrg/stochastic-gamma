@@ -167,16 +167,24 @@ class TransformationUtility {
 		'''
 	}
 	
+	static def getProb(AssumeCondition condition){
+		if (condition.probability!==null){
+			return '''torch.tensor(«condition.probability.value»)'''
+		}else{
+			return "torch.tensor(0.999)"
+		}
+	}
+	
 	static dispatch def registerCondition(ObserveCondition condition){
 		'''pyro.sample("«condition.pyroName»",«condition.randomvariable.generateDitribution», obs = torch.tensor(«condition.valueCall»))'''
 	}
 	
 	static dispatch def registerCondition(AssumeRaised condition){
-		'''pyro.sample("«condition.pyroName»",pyro.distributions.Bernoulli(torch.tensor(0.999)), obs = torch.tensor(«condition.valueCall»))'''
+		'''pyro.sample("«condition.pyroName»",pyro.distributions.Bernoulli(«condition.prob»), obs = torch.tensor(«condition.valueCall»))'''
 	}
 	
 	static dispatch def registerCondition(AssumeNotRaised condition){
-		'''pyro.sample("«condition.pyroName»",pyro.distributions.Bernoulli(torch.tensor(0.0001)), obs = torch.tensor(«condition.valueCall»))'''
+		'''pyro.sample("«condition.pyroName»",pyro.distributions.Bernoulli(torch.tensor(1.0)-«condition.prob»), obs = torch.tensor(«condition.valueCall»))'''
 	}
 	
 	static dispatch def registerCondition(AnalysisCondition condition){

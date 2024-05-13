@@ -19,6 +19,9 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getWarmupTime <em>Warmup Time</em>}</li>
  *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationTime <em>Simulation Time</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSamplingBatchSize <em>Sampling Batch Size</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getJointSampling <em>Joint Sampling</em>}</li>
+ *   <li>{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#isDebug <em>Debug</em>}</li>
  * </ul>
  *
  * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod()
@@ -45,7 +48,7 @@ public interface SimulationAnalysisMethod extends AnalysisMethod {
 	 * @return the value of the '<em>Warmup Time</em>' containment reference.
 	 * @see #setWarmupTime(Expression)
 	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod_WarmupTime()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	Expression getWarmupTime();
@@ -81,6 +84,74 @@ public interface SimulationAnalysisMethod extends AnalysisMethod {
 	 * @generated
 	 */
 	void setSimulationTime(Expression value);
+
+	/**
+	 * Returns the value of the '<em><b>Sampling Batch Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sampling Batch Size</em>' containment reference.
+	 * @see #setSamplingBatchSize(IntegerLiteralExpression)
+	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod_SamplingBatchSize()
+	 * @model containment="true"
+	 * @generated
+	 */
+	IntegerLiteralExpression getSamplingBatchSize();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSamplingBatchSize <em>Sampling Batch Size</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sampling Batch Size</em>' containment reference.
+	 * @see #getSamplingBatchSize()
+	 * @generated
+	 */
+	void setSamplingBatchSize(IntegerLiteralExpression value);
+
+	/**
+	 * Returns the value of the '<em><b>Joint Sampling</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Joint Sampling</em>' attribute.
+	 * @see #setJointSampling(Boolean)
+	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod_JointSampling()
+	 * @model default="false" required="true"
+	 * @generated
+	 */
+	Boolean getJointSampling();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getJointSampling <em>Joint Sampling</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Joint Sampling</em>' attribute.
+	 * @see #getJointSampling()
+	 * @generated
+	 */
+	void setJointSampling(Boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Debug</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Debug</em>' attribute.
+	 * @see #setDebug(boolean)
+	 * @see hu.bme.mit.gamma.environment.analysis.AnalysisPackage#getSimulationAnalysisMethod_Debug()
+	 * @model default="false" required="true"
+	 * @generated
+	 */
+	boolean isDebug();
+
+	/**
+	 * Sets the value of the '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#isDebug <em>Debug</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Debug</em>' attribute.
+	 * @see #isDebug()
+	 * @generated
+	 */
+	void setDebug(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Simulation Number</b></em>' containment reference.

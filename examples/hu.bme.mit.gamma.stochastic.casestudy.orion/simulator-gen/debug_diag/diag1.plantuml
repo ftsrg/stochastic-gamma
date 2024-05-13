@@ -1,0 +1,17 @@
+
+	@startuml
+	participant "Stochastic Models" as stochmodel
+	participant "Deteministic Models" as detmodel
+	participant "Analysis Case" as analysis
+	stochmodel -> detmodel : Orion.SoftwareTimer  ::  Timing.Schedule at 1000.0762939453125
+stochmodel -> detmodel : Orion.SoftwareTimer  ::  Timing.Schedule at 1999.9646606445312
+stochmodel -> detmodel : Orion.SoftwareTimer  ::  Timing.Schedule at 2999.9964599609375
+stochmodel -> detmodel : Orion.SoftwareTimer  ::  Timing.Schedule at 4000.2037963867188
+stochmodel -> detmodel : Orion.SoftwareTimer  ::  Timing.Schedule at 5000.358459472656
+detmodel -> detmodel : "Gamma timeout, 1 ms at 5000.358459472656"
+stochmodel -> detmodel : Orion.SoftwareTimer  ::  Timing.Schedule at 6000.4501953125
+detmodel -> analysis : "SystemConnStatus.conn at time 6000.4501953125"
+hnote over analysis 
+EndConditionOrion_SystemConnStatus_Conn is reached
+endnote
+@enduml

@@ -5,10 +5,10 @@ import java.util.List;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.*;
 
-import hu.bme.mit.gamma.casestudy.iotsystem.camera_control.*;
-import hu.bme.mit.gamma.casestudy.iotsystem.camera_software.*;
-import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.camera_driver.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.camera_software.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.camera_control.*;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.camera_software.*;
 
@@ -44,13 +44,40 @@ public class CameraAdapter implements Runnable, CameraAdapterInterface {
 	
 	/** Resets the wrapped component. Must be called to initialize the component. */
 	@Override
-	public void reset() {
-		cameraSoftware.reset();
+	public void reset(){
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+	
+	public void handleBeforeReset() {
+		//interrupt();
+		//
+		cameraSoftware.handleBeforeReset();
+	}
+	
+	public void resetVariables() {
+		cameraSoftware.resetVariables();
+	}
+	
+	public void resetStateConfigurations() {
+		cameraSoftware.resetStateConfigurations();
+	}
+	
+	public void raiseEntryEvents() {
+		cameraSoftware.raiseEntryEvents();
+	}
+	
+	public void handleAfterReset() {
+		cameraSoftware.handleAfterReset();
+		//
 	}
 	
 	/** Creates the subqueues, clocks and enters the wrapped synchronous component. */
 	private void init() {
-		cameraSoftware = new CameraSoftware();
+		//cameraSoftware = new CameraSoftware();
 		// Creating subqueues: the negative conversion regarding priorities is needed,
 		// because the lbmq marks higher priority with lower integer values
 		__asyncQueue.addSubQueue("triggerQueue", -(2), (int) 10);
@@ -230,4 +257,30 @@ public class CameraAdapter implements Runnable, CameraAdapterInterface {
 	}
 	
 	
+
+	public String getInQueue(){
+		String str="Input events (";
+		str=str+"triggerQueue [";
+		for (Event event:triggerQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+"trafficQueue [";
+		for (Event event:trafficQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+")";
+		return str;
+	}
 }

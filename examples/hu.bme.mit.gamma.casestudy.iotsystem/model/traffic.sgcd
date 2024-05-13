@@ -9,7 +9,7 @@ stochastic async RoadTraffic [
 		CarOut.* : normal mean = 0.5 , scale = 0.1; 
 	}
 	periodic source carArrival port Cars : provides EventStream {
-		Cars.* : exponential rate=3.0;
+		Cars.* : exponential rate=2.5;
 	}
 	channel [carArrival.Cars] -o)- [trafficSct.CarArrives]
 	channel [carDelay.CarOut] -o)- [trafficSct.CarLeaves]

@@ -1,5 +1,0 @@
-Edge : ["main"]
-CameraControl : ["main", "main2"]
-CameraDriver : ["main", "main2"]
-TrafficStatechart : ["main"]
-Network : ["main"]

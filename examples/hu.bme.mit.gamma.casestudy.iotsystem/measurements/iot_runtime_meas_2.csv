@@ -1,0 +1,6 @@
+script,runtime
+serviceavailability_2_simulator.py,20.358542919158936
+serviceavailability_4_simulator.py,31.13342523574829
+serviceavailability_8_simulator.py,66.08546590805054
+serviceavailability_16_simulator.py,282.2624616622925
+serviceavailability_32_simulator.py,386.4245367050171

@@ -1,0 +1,81 @@
+package iotsystem_param_16
+import "camera_component_param"
+import "edge_adapter"
+import "interfaces"
+import "traffic"
+
+stochastic async IoTSystemParametric_16 (failureProb:decimal) [
+	port Failures : provides EventStream 
+	port CarLeave : provides EventStream
+]{
+	component camera1 : CameraComponentParam(failureProb)
+	component camera2 : CameraComponentParam(failureProb)
+	component camera3 : CameraComponentParam(failureProb)
+	component camera4 : CameraComponentParam(failureProb)
+	component camera5 : CameraComponentParam(failureProb)
+	component camera6 : CameraComponentParam(failureProb)
+	component camera7 : CameraComponentParam(failureProb)
+	component camera8 : CameraComponentParam(failureProb)
+	component camera9 : CameraComponentParam(failureProb)
+	component camera10 : CameraComponentParam(failureProb)
+	component camera11 : CameraComponentParam(failureProb)
+	component camera12 : CameraComponentParam(failureProb)
+	component camera13 : CameraComponentParam(failureProb)
+	component camera14 : CameraComponentParam(failureProb)
+	component camera15 : CameraComponentParam(failureProb)
+	component camera16 : CameraComponentParam(failureProb)
+	component edge : EdgeAdapter
+	component traffic : RoadTraffic
+	channel [traffic.Cars] -o)- [
+		camera1 .TrafficSensing,
+		camera2 .TrafficSensing,
+		camera3 .TrafficSensing,
+		camera4 .TrafficSensing,
+		camera5 .TrafficSensing,
+		camera6 .TrafficSensing,
+		camera7 .TrafficSensing,
+		camera8 .TrafficSensing,
+		camera9 .TrafficSensing,
+		camera10.TrafficSensing,
+		camera11.TrafficSensing,
+		camera12.TrafficSensing,
+		camera13.TrafficSensing,
+		camera14.TrafficSensing,
+		camera15.TrafficSensing,
+		camera16.TrafficSensing,
+		edge.TrafficStream
+	]
+	channel [camera1 .OutputData] -o)- [edge.Camera]
+	channel [camera2 .OutputData] -o)- [edge.Camera]
+	channel [camera3 .OutputData] -o)- [edge.Camera]
+	channel [camera4 .OutputData] -o)- [edge.Camera]
+	channel [camera5 .OutputData] -o)- [edge.Camera]
+	channel [camera6 .OutputData] -o)- [edge.Camera]
+	channel [camera7 .OutputData] -o)- [edge.Camera]
+	channel [camera8 .OutputData] -o)- [edge.Camera]
+	channel [camera9 .OutputData] -o)- [edge.Camera]
+	channel [camera10.OutputData] -o)- [edge.Camera]
+	channel [camera11.OutputData] -o)- [edge.Camera]
+	channel [camera12.OutputData] -o)- [edge.Camera]
+	channel [camera13.OutputData] -o)- [edge.Camera]
+	channel [camera14.OutputData] -o)- [edge.Camera]
+	channel [camera15.OutputData] -o)- [edge.Camera]
+	channel [camera16.OutputData] -o)- [edge.Camera]
+	bind Failures -> edge.LostImage
+	bind CarLeave -> edge.CarLeave
+}
+
+analysis ConditionalServiceAvailability_16 {
+	in stochastic component system : IoTSystemParametric_16(sample(uniform from=0.01, to=0.99))
+	probability of event system.Failures.newEvent;
+	@Conditions{
+		assume raised event system.Failures.newEvent ~ 0.9
+	}
+	@Configuration(ImportanceSampling){
+		simulation number = 10000
+		simulation time = 1.0
+		batch sample size = 40
+        joint sampling = true
+		end condition raised event system.CarLeave.newEvent
+	}
+}

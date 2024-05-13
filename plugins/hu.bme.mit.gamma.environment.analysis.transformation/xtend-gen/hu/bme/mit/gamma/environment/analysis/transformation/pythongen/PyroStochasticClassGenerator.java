@@ -1,6 +1,8 @@
 package hu.bme.mit.gamma.environment.analysis.transformation.pythongen;
 
 import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod;
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.ElementaryComponentCollector;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.EnvironmentConnections;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility;
@@ -38,6 +40,10 @@ public class PyroStochasticClassGenerator {
       PyroComponentInstanceGenerator componentGenerator = new PyroComponentInstanceGenerator(packageName);
       PyroDistGenerator distGenerator = new PyroDistGenerator();
       Integer param_cntr = new Integer(0);
+      AnalysisMethod _analysismethod = analysis_component.getAnalysismethod();
+      SimulationAnalysisMethod analysismethod = ((SimulationAnalysisMethod) _analysismethod);
+      final boolean debug = analysismethod.isDebug();
+      final Boolean jointSampling = analysismethod.getJointSampling();
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("class StochasticEventGenerator():");
       _builder.newLine();
@@ -111,6 +117,13 @@ public class PyroStochasticClassGenerator {
       CharSequence _generateConfigurations = componentGenerator.generateConfigurations(connections);
       _builder.append(_generateConfigurations, "\t\t");
       _builder.newLineIfNotEmpty();
+      {
+        if ((jointSampling).booleanValue()) {
+          _builder.append("\t\t");
+          _builder.append("RandomVariable.ginit()");
+          _builder.newLine();
+        }
+      }
       _builder.newLine();
       _builder.append("\t");
       _builder.append("def reset(self):");
@@ -120,12 +133,6 @@ public class PyroStochasticClassGenerator {
       _builder.newLine();
       _builder.append("\t\t");
       _builder.append("self.events.clear()");
-      _builder.newLine();
-      _builder.append("\t\t");
-      _builder.append("for dist in self.dists:");
-      _builder.newLine();
-      _builder.append("\t\t\t");
-      _builder.append("dist.reset()");
       _builder.newLine();
       {
         EList<Expression> _arguments_1 = analysis_component.getAnalyzedComponent().getArguments();
@@ -157,6 +164,21 @@ public class PyroStochasticClassGenerator {
           Integer _plusPlus_1 = param_cntr++;
           _builder.append(_plusPlus_1, "\t\t");
           _builder.newLineIfNotEmpty();
+        }
+      }
+      {
+        if ((jointSampling).booleanValue()) {
+          _builder.append("\t\t");
+          _builder.append("RandomVariable.greset()");
+          _builder.newLine();
+        } else {
+          _builder.append("\t\t");
+          _builder.append("for i in pyro.plate(\"initial_samples\",len(self.dists)):");
+          _builder.newLine();
+          _builder.append("\t\t");
+          _builder.append("\t");
+          _builder.append("self.dists[i].reset()");
+          _builder.newLine();
         }
       }
       _builder.append("\t\t");
@@ -223,6 +245,34 @@ public class PyroStochasticClassGenerator {
       _builder.append("return mintime-self.time");
       _builder.newLine();
       _builder.newLine();
+      _builder.append("def guide():");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("dists=[]");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.newLine();
+      {
+        for(final String rand_var : PyroDistGenerator.random_vars) {
+          _builder.append("\t");
+          _builder.append("dists.append[");
+          _builder.append(rand_var, "\t");
+          _builder.append("]");
+          _builder.newLineIfNotEmpty();
+        }
+      }
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("for dist in dists:");
+      _builder.newLine();
+      _builder.append("\t\t");
+      _builder.append("dist.reset()");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("# ");
+      PyroDistGenerator.random_vars.clear();
+      _builder.newLineIfNotEmpty();
       _xblockexpression = _builder;
     }
     return _xblockexpression;

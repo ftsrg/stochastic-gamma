@@ -70,7 +70,7 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 				return __asyncQueue.isEmpty();
 			}
 			
-			public «component.generateComponentClassName»(«FOR parameter : component.parameterDeclarations SEPARATOR ", "»«parameter.name»«ENDFOR») {
+			public «component.generateComponentClassName»(«FOR parameter : component.parameterDeclarations SEPARATOR ", "»«parameter.type.transformType» «parameter.name»«ENDFOR») {
 				«component.createInstances»
 				«IF !component.clocks.empty»this.timerService = new VirtualTimerService();«ENDIF»
 				init();
@@ -87,7 +87,7 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 			}
 			
 			public void handleBeforeReset() {
-				interrupt();
+				//interrupt();
 				«IF !component.clocks.empty»
 				if (timerService != null) {
 						«FOR match : QueuesOfClocks.Matcher.on(engine).getAllMatches(component, null, null)»
@@ -114,7 +114,7 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 			
 			/** Creates the subqueues, clocks and enters the wrapped synchronous component. */
 			private void init() {
-				«component.generateWrappedComponentName» = new «component.wrappedComponent.type.generateComponentClassName»(«FOR argument : component.wrappedComponent.arguments SEPARATOR ", "»«argument.serialize»«ENDFOR»);
+				//«component.generateWrappedComponentName» = new «component.wrappedComponent.type.generateComponentClassName»(«FOR argument : component.wrappedComponent.arguments SEPARATOR ", "»«argument.serialize»«ENDFOR»);
 				// Creating subqueues: the negative conversion regarding priorities is needed,
 				// because the lbmq marks higher priority with lower integer values
 				«FOR queue : component.messageQueues.sortWith(a, b | -1 * (a.priority.compareTo(b.priority)))»
@@ -305,7 +305,7 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 				public void setTimer(«UNIFIED_TIMER_INTERFACE» timer) {
 					«IF !component.clocks.empty»timerService = timer;«ENDIF»
 					«IF component.wrappedComponent.type.needTimer»«component.generateWrappedComponentName».setTimer(timer);«ENDIF»
-					init(); // To set the service into functioning state with clocks (so that "after 1 s" works with new timer as well)
+					//init(); // To set the service into functioning state with clocks (so that "after 1 s" works with new timer as well)
 				}
 			«ENDIF»
 			
@@ -316,8 +316,10 @@ class EnvironmentAsynchronousAdapterCodeGenerator extends AsynchronousAdapterCod
 					str=str+"«subqueue.name» [";
 					for (Event event:«subqueue.name»){
 						str=str+event.getEvent().toString()+" : ";
-						for (Object value:event.getValue()){
-							str=str+" "+value.toString()+",";
+						if (event.getValue() != null){
+							for (Object value:event.getValue()){
+								str=str+" "+value.toString()+",";
+							}
 						}
 					}
 					str=str+"], ";

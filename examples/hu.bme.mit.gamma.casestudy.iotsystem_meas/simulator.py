@@ -1,64 +1,108 @@
+
 import pyro
 import torch
-from pyro.infer import SVI, Trace_ELBO
-from pyro.optim import Adam
 import pyro.distributions as dist
-import torch.distributions.constraints as constraints
-from pyro.distributions.distribution import Distribution
+import pyro.contrib.gp as gp
+import numpy as np
 
 import math
 from math import exp
-import numpy as np
 
-from py4j.java_gateway import JavaGateway, CallbackServerParameters
 import matplotlib.pyplot as plt
 import matplotlib
 
-from influxdb import InfluxDBClient
+# import datetime
+# from influxdb import InfluxDBClient
 
-import pyro.contrib.gp as gp
 
 import time
 import os
-import datetime
 import traceback
 from jpype import JImplements, JOverride
 from jpype import *
 import jpype
+import hashlib
 
+
+# turn on debug mode
 DEBUG=False
+# manually build the java code
+BUILD=False
+INIT_GEN=False
+# synchronization of elementary stochastic components in synchronous composition
 IESC_SYNC=False
 
-simTime=1.0
-simNumber=100
+# conversion between the time unit of elementary stochastic components and millisecond
+time_conv=1000000000.0*60*60*1000
 
+simTime=3.0
+simNumber=50
 
+def visualizeMarginal(inference, marginal, name):
+	sample_num=10000
+	bin_num=100
+	marginal_samples = torch.stack([torch.abs(marginal()) for _ in range(sample_num)])
+	fig, a = plt.subplots()
+	a.set_title( "Empirical marginal "+name+" (ESS:"+str(round(inference.get_ESS().item(),2))+", avg:"+str(round(marginal.mean.item(),2))+", stddev:"+str(round(marginal.variance.sqrt().item(),2))+")" )
+	a.hist(marginal_samples.numpy(), color='b',bins=bin_num, density=1, label="Marginal of "+name)
+	a.set_ylabel("Estimated density")
+	a.set_xlabel("Value of "+name)
 
-#time.sleep(3)
+debug_diag_cntr=0
+debug_diag=""
+diag_hashes=set()
+def dprint(*args, **kwargs):
+	global debug_diag
+	for a in args:
+		debug_diag=debug_diag+str(a)
+	debug_diag=debug_diag+"\n"
+
+def dinit():
+	global debug_diag
+	debug_diag="""
+	@startuml
+	participant "Stochastic Models" as stochmodel
+	participant "Deteministic Models" as detmodel
+	participant "Analysis Case" as analysis
+	"""
+
+def dsave():
+	global debug_diag, debug_diag_cntr
+	debug_diag=debug_diag+("@enduml")
+	#hash_str=hashlib.md5(debug_diag.encode()).hexdigest()
+	#if hash_str not in diag_hashes:
+	isExist = os.path.exists("debug_diag")
+	if not isExist:
+		os.makedirs("debug_diag")
+	with open(f'debug_diag/diag{debug_diag_cntr}.plantuml', 'w') as f:
+		f.write(debug_diag)
+	debug_diag_cntr=debug_diag_cntr+1
+	print(debug_diag)
+	debug_diag=""
 
 print('initiating Python-Java connection')
 
 def create_detmodel():
-    commands = ["""javac $(find . -name "*.java") -cp /usr/share/java/py4j0.10.8.1.jar"""]
-    for command in commands:
-        if os.system(command) == 0:
-            continue
-        else:
-            print( "ERROR")
-            break
-    startJVM(getDefaultJVMPath(), '-ea',
-             '-Djava.class.path=' + str(os.path.realpath(__file__).replace(str(os.path.basename(__file__)),"")) + '/bin'
-             )
-    detmodel = 0
-    DetModelEntryPoint = JClass('javaenv.DetModelEntryPoint')
-    detmodel = DetModelEntryPoint()
-    return detmodel
+	if BUILD:
+		commands = ["""javac $(find C:\\Users\\simon\\Projects\\stochastic-gamma\\runtime-hu.bme.mit.gamma.environment.rcp.product -name "*.java")"""]
+		for command in commands:
+			if os.system(command) == 0:
+				continue
+			else:
+				print( "ERROR")
+				break
+	startJVM("""C:\\Program Files\\Java\\jdk-20\\bin\\server\\jvm.dll""", '-ea',"""-Djava.class.path=C:\\Users\\simon\\git\\stochastic-gamma\\examples\\hu.bme.mit.gamma.casestudy.iotsystem_meas\\bin""")
+	detmodel = 0
+	EntryPoint = JClass('javaenv.ServiceAvailabilityEntryPoint')
+	detmodel = EntryPoint()
+	print('Python-Java connection established')
+	return detmodel
 
 detmodel=create_detmodel()
 
 
-print('Python-Java connection established')
 
+# python classes of random variables and distributions
 
 class Dataset():
 
@@ -129,21 +173,20 @@ class RandomVariable():
 		self.meta_cntr=-1
 
 
+#
 # environment component classes
 
 
 class Event():
-	def __init__(self,eventSource,eventTime):
-		self.eventSource=eventSource
-		self.eventTime=eventTime
-	def __init__(self,eventSource,eventTime,eventCall):
+	def __init__(self,eventSource,eventTime,eventCall,name="anonymous"):
 		self.eventSource=eventSource
 		self.eventTime=eventTime
 		self.eventCall=eventCall
+		self.name=name
 
 
 class PeriodicEventSource():
-	def __init__(self,name,calls,rules,portevents,simulator):
+	def configure(self,name,calls,rules,portevents,simulator):
 		self.name=name
 		self.calls=calls
 		self.rules=rules
@@ -155,9 +198,9 @@ class PeriodicEventSource():
 			pevents=self.portevents[port]
 			#iterating through events
 			for pevent in pevents:
-				rule=self.rules[port][pevent]
-				self.simulator.dists.append(rule)
-
+				if pevent in self.rules[port] and pevent in self.calls[port]:
+					rule=self.rules[port][pevent]
+					self.simulator.dists.append(rule)
 
 	def generateEvents(self):
 		ports=list(self.calls.keys())
@@ -166,32 +209,37 @@ class PeriodicEventSource():
 			pevents=self.portevents[port]
 			#iterating through events
 			for pevent in pevents:
-				call=self.calls[port][pevent]
-				rule=self.rules[port][pevent]
-				simulationtime=0.0
-				while simulationtime < simTime:
-					simulationtime=simulationtime+rule.calc(port+"."+pevent,simulationtime)
-					#iterating through port connections
-					self.simulator.events.append(Event(self,simulationtime,call))
+				if pevent in self.rules[port] and pevent in self.calls[port]:
+					calls=self.calls[port][pevent]
+					rule=self.rules[port][pevent]
+					simulationtime=0.0
+					ename=port+"."+pevent
+					while simulationtime < simTime:
+						simulationtime=simulationtime+rule.calc(port+"."+pevent,simulationtime)
+						#iterating through port connections
+						for call in calls:
+							self.simulator.events.append(Event(self,simulationtime,call,ename))
+
 
 
 
 class EventSource():
-	def __init__(self,name,calls,rules,portevents,simulator):
+	def configure(self,name,calls,rules,portevents,simulator):
 		self.name=name
 		self.calls=calls
 		self.rules=rules
 		self.portevents=portevents
 		self.simulator=simulator
 		ports=list(self.calls.keys())
+		
 		#iterating through ports
 		for port in ports:
 			pevents=self.portevents[port]
 			#iterating through events
 			for pevent in pevents:
-				rule=self.rules[port][pevent]
-				self.simulator.dists.append(rule)
-
+				if pevent in self.rules[port]:
+					rule=self.rules[port][pevent]
+					self.simulator.dists.append(rule)
 
 	def generateEvents(self):
 		ports=list(self.calls.keys())
@@ -200,30 +248,32 @@ class EventSource():
 			pevents=self.portevents[port]
 			#iterating through events
 			for pevent in pevents:
-				rule=self.rules[port][pevent]
-				call=self.calls[port][pevent]
-				time=rule.calc(port+"."+pevent,0.0)
-				if time>=0:
-					#iterating through port connections
-					self.simulator.events.append(Event(self,time,call))
+				if pevent in self.rules[port] and pevent in self.calls[port]:
+					rule=self.rules[port][pevent]
+					calls=self.calls[port][pevent]
+					time=rule.calc(port+"."+pevent,0.0)
+					ename=port+"."+pevent
+					if time>=0:
+						#iterating through port connections
+						for call in calls:
+							self.simulator.events.append(Event(self,time,call,ename))
 
 
+if82 = JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.EventStreamInterface$Listener$Provided')
+if82_s = JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.scheduling.ElementaryComponentSchedulingInterface')
 
-if33 = \
-    JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.EventStreamInterface$Listener$Provided'
-           )
-
-
-@JImplements(if33)
+@JImplements([if82,if82_s])
 class DelayEventStream():
-	def __init__(self,name,inport,calls,rules,simulator):
+	def configure(self,name,inport,calls,rules,simulator):
 		self.name=name
 		callitem=list(calls.items())[0]#only one out port
 		self.calls=callitem[1]
 		self.port=callitem[0]
 		self.rules=list(rules.items())[0][1]#only one out port
 		self.event_cntr=0
-		inport.registerListener(self)
+		self.inport=inport
+		if inport is not None:
+			inport.registerListener(self)
 		self.simulator=simulator
 		#iterating through ports
 		for port in list(rules.keys()):
@@ -234,12 +284,17 @@ class DelayEventStream():
 				simulator.dists.append(rule)
 
 
-
 	def generateEvents(self):
 		pass
 
+	@JOverride
+	def schedule(self):
+		pass
 
-			
+	@JOverride
+	def isEventQueueEmpty(self):
+		return True
+
 	#definition of the interface functions
 	
 	@JOverride
@@ -247,36 +302,51 @@ class DelayEventStream():
 		time=self.rules["NewEvent"].calc(self.port+"."+"NewEvent",self.simulator.time)
 		self.event_cntr=self.event_cntr+1
 		failureTime=abs(time)+self.simulator.time
+		if DEBUG:
+			dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}.NewEvent at {self.simulator.time}')
 		for callitem in self.calls:
 			callEvent=lambda:callitem.raiseNewEvent();
-			self.simulator.events.append(Event(self,failureTime,callEvent))
-#
-#	class Java:
+			self.simulator.events.append(Event(self,failureTime,callEvent,self.port+".NewEvent"))
+##	class Java:
 #		implements = ["hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.EventStreamInterface$Listener$Provided"]
 
 
-if34 = \
-    JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.ImageStreamInterface$Listener$Provided'
-           )
+if83 = JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.DataStreamInterface$Listener$Provided')
+if83_s = JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.scheduling.ElementaryComponentSchedulingInterface')
 
+@JImplements([if83,if83_s])
+class SwitchDataStream():
 
-@JImplements(if34)
-class SwitchImageStream():
-	def __init__(self,name,inport,calls,portarray,categorical,simulator):
+	def configure(self,name,inport,calls,portarray,categorical,simulator,compCall,shname):
 		self.name=name
 		self.calls=calls
-		self.portarray=portarray
 		self.categorical=categorical
+		self.portarray=portarray
 		self.event_cntr=0
-		inport.registerListener(self)
+		self.events=[]
+		self.inport=inport
+		if inport is not None:
+			inport.registerListener(self)
+		compCall.registerEnvironmentComponent(shname,self)
 		self.simulator=simulator
 		self.simulator.dists.append(categorical)
-					
+
 	def generateEvents(self):
 		pass
 
 
 
+	@JOverride
+	def schedule(self):
+		for event in self.events:
+			event.callEvent()
+		self.events.clear()
+
+	@JOverride
+	def isEventQueueEmpty(self):
+		return (len(self.events)==0)
+	
+	
 	#definition of the interface functions
 
 	@JOverride
@@ -284,63 +354,94 @@ class SwitchImageStream():
 		port=self.portarray[self.categorical.calc()]
 		eventcalls=self.calls[port]#["NewData"]
 		self.event_cntr=self.event_cntr+1
+		if DEBUG:
+			dprint(f'detmodel -> stochmodel : {self.name} :: {port}+.NewData at {self.simulator.time}')
 		for call in eventcalls:
-			if IESC_SYNC:
-				callEvent=lambda:call.raiseNewData(blurred, car);
-				self.simulator.events.append(Event(self,self.simulator.time,callEvent))
-			else:
-				call.raiseNewData(blurred, car)
-#
-#	class Java:
-#		implements = ["hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.ImageStreamInterface$Listener$Provided"]
+			if call is not None:
+				if IESC_SYNC:
+					if DEBUG:
+						dprint(f'detmodel -> stochmodel : {self.name} :: {port}+.NewData at {self.simulator.time}')
+					callEvent=lambda:call.raiseNewData(blurred, car);
+					self.events.append(Event(self,self.simulator.time,callEvent,self.port+".NewData"))
+				else:
+					if DEBUG:
+						dprint(f'detmodel <-> stochmodel : {self.name} :: {port}+.NewData at {self.simulator.time}')
+					call.raiseNewData(blurred, car)
+##	class Java:
+#		implements = ["hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.DataStreamInterface$Listener$Provided"]
 
-if35 = \
-    JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.ImageStreamInterface$Listener$Provided'
-           )
+if84 = JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.DataStreamInterface$Listener$Provided')
+if84_s = JClass('hu.bme.mit.gamma.casestudy.iotsystem_meas.scheduling.ElementaryComponentSchedulingInterface')
 
-
-@JImplements(if35)
-class SampleImageStream():
-	def __init__(self,name,inport,calls,rules,simulator):
+@JImplements([if84,if84_s])
+class SampleImageBlur():
+	def configure(self,name,inport,calls,rules,simulator,compCall,shname):
 		self.name=name
 		callitem=list(calls.items())[0]#only one out port
 		self.calls=callitem[1]
 		self.port=callitem[0]
 		self.rules=list(rules.items())[0][1]#only one out port
 		self.event_cntr=0
-		inport.registerListener(self)
+		self.inport=inport
+		if inport is not None:
+			inport.registerListener(self)
+		self.events=[]
+		compCall.registerEnvironmentComponent(shname,self)
 		self.simulator=simulator
 		#iterating through ports
 		for port in rules.keys():
 			pevents=rules[port].keys()
 			#iterating through events
 			for pevent in pevents:
-				rule=rules[port][pevent]
-				simulator.dists.append(rule)
+				if pevent in rules[port].keys():
+					params=rules[port][pevent].keys()
+					for param in params:
+						rule=rules[port][pevent][param]
+						simulator.dists.append(rule)
+
 
 
 	def generateEvents(self):
+		self.events.clear()
 		pass
 		#definition of the interface functions
 
-	
+	@JOverride
+	def isEventQueueEmpty(self):
+		return (len(self.events)==0)
+
+	@JOverride
+	def schedule(self):
+		for event in self.events:
+			event.callEvent()
+		self.events.clear(self.name)
+
 
 	@JOverride
 	def raiseNewData(self,blurred, car):
-		blurred=self.rules["NewData"].calc(self.port+"."+"NewData",self.simulator.time)
-		#hu.bme.mit.gamma.expression.model.impl.DecimalTypeDefinitionImpl@5032f24d
+		if "blurred" in self.rules["NewData"].keys():
+			blurred = self.rules["NewData"]["blurred"].calc(self.port+"."+"NewData::blurred",self.simulator.time)
+		if "car" in self.rules["NewData"].keys():
+			car = self.rules["NewData"]["car"].calc(self.port+"."+"NewData::car",self.simulator.time)
+		
+		#blurred=self.rules["NewData"].calc(self.port+"."+"NewData",self.simulator.time)
+		#hu.bme.mit.gamma.expression.model.impl.DecimalTypeDefinitionImpl@7e4b11c2
 		self.event_cntr=self.event_cntr+1
 		for call in self.calls:
 			if IESC_SYNC:
+				if DEBUG:
+					dprint(f'detmodel -> stochmodel : {self.name} :: {self.port}+.NewData({[blurred, car]}) at {self.simulator.time}')
 				callEvent=lambda:call.raiseNewData(blurred, car);
-				self.simulator.events.append(Event(self,self.simulator.time,callEvent))
+				self.events.append(Event(self,self.simulator.time,callEvent,self.port+".NewData"))
 			else:
-				callEvent=call.raiseNewData(blurred, car)
+				if DEBUG:
+					dprint(f'detmodel <-> stochmodel : {self.name} :: {self.port}+.NewData({[blurred, car]}) at {self.simulator.time}')
+				call.raiseNewData(blurred, car)
+
+##	class Java:
+#		implements = ["hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.DataStreamInterface$Listener$Provided"]
 
 #
-#	class Java:
-#		implements = ["hu.bme.mit.gamma.casestudy.iotsystem_meas.interfaces.ImageStreamInterface$Listener$Provided"]
-
 class StochasticEventGenerator():
 
 
@@ -349,1911 +450,601 @@ class StochasticEventGenerator():
 		self.time=0.0
 		self.events=[]
 		self.dists=[]
+		self.min_i=0
+		# create Python objects from elementary stochastic components
 		self.components=dict()
 		#0
+		# definition of elementary stochastic components
 		
 		self.components.clear()
-		
-		self.components.update({ "System()Camera1_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera1_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera1_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer496")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera2_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera2_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera2_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer497")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera3_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera3_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera3_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer498")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera4_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera4_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera4_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer499")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera5_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera5_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera5_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer500")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera6_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera6_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera6_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer501")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera7_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera7_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera7_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer502")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera8_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera8_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera8_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer503")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera9_().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera9_().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera9_().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer504")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera10().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera10().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera10().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer505")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera11().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera11().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera11().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer506")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera12().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera12().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera12().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer507")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera13().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera13().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera13().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer508")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera14().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera14().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera14().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer509")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera15().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera15().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera15().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer510")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera16().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera16().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera16().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer511")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera17().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera17().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera17().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer512")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera18().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera18().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera18().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer513")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera19().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera19().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera19().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer514")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera20().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera20().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera20().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer515")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera21().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera21().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera21().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer516")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera22().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera22().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera22().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer517")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera23().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera23().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera23().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer518")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera24().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera24().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera24().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer519")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera25().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera25().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera25().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer520")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera26().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera26().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera26().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer521")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera27().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera27().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera27().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer522")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera28().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera28().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera28().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer523")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera29().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera29().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera29().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer524")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera30().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera30().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera30().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer525")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera31().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera31().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera31().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer526")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera32().softwareTimer" :
-			PeriodicEventSource(
-				name  = "System()Camera32().softwareTimer",
-				calls = {"Events" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getCamera32().getSoftware().getSoftwareTimer().raiseNewEvent())}}
-				,
-				rules = {"Events" : {
-					#[]
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@732dc7b8]
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.05)),"ContRandomVarriablesoftwareTimer527")
-				}}
-				,
-				portevents = {
-				"Events" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Traffic().carArrival" :
-			PeriodicEventSource(
-				name  = "System()Traffic().carArrival",
-				calls = {"Cars" : {
-				"NewEvent" : (lambda:self.detmodel.getSystem().getTraffic().getTrafficSct().getCarArrives().raiseNewEvent())}}
-				,
-				rules = {"Cars" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@25670a02]
-					#
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Exponential(torch.tensor(2.5)),"ContRandomVarriablecarArrival528")
-				}}
-				,
-				portevents = {
-				"Cars" : [
-					"NewEvent"
-				]
-				}
-				,
-				simulator=self)})
+		self.components.update({ "System.Camera1_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera2_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera3_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera4_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera5_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera6_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera7_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera8_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera9_.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera10.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera11.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera12.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera13.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera14.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera15.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Camera16.softwareTimer" : PeriodicEventSource()})
+		self.components.update({ "System.Traffic.carArrival" : PeriodicEventSource()})
 		
 		
+		self.components.update({ "System.Traffic.carDelay" : DelayEventStream()})
 		
 		
-		self.components.update({ "System()Traffic().carDelay" :
-			DelayEventStream(
-				name  = "System()Traffic().carDelay",
+		self.components.update({ "System.Camera1_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera2_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera3_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera4_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera5_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera6_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera7_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera8_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera9_.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera10.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera11.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera12.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera13.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera14.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera15.networkLoss" : SwitchDataStream()})
+		self.components.update({ "System.Camera16.networkLoss" : SwitchDataStream()})
+		
+		self.components.update({ "System.Camera1_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera2_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera3_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera4_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera5_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera6_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera7_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera8_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera9_.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera10.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera11.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera12.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera13.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera14.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera15.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		self.components.update({ "System.Camera16.Software.CameraSoftware.imageBlur" : SampleImageBlur()})
+		
+		# register input interfaces of elementary stochastic components
+		
+		self.components["System.Camera1_.softwareTimer"].configure(
+				name  = "System.Camera1_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera1_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1011")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera2_.softwareTimer"].configure(
+				name  = "System.Camera2_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera2_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1012")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera3_.softwareTimer"].configure(
+				name  = "System.Camera3_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera3_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1013")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera4_.softwareTimer"].configure(
+				name  = "System.Camera4_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera4_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1014")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera5_.softwareTimer"].configure(
+				name  = "System.Camera5_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera5_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1015")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera6_.softwareTimer"].configure(
+				name  = "System.Camera6_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera6_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1016")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera7_.softwareTimer"].configure(
+				name  = "System.Camera7_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera7_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1017")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera8_.softwareTimer"].configure(
+				name  = "System.Camera8_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera8_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1018")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera9_.softwareTimer"].configure(
+				name  = "System.Camera9_.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera9_().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1019")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera10.softwareTimer"].configure(
+				name  = "System.Camera10.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera10().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1020")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera11.softwareTimer"].configure(
+				name  = "System.Camera11.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera11().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1021")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera12.softwareTimer"].configure(
+				name  = "System.Camera12.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera12().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1022")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera13.softwareTimer"].configure(
+				name  = "System.Camera13.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera13().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1023")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera14.softwareTimer"].configure(
+				name  = "System.Camera14.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera14().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1024")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera15.softwareTimer"].configure(
+				name  = "System.Camera15.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera15().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1025")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Camera16.softwareTimer"].configure(
+				name  = "System.Camera16.softwareTimer",
+				calls = {'Events' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getCamera16().getSoftware().getSoftwareTimer().raiseNewEvent())]}},
+				rules = {'Events' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.2),scale=torch.tensor(0.02)),"ContRandomVarriablesoftwareTimer1026")}},
+				portevents = 	{	"Events" : [ "NewEvent"	]},
+				simulator=self)
+				
+		self.components["System.Traffic.carArrival"].configure(
+				name  = "System.Traffic.carArrival",
+				calls = {'Cars' : {'NewEvent' : [(lambda:self.detmodel.getSystem().getTraffic().getTrafficSct().getCarArrives().raiseNewEvent())]}},
+				rules = {'Cars' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Exponential(torch.tensor(3.0)),"ContRandomVarriablecarArrival1027")}},
+				portevents = 	{	"Cars" : [ "NewEvent"	]},
+				simulator=self)
+				
+		
+		
+		self.components["System.Traffic.carDelay"].configure(
+				name  = "System.Traffic.carDelay",
 				inport=self.detmodel.getSystem().getTraffic().getTrafficSct().getCarArrivesOut(),
-				calls = {
-				"CarOut" : [
-				self.detmodel.getSystem().getTraffic().getTrafficSct().getCarLeaves()]}
-				,
-				rules = {"CarOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@6bb3285]
-					#
-					"NewEvent" : 
-					ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.3),scale=torch.tensor(0.1)),"ContRandomVarriablecarDelay529")
-				}}
-				,
-				simulator=self)})
+				calls = {'CarOut' : [self.detmodel.getSystem().getTraffic().getTrafficSct().getCarLeaves(), ]},
+				rules = {'CarOut' : {'NewEvent' : ContinuousRandomVariable(pyro.distributions.Normal(loc=torch.tensor(0.5),scale=torch.tensor(0.1)),"ContRandomVarriablecarDelay1028")}},
+				simulator=self)
+				
 		
-		
-		
-		self.components.update({ "System()Camera1_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera1_().networkLoss",
+		self.components["System.Camera1_.networkLoss"].configure(
+				name  = "System.Camera1_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera1_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera1_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera1_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera1_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera1_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss530")
+					name="NetworkLoss1029")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera2_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera2_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera1_())
+				
+		self.components["System.Camera2_.networkLoss"].configure(
+				name  = "System.Camera2_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera2_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera2_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera2_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera2_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera2_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss531")
+					name="NetworkLoss1030")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera3_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera3_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera2_())
+				
+		self.components["System.Camera3_.networkLoss"].configure(
+				name  = "System.Camera3_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera3_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera3_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera3_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera3_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera3_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss532")
+					name="NetworkLoss1031")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera4_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera4_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera3_())
+				
+		self.components["System.Camera4_.networkLoss"].configure(
+				name  = "System.Camera4_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera4_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera4_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera4_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera4_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera4_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss533")
+					name="NetworkLoss1032")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera5_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera5_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera4_())
+				
+		self.components["System.Camera5_.networkLoss"].configure(
+				name  = "System.Camera5_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera5_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera5_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera5_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera5_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera5_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss534")
+					name="NetworkLoss1033")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera6_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera6_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera5_())
+				
+		self.components["System.Camera6_.networkLoss"].configure(
+				name  = "System.Camera6_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera6_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera6_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera6_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera6_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera6_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss535")
+					name="NetworkLoss1034")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera7_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera7_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera6_())
+				
+		self.components["System.Camera7_.networkLoss"].configure(
+				name  = "System.Camera7_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera7_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera7_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera7_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera7_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera7_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss536")
+					name="NetworkLoss1035")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera8_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera8_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera7_())
+				
+		self.components["System.Camera8_.networkLoss"].configure(
+				name  = "System.Camera8_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera8_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera8_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera8_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera8_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera8_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss537")
+					name="NetworkLoss1036")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera9_().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera9_().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera8_())
+				
+		self.components["System.Camera9_.networkLoss"].configure(
+				name  = "System.Camera9_.networkLoss",
 				inport=self.detmodel.getSystem().getCamera9_().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera9_().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera9_().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera9_().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera9_().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss538")
+					name="NetworkLoss1037")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera10().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera10().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera9_())
+				
+		self.components["System.Camera10.networkLoss"].configure(
+				name  = "System.Camera10.networkLoss",
 				inport=self.detmodel.getSystem().getCamera10().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera10().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera10().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera10().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera10().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss539")
+					name="NetworkLoss1038")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera11().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera11().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera10())
+				
+		self.components["System.Camera11.networkLoss"].configure(
+				name  = "System.Camera11.networkLoss",
 				inport=self.detmodel.getSystem().getCamera11().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera11().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera11().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera11().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera11().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss540")
+					name="NetworkLoss1039")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera12().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera12().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera11())
+				
+		self.components["System.Camera12.networkLoss"].configure(
+				name  = "System.Camera12.networkLoss",
 				inport=self.detmodel.getSystem().getCamera12().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera12().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera12().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera12().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera12().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss541")
+					name="NetworkLoss1040")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera13().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera13().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera12())
+				
+		self.components["System.Camera13.networkLoss"].configure(
+				name  = "System.Camera13.networkLoss",
 				inport=self.detmodel.getSystem().getCamera13().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera13().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera13().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera13().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera13().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss542")
+					name="NetworkLoss1041")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera14().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera14().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera13())
+				
+		self.components["System.Camera14.networkLoss"].configure(
+				name  = "System.Camera14.networkLoss",
 				inport=self.detmodel.getSystem().getCamera14().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera14().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera14().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera14().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera14().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss543")
+					name="NetworkLoss1042")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera15().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera15().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera14())
+				
+		self.components["System.Camera15.networkLoss"].configure(
+				name  = "System.Camera15.networkLoss",
 				inport=self.detmodel.getSystem().getCamera15().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera15().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera15().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera15().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera15().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss544")
+					name="NetworkLoss1043")
 				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera16().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera16().networkLoss",
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera15())
+				
+		self.components["System.Camera16.networkLoss"].configure(
+				name  = "System.Camera16.networkLoss",
 				inport=self.detmodel.getSystem().getCamera16().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera16().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera16().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
+				calls={'ImageOut' : [self.detmodel.getSystem().getCamera16().getNetworkQueue().getImageIn(), ], 'LostImages' : [self.detmodel.getSystem().getCamera16().getNetworkQueue().getImageLoss(), ]},
+				portarray=["ImageOut", "LostImages"],
 				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 						0.9, 
 										0.1
 								])),
-					name="NetworkLoss545")
+					name="NetworkLoss1044")
 				,
-				simulator=self)})
+				simulator=self,
+				shname="networkLoss",
+				compCall=self.detmodel.getSystem().getCamera16())
+				
 		
-		self.components.update({ "System()Camera17().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera17().networkLoss",
-				inport=self.detmodel.getSystem().getCamera17().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera17().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera17().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss546")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera18().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera18().networkLoss",
-				inport=self.detmodel.getSystem().getCamera18().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera18().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera18().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss547")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera19().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera19().networkLoss",
-				inport=self.detmodel.getSystem().getCamera19().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera19().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera19().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss548")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera20().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera20().networkLoss",
-				inport=self.detmodel.getSystem().getCamera20().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera20().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera20().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss549")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera21().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera21().networkLoss",
-				inport=self.detmodel.getSystem().getCamera21().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera21().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera21().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss550")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera22().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera22().networkLoss",
-				inport=self.detmodel.getSystem().getCamera22().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera22().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera22().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss551")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera23().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera23().networkLoss",
-				inport=self.detmodel.getSystem().getCamera23().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera23().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera23().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss552")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera24().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera24().networkLoss",
-				inport=self.detmodel.getSystem().getCamera24().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera24().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera24().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss553")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera25().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera25().networkLoss",
-				inport=self.detmodel.getSystem().getCamera25().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera25().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera25().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss554")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera26().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera26().networkLoss",
-				inport=self.detmodel.getSystem().getCamera26().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera26().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera26().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss555")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera27().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera27().networkLoss",
-				inport=self.detmodel.getSystem().getCamera27().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera27().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera27().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss556")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera28().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera28().networkLoss",
-				inport=self.detmodel.getSystem().getCamera28().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera28().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera28().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss557")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera29().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera29().networkLoss",
-				inport=self.detmodel.getSystem().getCamera29().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera29().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera29().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss558")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera30().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera30().networkLoss",
-				inport=self.detmodel.getSystem().getCamera30().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera30().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera30().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss559")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera31().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera31().networkLoss",
-				inport=self.detmodel.getSystem().getCamera31().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera31().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera31().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss560")
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera32().networkLoss" :
-			SwitchImageStream(
-				name  = "System()Camera32().networkLoss",
-				inport=self.detmodel.getSystem().getCamera32().getSoftware().getImages(),
-				calls={
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera32().getNetworkQueue().getImageIn()], 
-				"LostImages" : [
-				self.detmodel.getSystem().getCamera32().getNetworkQueue().getImageIn()]}
-				,
-				portarray=["ImageOut", "LostImages"]
-				,
-				categorical=RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
-						0.9, 
-										0.1
-								])),
-					name="NetworkLoss561")
-				,
-				simulator=self)})
-		
-		
-		
-		self.components.update({ "System()Camera1_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera1_()Software()CameraSoftware().imageBlur",
+		self.components["System.Camera1_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera1_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera1_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera1_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur562")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera2_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera2_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera1_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1045")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera1_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera2_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera2_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera2_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera2_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur563")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera3_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera3_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera2_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1046")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera2_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera3_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera3_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera3_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera3_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur564")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera4_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera4_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera3_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1047")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera3_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera4_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera4_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera4_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera4_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur565")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera5_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera5_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera4_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1048")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera4_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera5_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera5_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera5_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera5_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur566")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera6_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera6_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera5_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1049")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera5_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera6_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera6_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera6_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera6_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur567")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera7_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera7_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera6_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1050")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera6_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera7_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera7_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera7_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera7_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur568")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera8_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera8_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera7_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1051")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera7_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera8_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera8_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera8_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera8_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur569")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera9_()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera9_()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera8_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1052")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera8_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera9_.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera9_.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera9_().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera9_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur570")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera10()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera10()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera9_().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1053")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera9_().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera10.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera10.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera10().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera10().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur571")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera11()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera11()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera10().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1054")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera10().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera11.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera11.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera11().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera11().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur572")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera12()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera12()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera11().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1055")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera11().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera12.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera12.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera12().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera12().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur573")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera13()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera13()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera12().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1056")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera12().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera13.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera13.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera13().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera13().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur574")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera14()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera14()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera13().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1057")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera13().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera14.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera14.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera14().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera14().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur575")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera15()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera15()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera14().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1058")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera14().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera15.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera15.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera15().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera15().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur576")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera16()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera16()Software()CameraSoftware().imageBlur",
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera15().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1059")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera15().getSoftware().getCameraSoftware()
+				)
+				
+		self.components["System.Camera16.Software.CameraSoftware.imageBlur"].configure(
+				name  = "System.Camera16.Software.CameraSoftware.imageBlur",
 				inport=self.detmodel.getSystem().getCamera16().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera16().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur577")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera17()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera17()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera17().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera17().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur578")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera18()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera18()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera18().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera18().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur579")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera19()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera19()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera19().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera19().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur580")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera20()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera20()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera20().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera20().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur581")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera21()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera21()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera21().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera21().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur582")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera22()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera22()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera22().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera22().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur583")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera23()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera23()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera23().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera23().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur584")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera24()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera24()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera24().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera24().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur585")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera25()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera25()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera25().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera25().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur586")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera26()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera26()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera26().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera26().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur587")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera27()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera27()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera27().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera27().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur588")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera28()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera28()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera28().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera28().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur589")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera29()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera29()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera29().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera29().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur590")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera30()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera30()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera30().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera30().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur591")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera31()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera31()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera31().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera31().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur592")
-				}}
-				,
-				simulator=self)})
-		
-		self.components.update({ "System()Camera32()Software()CameraSoftware().imageBlur" :
-			SampleImageStream(
-				name  = "System()Camera32()Software()CameraSoftware().imageBlur",
-				inport=self.detmodel.getSystem().getCamera32().getSoftware().getCameraSoftware().getCameraDriver().getImages(),
-				calls = {
-				"ImageOut" : [
-				self.detmodel.getSystem().getCamera32().getSoftware().getCameraSoftware().getCameraControl().getDriverImages()]}
-				,
-				rules = {"ImageOut" : {
-					#[hu.bme.mit.gamma.environment.model.impl.StochasticRuleImpl@2b630a64]
-					#
-					"NewData" : 
-					ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.1)),"DiscRandomVarriableimageBlur593")
-				}}
-				,
-				simulator=self)})
+				calls = {'ImageOut' : [self.detmodel.getSystem().getCamera16().getSoftware().getCameraSoftware().getCameraControl().getDriverImages(), ]},
+				rules = {'ImageOut' : {'NewData' : {'blurred' : ContinuousRandomVariable(pyro.distributions.Bernoulli(torch.tensor(0.5)),"DiscRandomVarriableimageBlur1060")}}},
+				simulator=self,
+				shname="imageBlur",
+				compCall=self.detmodel.getSystem().getCamera16().getSoftware().getCameraSoftware()
+				)
+				
 		
 		
 
@@ -2263,38 +1054,41 @@ class StochasticEventGenerator():
 		for dist in self.dists:
 			dist.reset()
 		self.detmodel.reset()
+		"""self.detmodel.reset()"""
 
 	def generateEvents(self):
-	    for component in list(self.components.values()):
-	        component.generateEvents()
+		for component in list(self.components.values()):
+			component.generateEvents()
 
-
+	# shall be called after the getEarliestTime() function
 	def popEvent(self):
-	    mintime=10000000000.0
-	    min_i=0
-	    for i in range (len(self.events)):
-	        if self.events[i].eventTime<mintime:
-	        	min_i=i
-	        	mintime=self.events[min_i].eventTime
-	    event=self.events[min_i]
-	    self.events.remove(event)
-	    return event
+		event=self.events[self.min_i]
+		self.events.remove(event)
+		return event
+
+	def getEarliestTime(self):
+		mintime=1000000000000000.0
+		min_i=0
+		for i in range (len(self.events)):
+			if self.events[i].eventTime<mintime:
+				min_i=i
+				mintime=self.events[min_i].eventTime
+		self.min_i=min_i
+		return mintime-self.time
 
 
 
+print("creating stochastic event generator")
 stochmodel=0
 try:
 	stochmodel = StochasticEventGenerator(detmodel)
+	print("stochastic event generator is successfully created")
 except jpype.JException as ex:
 		print("Caught base exception : ", str(ex))
 		print(ex.stacktrace())
 		shutdownJVM()
 except Exception as ex:
 		print("Caught python exception :", str(ex))
-		shutdownJVM()
-except Exception as err:
-		print("Exception occured during testing the simulation: ")
-		print(err)
 		traceback.print_exc()
 		shutdownJVM()
 
@@ -2305,53 +1099,141 @@ def state2num(state):
 		return 1.0
 
 def simulate():
-	if DEBUG:
-		print("new sim ---------------------------------")
+		
+	# global objects: stochastic event generator and deterministic evaluator
 	global stochmodel, detmodel
+	
+	# DEBUG variables
+	AspectSystem_Failures_NewEventFreq=0
+	
+	if DEBUG:
+		print("New simulation run --------------------------------------------------")
+		dinit()
+	
+	# initialize the stochastic event generator
 	stochmodel.reset()
 	stochmodel.generateEvents()
-	while len(stochmodel.events) > 0 and stochmodel.time < simTime:
-		event = stochmodel.popEvent()
-		stochmodel.time = event.eventTime
-		if DEBUG:
-			print(event.eventSource.name + ' at time: ' + str(stochmodel.time))
-		event.eventCall()
-		detmodel.getSystem().schedule()
-		# evaluate end condition
-				
-		if detmodel.monitorOfEndConditionSystemFailuresNewEvent.state != "run":
-			break
-
-	# get the aspects and return from the simulations 
-	#register the result of the analysis to the Pyro
-	state2num(detmodel.monitorOfAspectSystemFailuresNewEvent.state)
-	pyro.deterministic("AspectSystemFailuresNewEvent",torch.tensor(state2num(detmodel.monitorOfAspectSystemFailuresNewEvent.state)))
-	#return the result of the simulation
-	return state2num(detmodel.monitorOfAspectSystemFailuresNewEvent.state)
 	
+	# schedule the asynchronous component
+	detmodel.getSystem().schedule()
+	
+	if DEBUG and INIT_GEN:
+		print("Initial events: ---------------------------------------------")
+		dprint('note over stochmodel ')
+		dprint('| Source of the event | Name of the event | Time of the event |')
+		for event in stochmodel.events:
+			print("      ESC name: ", event.eventSource.name + "   Event name: " + event.name +'   Time: ' + str(event.eventTime))
+			dprint("|   ", event.eventSource.name + "   | " + event.name +'   | ' + str(event.eventTime)+ ' |')
+		print("Simulation events: ---------------------------------------------")
+		dprint('endnote')
+		#dprint("== Simulation Starts ==")
+	
+	# run the simulator until there are stochastic events available and simulation time is not reached
+	while len(stochmodel.events) > 0 and stochmodel.time <= simTime:
+		
 
+		
+		# get the event with the earliest clock
+		stochmodel.getEarliestTime()
+		event = stochmodel.popEvent()
+		
+		# insert the event into the deterministic evaluator
+		stochmodel.time = event.eventTime
+		
+		if stochmodel.time > simTime :
+			if DEBUG:
+				print("End condition is satisfied: ---------------------------------------------")
+				print("       Out of time")
+				dprint("== Simulation Ends: Time limit is reached ==")
+			break
+		
+		# print debug event information
+		if DEBUG:
+			print("      ESC name: ", event.eventSource.name + "   Event name: " + event.name + '   Time: ' + str(event.eventTime))
+			dprint(f'stochmodel -> detmodel : "{event.eventSource.name}  ::  {event.name} at {str(event.eventTime)}"')
+			
+		# raise the event
+		event.eventCall()
+		
+		# schedule the deterministic evaluator
+		detmodel.getSystem().schedule()
+		
 
+		# evaluate end condition
+		#register the result of the analysis to the Pyro
+		if DEBUG:
+			# register the time only if the event is raised
+			if int(detmodel.monitorOfAspectSystem_Failures_NewEvent.freq) != AspectSystem_Failures_NewEventFreq :
+				AspectSystem_Failures_NewEventFreq=int(detmodel.monitorOfAspectSystem_Failures_NewEvent.freq)
+				dprint(f'detmodel -> analysis : "Failures.newEvent at time {stochmodel.time}"')
+		
+		if detmodel.monitorOfEndConditionSystem_CarLeave_NewEvent.state != "run":
+			# print debug end condition information
+			if DEBUG:
+				print("End condition is satisfied: ---------------------------------------------")
+				print("      EndConditionSystem_CarLeave_NewEvent : ", detmodel.monitorOfEndConditionSystem_CarLeave_NewEvent.state)
+				dprint('hnote over analysis ')
+				dprint('EndConditionSystem_CarLeave_NewEvent is reached')
+				dprint("endnote")
+			break
+	
+	
+	#register the result of the analysis to the Pyro
+	pyro.deterministic("Failures_newEvent_prob",torch.tensor(state2num(detmodel.monitorOfAspectSystem_Failures_NewEvent.state)))
+	
+	
+	#register the conditions to the Pyro
+	
+	if DEBUG:
+		print("Simulation is finished! ---------------------------------------------")
+		dsave()
+	
+	if DEBUG: 
+		if len(stochmodel.events) == 0:
+			dprint('hnote over stochmodel ')
+			dprint('no stochastic event')
+			dprint("endnote")				
+		
+	
+	# get the aspects and return from the simulations 
+	
+	#return the result of the simulation
+	return state2num(detmodel.monitorOfAspectSystem_Failures_NewEvent.state)
 
-if DEBUG:
-	print("testing the simulator")
+if __name__ == "__main__":
 	try:
-		for i in range(10):
-			print(simulate())
-	except Exception as err:
-		print("Exception occured during testing the simulation: ")
-		print(err)
-		traceback.print_exc()
+		# dummy simulations for debugging
+		if DEBUG:
+			for i in range(10):
+				print(simulate())
+		else:
+			t0=time.time()
+			# run importance sampling
+			inference=pyro.infer.Importance(model=simulate, num_samples=50)
+			print("run inference algorithm...")
+			inference.run()
+			empirical_marginal_Failures_newEvent_prob = pyro.infer.EmpiricalMarginal(inference, "Failures_newEvent_prob")
+			t1=time.time()
+			# visualize results
+			print(f"Analysis is finished in {t1-t0} s")
+			print("Results of the analysis: ")
+			print("Estimated Failures_newEvent_prob = ",round(empirical_marginal_Failures_newEvent_prob.mean.item(),4))
+			print("visualize results...")
+			visualizeMarginal(inference,empirical_marginal_Failures_newEvent_prob,'Failures_newEvent_prob')
+			plt.show()
 	except java.lang.RuntimeException as ex:
-		print("Caught runtime exception : ", str(ex))
+		print("Caught Java runtime exception : ", str(ex))
 		print(ex.stacktrace())
 	except jpype.JException as ex:
-		print("Caught base exception : ", str(ex))
+		print("Caught Jpype exception : ", str(ex))
 		print(ex.stacktrace())
-	except Exception as ex:
-		print("Caught python exception :", str(ex))
 	except Exception as err:
-		print("Exception occured during testing the simulation: ")
-		print(err)
+		print("Caught Python exception : ", err)
 		traceback.print_exc()
 	finally:
+		print("shutting down JVM...")
 		shutdownJVM()
+	print ("analysis is finished successfully")
+
+
+

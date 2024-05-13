@@ -1,6 +1,6 @@
 package orion_stoch_env_param
 
-import "orion_master_adapter"
+import "orion_adapter"
 import "interfaces"
 
 stochastic async Orion_Environment_Param (timerMean : decimal) [
@@ -28,13 +28,16 @@ stochastic async Orion_Environment_Param (timerMean : decimal) [
 	
 }
 
-analysis Orion_Performance {
-	in stochastic component orion : Orion_Environment_Param(sample(uniform from=4, to=6)) 
+analysis Orion_Performance_Cond {
+	in stochastic component orion : Orion_Environment_Param(sample(uniform from=4, to=20)) 
 	mean time of event orion.SystemConnStatus.conn ;
+	@Conditions{
+		observe time event orion.SystemConnStatus.conn ~ Normal(16.0,1.0)
+	}
 	@Configuration(ImportanceSampling){
 		end condition raised event orion.SystemConnStatus.conn
-		simulation time = 10.0
-		simulation number = 50
-		warmup time = 0.0
+		simulation time = 300.0
+		batch sample size = 30
+		simulation number = 1000
 	}
 } 

@@ -8,7 +8,7 @@ import hu.bme.mit.gamma.casestudy.iotsystem.TimerInterface.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.network.NetworkStatemachine.*;
 
-public class Network implements NetworkInterface {
+public class Network implements NetworkInterface, TimedObject{
 	// Port instances
 	private ImageIn imageIn = new ImageIn();
 	private ImageOut imageOut = new ImageOut();
@@ -29,13 +29,34 @@ public class Network implements NetworkInterface {
 	}
 	
 	public void reset() {
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+
+	public void handleBeforeReset() {
 		// Clearing the in events
 		insertQueue = true;
 		processQueue = false;
 		eventQueue1.clear();
 		eventQueue2.clear();
-		//
-		network.reset();
+	}
+
+	public void resetVariables() {
+		network.resetVariables();
+	}
+
+	public void resetStateConfigurations() {
+		network.resetStateConfigurations();
+	}
+
+	public void raiseEntryEvents() {
+		network.raiseEntryEvents();
+	}
+
+	public void handleAfterReset() {
 		timer.saveTime(this);
 		notifyListeners();
 	}
@@ -57,7 +78,7 @@ public class Network implements NetworkInterface {
 	}
 	
 	/** Returns the event queue into which events should be put in the particular cycle. */
-	private Queue<Event> getInsertQueue() {
+	public Queue<Event> getInsertQueue() {
 		if (insertQueue) {
 			return eventQueue1;
 		}
@@ -199,6 +220,11 @@ public NetworkStatemachine getNetwork(){
 		this.timer = timer;
 	}
 	
+	@Override
+	public long getEarliestTime(){
+				return Long.MAX_VALUE;
+	}
+	
 	public boolean isStateActive(String region, String state) {
 		switch (region) {
 			case "main":
@@ -213,6 +239,22 @@ public NetworkStatemachine getNetwork(){
 	
 	@Override
 	public String toString() {
-		return network.toString();
+		String str=network.toString();
+		str=str+"\n "+getInQueue();
+		return str;
+	}
+	
+	public String getInQueue(){
+		String str="Input events (";
+		for (Event event:getInsertQueue()){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+")";
+		return str;
 	}
 }

@@ -1,0 +1,33 @@
+
+	@startuml
+	participant "Stochastic Models" as stochmodel
+	participant "Deteministic Models" as detmodel
+	participant "Analysis Case" as analysis
+	{20717_stop} stochmodel -> detmodel : "System.Traffic.carArrival  ::  Cars.NewEvent at 0.02280564419925213"
+{20728_start} detmodel -> stochmodel : System.Traffic.carDelay :: CarOut.NewEvent at 0.02280564419925213
+{20702_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.20326338708400726"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.20326338708400726
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.20326338708400726
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.20326338708400726
+{20686_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.2162071317434311"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([0.0, True]) at 0.2162071317434311
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.2162071317434311
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.2162071317434311
+{20687_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.39832915365695953"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, True]) at 0.39832915365695953
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.39832915365695953
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.39832915365695953
+{20703_stop} stochmodel -> detmodel : "System.Camera2.softwareTimer  ::  Events.NewEvent at 0.4052216410636902"
+detmodel <-> stochmodel : System.Camera2.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, True]) at 0.4052216410636902
+detmodel -> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.4052216410636902
+detmodel <-> stochmodel : System.Camera2.networkLoss :: ImageOut+.NewData at 0.4052216410636902
+{20688_stop} stochmodel -> detmodel : "System.Camera1.softwareTimer  ::  Events.NewEvent at 0.5847739428281784"
+detmodel <-> stochmodel : System.Camera1.Software.CameraSoftware.imageBlur :: ImageOut+.NewData([1.0, True]) at 0.5847739428281784
+detmodel -> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.5847739428281784
+detmodel <-> stochmodel : System.Camera1.networkLoss :: ImageOut+.NewData at 0.5847739428281784
+{20728_stop} stochmodel -> detmodel : "System.Traffic.carDelay  ::  CarOut.NewEvent at 0.592131806537509"
+{20728_start} <-> {20728_stop} : delay
+hnote over analysis 
+EndConditionSystem_CarLeave_NewEvent is reached
+endnote
+@enduml

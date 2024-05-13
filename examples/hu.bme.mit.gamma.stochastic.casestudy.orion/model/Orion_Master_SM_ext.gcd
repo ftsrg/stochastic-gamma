@@ -70,9 +70,10 @@ statechart Orion_Master_SM_ext [
 		}
 		state Kapcsolodik_2 {
 			entry / raise TimeoutKapcsolodik_2_req.newEvent;//set TimeoutKapcsolodik_2 := 5 s;
+					//raise Send_StateMachine_Port.OrionConnReq;
 		}
 		state Kapcsolodva_4 { 
-			entry / raise Status.conn;
+			entry / raise Status.conn;//raise Send_StateMachine_Port.OrionConnConf;
 			exit / raise Status.disconn;
 			region region_1_in_Kapcsolodva_4 {
 				state KeepAliveSendTimeout_1 {

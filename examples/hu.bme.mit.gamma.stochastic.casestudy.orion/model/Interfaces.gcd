@@ -1,4 +1,16 @@
 package interfaces
+
+interface Timing {
+	out event schedule
+}
+
+interface StatemachineTimeouts{
+	out event ConnectingTimeout
+	out event KeepAliveTimeout
+	out event ClosedTimeout
+	out event ConnectedTimeout
+}
+
 interface Block_Interface_ForOrion {
 	out event Operation_Call_SendData
 	out event Operation_Call_Invalid

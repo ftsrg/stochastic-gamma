@@ -97,7 +97,10 @@
         eType="ecore:EClass ../../hu.bme.mit.gamma.environment.stochastic.model/model/stochastic.ecore#//StochasticModel"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AssumeCondition" abstract="true" eSuperTypes="#//AnalysisCondition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AssumeCondition" abstract="true" eSuperTypes="#//AnalysisCondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="probability" eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//DecimalLiteralExpression"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObserveTime" eSuperTypes="#//ObserveCondition"/>
   <eClassifiers xsi:type="ecore:EClass" name="EndCondition" eSuperTypes="#//AnalysisCondition"/>
   <eClassifiers xsi:type="ecore:EClass" name="AnalysisMethod" abstract="true"/>
@@ -110,12 +113,18 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="simulationNumber" lowerBound="1"
         eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//IntegerLiteralExpression"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="warmupTime" lowerBound="1"
-        eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//Expression"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="warmupTime" eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//Expression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="simulationTime" lowerBound="1"
         eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//Expression"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="samplingBatchSize" eType="ecore:EClass ../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//IntegerLiteralExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jointSampling" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="debug" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportanceSampling" eSuperTypes="#//SimulationAnalysisMethod"/>
   <eClassifiers xsi:type="ecore:EClass" name="MCMC" eSuperTypes="#//SimulationAnalysisMethod">
@@ -129,4 +138,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="MCMCKernel" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="NUTS" eSuperTypes="#//MCMCKernel"/>
   <eClassifiers xsi:type="ecore:EClass" name="HMC" eSuperTypes="#//MCMCKernel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Simulation" eSuperTypes="#//SimulationAnalysisMethod"/>
 </ecore:EPackage>

@@ -1,0 +1,28 @@
+package orion_master_adapter
+import "interfaces"
+import "orion_master_sm_ext"
+
+adapter Orion_Master_Adapter of component master : Orion_Master_SM_ext {
+	
+	when Block_Port.any / run
+	when Connection_Port.any / run
+	when Process_StateMachine_Port.any / run
+	//when Send_StateMachine_Port.any,
+	when StateMachine_Port.any / run
+	when TimeoutKapcsolodik_2.any / run
+	when TimeoutKeepAliveSendTimeout_1.any / run
+	when TimeoutZarva_0.any / run
+	when TimoeutKeepAliveReceiveTimeout_3.any / run
+	
+	queue q1 (priority=1,capacity=1){
+		Block_Port.any,
+		Connection_Port.any,
+		Process_StateMachine_Port.any,
+		//Send_StateMachine_Port.any,
+		StateMachine_Port.any,
+		TimeoutKapcsolodik_2.any,
+		TimeoutKeepAliveSendTimeout_1.any,
+		TimeoutZarva_0.any,
+		TimoeutKeepAliveReceiveTimeout_3.any
+	}
+}

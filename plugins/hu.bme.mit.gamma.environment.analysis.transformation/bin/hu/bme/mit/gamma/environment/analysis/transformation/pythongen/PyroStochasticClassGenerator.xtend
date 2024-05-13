@@ -12,6 +12,7 @@ import hu.bme.mit.gamma.environment.analysis.transformation.util.ElementaryCompo
 
 import static extension hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility.*
 import static extension hu.bme.mit.gamma.environment.analysis.transformation.pythongen.PyroDistGenerator.*
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
 
 class  PyroStochasticClassGenerator {
 	
@@ -25,6 +26,9 @@ class  PyroStochasticClassGenerator {
 		var componentGenerator=new PyroComponentInstanceGenerator(packageName)
 		var distGenerator=new PyroDistGenerator
 		var param_cntr=new Integer(0)
+		var analysismethod = analysis_component.analysismethod as SimulationAnalysisMethod
+		val debug=analysismethod.debug
+		val jointSampling=analysismethod.jointSampling	
 '''  
 class StochasticEventGenerator():
 
@@ -48,18 +52,25 @@ class StochasticEventGenerator():
 		«componentGenerator.gennerateInstances(connections)»
 		# register input interfaces of elementary stochastic components
 		«componentGenerator.generateConfigurations(connections)»
+		«IF jointSampling»
+			RandomVariable.ginit()
+		«ENDIF»
 
 	def reset(self):
 		self.time=0
 		self.events.clear()
-		for dist in self.dists:
-			dist.reset()
 		«FOR arg : analysis_component.analyzedComponent.arguments SEPARATOR ","»
 			«IF arg instanceof StochasticExpression»
 				self.«analysis_component.analyzedComponent.type.parameterDeclarations.get(param_cntr).name»[0]=pyro.sample("param_«(param_cntr).toString»",«(arg.randomvariable).generateDitribution»).detach()
 			«ENDIF»
 			#«param_cntr++»
 		«ENDFOR»
+		«IF jointSampling»
+			RandomVariable.greset()
+		«ELSE»
+			for i in pyro.plate("initial_samples",len(self.dists)):
+				self.dists[i].reset()
+		«ENDIF»
 		self.detmodel.reset()
 		"""self.detmodel.reset(«TransformationUtility.generateDetmodelParamsNew(analysis_component)»)"""
 
@@ -83,6 +94,16 @@ class StochasticEventGenerator():
 		self.min_i=min_i
 		return mintime-self.time
 
+def guide():
+	dists=[]
+	
+	«FOR rand_var:distGenerator.random_vars»
+		dists.append[«rand_var»]
+	«ENDFOR»
+	
+	for dist in dists:
+		dist.reset()
+	# «distGenerator.random_vars.clear»
 '''
 	}
 }

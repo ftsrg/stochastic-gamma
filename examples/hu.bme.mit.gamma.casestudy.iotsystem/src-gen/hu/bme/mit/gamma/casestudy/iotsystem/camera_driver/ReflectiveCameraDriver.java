@@ -43,6 +43,10 @@ public class ReflectiveCameraDriver implements ReflectiveComponentInterface {
 		}
 	}
 	
+	public void raiseEvent(String port, String event) {
+		raiseEvent(port, event, null);
+	}
+	
 	public void raiseEvent(String port, String event, Object[] parameters) {
 		String portEvent = port + "." + event;
 		switch (portEvent) {
@@ -58,6 +62,10 @@ public class ReflectiveCameraDriver implements ReflectiveComponentInterface {
 			default:
 				throw new IllegalArgumentException("Not known port-in event combination: " + portEvent);
 		}
+	}
+	
+	public boolean isRaisedEvent(String port, String event) {
+		return isRaisedEvent(port, event, null);
 	}
 	
 	public boolean isRaisedEvent(String port, String event, Object[] parameters) {

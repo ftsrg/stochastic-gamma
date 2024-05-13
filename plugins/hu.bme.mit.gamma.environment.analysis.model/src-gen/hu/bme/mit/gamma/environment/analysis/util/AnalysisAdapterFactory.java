@@ -217,6 +217,10 @@ public class AnalysisAdapterFactory extends AdapterFactoryImpl {
 				return createHMCAdapter();
 			}
 			@Override
+			public Adapter caseSimulation(Simulation object) {
+				return createSimulationAdapter();
+			}
+			@Override
 			public Adapter caseNamedElement(NamedElement object) {
 				return createNamedElementAdapter();
 			}
@@ -749,6 +753,20 @@ public class AnalysisAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createHMCAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link hu.bme.mit.gamma.environment.analysis.Simulation <em>Simulation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see hu.bme.mit.gamma.environment.analysis.Simulation
+	 * @generated
+	 */
+	public Adapter createSimulationAdapter() {
 		return null;
 	}
 

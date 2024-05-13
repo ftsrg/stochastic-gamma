@@ -2,6 +2,9 @@ package hu.bme.mit.gamma.environment.analysis.transformation.pythongen;
 
 import com.google.common.base.Objects;
 import hu.bme.mit.gamma.codegeneration.java.util.ElementaryEnvironmentComponentUtility;
+import hu.bme.mit.gamma.environment.analysis.AnalysisComponent;
+import hu.bme.mit.gamma.environment.analysis.AnalysisMethod;
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.EnvironmentConnections;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility;
 import hu.bme.mit.gamma.environment.model.ElementaryEnvironmentComponentInstance;
@@ -37,11 +40,18 @@ public class PyroComponentClassGenerator {
 
   private final ElementaryEnvironmentComponentUtility envUtil = ElementaryEnvironmentComponentUtility.INSTANCE;
 
-  public PyroComponentClassGenerator(final String packageName) {
+  private final SimulationAnalysisMethod analysisMethod;
+
+  private final boolean debug;
+
+  public PyroComponentClassGenerator(final String packageName, final AnalysisComponent analysisComponent) {
     this.packageName = packageName;
     this.expEval = ExpressionEvaluator.INSTANCE;
     PyroDistGenerator _pyroDistGenerator = new PyroDistGenerator();
     this.distGenerator = _pyroDistGenerator;
+    AnalysisMethod _analysismethod = analysisComponent.getAnalysismethod();
+    this.analysisMethod = ((SimulationAnalysisMethod) _analysismethod);
+    this.debug = this.analysisMethod.isDebug();
   }
 
   public CharSequence generateInterface(final Interface i) {
@@ -533,18 +543,19 @@ public class PyroComponentClassGenerator {
             _builder.append("\t\t\t");
             _builder.append("if IESC_SYNC:");
             _builder.newLine();
-            _builder.append("\t\t\t\t");
-            _builder.append("if DEBUG:");
-            _builder.newLine();
-            _builder.append("\t\t\t\t\t");
-            _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {self.port}+.");
-            String _firstUpper_7 = StringExtensions.toFirstUpper(event.getName());
-            _builder.append(_firstUpper_7, "\t\t\t\t\t");
-            _builder.append("({[");
-            CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event);
-            _builder.append(_generateFuncParams_1, "\t\t\t\t\t");
-            _builder.append("]}) at {self.simulator.time}\')");
-            _builder.newLineIfNotEmpty();
+            {
+              if (this.debug) {
+                _builder.append("\t\t\t\t");
+                _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {self.port}+.");
+                String _firstUpper_7 = StringExtensions.toFirstUpper(event.getName());
+                _builder.append(_firstUpper_7, "\t\t\t\t");
+                _builder.append("({[");
+                CharSequence _generateFuncParams_1 = TransformationUtility.generateFuncParams(event);
+                _builder.append(_generateFuncParams_1, "\t\t\t\t");
+                _builder.append("]}) at {self.simulator.time}\')");
+                _builder.newLineIfNotEmpty();
+              }
+            }
             _builder.append("\t\t\t\t");
             _builder.append("callEvent=lambda:call.raise");
             String _firstUpper_8 = StringExtensions.toFirstUpper(event.getName());
@@ -563,18 +574,19 @@ public class PyroComponentClassGenerator {
             _builder.append("\t\t\t");
             _builder.append("else:");
             _builder.newLine();
-            _builder.append("\t\t\t\t");
-            _builder.append("if DEBUG:");
-            _builder.newLine();
-            _builder.append("\t\t\t\t\t");
-            _builder.append("dprint(f\'detmodel <-> stochmodel : {self.name} :: {self.port}+.");
-            String _firstUpper_10 = StringExtensions.toFirstUpper(event.getName());
-            _builder.append(_firstUpper_10, "\t\t\t\t\t");
-            _builder.append("({[");
-            CharSequence _generateFuncParams_3 = TransformationUtility.generateFuncParams(event);
-            _builder.append(_generateFuncParams_3, "\t\t\t\t\t");
-            _builder.append("]}) at {self.simulator.time}\')");
-            _builder.newLineIfNotEmpty();
+            {
+              if (this.debug) {
+                _builder.append("\t\t\t\t");
+                _builder.append("dprint(f\'detmodel <-> stochmodel : {self.name} :: {self.port}+.");
+                String _firstUpper_10 = StringExtensions.toFirstUpper(event.getName());
+                _builder.append(_firstUpper_10, "\t\t\t\t");
+                _builder.append("({[");
+                CharSequence _generateFuncParams_3 = TransformationUtility.generateFuncParams(event);
+                _builder.append(_generateFuncParams_3, "\t\t\t\t");
+                _builder.append("]}) at {self.simulator.time}\')");
+                _builder.newLineIfNotEmpty();
+              }
+            }
             _builder.append("\t\t\t\t");
             _builder.append("call.raise");
             String _firstUpper_11 = StringExtensions.toFirstUpper(event.getName());
@@ -740,17 +752,17 @@ public class PyroComponentClassGenerator {
           _builder.append("\t");
           _builder.append("failureTime=abs(time)+self.simulator.time");
           _builder.newLine();
-          _builder.append("\t");
-          _builder.append("\t");
-          _builder.append("if DEBUG:");
-          _builder.newLine();
-          _builder.append("\t");
-          _builder.append("\t\t");
-          _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {self.port}.");
-          String _firstUpper_4 = StringExtensions.toFirstUpper(event.getName());
-          _builder.append(_firstUpper_4, "\t\t\t");
-          _builder.append(" at {self.simulator.time}\')");
-          _builder.newLineIfNotEmpty();
+          {
+            if (this.debug) {
+              _builder.append("\t");
+              _builder.append("\t");
+              _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {self.port}.");
+              String _firstUpper_4 = StringExtensions.toFirstUpper(event.getName());
+              _builder.append(_firstUpper_4, "\t\t");
+              _builder.append(" at {self.simulator.time}\')");
+              _builder.newLineIfNotEmpty();
+            }
+          }
           _builder.append("\t");
           _builder.append("\t");
           _builder.append("for callitem in self.calls:");
@@ -906,7 +918,7 @@ public class PyroComponentClassGenerator {
           _builder.append("):");
           _builder.newLineIfNotEmpty();
           _builder.append("\t\t");
-          _builder.append("port=self.portarray[self.categorical.calc()]");
+          _builder.append("port=self.portarray[int(self.categorical.calc())]");
           _builder.newLine();
           _builder.append("\t\t");
           _builder.append("eventcalls=self.calls[port]#[\"");
@@ -917,15 +929,16 @@ public class PyroComponentClassGenerator {
           _builder.append("\t\t");
           _builder.append("self.event_cntr=self.event_cntr+1");
           _builder.newLine();
-          _builder.append("\t\t");
-          _builder.append("if DEBUG:");
-          _builder.newLine();
-          _builder.append("\t\t\t");
-          _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {port}+.");
-          String _firstUpper_3 = StringExtensions.toFirstUpper(event.getName());
-          _builder.append(_firstUpper_3, "\t\t\t");
-          _builder.append(" at {self.simulator.time}\')");
-          _builder.newLineIfNotEmpty();
+          {
+            if (this.debug) {
+              _builder.append("\t\t");
+              _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {port}+.");
+              String _firstUpper_3 = StringExtensions.toFirstUpper(event.getName());
+              _builder.append(_firstUpper_3, "\t\t");
+              _builder.append(" at {self.simulator.time}\')");
+              _builder.newLineIfNotEmpty();
+            }
+          }
           _builder.append("\t\t");
           _builder.append("for call in eventcalls:");
           _builder.newLine();
@@ -935,15 +948,16 @@ public class PyroComponentClassGenerator {
           _builder.append("\t\t\t\t");
           _builder.append("if IESC_SYNC:");
           _builder.newLine();
-          _builder.append("\t\t\t\t\t");
-          _builder.append("if DEBUG:");
-          _builder.newLine();
-          _builder.append("\t\t\t\t\t\t");
-          _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {port}+.");
-          String _firstUpper_4 = StringExtensions.toFirstUpper(event.getName());
-          _builder.append(_firstUpper_4, "\t\t\t\t\t\t");
-          _builder.append(" at {self.simulator.time}\')");
-          _builder.newLineIfNotEmpty();
+          {
+            if (this.debug) {
+              _builder.append("\t\t\t\t\t");
+              _builder.append("dprint(f\'detmodel -> stochmodel : {self.name} :: {port}+.");
+              String _firstUpper_4 = StringExtensions.toFirstUpper(event.getName());
+              _builder.append(_firstUpper_4, "\t\t\t\t\t");
+              _builder.append(" at {self.simulator.time}\')");
+              _builder.newLineIfNotEmpty();
+            }
+          }
           _builder.append("\t\t\t\t\t");
           _builder.append("callEvent=lambda:call.raise");
           String _firstUpper_5 = StringExtensions.toFirstUpper(event.getName());
@@ -962,15 +976,16 @@ public class PyroComponentClassGenerator {
           _builder.append("\t\t\t\t");
           _builder.append("else:");
           _builder.newLine();
-          _builder.append("\t\t\t\t\t");
-          _builder.append("if DEBUG:");
-          _builder.newLine();
-          _builder.append("\t\t\t\t\t\t");
-          _builder.append("dprint(f\'detmodel <-> stochmodel : {self.name} :: {port}+.");
-          String _firstUpper_7 = StringExtensions.toFirstUpper(event.getName());
-          _builder.append(_firstUpper_7, "\t\t\t\t\t\t");
-          _builder.append(" at {self.simulator.time}\')");
-          _builder.newLineIfNotEmpty();
+          {
+            if (this.debug) {
+              _builder.append("\t\t\t\t\t");
+              _builder.append("dprint(f\'detmodel <-> stochmodel : {self.name} :: {port}+.");
+              String _firstUpper_7 = StringExtensions.toFirstUpper(event.getName());
+              _builder.append(_firstUpper_7, "\t\t\t\t\t");
+              _builder.append(" at {self.simulator.time}\')");
+              _builder.newLineIfNotEmpty();
+            }
+          }
           _builder.append("\t\t\t\t\t");
           _builder.append("call.raise");
           String _firstUpper_8 = StringExtensions.toFirstUpper(event.getName());

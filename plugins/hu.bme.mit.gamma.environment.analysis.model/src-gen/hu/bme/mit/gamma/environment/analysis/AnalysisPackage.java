@@ -270,13 +270,22 @@ public interface AnalysisPackage extends EPackage {
 	int ASSUME_CONDITION__EVENT = ANALYSIS_CONDITION__EVENT;
 
 	/**
+	 * The feature id for the '<em><b>Probability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSUME_CONDITION__PROBABILITY = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Assume Condition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSUME_CONDITION_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 0;
+	int ASSUME_CONDITION_FEATURE_COUNT = ANALYSIS_CONDITION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Assume Condition</em>' class.
@@ -305,6 +314,15 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int ASSUME_RAISED__EVENT = ASSUME_CONDITION__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Probability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSUME_RAISED__PROBABILITY = ASSUME_CONDITION__PROBABILITY;
 
 	/**
 	 * The number of structural features of the '<em>Assume Raised</em>' class.
@@ -342,6 +360,15 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int ASSUME_NOT_RAISED__EVENT = ASSUME_CONDITION__EVENT;
+
+	/**
+	 * The feature id for the '<em><b>Probability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSUME_NOT_RAISED__PROBABILITY = ASSUME_CONDITION__PROBABILITY;
 
 	/**
 	 * The number of structural features of the '<em>Assume Not Raised</em>' class.
@@ -1502,13 +1529,40 @@ public interface AnalysisPackage extends EPackage {
 	int SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = ANALYSIS_METHOD_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Sampling Batch Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD__SAMPLING_BATCH_SIZE = ANALYSIS_METHOD_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Joint Sampling</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD__JOINT_SAMPLING = ANALYSIS_METHOD_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Debug</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_ANALYSIS_METHOD__DEBUG = ANALYSIS_METHOD_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Simulation Analysis Method</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT = ANALYSIS_METHOD_FEATURE_COUNT + 4;
+	int SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT = ANALYSIS_METHOD_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Simulation Analysis Method</em>' class.
@@ -1564,6 +1618,33 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int IMPORTANCE_SAMPLING__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Sampling Batch Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__SAMPLING_BATCH_SIZE = SIMULATION_ANALYSIS_METHOD__SAMPLING_BATCH_SIZE;
+
+	/**
+	 * The feature id for the '<em><b>Joint Sampling</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__JOINT_SAMPLING = SIMULATION_ANALYSIS_METHOD__JOINT_SAMPLING;
+
+	/**
+	 * The feature id for the '<em><b>Debug</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORTANCE_SAMPLING__DEBUG = SIMULATION_ANALYSIS_METHOD__DEBUG;
 
 	/**
 	 * The number of structural features of the '<em>Importance Sampling</em>' class.
@@ -1628,6 +1709,33 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int MCMC__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Sampling Batch Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__SAMPLING_BATCH_SIZE = SIMULATION_ANALYSIS_METHOD__SAMPLING_BATCH_SIZE;
+
+	/**
+	 * The feature id for the '<em><b>Joint Sampling</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__JOINT_SAMPLING = SIMULATION_ANALYSIS_METHOD__JOINT_SAMPLING;
+
+	/**
+	 * The feature id for the '<em><b>Debug</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MCMC__DEBUG = SIMULATION_ANALYSIS_METHOD__DEBUG;
 
 	/**
 	 * The feature id for the '<em><b>Kernel</b></em>' containment reference.
@@ -1710,6 +1818,33 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int SVI__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Sampling Batch Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__SAMPLING_BATCH_SIZE = SIMULATION_ANALYSIS_METHOD__SAMPLING_BATCH_SIZE;
+
+	/**
+	 * The feature id for the '<em><b>Joint Sampling</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__JOINT_SAMPLING = SIMULATION_ANALYSIS_METHOD__JOINT_SAMPLING;
+
+	/**
+	 * The feature id for the '<em><b>Debug</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SVI__DEBUG = SIMULATION_ANALYSIS_METHOD__DEBUG;
 
 	/**
 	 * The number of structural features of the '<em>SVI</em>' class.
@@ -1812,6 +1947,98 @@ public interface AnalysisPackage extends EPackage {
 	 * @ordered
 	 */
 	int HMC_OPERATION_COUNT = MCMC_KERNEL_OPERATION_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationImpl <em>Simulation</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.SimulationImpl
+	 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getSimulation()
+	 * @generated
+	 */
+	int SIMULATION = 36;
+
+	/**
+	 * The feature id for the '<em><b>Endcondition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION__ENDCONDITION = SIMULATION_ANALYSIS_METHOD__ENDCONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Number</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION__SIMULATION_NUMBER = SIMULATION_ANALYSIS_METHOD__SIMULATION_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Warmup Time</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION__WARMUP_TIME = SIMULATION_ANALYSIS_METHOD__WARMUP_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Simulation Time</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION__SIMULATION_TIME = SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Sampling Batch Size</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION__SAMPLING_BATCH_SIZE = SIMULATION_ANALYSIS_METHOD__SAMPLING_BATCH_SIZE;
+
+	/**
+	 * The feature id for the '<em><b>Joint Sampling</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION__JOINT_SAMPLING = SIMULATION_ANALYSIS_METHOD__JOINT_SAMPLING;
+
+	/**
+	 * The feature id for the '<em><b>Debug</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION__DEBUG = SIMULATION_ANALYSIS_METHOD__DEBUG;
+
+	/**
+	 * The number of structural features of the '<em>Simulation</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_FEATURE_COUNT = SIMULATION_ANALYSIS_METHOD_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Simulation</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_OPERATION_COUNT = SIMULATION_ANALYSIS_METHOD_OPERATION_COUNT + 0;
 
 
 	/**
@@ -2373,6 +2600,17 @@ public interface AnalysisPackage extends EPackage {
 	EClass getAssumeCondition();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.AssumeCondition#getProbability <em>Probability</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Probability</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.AssumeCondition#getProbability()
+	 * @see #getAssumeCondition()
+	 * @generated
+	 */
+	EReference getAssumeCondition_Probability();
+
+	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.ObserveTime <em>Observe Time</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2454,6 +2692,39 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSimulationAnalysisMethod_SimulationTime();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSamplingBatchSize <em>Sampling Batch Size</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Sampling Batch Size</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSamplingBatchSize()
+	 * @see #getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	EReference getSimulationAnalysisMethod_SamplingBatchSize();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getJointSampling <em>Joint Sampling</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Joint Sampling</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getJointSampling()
+	 * @see #getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	EAttribute getSimulationAnalysisMethod_JointSampling();
+
+	/**
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#isDebug <em>Debug</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Debug</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#isDebug()
+	 * @see #getSimulationAnalysisMethod()
+	 * @generated
+	 */
+	EAttribute getSimulationAnalysisMethod_Debug();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod#getSimulationNumber <em>Simulation Number</em>}'.
@@ -2547,6 +2818,16 @@ public interface AnalysisPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getHMC();
+
+	/**
+	 * Returns the meta object for class '{@link hu.bme.mit.gamma.environment.analysis.Simulation <em>Simulation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Simulation</em>'.
+	 * @see hu.bme.mit.gamma.environment.analysis.Simulation
+	 * @generated
+	 */
+	EClass getSimulation();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -3046,6 +3327,14 @@ public interface AnalysisPackage extends EPackage {
 		EClass ASSUME_CONDITION = eINSTANCE.getAssumeCondition();
 
 		/**
+		 * The meta object literal for the '<em><b>Probability</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSUME_CONDITION__PROBABILITY = eINSTANCE.getAssumeCondition_Probability();
+
+		/**
 		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.ObserveTimeImpl <em>Observe Time</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3118,6 +3407,30 @@ public interface AnalysisPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SIMULATION_ANALYSIS_METHOD__SIMULATION_TIME = eINSTANCE.getSimulationAnalysisMethod_SimulationTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Sampling Batch Size</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SIMULATION_ANALYSIS_METHOD__SAMPLING_BATCH_SIZE = eINSTANCE.getSimulationAnalysisMethod_SamplingBatchSize();
+
+		/**
+		 * The meta object literal for the '<em><b>Joint Sampling</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIMULATION_ANALYSIS_METHOD__JOINT_SAMPLING = eINSTANCE.getSimulationAnalysisMethod_JointSampling();
+
+		/**
+		 * The meta object literal for the '<em><b>Debug</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIMULATION_ANALYSIS_METHOD__DEBUG = eINSTANCE.getSimulationAnalysisMethod_Debug();
 
 		/**
 		 * The meta object literal for the '<em><b>Simulation Number</b></em>' containment reference feature.
@@ -3202,6 +3515,16 @@ public interface AnalysisPackage extends EPackage {
 		 * @generated
 		 */
 		EClass HMC = eINSTANCE.getHMC();
+
+		/**
+		 * The meta object literal for the '{@link hu.bme.mit.gamma.environment.analysis.impl.SimulationImpl <em>Simulation</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.SimulationImpl
+		 * @see hu.bme.mit.gamma.environment.analysis.impl.AnalysisPackageImpl#getSimulation()
+		 * @generated
+		 */
+		EClass SIMULATION = eINSTANCE.getSimulation();
 
 	}
 

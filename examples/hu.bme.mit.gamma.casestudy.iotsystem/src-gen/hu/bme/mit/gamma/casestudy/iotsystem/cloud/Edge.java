@@ -8,7 +8,7 @@ import hu.bme.mit.gamma.casestudy.iotsystem.TimerInterface.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.cloud.EdgeStatemachine.*;
 
-public class Edge implements EdgeInterface {
+public class Edge implements EdgeInterface, TimedObject{
 	// Port instances
 	private Camera camera = new Camera();
 	private TrafficStream trafficStream = new TrafficStream();
@@ -30,13 +30,34 @@ public class Edge implements EdgeInterface {
 	}
 	
 	public void reset() {
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+
+	public void handleBeforeReset() {
 		// Clearing the in events
 		insertQueue = true;
 		processQueue = false;
 		eventQueue1.clear();
 		eventQueue2.clear();
-		//
-		edge.reset();
+	}
+
+	public void resetVariables() {
+		edge.resetVariables();
+	}
+
+	public void resetStateConfigurations() {
+		edge.resetStateConfigurations();
+	}
+
+	public void raiseEntryEvents() {
+		edge.raiseEntryEvents();
+	}
+
+	public void handleAfterReset() {
 		timer.saveTime(this);
 		notifyListeners();
 	}
@@ -58,7 +79,7 @@ public class Edge implements EdgeInterface {
 	}
 	
 	/** Returns the event queue into which events should be put in the particular cycle. */
-	private Queue<Event> getInsertQueue() {
+	public Queue<Event> getInsertQueue() {
 		if (insertQueue) {
 			return eventQueue1;
 		}
@@ -222,6 +243,11 @@ public EdgeStatemachine getEdge(){
 		this.timer = timer;
 	}
 	
+	@Override
+	public long getEarliestTime(){
+				return Long.MAX_VALUE;
+	}
+	
 	public boolean isStateActive(String region, String state) {
 		switch (region) {
 			case "main":
@@ -239,6 +265,22 @@ public EdgeStatemachine getEdge(){
 	
 	@Override
 	public String toString() {
-		return edge.toString();
+		String str=edge.toString();
+		str=str+"\n "+getInQueue();
+		return str;
+	}
+	
+	public String getInQueue(){
+		String str="Input events (";
+		for (Event event:getInsertQueue()){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+")";
+		return str;
 	}
 }

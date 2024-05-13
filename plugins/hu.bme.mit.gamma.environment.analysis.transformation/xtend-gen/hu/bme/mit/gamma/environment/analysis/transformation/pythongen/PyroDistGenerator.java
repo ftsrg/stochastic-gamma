@@ -1,5 +1,6 @@
 package hu.bme.mit.gamma.environment.analysis.transformation.pythongen;
 
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.EnvironmentConnections;
 import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationUtility;
 import hu.bme.mit.gamma.environment.model.EnvironmentRule;
@@ -33,12 +34,16 @@ import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticModel;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.SumKernel;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.UniformRandomVariable;
 import hu.bme.mit.gamma.environment.stochastic.stochastic.WeibullRandomVariable;
+import hu.bme.mit.gamma.expression.model.IntegerLiteralExpression;
 import hu.bme.mit.gamma.expression.util.ExpressionEvaluator;
 import hu.bme.mit.gamma.statechart.interface_.Port;
+import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
@@ -47,17 +52,31 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
 public class PyroDistGenerator {
-  private static Integer distcntr = Integer.valueOf(0);
+  private Integer distcntr = Integer.valueOf(0);
 
   private final ExpressionEvaluator expEval = ExpressionEvaluator.INSTANCE;
 
-  public CharSequence generateRandomVariableClass() {
+  public static final LinkedList<String> random_vars = CollectionLiterals.<String>newLinkedList();
+
+  public CharSequence generateRandomVariableClass(final IntegerLiteralExpression N) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("class RandomVariable():");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("def __init__(self,dist,name,N=1):");
+    _builder.append("plate=pyro.plate(\"random_variable\")");
     _builder.newLine();
+    _builder.append("\t");
+    _builder.append("def __init__(self,dist,name,N=");
+    {
+      if ((N == null)) {
+        _builder.append("1");
+      } else {
+        BigInteger _value = N.getValue();
+        _builder.append(_value, "\t");
+      }
+    }
+    _builder.append("):");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.append("self.dist=dist");
     _builder.newLine();
@@ -72,6 +91,12 @@ public class PyroDistGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("self.N=N");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("def sampleb(self):");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return pyro.sample(self.name+\"_sample_\"+str(self.meta_cntr),self.dist.expand([self.N]))");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("def calc(self,event=0,time=0):");
@@ -92,9 +117,10 @@ public class PyroDistGenerator {
     _builder.append("self.meta_cntr=self.meta_cntr+1");
     _builder.newLine();
     _builder.append("\t\t\t\t");
+    _builder.append("with RandomVariable.plate:");
     _builder.newLine();
-    _builder.append("\t\t\t\t");
-    _builder.append("self.samples=pyro.sample(self.name+\"_sample_\"+str(self.meta_cntr),self.dist.expand([self.N]))");
+    _builder.append("\t\t\t\t\t");
+    _builder.append("self.samples=self.sampleb()");
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("return self.samples[self.event_cntr].item()");
@@ -103,21 +129,282 @@ public class PyroDistGenerator {
     _builder.append("else:");
     _builder.newLine();
     _builder.append("\t\t\t");
+    _builder.append("with RandomVariable.plate:");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
     _builder.append("return pyro.sample(self.name+\"_sample_\"+str(self.event_cntr),self.dist).item()");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("def reset(self):");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("self.event_cntr=self.N-1");
+    _builder.append("self.event_cntr=-1 # self.N-1");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("self.meta_cntr=-1");
+    _builder.append("self.meta_cntr=0#-1");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("with RandomVariable.plate:");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append("if self.N>0:");
+    _builder.newLine();
+    _builder.append("\t\t\t\t");
+    _builder.append("self.samples=self.sampleb()");
     _builder.newLine();
     return _builder;
   }
 
-  public CharSequence generateRandomVariableClass_old() {
+  public CharSequence generateJointRandomVariableClass(final IntegerLiteralExpression N) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("class JointDistribution(TorchDistribution):");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("arg_constraints = {}  # nothing can be constrained");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def __init__(self, dists, validate_args=None):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for dist in dists:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("if dist.event_shape != dists[0].event_shape:");
+    _builder.newLine();
+    _builder.append("                ");
+    _builder.append("raise ValueError(\"components event_shape disagree: {} vs {}\".format(");
+    _builder.newLine();
+    _builder.append("                    ");
+    _builder.append("dist.event_shape, dists[0].event_shape))");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("batch_shape = broadcast_shape(dists)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("self.dists = dists");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("self.dnum = len(dists)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("super().__init__(batch_shape, dists[0].event_shape, validate_args)");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("@property");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def has_rsample(self):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return True");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def expand(self, batch_shape):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("new_dists=[]");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for dist in self.dists:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("new_dists.append(dist.expand(batch_shape))");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return JointDistribution(new_dists)");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def sample(self, sample_shape=torch.Size()):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("samples=[]");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for dist in self.dists:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("samples.append(dist.sample(sample_shape))");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return torch.stack(samples)");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def rsample(self, sample_shape=torch.Size()):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("samples=[]");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for dist in self.dists:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("samples.append(dist.sample(sample_shape))");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return torch.stack(samples)");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def log_prob(self, value):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("log_prob=torch.tensor(0.0)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for i in range(len(self.dists)):");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("log_prob=log_prob+self.dists[i].log_prob(value[i]).sum()");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return log_prob");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def mean(self):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("means=[]");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for dist in self.dists:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("means.append(dist.mean)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return torch.stack(means)");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def variance(self):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("variances=[]");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for dist in self.dists:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("variances.append(dist.variance)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return torch.stack(variances)");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("class RandomVariable():");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("plate=pyro.plate(\"random_variable\")");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("dists=[]");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("samples=[]");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("dist=None");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("insts=[]");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def ginit():");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("RandomVariable.dist=JointDistribution(RandomVariable.dists)");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def greset():");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("RandomVariable.cntr=-1");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("RandomVariable.gsample()");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def gsample():");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("RandomVariable.cntr=RandomVariable.cntr+1");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("RandomVariable.samples=pyro.sample(\"samples_\"+str(RandomVariable.cntr),RandomVariable.dist)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("for dist in RandomVariable.insts:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("dist.event_cntr=-1");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def __init__(self,dist,name,N=");
+    {
+      if ((N == null)) {
+        _builder.append("1");
+      } else {
+        BigInteger _value = N.getValue();
+        _builder.append(_value, "    ");
+      }
+    }
+    _builder.append("):");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("self.dist=dist");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("self.name=name");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("self.event_cntr=-1");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("self.N=N");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("self.i=len(RandomVariable.dists)");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("RandomVariable.dists.append(dist.expand([N]))");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("RandomVariable.insts.append(self)");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("def calc(self,event=0,time=0):");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("self.event_cntr=self.event_cntr+1");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("if self.event_cntr==self.N:");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("RandomVariable.gsample()");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("return RandomVariable.samples[self.i][int(self.event_cntr)].item()");
+    _builder.newLine();
+    return _builder;
+  }
+
+  public CharSequence generateSimpleRandomVariableClass() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("class RandomVariable():");
     _builder.newLine();
@@ -156,7 +443,7 @@ public class PyroDistGenerator {
     _builder.append("class ContinuousRandomVariable():");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("def __init__(self,dist,name,N=1):");
+    _builder.append("def __init__(self,dist,name,N=30):");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("self.dist=dist");
@@ -946,7 +1233,7 @@ public class PyroDistGenerator {
     _builder.append("\t\t\t");
     _builder.append("name=\"FittedExpVariable");
     _builder.append(name, "\t\t\t");
-    String _string = (PyroDistGenerator.distcntr++).toString();
+    String _string = (this.distcntr++).toString();
     _builder.append(_string, "\t\t\t");
     _builder.append("\",");
     _builder.newLineIfNotEmpty();
@@ -973,7 +1260,7 @@ public class PyroDistGenerator {
     _builder.append("\t\t\t");
     _builder.append("name=\"FittedNormVariable");
     _builder.append(name, "\t\t\t");
-    String _string = (PyroDistGenerator.distcntr++).toString();
+    String _string = (this.distcntr++).toString();
     _builder.append(_string, "\t\t\t");
     _builder.append("\",");
     _builder.newLineIfNotEmpty();
@@ -987,43 +1274,49 @@ public class PyroDistGenerator {
     return _builder;
   }
 
-  protected CharSequence _generateZerotimeStochasticModel(final DiscreteRandomVariable variable, final String name) {
+  protected String _generateZerotimeStochasticModel(final DiscreteRandomVariable variable, final String name) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("ZerotimeRandomVariable(");
     CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(variable);
     _builder.append(_generateDitribution);
     _builder.append(",\"ZerotimeRandomVarriable");
     _builder.append(name);
-    String _string = (PyroDistGenerator.distcntr++).toString();
+    String _string = (this.distcntr++).toString();
     _builder.append(_string);
     _builder.append("\")");
-    return _builder;
+    final String str1 = _builder.toString();
+    PyroDistGenerator.random_vars.add(str1);
+    return str1;
   }
 
   protected CharSequence _generateStochasticModel(final ContinouosRandomVariable variable, final String name) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("ContinuousRandomVariable(");
+    _builder.append("RandomVariable(");
     CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(variable);
     _builder.append(_generateDitribution);
     _builder.append(",\"ContRandomVarriable");
     _builder.append(name);
-    String _string = (PyroDistGenerator.distcntr++).toString();
+    String _string = (this.distcntr++).toString();
     _builder.append(_string);
     _builder.append("\")");
-    return _builder;
+    final String str1 = _builder.toString();
+    PyroDistGenerator.random_vars.add(str1);
+    return str1;
   }
 
   protected CharSequence _generateStochasticModel(final DiscreteRandomVariable variable, final String name) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("ContinuousRandomVariable(");
+    _builder.append("RandomVariable(");
     CharSequence _generateDitribution = PyroDistGenerator.generateDitribution(variable);
     _builder.append(_generateDitribution);
     _builder.append(",\"DiscRandomVarriable");
     _builder.append(name);
-    String _string = (PyroDistGenerator.distcntr++).toString();
+    String _string = (this.distcntr++).toString();
     _builder.append(_string);
     _builder.append("\")");
-    return _builder;
+    final String str1 = _builder.toString();
+    PyroDistGenerator.random_vars.add(str1);
+    return str1;
   }
 
   protected CharSequence _generateStochasticModel(final FittedGaussianProcess variable, final String name) {
@@ -1051,7 +1344,7 @@ public class PyroDistGenerator {
     _builder.append("\t");
     _builder.append("name=\"FittedGaussianProcess");
     _builder.append(name, "\t");
-    String _string_1 = (PyroDistGenerator.distcntr++).toString();
+    String _string_1 = (this.distcntr++).toString();
     _builder.append(_string_1, "\t");
     _builder.append("\"");
     _builder.newLineIfNotEmpty();
@@ -1334,7 +1627,7 @@ public class PyroDistGenerator {
     return _builder.toString();
   }
 
-  public CharSequence generateCategorical(final EnvironmentConnections connection) {
+  public String generateCategorical(final EnvironmentConnections connection) {
     StringConcatenation _builder = new StringConcatenation();
     final Function1<EnvironmentRule, StochasticRule> _function = (EnvironmentRule r) -> {
       return ((StochasticRule) r);
@@ -1359,11 +1652,11 @@ public class PyroDistGenerator {
           };
           return Boolean.valueOf(ListExtensions.<Filter, Port>map(r.getFilter(), _function_2).contains(port));
         };
-        final Function1<StochasticRule, String> _function_2 = (StochasticRule r) -> {
+        final Function1<StochasticRule, CharSequence> _function_2 = (StochasticRule r) -> {
           StochasticModel _stochasticModel = r.getStochasticModel();
-          return Double.toString(this.expEval.evaluateDecimal(((CategoricalProbabaility) _stochasticModel).getProbability()));
+          return TransformationUtility.evaluateMixedExpression(((CategoricalProbabaility) _stochasticModel).getProbability());
         };
-        String _get = ((String[])Conversions.unwrapArray(IterableExtensions.<StochasticRule, String>map(IterableExtensions.<StochasticRule>filter(rules, _function_1), _function_2), String.class))[0];
+        CharSequence _get = ((CharSequence[])Conversions.unwrapArray(IterableExtensions.<StochasticRule, CharSequence>map(IterableExtensions.<StochasticRule>filter(rules, _function_1), _function_2), CharSequence.class))[0];
         _builder.append(_get, "\t\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t\t\t");
@@ -1375,16 +1668,17 @@ public class PyroDistGenerator {
     _builder.append("name=\"");
     String _firstUpper = StringExtensions.toFirstUpper(connection.component.getName());
     _builder.append(_firstUpper, "\t");
-    String _string = (PyroDistGenerator.distcntr++).toString();
+    String _string = (this.distcntr++).toString();
     _builder.append(_string, "\t");
     _builder.append("\")");
     _builder.newLineIfNotEmpty();
-    return _builder;
+    final String str1 = _builder.toString();
+    PyroDistGenerator.random_vars.add(str1);
+    return str1;
   }
 
-  public CharSequence generateClasses() {
+  public String generateClasses(final SimulationAnalysisMethod analysisMethod) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.newLine();
     CharSequence _generateDatasetClass = this.generateDatasetClass();
     _builder.append(_generateDatasetClass);
     _builder.newLineIfNotEmpty();
@@ -1393,21 +1687,24 @@ public class PyroDistGenerator {
     _builder.append("# stochastic model classes");
     _builder.newLine();
     _builder.newLine();
-    CharSequence _generateContinuousRandomVariableClass = this.generateContinuousRandomVariableClass();
-    _builder.append(_generateContinuousRandomVariableClass);
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.newLine();
     CharSequence _generateDiscreteRandomVariableClass = this.generateDiscreteRandomVariableClass();
     _builder.append(_generateDiscreteRandomVariableClass);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
+    {
+      Boolean _jointSampling = analysisMethod.getJointSampling();
+      if ((_jointSampling).booleanValue()) {
+        CharSequence _generateJointRandomVariableClass = this.generateJointRandomVariableClass(analysisMethod.getSamplingBatchSize());
+        _builder.append(_generateJointRandomVariableClass);
+        _builder.newLineIfNotEmpty();
+      } else {
+        CharSequence _generateRandomVariableClass = this.generateRandomVariableClass(analysisMethod.getSamplingBatchSize());
+        _builder.append(_generateRandomVariableClass);
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.newLine();
-    CharSequence _generateRandomVariableClass = this.generateRandomVariableClass();
-    _builder.append(_generateRandomVariableClass);
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    return _builder;
+    return _builder.toString();
   }
 
   public CharSequence generateStochasticModel(final StochasticModel variable, final String name) {
@@ -1427,7 +1724,7 @@ public class PyroDistGenerator {
     }
   }
 
-  public CharSequence generateZerotimeStochasticModel(final DiscreteRandomVariable variable, final String name) {
+  public String generateZerotimeStochasticModel(final DiscreteRandomVariable variable, final String name) {
     return _generateZerotimeStochasticModel(variable, name);
   }
 

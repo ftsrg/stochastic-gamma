@@ -6,6 +6,7 @@ statechart Status_SM [
 	port systemStatus : provides ConnectionState
 ]{
 	transition from init to no_conn
+	transition from no_conn to system_conn when masterStatus.conn && slaveStatus.conn / raise systemStatus.conn;
 	transition from no_conn to master_conn when masterStatus.conn
 	transition from master_conn to no_conn when masterStatus.disconn
 	transition from no_conn to slave_conn when slaveStatus.conn

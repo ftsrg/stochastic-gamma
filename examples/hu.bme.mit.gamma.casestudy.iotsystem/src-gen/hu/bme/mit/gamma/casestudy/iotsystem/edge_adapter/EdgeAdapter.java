@@ -44,13 +44,40 @@ public class EdgeAdapter implements Runnable, EdgeAdapterInterface {
 	
 	/** Resets the wrapped component. Must be called to initialize the component. */
 	@Override
-	public void reset() {
-		edge.reset();
+	public void reset(){
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+	
+	public void handleBeforeReset() {
+		//interrupt();
+		//
+		edge.handleBeforeReset();
+	}
+	
+	public void resetVariables() {
+		edge.resetVariables();
+	}
+	
+	public void resetStateConfigurations() {
+		edge.resetStateConfigurations();
+	}
+	
+	public void raiseEntryEvents() {
+		edge.raiseEntryEvents();
+	}
+	
+	public void handleAfterReset() {
+		edge.handleAfterReset();
+		//
 	}
 	
 	/** Creates the subqueues, clocks and enters the wrapped synchronous component. */
 	private void init() {
-		edge = new Edge();
+		//edge = new Edge();
 		// Creating subqueues: the negative conversion regarding priorities is needed,
 		// because the lbmq marks higher priority with lower integer values
 		__asyncQueue.addSubQueue("cameraQueue", -(2), (int) 1);
@@ -254,4 +281,30 @@ public class EdgeAdapter implements Runnable, EdgeAdapterInterface {
 	}
 	
 	
+
+	public String getInQueue(){
+		String str="Input events (";
+		str=str+"cameraQueue [";
+		for (Event event:cameraQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+"trafficQueue [";
+		for (Event event:trafficQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+")";
+		return str;
+	}
 }

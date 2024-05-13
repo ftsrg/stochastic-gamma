@@ -30,43 +30,151 @@ import hu.bme.mit.gamma.environment.analysis.transformation.util.TransformationU
 import hu.bme.mit.gamma.environment.analysis.transformation.util.EnvironmentConnections
 import hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticProcess
 import hu.bme.mit.gamma.environment.stochastic.stochastic.RandomVariable
+import java.math.BigInteger
+import hu.bme.mit.gamma.expression.model.IntegerLiteralExpression
+import hu.bme.mit.gamma.environment.analysis.SimulationAnalysisMethod
 
 class PyroDistGenerator {	
 	
-	static Integer distcntr=0
+	Integer distcntr=0
 	final ExpressionEvaluator expEval=ExpressionEvaluator.INSTANCE;
 	//final String packageName
+	
+	public static val random_vars= <String>newLinkedList
 	
 
 	
 		
-	def generateRandomVariableClass(){
+	def generateRandomVariableClass(IntegerLiteralExpression N){
 		'''
 		class RandomVariable():
-			def __init__(self,dist,name,N=1):
+			plate=pyro.plate("random_variable")
+			def __init__(self,dist,name,N=«IF N === null»1«ELSE»«N.value»«ENDIF»):
 				self.dist=dist
 				self.name=name
 				self.event_cntr=N-1
 				self.meta_cntr=-1
 				self.N=N
+			def sampleb(self):
+				return pyro.sample(self.name+"_sample_"+str(self.meta_cntr),self.dist.expand([self.N]))
 			def calc(self,event=0,time=0):
 				self.event_cntr=self.event_cntr+1
 				if self.N>0:
 					if self.event_cntr==self.N:
 						self.event_cntr=0
 						self.meta_cntr=self.meta_cntr+1
-						
-						self.samples=pyro.sample(self.name+"_sample_"+str(self.meta_cntr),self.dist.expand([self.N]))
+						with RandomVariable.plate:
+							self.samples=self.sampleb()
 					return self.samples[self.event_cntr].item()
 				else:
-					return pyro.sample(self.name+"_sample_"+str(self.event_cntr),self.dist).item()
+					with RandomVariable.plate:
+						return pyro.sample(self.name+"_sample_"+str(self.event_cntr),self.dist).item()
 			def reset(self):
-				self.event_cntr=self.N-1
-				self.meta_cntr=-1
+				self.event_cntr=-1 # self.N-1
+				self.meta_cntr=0#-1
+				with RandomVariable.plate:
+					if self.N>0:
+						self.samples=self.sampleb()
 		'''
 	}
 	
-	def generateRandomVariableClass_old(){
+			
+	def generateJointRandomVariableClass(IntegerLiteralExpression N){
+		'''
+		class JointDistribution(TorchDistribution):
+		
+		    arg_constraints = {}  # nothing can be constrained
+		
+		    def __init__(self, dists, validate_args=None):
+		        for dist in dists:
+		            if dist.event_shape != dists[0].event_shape:
+		                raise ValueError("components event_shape disagree: {} vs {}".format(
+		                    dist.event_shape, dists[0].event_shape))
+		        batch_shape = broadcast_shape(dists)
+		        self.dists = dists
+		        self.dnum = len(dists)
+		        super().__init__(batch_shape, dists[0].event_shape, validate_args)
+		
+		    @property
+		    def has_rsample(self):
+		        return True
+
+		    def expand(self, batch_shape):
+		        new_dists=[]
+		        for dist in self.dists:
+		            new_dists.append(dist.expand(batch_shape))
+		        return JointDistribution(new_dists)
+		
+		    def sample(self, sample_shape=torch.Size()):
+		        samples=[]
+		        for dist in self.dists:
+		            samples.append(dist.sample(sample_shape))
+		        return torch.stack(samples)
+		
+		    def rsample(self, sample_shape=torch.Size()):
+		        samples=[]
+		        for dist in self.dists:
+		            samples.append(dist.sample(sample_shape))
+		        return torch.stack(samples)
+		
+		    def log_prob(self, value):
+		        log_prob=torch.tensor(0.0)
+		        for i in range(len(self.dists)):
+		            log_prob=log_prob+self.dists[i].log_prob(value[i]).sum()
+		        return log_prob
+		
+		    def mean(self):
+		        means=[]
+		        for dist in self.dists:
+		            means.append(dist.mean)
+		        return torch.stack(means)
+		
+		    def variance(self):
+		        variances=[]
+		        for dist in self.dists:
+		            variances.append(dist.variance)
+		        return torch.stack(variances)
+		
+		
+		class RandomVariable():
+		
+		    plate=pyro.plate("random_variable")
+		    dists=[]
+		    samples=[]
+		    dist=None
+		    insts=[]
+		
+		    def ginit():
+		        RandomVariable.dist=JointDistribution(RandomVariable.dists)
+		
+		    def greset():
+		        RandomVariable.cntr=-1
+		        RandomVariable.gsample()
+		
+		    def gsample():
+		        RandomVariable.cntr=RandomVariable.cntr+1
+		        RandomVariable.samples=pyro.sample("samples_"+str(RandomVariable.cntr),RandomVariable.dist)
+		        for dist in RandomVariable.insts:
+		            dist.event_cntr=-1
+		
+		    def __init__(self,dist,name,N=«IF N === null»1«ELSE»«N.value»«ENDIF»):
+		        self.dist=dist
+		        self.name=name
+		        self.event_cntr=-1
+		        self.N=N
+		        self.i=len(RandomVariable.dists)
+		        RandomVariable.dists.append(dist.expand([N]))
+		        RandomVariable.insts.append(self)
+		    
+		    def calc(self,event=0,time=0):
+		        self.event_cntr=self.event_cntr+1
+		        if self.event_cntr==self.N:
+		            RandomVariable.gsample()
+		        return RandomVariable.samples[self.i][int(self.event_cntr)].item()
+		'''
+	}
+	
+	def generateSimpleRandomVariableClass(){
 		'''
 		class RandomVariable():
 			def __init__(self,dist,name):
@@ -84,7 +192,7 @@ class PyroDistGenerator {
 	def generateContinuousRandomVariableClass(){
 		'''
 		class ContinuousRandomVariable():
-			def __init__(self,dist,name,N=1):
+			def __init__(self,dist,name,N=30):
 				self.dist=dist
 				self.name=name
 				self.event_cntr=N-1
@@ -399,15 +507,21 @@ class PyroDistGenerator {
 	}
 	
 	dispatch def generateZerotimeStochasticModel(DiscreteRandomVariable variable,String name){
-		'''ZerotimeRandomVariable(«generateDitribution(variable)»,"ZerotimeRandomVarriable«name»«(distcntr++).toString»")'''
+		val str1='''ZerotimeRandomVariable(«generateDitribution(variable)»,"ZerotimeRandomVarriable«name»«(distcntr++).toString»")'''
+		random_vars.add(str1)
+		return str1
 	}
 	
 	dispatch def generateStochasticModel(ContinouosRandomVariable variable,String name){
-		'''ContinuousRandomVariable(«generateDitribution(variable)»,"ContRandomVarriable«name»«(distcntr++).toString»")'''
+		val str1='''RandomVariable(«generateDitribution(variable)»,"ContRandomVarriable«name»«(distcntr++).toString»")'''
+		random_vars.add(str1)
+		return str1
 	}
 	
 	dispatch def generateStochasticModel(DiscreteRandomVariable variable,String name){
-		'''ContinuousRandomVariable(«generateDitribution(variable)»,"DiscRandomVarriable«name»«(distcntr++).toString»")'''
+		val str1='''RandomVariable(«generateDitribution(variable)»,"DiscRandomVarriable«name»«(distcntr++).toString»")'''
+		random_vars.add(str1)
+		return str1
 	}
 	
 	dispatch def generateStochasticModel(FittedGaussianProcess variable,String name){
@@ -530,34 +644,36 @@ class PyroDistGenerator {
 	
 	
 	def generateCategorical(EnvironmentConnections connection){
-		'''
+		val str1='''
 		«var rules=connection.component.behaviorRules
 			.map[r|r as StochasticRule]»
 		RandomVariable(dist=pyro.distributions.Categorical(torch.tensor([
 				«FOR port : connection.component.outports SEPARATOR ", "»
 					«rules.filter[r|r.filter.map[f|(f as PortFilter).port].contains(port)]
-						.map[r|Double.toString(expEval.evaluateDecimal((r.stochasticModel as CategoricalProbabaility).probability))].get(0)»
+						.map[r|TransformationUtility.evaluateMixedExpression((r.stochasticModel as CategoricalProbabaility).probability)].get(0)»
 				«ENDFOR»])),
 			name="«connection.component.name.toFirstUpper»«(distcntr++).toString»")
 		'''
+		random_vars.add(str1)
+		return str1
 	}
 	
-	def generateClasses()
-'''
-
-«generateDatasetClass»
-
-
-# stochastic model classes
-
-«generateContinuousRandomVariableClass»
-
-
-«generateDiscreteRandomVariableClass»
-
-
-«generateRandomVariableClass»
-
-'''
-	
+	def generateClasses(SimulationAnalysisMethod analysisMethod){
+		return 
+			'''
+			«generateDatasetClass»
+			
+			
+			# stochastic model classes
+			
+			«generateDiscreteRandomVariableClass»
+			
+			«IF analysisMethod.jointSampling»
+				«generateJointRandomVariableClass(analysisMethod.samplingBatchSize)»
+			«ELSE»
+				«generateRandomVariableClass(analysisMethod.samplingBatchSize)»
+			«ENDIF»
+			
+			'''
+	}
 }

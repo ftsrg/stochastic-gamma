@@ -5,8 +5,8 @@ import java.util.List;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.*;
 
-import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.network.*;
+import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 
 import hu.bme.mit.gamma.casestudy.iotsystem.network.*;
 
@@ -42,13 +42,40 @@ public class NetworkAdapter implements Runnable, NetworkAdapterInterface {
 	
 	/** Resets the wrapped component. Must be called to initialize the component. */
 	@Override
-	public void reset() {
-		network.reset();
+	public void reset(){
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+	
+	public void handleBeforeReset() {
+		//interrupt();
+		//
+		network.handleBeforeReset();
+	}
+	
+	public void resetVariables() {
+		network.resetVariables();
+	}
+	
+	public void resetStateConfigurations() {
+		network.resetStateConfigurations();
+	}
+	
+	public void raiseEntryEvents() {
+		network.raiseEntryEvents();
+	}
+	
+	public void handleAfterReset() {
+		network.handleAfterReset();
+		//
 	}
 	
 	/** Creates the subqueues, clocks and enters the wrapped synchronous component. */
 	private void init() {
-		network = new Network();
+		//network = new Network();
 		// Creating subqueues: the negative conversion regarding priorities is needed,
 		// because the lbmq marks higher priority with lower integer values
 		__asyncQueue.addSubQueue("imageLossQueue", -(2), (int) 1);
@@ -228,4 +255,30 @@ public class NetworkAdapter implements Runnable, NetworkAdapterInterface {
 	}
 	
 	
+
+	public String getInQueue(){
+		String str="Input events (";
+		str=str+"imageLossQueue [";
+		for (Event event:imageLossQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+"imageInQueue [";
+		for (Event event:imageInQueue){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+"], ";
+		str=str+")";
+		return str;
+	}
 }

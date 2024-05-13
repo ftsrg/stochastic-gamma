@@ -7,9 +7,9 @@ import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.TrafficEventStreamInterfa
 
 public interface CameraAdapterInterface {
 	
-	TrafficEventStreamInterface.Required getTrafficSensing();
-	DataStreamInterface.Provided getImages();
 	EventStreamInterface.Required getSoftwareTimer();
+	DataStreamInterface.Provided getImages();
+	TrafficEventStreamInterface.Required getTrafficSensing();
 	
 	void reset();
 	

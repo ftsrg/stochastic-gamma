@@ -20,13 +20,15 @@ class AnalysisTransformation {
 	
 	def transformandrun(Resource resource,URI uri,String packageName,List<String> uriList,String basePackage){
 		
-		var pyGenURI=basePackage+File.separator+"simulator-gen"+File.separator+"simulator.py"
-		var gatewayGenURI=basePackage+File.separator+"gateway-gen"+File.separator+"javaenv"+File.separator+"DetModelEntryPoint.java"
+		var pck=resource.getContents().get(0) as Package
+		var acomp=pck.components.filter[e|e instanceof AnalysisComponent].get(0) as AnalysisComponent
+		
+		var pyGenURI=basePackage+File.separator+"simulator-gen"+File.separator+acomp.name.toLowerCase+"_simulator.py"
+		var gatewayGenURI=basePackage+File.separator+"gateway-gen"+File.separator+"javaenv"+File.separator+acomp.name.toFirstUpper+"EntryPoint.java"
 		
 		var pythonGenerator = new PyroSimulatorGenerator()
 		var javaGenerator= new JavaEntryClassGenerator()
-		var pck=resource.getContents().get(0) as Package
-		var acomp=pck.components.filter[e|e instanceof AnalysisComponent].get(0) as AnalysisComponent
+		
 		logger.log(Level.INFO, "Python Simulator URI: " + pyGenURI)
 		logger.log(Level.INFO, "Java Simulator URI: " + gatewayGenURI)
 		futil.saveString(pyGenURI, pythonGenerator.generate(acomp,packageName,basePackage).toString )

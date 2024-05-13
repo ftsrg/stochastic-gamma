@@ -488,7 +488,7 @@ public class PyroComponentInstanceGenerator {
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("categorical=");
-        CharSequence _generateCategorical = this.distGenerator.generateCategorical(connection);
+        String _generateCategorical = this.distGenerator.generateCategorical(connection);
         _builder.append(_generateCategorical, "\t\t");
         _builder.append(",");
         _builder.newLineIfNotEmpty();

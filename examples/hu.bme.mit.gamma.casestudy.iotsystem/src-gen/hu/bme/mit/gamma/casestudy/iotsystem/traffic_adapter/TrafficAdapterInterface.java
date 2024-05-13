@@ -7,9 +7,9 @@ import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.TrafficEventStreamInterfa
 public interface TrafficAdapterInterface {
 	
 	EventStreamInterface.Required getCarArrives();
+	EventStreamInterface.Required getCarLeaves();
 	TrafficEventStreamInterface.Provided getTrafficStream();
 	EventStreamInterface.Provided getCarArrivesOut();
-	EventStreamInterface.Required getCarLeaves();
 	
 	void reset();
 	

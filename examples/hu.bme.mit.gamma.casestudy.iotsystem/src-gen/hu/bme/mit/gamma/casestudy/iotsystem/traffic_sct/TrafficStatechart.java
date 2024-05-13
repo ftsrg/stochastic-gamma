@@ -8,7 +8,7 @@ import hu.bme.mit.gamma.casestudy.iotsystem.TimerInterface.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.interfaces.*;
 import hu.bme.mit.gamma.casestudy.iotsystem.traffic_sct.TrafficStatechartStatemachine.*;
 
-public class TrafficStatechart implements TrafficStatechartInterface {
+public class TrafficStatechart implements TrafficStatechartInterface, TimedObject{
 	// Port instances
 	private CarArrives carArrives = new CarArrives();
 	private CarLeaves carLeaves = new CarLeaves();
@@ -30,13 +30,34 @@ public class TrafficStatechart implements TrafficStatechartInterface {
 	}
 	
 	public void reset() {
+		this.handleBeforeReset();
+		this.resetVariables();
+		this.resetStateConfigurations();
+		this.raiseEntryEvents();
+		this.handleAfterReset();
+	}
+
+	public void handleBeforeReset() {
 		// Clearing the in events
 		insertQueue = true;
 		processQueue = false;
 		eventQueue1.clear();
 		eventQueue2.clear();
-		//
-		trafficStatechart.reset();
+	}
+
+	public void resetVariables() {
+		trafficStatechart.resetVariables();
+	}
+
+	public void resetStateConfigurations() {
+		trafficStatechart.resetStateConfigurations();
+	}
+
+	public void raiseEntryEvents() {
+		trafficStatechart.raiseEntryEvents();
+	}
+
+	public void handleAfterReset() {
 		timer.saveTime(this);
 		notifyListeners();
 	}
@@ -58,7 +79,7 @@ public class TrafficStatechart implements TrafficStatechartInterface {
 	}
 	
 	/** Returns the event queue into which events should be put in the particular cycle. */
-	private Queue<Event> getInsertQueue() {
+	public Queue<Event> getInsertQueue() {
 		if (insertQueue) {
 			return eventQueue1;
 		}
@@ -222,6 +243,11 @@ public TrafficStatechartStatemachine getTrafficStatechart(){
 		this.timer = timer;
 	}
 	
+	@Override
+	public long getEarliestTime(){
+				return Long.MAX_VALUE;
+	}
+	
 	public boolean isStateActive(String region, String state) {
 		switch (region) {
 			case "main":
@@ -236,6 +262,22 @@ public TrafficStatechartStatemachine getTrafficStatechart(){
 	
 	@Override
 	public String toString() {
-		return trafficStatechart.toString();
+		String str=trafficStatechart.toString();
+		str=str+"\n "+getInQueue();
+		return str;
+	}
+	
+	public String getInQueue(){
+		String str="Input events (";
+		for (Event event:getInsertQueue()){
+			str=str+event.getEvent().toString()+" : ";
+			if (event.getValue() != null){
+				for (Object value:event.getValue()){
+					str=str+" "+value.toString()+",";
+				}
+			}
+		}
+		str=str+")";
+		return str;
 	}
 }

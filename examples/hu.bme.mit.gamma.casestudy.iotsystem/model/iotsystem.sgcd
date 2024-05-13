@@ -22,10 +22,9 @@ stochastic async IoTSystem [
 analysis ServiceAvailability {
 	in stochastic component system : IoTSystem
 	probability of event system.Failures.newEvent;
-	@Configuration(ImportanceSampling){
-		simulation number = 50
-		simulation time = 3.0
-		warmup time = 0.0
+	@Configuration(Simulation){
+		simulation number = 1000
+		simulation time = 1.0
 		end condition raised event system.CarLeave.newEvent
 		
 	}

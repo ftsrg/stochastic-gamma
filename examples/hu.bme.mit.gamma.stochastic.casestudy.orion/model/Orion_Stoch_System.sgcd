@@ -34,6 +34,9 @@ stochastic sync OrionStochSystem [
 	component slave : Orion_Slave_SM_ext
 	component connStatus : Status_SM
 	
+	//component masterSlaveChannel : ChannelStatechart
+	//component slaveMasterChannel : ChannelStatechart
+	 
 	switch masterSlaveChannel port Input : requires StateMachine_Interface_For_Orion -> 
 									port Output : provides StateMachine_Interface_For_Orion,
 									port Lossport : provides StateMachine_Interface_For_Orion{
