@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<contexts>
-    <context id="hu.bme.mit.gamma.environment.ui.stochasticgammacontext">
-        <description> This is a sample F1 help string.</description>
-        <topic href="html/toc.html" label="Stochastic Gamma Related Topic" />
-    </context>
-</contexts>

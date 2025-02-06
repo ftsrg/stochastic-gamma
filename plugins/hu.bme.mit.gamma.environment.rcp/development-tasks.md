@@ -1,6 +1,0 @@
- - Add Viatra based Java generation
- - Test new features
- - Add Inference program generator
- - Add Stochastic model validation
- - Add Event Source component
- - Simulation GUI Wizard

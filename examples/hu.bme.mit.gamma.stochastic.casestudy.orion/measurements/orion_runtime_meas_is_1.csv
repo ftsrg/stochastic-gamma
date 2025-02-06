@@ -1,6 +1,0 @@
-script,runtime
-simulator-gen/orion_performance_cond_2_simulator.py,13.175590753555298
-simulator-gen/orion_performance_cond_4_simulator.py,20.253913164138794
-simulator-gen/orion_performance_cond_8_simulator.py,36.32233762741089
-simulator-gen/orion_performance_cond_16_simulator.py,71.10782217979431
-simulator-gen/orion_performance_cond_32_simulator.py,164.10497093200684

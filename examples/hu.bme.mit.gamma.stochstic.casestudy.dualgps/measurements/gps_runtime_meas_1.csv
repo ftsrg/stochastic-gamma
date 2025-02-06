@@ -1,6 +1,0 @@
-script,runtime
-simulator-gen/reliability_2_simulator.py,6.297075986862183
-simulator-gen/reliability_4_simulator.py,7.170576095581055
-simulator-gen/reliability_8_simulator.py,8.284082412719727
-simulator-gen/reliability_16_simulator.py,18.523391485214233
-simulator-gen/reliability_32_simulator.py,30.343684196472168
