@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Stochastic Gamma Docs" topic="html/toc.html">
+   <topic label="Getting Started">
+      <anchor id="gettingstarted"/>
+   </topic>
+   <topic label="Modeling">
+      <anchor id="modeling"/>
+   </topic>
+   <topic label="Analysis">
+      <anchor id="analysis"/>
+   </topic>
+   <topic label="Reference">
+      <anchor id="reference"/>
+   </topic>
+   <topic label="Samples">
+      <anchor id="samples"/>
+   </topic>
+</toc>

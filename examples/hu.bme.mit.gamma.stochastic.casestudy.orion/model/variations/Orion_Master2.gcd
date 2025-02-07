@@ -1,0 +1,41 @@
+package orion_master_sm2
+import "interfaces"
+statechart Orion_Master_SM [
+	port Send_StateMachine_Port : provides StateMachine_Interface_For_Orion
+	port StateMachine_Port : requires StateMachine_Interface_For_Orion
+	port Status : provides ConnectionState
+	//port Timing : requires StatemachineTimeouts
+	//port TimingReq : requires StatemachineTimeouts
+] {
+	// Definition of states, regions and transitions
+	timeout ClosedTimeout
+	//timeout ConnectedTimeout
+	//timeout ConnectingTimeout
+	//timeout KeepAliveTimeout
+	transition from init_1 to Closed
+	transition from Closed to Connecting when timeout ClosedTimeout/ raise Send_StateMachine_Port.OrionConnReq;
+	transition from Connecting to Connected when StateMachine_Port.OrionConnResp / raise Send_StateMachine_Port.OrionConnConf;
+	
+	transition from init_2 to KeepAliveSendTimeout
+	transition from init_3 to KeepAliveRecieveTimeout
+	
+	region main_region_1 {
+		initial init_1
+		state Closed {
+			entry / set ClosedTimeout:=5000 ms;
+		}
+		state Connecting
+		state Connected{
+			entry / raise Status.conn;
+			exit  / raise Status.disconn;
+			region SendRegion {
+				initial init_2
+				state KeepAliveSendTimeout
+			}
+			region RecieveRegion {
+				initial init_3
+				state KeepAliveRecieveTimeout
+			}
+		}
+	}
+}

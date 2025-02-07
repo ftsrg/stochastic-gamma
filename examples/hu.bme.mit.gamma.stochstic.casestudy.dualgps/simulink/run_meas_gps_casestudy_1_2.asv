@@ -1,0 +1,12 @@
+failtime_1=[0,-14.1*log(1-rand());];
+failtime_2=[0,-14.1*log(1-rand());];
+results=sim("gps_casestudy_1_2_v3");
+fprintf("Results:")
+disp(results.get("op_time").Data(end,end))
+
+
+function a = mymean(v,n)
+% MYMEAN Example of a local function.
+
+a = sum(v)/n;
+end

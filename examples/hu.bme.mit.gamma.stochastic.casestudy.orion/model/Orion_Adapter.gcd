@@ -1,0 +1,30 @@
+package orion_adapter
+import "Interfaces"
+import "Orion_Stoch_System.sgcd"
+adapter Orion_Adapter of component system : OrionStochSystem []{ 
+	
+	//clock clock1 (rate = 100 ms) 
+	
+	//queue queueClock(priority=1,capacity=1){clock1}
+	
+	//when clock1  / full-step
+	
+	when  TimoeutKeepAliveReceiveTimeout_3.any/  full-step
+	when  TimeoutKapcsolodik_2            .any/  full-step
+	when  TimeoutZarva_0                  .any/  full-step
+	when  TimeoutKeepAliveSendTimeout_1   .any/  full-step
+	                                      
+	when  TimeoutKeepAliveReceiveTimeout_4.any/  full-step
+	when  TimeoutKapcsolodik_3            .any/  full-step
+ 	when  TimeoutKeepAliveSendTimeout_0   .any/  full-step
+ 	
+ 	queue queueOfTimoeutKeepAliveReceiveTimeout_3(priority=1,capacity=10){TimoeutKeepAliveReceiveTimeout_3.any}
+ 	queue queueOfTimeoutKapcsolodik_2            (priority=2,capacity=10){TimeoutKapcsolodik_2            .any}
+ 	queue queueOfTimeoutZarva_0                  (priority=3,capacity=10){TimeoutZarva_0                  .any}
+ 	queue queueOfTimeoutKeepAliveSendTimeout_1   (priority=4,capacity=10){TimeoutKeepAliveSendTimeout_1   .any}
+
+ 	queue queueOfTimeoutKeepAliveReceiveTimeout_4(priority=5,capacity=10){TimeoutKeepAliveReceiveTimeout_4.any}
+ 	queue queueOfTimeoutKapcsolodik_3            (priority=6,capacity=10){TimeoutKapcsolodik_3            .any}
+ 	queue queueOfTimeoutKeepAliveSendTimeout_0   (priority=7,capacity=10){TimeoutKeepAliveSendTimeout_0   .any}
+ 	
+}

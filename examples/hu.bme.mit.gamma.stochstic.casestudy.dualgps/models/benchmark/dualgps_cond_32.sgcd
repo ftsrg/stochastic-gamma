@@ -1,0 +1,163 @@
+package dualgps_cond_32
+import "interfaces"
+import "gpsadapter"
+import "voteradapter_p"
+
+
+stochastic async ParametricDualGPS_32 (voterFailureRate : decimal) [
+	port Communication : provides Sensor
+]{
+    component GPS1_ : GPSasync
+    component GPS2_ : GPSasync
+    component GPS3_ : GPSasync
+    component GPS4_ : GPSasync
+    component GPS5_ : GPSasync
+    component GPS6_ : GPSasync
+    component GPS7_ : GPSasync
+    component GPS8_ : GPSasync
+    component GPS9_ : GPSasync
+    component GPS10 : GPSasync
+    component GPS11 : GPSasync
+    component GPS12 : GPSasync
+    component GPS13 : GPSasync
+    component GPS14 : GPSasync
+    component GPS15 : GPSasync
+    component GPS16 : GPSasync
+    component GPS17 : GPSasync
+    component GPS18 : GPSasync
+    component GPS19 : GPSasync
+    component GPS20 : GPSasync
+    component GPS21 : GPSasync
+    component GPS22 : GPSasync
+    component GPS23 : GPSasync
+    component GPS24 : GPSasync
+    component GPS25 : GPSasync
+    component GPS26 : GPSasync
+    component GPS27 : GPSasync
+    component GPS28 : GPSasync
+    component GPS29 : GPSasync
+    component GPS30 : GPSasync
+    component GPS31 : GPSasync
+    component GPS32 : GPSasync
+	component Voter : Voterasync(32)
+	
+    source GPS1_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS2_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS3_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS4_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS5_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS6_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS7_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS8_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS9_Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS10Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS11Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS12Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS13Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS14Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS15Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS16Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS17Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS18Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS19Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS20Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS21Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS22Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS23Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS24Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS25Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS26Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS27Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS28Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS29Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS30Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS31Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+    source GPS32Failure port Faults : provides HardwareFailure {Faults.* : exponential rate=10.0;}
+	source Voter_Failure port Faults : provides HardwareFailure {
+		Faults.* : exponential rate=voterFailureRate;
+	}
+	
+	bind Communication -> Voter.Communication
+	
+    channel [GPS1_Failure.Faults] -o)- [GPS1_.Faults]
+    channel [GPS2_Failure.Faults] -o)- [GPS2_.Faults]
+    channel [GPS3_Failure.Faults] -o)- [GPS3_.Faults]
+    channel [GPS4_Failure.Faults] -o)- [GPS4_.Faults]
+    channel [GPS5_Failure.Faults] -o)- [GPS5_.Faults]
+    channel [GPS6_Failure.Faults] -o)- [GPS6_.Faults]
+    channel [GPS7_Failure.Faults] -o)- [GPS7_.Faults]
+    channel [GPS8_Failure.Faults] -o)- [GPS8_.Faults]
+    channel [GPS9_Failure.Faults] -o)- [GPS9_.Faults]
+    channel [GPS10Failure.Faults] -o)- [GPS10.Faults]
+    channel [GPS11Failure.Faults] -o)- [GPS11.Faults]
+    channel [GPS12Failure.Faults] -o)- [GPS12.Faults]
+    channel [GPS13Failure.Faults] -o)- [GPS13.Faults]
+    channel [GPS14Failure.Faults] -o)- [GPS14.Faults]
+    channel [GPS15Failure.Faults] -o)- [GPS15.Faults]
+    channel [GPS16Failure.Faults] -o)- [GPS16.Faults]
+    channel [GPS17Failure.Faults] -o)- [GPS17.Faults]
+    channel [GPS18Failure.Faults] -o)- [GPS18.Faults]
+    channel [GPS19Failure.Faults] -o)- [GPS19.Faults]
+    channel [GPS20Failure.Faults] -o)- [GPS20.Faults]
+    channel [GPS21Failure.Faults] -o)- [GPS21.Faults]
+    channel [GPS22Failure.Faults] -o)- [GPS22.Faults]
+    channel [GPS23Failure.Faults] -o)- [GPS23.Faults]
+    channel [GPS24Failure.Faults] -o)- [GPS24.Faults]
+    channel [GPS25Failure.Faults] -o)- [GPS25.Faults]
+    channel [GPS26Failure.Faults] -o)- [GPS26.Faults]
+    channel [GPS27Failure.Faults] -o)- [GPS27.Faults]
+    channel [GPS28Failure.Faults] -o)- [GPS28.Faults]
+    channel [GPS29Failure.Faults] -o)- [GPS29.Faults]
+    channel [GPS30Failure.Faults] -o)- [GPS30.Faults]
+    channel [GPS31Failure.Faults] -o)- [GPS31.Faults]
+    channel [GPS32Failure.Faults] -o)- [GPS32.Faults]
+    channel [GPS1_.Communication] -o)- [Voter.Sensor]
+    channel [GPS2_.Communication] -o)- [Voter.Sensor]
+    channel [GPS3_.Communication] -o)- [Voter.Sensor]
+    channel [GPS4_.Communication] -o)- [Voter.Sensor]
+    channel [GPS5_.Communication] -o)- [Voter.Sensor]
+    channel [GPS6_.Communication] -o)- [Voter.Sensor]
+    channel [GPS7_.Communication] -o)- [Voter.Sensor]
+    channel [GPS8_.Communication] -o)- [Voter.Sensor]
+    channel [GPS9_.Communication] -o)- [Voter.Sensor]
+    channel [GPS10.Communication] -o)- [Voter.Sensor]
+    channel [GPS11.Communication] -o)- [Voter.Sensor]
+    channel [GPS12.Communication] -o)- [Voter.Sensor]
+    channel [GPS13.Communication] -o)- [Voter.Sensor]
+    channel [GPS14.Communication] -o)- [Voter.Sensor]
+    channel [GPS15.Communication] -o)- [Voter.Sensor]
+    channel [GPS16.Communication] -o)- [Voter.Sensor]
+    channel [GPS17.Communication] -o)- [Voter.Sensor]
+    channel [GPS18.Communication] -o)- [Voter.Sensor]
+    channel [GPS19.Communication] -o)- [Voter.Sensor]
+    channel [GPS20.Communication] -o)- [Voter.Sensor]
+    channel [GPS21.Communication] -o)- [Voter.Sensor]
+    channel [GPS22.Communication] -o)- [Voter.Sensor]
+    channel [GPS23.Communication] -o)- [Voter.Sensor]
+    channel [GPS24.Communication] -o)- [Voter.Sensor]
+    channel [GPS25.Communication] -o)- [Voter.Sensor]
+    channel [GPS26.Communication] -o)- [Voter.Sensor]
+    channel [GPS27.Communication] -o)- [Voter.Sensor]
+    channel [GPS28.Communication] -o)- [Voter.Sensor]
+    channel [GPS29.Communication] -o)- [Voter.Sensor]
+    channel [GPS30.Communication] -o)- [Voter.Sensor]
+    channel [GPS31.Communication] -o)- [Voter.Sensor]
+    channel [GPS32.Communication] -o)- [Voter.Sensor]
+	channel [Voter_Failure.Faults] -o)- [Voter.Faults]
+	
+}
+
+analysis Reliability_Cond_32 {
+in stochastic component system : ParametricDualGPS_32(sample(uniform from=2,to=10))
+mean time of event system.Communication.failstop;
+    @Conditions{
+    	observe time event system.Communication.failstop ~ Normal(0.4,0.1)
+    }
+    @Configuration(ImportanceSampling){
+    	end condition raised event system.Communication.failstop 
+    	simulation time = 100.0
+    	simulation number = 10000
+    	batch sample size = 2
+        joint sampling = true
+    }
+}

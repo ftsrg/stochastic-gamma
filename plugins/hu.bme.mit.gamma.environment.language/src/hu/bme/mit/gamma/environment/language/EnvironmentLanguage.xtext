@@ -1,0 +1,658 @@
+/********************************************************************************
+ * Copyright (c) 2018-2024 Contributors to the Gamma project
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * SPDX-License-Identifier: EPL-1.0
+ ********************************************************************************/
+grammar hu.bme.mit.gamma.environment.language.EnvironmentLanguage 
+	with hu.bme.mit.gamma.statechart.language.StatechartLanguage
+
+//import "http://www.mit.bme.hu/gamma/environment/Model" as Env
+import "www.mit.bme.hu/gamma/environment/Model" as EnvironmentModel 
+import "platform:/resource/hu.bme.mit.gamma.environment.analysis.model/model/analysis.ecore" as AnalysisModel
+import "platform:/resource/hu.bme.mit.gamma.expression.model/model/expression.ecore"
+import "http://www.eclipse.org/emf/2002/Ecore" as Ecore
+import "http://www.mit.bme.hu/gamma/statechart/Model/Statechart" as StatechartModel
+//import "http://www.mit.bme.hu/gamma/expression/Model" as ConstraintModel 
+import "http://www.mit.bme.hu/gamma/action/Model" as ActionModel 
+import "http://www.mit.bme.hu/gamma/statechart/Model/Composite" as CompositeModel
+import "http://www.mit.bme.hu/gamma/statechart/Model/Interface" as InterfaceModel 
+import "platform:/resource/hu.bme.mit.gamma.environment.stochastic.model/model/stochastic.ecore" as StochasticModel
+ 
+//generate EnvironmentLanguage "http://www.mit.bme.hu/gamma/environment/language/dwdEnvironmentLanguage"
+
+
+@Override 
+Package returns InterfaceModel::Package: 'package' name=ID
+	
+		('import' imports+=[InterfaceModel::Package | STRING])*
+		
+	(
+		constantDeclarations+=ConstantDeclaration |
+		functionDeclarations+=FunctionDeclaration |
+		typeDeclarations+=TypeDeclaration |
+		components+=Component |
+		interfaces+=Interface 	
+		
+	)*
+;
+
+
+
+@Override 
+Component returns InterfaceModel::Component:
+	SynchronousComponent |
+	EnvironmentCascadeCompositeComponent |
+	EnvironmentSynchronousCompositeComponent |
+	EnvironmentAsynchronousCompositeComponent |
+	AnalysisComponent |
+	AsynchronousStatechartDefinition// |
+	//SynchronousStatechartDefinition
+	//|
+	//RequirementComponent
+;
+
+@Override
+AsynchronousStatechartDefinition returns StatechartModel::AsynchronousStatechartDefinition:
+	'@Asynchronous'
+	(
+		('@RegionSchedule' '=' schedulingOrder=SchedulingOrder)? &
+		('@OrthogonalRegionSchedule' '=' orthogonalRegionSchedulingOrder=OrthogonalRegionSchedulingOrder)? &
+		('@TransitionPriority' '=' transitionPriority=TransitionPriority)? &
+		('@GuardEvaluation' '=' guardEvaluation=GuardEvaluation)? &
+		(	annotations+=ComponentAnnotation |
+			annotations+=StatechartContractAnnotation
+		)*
+	)
+	'statechart' name=ID ('capacity' '(' capacity=Expression ')')?
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')? '{'
+			(
+				variableDeclarations+=VariableDeclaration |
+				timeoutDeclarations+=TimeoutDeclaration
+			)*
+			(
+				regions+=Region |
+				transitions+=Transition
+			)*
+			functionDeclarations+=FunctionDeclaration*
+	'}'
+;
+
+//defining Analysis and Requirement models
+/* 
+RequirementComponent returns AnalysisModel::RequirementComponent: 
+	'requirement' name=ID
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+	'{'
+		'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
+		(aspect+=AnalysisAspect |
+		requirement+=RequirementAspect |
+		conditions+=AnalysisCondition)*
+	'}'
+;
+
+
+
+RequirementAspect returns AnalysisModel::RequirementAspect: 
+	LowerThan | GreaterThan | IsBetween
+;
+
+
+LowerThan returns AnalysisModel::LowerThan: 
+	'lower than' value=DOUBLE
+	('description' description=STRING)?
+;
+
+GreaterThan returns AnalysisModel::GreaterThan: 
+	'greater than' value=DOUBLE
+	('description' description=STRING)?
+;
+
+IsBetween returns AnalysisModel::IsBetween: 
+	'in' '[' lowerBound=DOUBLE ',' upperBound=DOUBLE ']'
+	('description' description=STRING)?
+;
+*/
+
+AnalysisComponent returns AnalysisModel::AnalysisComponent: 
+	'analysis' name=ID
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+	'{'
+		'in' analyzedComponent=EnvironmentAsynchronousCompositeComponentInstance
+		(aspect+=AnalysisAspect)+
+		('@' 'Conditions' '{'
+			((conditions+=AnalysisCondition)|
+			(priorydistribution+=PrioryDistribution))*
+		'}')?
+		analysismethod=AnalysisMethod
+	'}'
+;
+
+
+AnalysisMethod returns AnalysisModel::AnalysisMethod:
+	SimulationAnalysisMethod 
+;
+
+SimulationAnalysisMethod returns AnalysisModel::SimulationAnalysisMethod: 
+	ImportanceSampling | MCMC | SimpleSimulation
+;
+
+ImportanceSampling returns AnalysisModel::ImportanceSampling: 
+	'@' 'Configuration' '(' 'ImportanceSampling' ')' '{'
+			((endcondition+=EndCondition)|
+			("simulation" "time" "=" simulationTime=Expression)|
+			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+			("batch" "sample" "size" "=" samplingBatchSize=IntegerLiteralExpression) |
+			("joint" "sampling" "=" jointSampling=BOOLEAN) |
+			("debug" "=" debug=BOOLEAN) |
+			("warmup" "time" "=" warmupTime=Expression))*
+	'}'
+;
+
+
+
+
+SimpleSimulation returns AnalysisModel::Simulation: 
+	'@' 'Configuration' '(' 'Simulation' ')' '{'
+			((endcondition+=EndCondition)|
+			("simulation" "time" "=" simulationTime=Expression)|
+			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+			("batch" "sample" "size" "=" samplingBatchSize=IntegerLiteralExpression) |
+			("joint" "sampling" "=" jointSampling=BOOLEAN) |
+			("debug" "=" debug=BOOLEAN) |
+			("warmup" "time" "=" warmupTime=Expression))*
+		'}'
+;
+
+MCMC returns AnalysisModel::MCMC: 
+	'@' 'Configuration' '(' 'MCMC' ')' '{'
+			((endcondition+=EndCondition)|
+			("simulation" "time" "=" simulationTime=Expression)|
+			("simulation" "number" "=" simulationNumber=IntegerLiteralExpression)|
+			("warmup" "step" "number" "=" warmupStepNum=IntegerLiteralExpression)|
+			("batch" "sample" "size" "=" samplingBatchSize=IntegerLiteralExpression) |
+			("kernel" "=" kernel=MCMCKernel)|
+			("joint" "sampling" "=" jointSampling=BOOLEAN) |
+			("debug" "=" debug=BOOLEAN) |
+			("warmup" "time" "=" warmupTime=Expression))*
+		'}'
+;
+
+
+MCMCKernel returns AnalysisModel::MCMCKernel: 
+	NUTS | HMC 
+;
+
+NUTS returns AnalysisModel::NUTS: 
+	{AnalysisModel::NUTS} "NUTS"
+;
+
+
+HMC returns AnalysisModel::HMC: 
+	{AnalysisModel::HMC} "HMC"
+;
+
+
+
+
+
+RecursiveComponentReference returns AnalysisModel::RecursiveComponentReference: 
+	component = [EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance]
+;
+
+
+ComponentPortEventReference returns AnalysisModel::ComponentPortEventReference: 
+	'event'  component=RecursiveComponentReference '.'port=[InterfaceModel::Port]'.'event=[InterfaceModel::Event] 
+;
+
+AnalysisAspect returns AnalysisModel::AnalysisAspect: 
+	Probability  | MeanTime | Frequency | MeanParameter | ParameterDistribution | MeanTimeBetweenEvents | EventTimeRatio //| TimedProbability | TimeBoundedProbability
+;
+
+
+// analysis aspects
+MeanParameter returns AnalysisModel::MeanParameter: 
+	'mean' 'parameter' 'of' event=ComponentPortEventReference  '.' parameter=[ParameterDeclaration] ';'
+;
+
+ParameterDistribution returns AnalysisModel::ParameterDistribution: 
+	'parameter' 'distribution' 'of' event=ComponentPortEventReference '.' parameter=[ParameterDeclaration] ';'
+;
+
+Probability returns AnalysisModel::Probability: 
+	'probability' 'of' event=ComponentPortEventReference  ';'
+;
+
+TimedProbability returns AnalysisModel::TimedProbability: 
+	'probability' 'of' event=ComponentPortEventReference  'until' timeLimit=DOUBLE ';'
+;
+
+TimeBoundedProbability returns AnalysisModel::TimeBoundedProbability: 
+	'probability' 'of' event=ComponentPortEventReference  'from' lowerBound=DOUBLE 'to'upperBound=DOUBLE ';'
+;
+
+MeanTime returns AnalysisModel::MeanTime: 
+	'mean' 'time' 'of' event=ComponentPortEventReference ';'
+;
+
+Frequency returns AnalysisModel::Frequency:
+	'frequency' 'of' event=ComponentPortEventReference ';'
+;
+
+EventTimeRatio returns AnalysisModel::EventTimeRatio: 
+	'time' 'ratio' 'between' event=ComponentPortEventReference 'and' event2=ComponentPortEventReference ';'
+;
+
+MeanTimeBetweenEvents returns AnalysisModel::MeanTimeBetweenEvents: 
+	'mean' 'time' 'between' event=ComponentPortEventReference 'and' event2=ComponentPortEventReference ';'
+;
+
+
+
+
+//conditions
+AssumeRaised returns AnalysisModel::AssumeRaised: 
+	'assume' 'raised' event=ComponentPortEventReference ('~' probability=DecimalLiteralExpression)?
+;
+
+AssumeNotRaised returns AnalysisModel::AssumeNotRaised: 
+	'assume' 'not' 'raised' event=ComponentPortEventReference  ('~' probability=DecimalLiteralExpression)?
+;
+
+ObserveTime returns AnalysisModel::ObserveTime: 
+	'observe' 'time'  event=ComponentPortEventReference  '~' randomvariable=StochasticModel
+;
+
+
+ObserveParameter returns AnalysisModel::ObserveParameter: 
+	'observe' 'parameter' event=ComponentPortEventReference"::"parameter=[ParameterDeclaration] "~" randomvariable=StochasticModel
+;
+
+
+EndCondition returns AnalysisModel::EndCondition: 
+	'end' 'condition' 'raised' event=ComponentPortEventReference  
+;
+
+
+AnalysisCondition returns AnalysisModel::AnalysisCondition: 
+	AssumeRaised | AssumeNotRaised | ObserveParameter | ObserveTime
+;
+
+
+
+
+PrioryDistribution returns AnalysisModel::PrioryDistribution: 
+	'prior' parameter=[ParameterDeclaration] '~' randomvariable=RandomVariable
+;
+
+
+
+//defining Environment models
+
+EnvironmentCascadeCompositeComponent returns EnvironmentModel::EnvironmentCascadeCompositeComponent: 
+	'stochastic' 'cascade' name=ID 
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
+		'{'
+			(
+			
+				components+=SynchronousComponentInstance |
+				environmentComponents+=EnvironmentComponentInstance |
+				portBindings+=PortBinding |
+				channels+=Channel |
+				('initial' 'execute' initialExecutionList+=AtomicComponentInstanceReferenceExpression
+						(',' initialExecutionList+=AtomicComponentInstanceReferenceExpression)*) |
+				('execute' executionList+=AtomicComponentInstanceReferenceExpression
+						(',' executionList+=AtomicComponentInstanceReferenceExpression)*)
+			
+			)*
+		'}'
+;	
+
+
+EnvironmentSynchronousCompositeComponent returns EnvironmentModel::EnvironmentSynchronousCompositeComponent: 
+ 
+	'stochastic' 'sync' name=ID 
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
+		'{'
+			(
+			
+				components+=SynchronousComponentInstance |
+				environmentComponents+=EnvironmentComponentInstance |
+				portBindings+=PortBinding |
+				channels+=Channel
+			
+			)*
+		'}'
+;	
+
+EnvironmentAsynchronousCompositeComponent returns EnvironmentModel::EnvironmentAsynchronousCompositeComponent: 
+
+	'stochastic' 'async' name=ID 
+	('(' ((parameterDeclarations+=ParameterDeclaration)(',' parameterDeclarations+=ParameterDeclaration)*)? ')')?
+		('[' ((ports+=Port)((',')? ports+=Port)*)? ']')?
+		'{'
+			(
+			
+				components+=AsynchronousComponentInstance |
+				environmentComponents+=EnvironmentComponentInstance |
+				portBindings+=PortBinding |
+				channels+=Channel
+			
+			)*
+		'}'
+;	
+
+/* 
+@Override
+Package returns StatechartModel::Package:
+	super
+;*/
+ 
+
+// Composition language 
+/* 
+EnvironmentCascadeCompositeComponentInstance returns EnvironmentModel::EnvironmentCascadeCompositeComponentInstance: 
+	'stoch' 'component' name=ID ':' type=[EnvironmentModel::EnvironmentCascadeCompositeComponent] ('(' arguments+=Expression (',' arguments+=Expression)* ')')?
+;*/
+
+/*EnvironmentSynchronousCompositeComponentInstance returns EnvironmentModel::EnvironmentSynchronousCompositeComponentInstance: 
+	'stoch1' 'component' name=ID ':' type=[EnvironmentModel::EnvironmentSynchronousCompositeComponent] ('(' arguments+=Expression (',' arguments+=Expression)* ')')?
+;*/
+
+
+
+
+EnvironmentAsynchronousCompositeComponentInstance returns EnvironmentModel::EnvironmentAsynchronousCompositeComponentInstance: 
+	'stochastic' 'component' name=ID ':' type=[EnvironmentModel::EnvironmentAsynchronousCompositeComponent] ('(' arguments+=MixedExpression (',' arguments+=MixedExpression)* ')')?
+;
+
+AbstractEnvironmentCompositeComponentInstance returns EnvironmentModel::AbstractEnvironmentCompositeComponentInstance: 
+	//EnvironmentCascadeCompositeComponentInstance |
+	//EnvironmentSynchronousCompositeComponentInstance |
+	EnvironmentAsynchronousCompositeComponentInstance
+;
+
+
+
+EnvironmentComponentInstance returns EnvironmentModel::EnvironmentComponentInstance: 
+	ElementaryEnvironmentComponentInstance 
+;
+
+
+ElementaryEnvironmentComponentInstance returns EnvironmentModel::ElementaryEnvironmentComponentInstance: 
+	EnvironementEventSource | PeriodicEnvironementEventSource | EnvironmentDelay | EnvironmentSample | EnvironmentSwitch | EnvironmentExternSimulation
+;
+
+
+
+
+
+StochasticRule returns EnvironmentModel::StochasticRule: 
+	(filter+=Filter ",")* filter+=Filter ":" stochasticModel=StochasticModel
+;
+
+
+FilterSimulationRule returns EnvironmentModel::SimulationRule: 
+	(filter+=ParameterFilter ",")* filter+=ParameterFilter ":" simulation=Simulation
+;
+
+
+SwitchRule returns EnvironmentModel::StochasticRule:
+	filter+=PortFilter ':' stochasticModel=CategoricalProbabaility
+;
+
+DelayRule returns EnvironmentModel::StochasticRule:
+	(filter+=PortFilter | filter+=ComponentFilter) ':' (stochasticModel=ContinouosRandomVariable | stochasticModel=StochasticProcess )
+;
+
+SampleRule returns EnvironmentModel::StochasticRule:
+	(filter+=ParameterFilter ",")* filter+=ParameterFilter ':' (stochasticModel=RandomVariable | stochasticModel=StochasticProcess )
+;
+
+Filter returns EnvironmentModel::Filter: 
+	EventFilter | PortFilter | ComponentFilter
+;
+
+
+
+ParameterFilter returns EnvironmentModel::ParameterFilter: 
+	event=PortEventReference "::" parameter=[ParameterDeclaration]
+;
+
+
+
+EventFilter returns EnvironmentModel::EventFilter: 
+	event=PortEventReference
+;
+
+PortFilter returns EnvironmentModel::PortFilter: 
+	port=[InterfaceModel::Port]"." "*"
+;
+
+ComponentFilter returns EnvironmentModel::ComponentFilter: 
+	{EnvironmentModel::ComponentFilter} "*" "." "*"
+;
+
+SimulationRule returns EnvironmentModel::SimulationRule: 
+	simulation=Simulation
+;
+
+Simulation returns EnvironmentModel::Simulation: 
+	"class" "=" simulationClassName=STRING
+;
+
+
+EnvironementEventSource returns EnvironmentModel::EnvironmentEventSource: 
+	'source' name=ID   outports+=Port ("," outports+=Port)*"{" 
+		(behaviorRules+=StochasticRule ";")+	
+	"}" 
+;
+
+
+PeriodicEnvironementEventSource returns EnvironmentModel::EnvironmentPeriodicEventSource: 
+	'periodic' 'source' name=ID  outports+=Port ("," outports+=Port)* "{" 
+		(behaviorRules+=(StochasticRule | FilterSimulationRule)";")+	
+	"}" 
+;
+
+EnvironmentSwitch returns EnvironmentModel::EnvironmentSwitch: 
+	'switch' name=ID inports+=Port "->"  outports+=Port ("," outports+=Port)* "{" 
+		(behaviorRules+=SwitchRule ";")+	
+	"}" 
+;
+
+EnvironmentDelay returns EnvironmentModel::EnvironmentDelay: 
+	'delay' name=ID inports+=Port "->"  outports+=Port "{" 
+		(behaviorRules+=(DelayRule| FilterSimulationRule)";")+	
+	"}" 
+;
+
+EnvironmentSample returns EnvironmentModel::EnvironmentSample: 
+	'sample' name=ID inports+=Port "->"  outports+=Port "{" 
+		(behaviorRules+=(SampleRule | FilterSimulationRule)";")+	
+	"}" 
+;
+
+EnvironmentExternSimulation returns EnvironmentModel::EnvironmentExternSimulation: 
+	'simulation' name=ID ((inports+=Port ("," inports+=Port)* "<->") | ("|->")) outports+=Port ("," outports+=Port)* "with" behaviorRules+=SimulationRule
+;
+
+
+MixedExpression returns Expression:
+	StochasticExpression | Expression
+;
+
+StochasticExpression returns StochasticModel::StochasticExpression: 
+	'sample' '(' randomvariable=RandomVariable ')'
+;
+
+
+
+StochasticModel returns StochasticModel::StochasticModel: 
+	StochasticProcess | RandomVariable
+;
+
+
+StochasticProcess returns StochasticModel::StochasticProcess: 
+	FittedGaussianProcess | DiracProcess
+;
+
+
+RandomVariable returns StochasticModel::RandomVariable: 
+	ContinouosRandomVariable | DiscreteRandomVariable
+;
+
+
+ContinouosRandomVariable returns StochasticModel::ContinouosRandomVariable: 
+	NormalRandomVariable | 
+	ExponentialRandomVariable | 
+	WeibullRandomVariable | 
+	GammaRandomVariable | 
+	FittedExponentialRandomVariable | 
+	FittedGammaRandomVariable |
+	FittedNormalRandomVariable |
+	UniformRandomVariable |
+	BetaRandomVariable |
+	LogNormalRandomVariable |
+	ParetoRandomVariable
+;
+
+DiscreteRandomVariable returns StochasticModel::DiscreteRandomVariable: 
+	BernoulliRandomVariable
+;
+
+UniformRandomVariable returns StochasticModel::UniformRandomVariable: 
+	("uniform" "from" '=' lowerBound=Expression ',' 'to' '=' upperBound=Expression) |("Uniform" "("lowerBound=Expression "," upperBound=Expression ")")
+;
+
+LogNormalRandomVariable returns StochasticModel::LogNormalRandomVariable:
+	('lognormal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression )|("LogNormal" "("mean=Expression "," scale=Expression ")")
+;
+
+BetaRandomVariable returns StochasticModel::BetaRandomVariable: 
+	('beta' 'alpha' '=' apha=Expression ',' 'beta' '=' beta=Expression )|("Beta" "("apha=Expression "," beta=Expression ")")
+;
+
+ParetoRandomVariable returns StochasticModel::ParetoRandomVariable: 
+	(('pareto' | 'Pareto') 'alpha' '=' alpha=Expression ',' 'scale' '=' scale=Expression )|("Pareto" "("alpha=Expression "," scale=Expression ")")
+;
+
+NormalRandomVariable returns StochasticModel::NormalRandomVariable: 
+	(('normal' 'mean' '=' mean=Expression ',' 'scale' '=' scale=Expression ))|("Normal" "("mean=Expression "," scale=Expression ")")
+;
+
+WeibullRandomVariable returns StochasticModel::WeibullRandomVariable: 
+	(('Weibull' | 'weibull') 'concentration' '=' shape=Expression ',' 'scale' '=' scale=Expression)|("Weibull" "("shape=Expression "," scale=Expression ")")
+;
+
+GammaRandomVariable returns StochasticModel::GammaRandomVariable: 
+	('gamma' 'concentration' '=' shape=Expression ',' 'rate' '=' scale=Expression)|("Gamma" "("shape=Expression "," scale=Expression ")")
+;
+
+
+ExponentialRandomVariable returns StochasticModel::ExponentialRandomVariable: 
+	('exponential' 'rate' '=' rate=Expression) |("Exponential" "("rate=Expression ")")
+;
+
+BernoulliRandomVariable returns StochasticModel::BernoulliRandomVariable: 
+	(('bernoulli'|'Bernoulli') 'prob' '=' probability=Expression) |("Bernoulli" "("probability=Expression ")")
+;
+
+FittedExponentialRandomVariable returns StochasticModel::FittedExponentialRandomVariable: 
+	'fitted' 'exponential' 'lr' '=' lr=DOUBLE ',' 'source' '=' source=DataSource
+;
+
+FittedNormalRandomVariable returns StochasticModel::FittedNormalRandomVariable: 
+	'fitted' 'normal' 'lr' '=' lr=DOUBLE ',' 'source' '=' source=DataSource
+;
+
+FittedGammaRandomVariable returns StochasticModel::FittedGammaRandomVariable: 
+	'fitted' 'gamma' 'lr' '=' lr=DOUBLE ',' 'source' '=' source=DataSource
+;
+
+CategoricalProbabaility returns StochasticModel::CategoricalProbabaility: 
+	probability=Expression
+;
+
+DiracProcess returns StochasticModel::DiracProcess: 
+	"Dirac" "source" "=" source=DataSource
+;
+
+FittedGaussianProcess returns StochasticModel::FittedGaussianProcess: 
+	("GP"|"Gauss" "Process") "kernel" "="kernel=Kernel ("," "lr" "=" lr=DOUBLE)? "," "source" "="source=DataSource
+;
+
+Kernel returns StochasticModel::Kernel: 
+	 BrownianKernel | LinearKernel | RBFKernel | PeriodicKernel |SumKernel 
+;
+
+
+SumKernel returns StochasticModel::SumKernel: 
+	"(" kernels+=Kernel "+" kernels+=Kernel ")"
+;
+
+
+
+BrownianKernel returns StochasticModel::BrownianKernel: 
+	{StochasticModel::BrownianKernel} "Brownian"
+;
+
+RBFKernel returns StochasticModel::RBFKernel: 
+	{StochasticModel::RBFKernel} "RBF"
+;
+
+LinearKernel returns StochasticModel::LinearKernel: 
+	{StochasticModel::LinearKernel} "Linear"
+;
+
+PeriodicKernel returns StochasticModel::PeriodicKernel: 
+	{StochasticModel::PeriodicKernel} "Periodic"
+;
+
+
+DataSource returns StochasticModel::DataSource: 
+	InfluxDB | PythonSimulation
+;
+
+
+AtomicExpression returns Expression:
+	  DirectReferenceExpression | 
+	  LiteralExpression | 
+	 '(' Expression ')'
+;
+
+InfluxDB returns StochasticModel::InfluxDB: 
+	"InfluxDB" "(" "db" ":" dbname=STRING "," "ip" ":" ip=STRING "," "port" ":"  port=STRING "," "query" ":" query=STRING ")"
+;
+
+PythonSimulation returns StochasticModel::PythonSimulation: 
+	"Python" "(" script=STRING ")"
+;
+
+
+terminal DOUBLE returns Ecore::EDouble:
+	'#' ('0'..'9')+ ('.' ('0'..'9')+)
+;
+
+
+
+
+//terminal ID: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+
+//terminal STRING:
+//			'"' ( '\\' . /* 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' */ | !('\\'|'"') )* '"' |
+//			"'" ( '\\' . /* 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' */ | !('\\'|"'") )* "'"
+//		;
+//terminal ML_COMMENT : '/*' -> '*/';
+//terminal SL_COMMENT : '//' !('\n'|'\r')* ('\r'? '\n')?;
+
+//terminal WS         : (' '|'\t'|'\r'|'\n')+;
+
+//terminal ANY_OTHER: .;

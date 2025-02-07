@@ -1,0 +1,45 @@
+package interfaces
+
+interface Timing {
+	out event schedule
+}
+
+interface StatemachineTimeouts{
+	out event ConnectingTimeout
+	out event KeepAliveTimeout
+	out event ClosedTimeout
+	out event ConnectedTimeout
+}
+
+interface Block_Interface_ForOrion {
+	out event Operation_Call_SendData
+	out event Operation_Call_Invalid
+}
+interface StateMachine_Interface_For_Orion {
+	out event OrionDisconn
+	out event OrionDisconnCause
+	out event OrionConnReq
+	out event OrionAppData
+	out event OrionKeepAlive
+	out event OrionConnConf
+	out event OrionConnResp
+}
+interface Connection_Interface_For_Orion {
+	out event Operation_Call_Connect
+	out event Operation_Call_Disconn
+}
+interface Operation {
+	out event fail
+	out event recover
+}
+
+interface SoftwareTimer{
+		out event newEvent
+}
+
+interface ConnectionState {
+	out event conn
+	out event disconn
+}
+
+const myConst:integer:=0

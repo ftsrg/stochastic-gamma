@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Stochastic Gamma Model PlantUML Visualizer Commandhandler
+Bundle-SymbolicName: hu.bme.mit.gamma.environment.plantuml.textprovider;singleton:=true
+Bundle-Version: 2.8.0.qualifier
+Bundle-Vendor: BME-FTSRG
+Automatic-Module-Name: hu.bme.mit.gamma.statechart.plantuml.commandhandler
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.jface,
+ org.eclipse.ui.ide,
+ org.eclipse.equinox.registry,
+ net.sourceforge.plantuml.eclipse,
+ net.sourceforge.plantuml.text,
+ hu.bme.mit.gamma.trace.model
+Export-Package: hu.bme.mit.gamma.environment.plantuml.commandhandler
+Import-Package: hu.bme.mit.gamma.environment.plantuml.transformation,
+ org.eclipse.core.resources,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.jface.text

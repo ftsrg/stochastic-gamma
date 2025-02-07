@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="www.mit.bme.hu/gamma/architecture/Model" nsPrefix="hu.bme.mit.gamma.architecture">
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitecturePackage" eSuperTypes="#//ArchitectureElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="architectureelement" upperBound="-1"
+        eType="#//ArchitectureElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subpackeges" upperBound="-1"
+        eType="#//ArchitecturePackage" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureElement" abstract="true"
+      eSuperTypes="../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+        eType="#//ArchitecturePort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
+        eType="#//ArchitectureRelation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureComponent" abstract="true"
+      eSuperTypes="#//PhysicalElement #//FunctionalElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitecturePort" eSuperTypes="#//ArchitectureElementInstance #//ArchitectureElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ArchitectureInterface"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="conjugated" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="False"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureFunction" eSuperTypes="#//FunctionalElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureElementInstance" abstract="true"
+      eSuperTypes="#//ArchitectureElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureInterface" eSuperTypes="#//ArchitectureElement ../../hu.bme.mit.gamma.statechart.model/model/interface.ecore#//Interface #//InterfacingElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="flowproperties" upperBound="-1"
+        eType="#//FlowProperty" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SoftwareComponent" eSuperTypes="#//ArchitectureComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectronicComponent" eSuperTypes="#//ArchitectureComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MechanicalComponent" eSuperTypes="#//ArchitectureComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureSubcompnent" eSuperTypes="#//ArchitectureElementInstance #//PhysicalElement #//FunctionalElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ArchitectureComponent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureSubfunction" eSuperTypes="#//ArchitectureElementInstance #//FunctionalElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ArchitectureFunction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeInterface" eSuperTypes="#//ArchitectureInterface">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subinterfaces" eType="#//ArchitectureInterface"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="System" eSuperTypes="#//ArchitectureComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectricalInterface" eSuperTypes="#//ElectronicComponent #//PhysicalInterface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MechanicalInterface" eSuperTypes="#//MechanicalComponent #//PhysicalInterface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionalInterface" eSuperTypes="#//ArchitectureInterface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SoftwareInterface" eSuperTypes="#//SoftwareComponent #//PhysicalInterface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchitectureRelation" abstract="true"
+      eSuperTypes="../../hu.bme.mit.gamma.expression.model/model/expression.ecore#//NamedElement #//ArchitectureElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//ArchitectureElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//ArchitectureElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Allocation" eSuperTypes="#//ArchitectureRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SoftwareAllocation" eSuperTypes="#//Allocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectricalAllocation" eSuperTypes="#//Allocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionalAllocation" eSuperTypes="#//Allocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Connector" eSuperTypes="#//ArchitectureRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InformationFlow" eSuperTypes="#//ArchitectureRelation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ArchitectureInterface"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalElement" abstract="true" eSuperTypes="#//StructuralElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subcompnents" upperBound="-1"
+        eType="#//ArchitectureSubcompnent" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionalElement" abstract="true" eSuperTypes="#//StructuralElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subfunctions" upperBound="-1"
+        eType="#//ArchitectureSubfunction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfaceConnector" eSuperTypes="#//Connector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//ArchitectureElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveFunction" eSuperTypes="#//ArchitectureFunction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuralElement" abstract="true" eSuperTypes="#//ArchitectureElement #//InterfacingElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Generalisation" eSuperTypes="#//ArchitectureRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trace" eSuperTypes="#//ArchitectureRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowProperty" eSuperTypes="#//Property">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1"
+        eType="#//Direction" defaultValueLiteral="NONE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Direction">
+    <eLiterals name="IN"/>
+    <eLiterals name="OUT" value="1"/>
+    <eLiterals name="INOUT" value="2"/>
+    <eLiterals name="NONE" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueType" eSuperTypes="#//ArchitectureElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueproperties" upperBound="-1"
+        eType="#//ValueProperty" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InterfacingElement" abstract="true"
+      eSuperTypes="#//ArchitectureElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providedInterfaces" upperBound="-1"
+        eType="#//ArchitectureInterface"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueProperty" eSuperTypes="#//Property"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="#//ArchitectureElementInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ValueType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumValueType" eSuperTypes="#//ValueType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PhysicalInterface" eSuperTypes="#//ArchitectureInterface"/>
+</ecore:EPackage>

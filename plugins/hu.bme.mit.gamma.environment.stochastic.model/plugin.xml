@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated stochastic -->
+      <package
+            uri="hu.bme.mit.gamma.environment.stochastic.model"
+            class="hu.bme.mit.gamma.environment.stochastic.stochastic.StochasticPackage"
+            genModel="model/stochastic.genmodel"/>
+   </extension>
+
+</plugin>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="Stochastic Gamma">
+         <property
+               name="appName"
+               value="Stochastic Gamma">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/about.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Stochastic Gamma Composition Framework&#x0A;Developed by: ftsrg, Budapest University of Technology and Economics&#x0A;This software is currently under development.  If you encounter a bug or a malfunction please send a bug report to">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/gamma-16.png,icons/gamma-32.png,icons/gamma-48.png,icons/gamma-64.png,icons/gamma-128.png,icons/gamma-256.png">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,316,700,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="5,335,700,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="platform:/plugin/hu.bme.mit.gamma.environment.rcp/plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.configExtension">
+   		<configExtension
+            configId="org.eclipse.ui.intro.universalConfig"
+            content="$nl$/introContent.xml"/>  
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="hu.bme.mit.gamma.environment.rcp.intro">
+      </intro>
+      <introProductBinding
+            introId="hu.bme.mit.gamma.environment.rcp.intro"
+            productId="hu.bme.mit.gamma.environment.rcp.product">
+      </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="introContent.xml"
+            id="hu.bme.mit.gamma.environment.rcp.introConfigId"
+            introId="hu.bme.mit.gamma.environment.rcp.intro">
+         <presentation
+               home-page-id="root">
+            <implementation
+                  kind="html"
+                  os="win32,linux,macosx"
+                  style="content/shared.css">
+            </implementation>
+         </presentation>
+      </config>
+   </extension>
+   
+</plugin>

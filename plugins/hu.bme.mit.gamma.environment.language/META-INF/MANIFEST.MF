@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: hu.bme.mit.gamma.environment.language
+Bundle-ManifestVersion: 2
+Bundle-Name: hu.bme.mit.gamma.environment.language
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: hu.bme.mit.gamma.environment.language; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ hu.bme.mit.gamma.statechart.language;bundle-version="2.2.1",
+ hu.bme.mit.gamma.environment.model;bundle-version="0.1.0",
+ hu.bme.mit.gamma.environment.stochastic.model;bundle-version="0.1.0",
+ org.eclipse.xtext.ecore;bundle-version="2.20.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ hu.bme.mit.gamma.action.language;bundle-version="2.2.1",
+ hu.bme.mit.gamma.expression.language;bundle-version="2.2.1",
+ hu.bme.mit.gamma.environment.analysis.model;bundle-version="0.1.0",
+ hu.bme.mit.gamma.statechart.model,
+ hu.bme.mit.gamma.trace.environment.transformation;bundle-version="2.5.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: hu.bme.mit.gamma.environment.language,
+ hu.bme.mit.gamma.environment.language.generator,
+ hu.bme.mit.gamma.environment.language.parser.antlr,
+ hu.bme.mit.gamma.environment.language.parser.antlr.internal,
+ hu.bme.mit.gamma.environment.language.scoping,
+ hu.bme.mit.gamma.environment.language.serializer,
+ hu.bme.mit.gamma.environment.language.services,
+ hu.bme.mit.gamma.environment.language.validation
+Import-Package: hu.bme.mit.gamma.language.util.linking,
+ hu.bme.mit.gamma.statechart.lowlevel.model,
+ org.apache.log4j,
+ org.eclipse.core.resources

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.gamma.architecture.transformation/src-gen"
+    editDirectory="/hu.bme.mit.gamma.architecture.transformation.edit/src-gen" editorDirectory="/hu.bme.mit.gamma.architecture.transformation.editor/src-gen"
+    modelPluginID="hu.bme.mit.gamma.architecture.transformation" modelName="Architecture"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory="/hu.bme.mit.gamma.architecture.transformation.tests/src-gen"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0" copyrightFields="false"
+    usedGenPackages="../../hu.bme.mit.gamma.expression.model/model/expression.genmodel#//model ../../hu.bme.mit.gamma.statechart.model/model/statechart.genmodel#//interface"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>architecture.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="hu.bme.mit.gamma.architecture" disposableProviderFactory="true"
+      fileExtensions="architecturemodel" ecorePackage="architecture.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="architecture.ecore#//Direction">
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/INOUT"/>
+      <genEnumLiterals ecoreEnumLiteral="architecture.ecore#//Direction/NONE"/>
+    </genEnums>
+    <genClasses ecoreClass="architecture.ecore#//ArchitecturePackage">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitecturePackage/architectureelement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitecturePackage/subpackeges"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureElement/ports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureElement/relations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//ArchitecturePort">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitecturePort/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute architecture.ecore#//ArchitecturePort/conjugated"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureFunction"/>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureElementInstance"/>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureInterface">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureInterface/flowproperties"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//SoftwareComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//ElectronicComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//MechanicalComponent"/>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureSubcompnent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureSubcompnent/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//ArchitectureSubfunction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureSubfunction/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//CompositeInterface">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//CompositeInterface/subinterfaces"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//System"/>
+    <genClasses ecoreClass="architecture.ecore#//ElectricalInterface"/>
+    <genClasses ecoreClass="architecture.ecore#//MechanicalInterface"/>
+    <genClasses ecoreClass="architecture.ecore#//FunctionalInterface"/>
+    <genClasses ecoreClass="architecture.ecore#//SoftwareInterface"/>
+    <genClasses image="false" ecoreClass="architecture.ecore#//ArchitectureRelation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureRelation/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//ArchitectureRelation/target"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="architecture.ecore#//Allocation"/>
+    <genClasses ecoreClass="architecture.ecore#//SoftwareAllocation"/>
+    <genClasses ecoreClass="architecture.ecore#//ElectricalAllocation"/>
+    <genClasses ecoreClass="architecture.ecore#//FunctionalAllocation"/>
+    <genClasses ecoreClass="architecture.ecore#//Connector"/>
+    <genClasses ecoreClass="architecture.ecore#//InformationFlow">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//InformationFlow/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//PhysicalElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//PhysicalElement/subcompnents"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//FunctionalElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//FunctionalElement/subfunctions"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//InterfaceConnector">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//InterfaceConnector/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//PrimitiveFunction"/>
+    <genClasses ecoreClass="architecture.ecore#//StructuralElement"/>
+    <genClasses ecoreClass="architecture.ecore#//Generalisation"/>
+    <genClasses ecoreClass="architecture.ecore#//Trace"/>
+    <genClasses ecoreClass="architecture.ecore#//FlowProperty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute architecture.ecore#//FlowProperty/direction"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//ValueType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference architecture.ecore#//ValueType/valueproperties"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="architecture.ecore#//InterfacingElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//InterfacingElement/providedInterfaces"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//ValueProperty"/>
+    <genClasses ecoreClass="architecture.ecore#//Property">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference architecture.ecore#//Property/type"/>
+    </genClasses>
+    <genClasses ecoreClass="architecture.ecore#//EnumValueType"/>
+    <genClasses ecoreClass="architecture.ecore#//PhysicalInterface"/>
+  </genPackages>
+</genmodel:GenModel>

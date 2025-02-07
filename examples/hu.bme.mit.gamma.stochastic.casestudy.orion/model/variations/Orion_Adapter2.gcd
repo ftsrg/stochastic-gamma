@@ -1,0 +1,16 @@
+package orion_adapter2
+import "Interfaces"
+import "Orion_System.gcd"
+adapter Orion_Adapter of component master : OrionSystem [
+	port timer: requires Timing
+]{ 
+	
+	//clock clock1 (rate = 100 ms) 
+	
+	
+	
+	queue queueClock(priority=1,capacity=1){timer.any}
+	
+	when timer.any / full-step
+	
+}

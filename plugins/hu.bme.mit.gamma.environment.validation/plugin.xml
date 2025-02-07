@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin>
+  <extension id="hu.bme.mit.gamma.environment.validation.ErrorPatterns" point="org.eclipse.viatra.query.runtime.queryspecification">
+    <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.gamma.environment.validation.ErrorPatterns" id="hu.bme.mit.gamma.environment.validation.ErrorPatterns">
+      <query-specification fqn="hu.bme.mit.gamma.environment.validation.EnvironmentChannelInterface"/>
+    </group>
+  </extension>
+</plugin>
