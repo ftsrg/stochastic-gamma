@@ -1,6 +1,5 @@
 site_name: Stochastic Gamma
 docs_dir: 'docs'
-description: Documentation of the Stochastic Gamma Composition Framework
 
 markdown_extensions:
     - mdx_math:
