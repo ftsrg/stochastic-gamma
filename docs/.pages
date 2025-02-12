@@ -1,3 +1,10 @@
 nav:
     - index.md
     - getting-started-guide.md
+    - gamma-modeling.md
+    - gamma-stochastic-modeling.md
+    - sysml-modeling.md
+    - sysml-error-modeling.md
+    - sysml-communication-modeling.md
+    - sysml-allocation-modeling.md
+    - sysml-variant-modeling.md
