@@ -3,9 +3,9 @@ title: SysML extra-functional modeling
 subtitle: Stochastic Gammma Documentation
 header: Stochastic Gammma Documentation
 ---
+# SysML dependability and performance modeling using Stochastic Gamma
 
-
-# Profile of Extra-Functional Aspects
+## Profile of Extra-Functional Aspects
 
 This profile contains abstract stereotypes, which define abstract non-deterministic aspects. The model-transformation approaches and tools use only this profile. Stereotypes from other profiles can specialize the nondeterministic stereotypes. All other stereotype-related information is domain-specific and helps only for the engineers to handle and understand the models.
 The definitions of stereotypes are the following:
@@ -28,7 +28,7 @@ The definitions of stereotypes are the following:
 
 ![alt text](image-2.png)
 
-# Profile of Dependability and Error behavior
+## Profile of Dependability and Error behavior
 
 The ErrorModeling profile contains the dependability extension of the ExtraFunctionalAspects profile. 
 The definitions of the stereotypes are the following:

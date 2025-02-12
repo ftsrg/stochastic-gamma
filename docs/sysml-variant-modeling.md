@@ -4,9 +4,11 @@ subtitle: Stochastic Gammma Documentation
 header: Stochastic Gammma Documentation
 ---
 
+# SysML variant modeling using Stochastic Gamma
+
 The SysML-based dependability modeling of Stochastic Gamma fully support the modified VAMOS variant modeling tool. The variant handling extension of Enterprise Architect is available here: [LINK](https://github.com/szondakata/VariantHandling). The main concepts of variability modeling are built on the top of generalization and redefine sematics. 
 
-# Variant Modeling Profile
+## Variant Modeling Profile
 
 This sections presents the modeling elements of the modified VAMOS approach for the better understanding.
 
@@ -19,7 +21,7 @@ A configuration can be complete if all of the system model’s variation points 
 
 ![alt text](image-13.png)
 
-# Variant Modeling of Variants
+## Variant Modeling of Variants
 
 The variability modeling extends the UML's generalization and redefine relationships with additional variant-specific attributes. The error models are handled as standard SysML and UML behavior and interface models.
   - Extra-functional aspects and aspects of variants: If two variants generalize each other then the specialized variant will inherit the generalized variant. 

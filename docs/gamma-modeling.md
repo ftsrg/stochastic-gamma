@@ -3,6 +3,7 @@ title: Gamma modeling
 subtitle: Stochastic Gammma Documentation
 header: Stochastic Gammma Documentation
 ---
+# Introduction to the Gamma Language Family
 
 The Gamma Language Family consists of Gamma Expression Language, Gamma Action Language, Gamma Statechart Language, and Gamma Composition Language. The former three languages can model the behavior of atomic components in the system, and the fourth one can describe the connections between the components. Using Gamma Expression Language, one can define variables, parameters, and arithmetic and logic expressions. Using Gamma Action Language one can define sequence statements which can be expressions, procedure calls and control statements such as, *if*, *for* and *while*. Gamma Statechart Language is similar to UML statecharts. Gamma statecharts can specify state-based component behavior with composite and pseudo-states. One can use the Gamma Expression Language and the Gamma Action Language to define the component behavior within states and state transitions of the Gamma statecharts.
 

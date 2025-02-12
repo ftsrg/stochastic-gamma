@@ -3,9 +3,7 @@ title: SysML communication modeling
 subtitle: Stochastic Gammma Documentation
 header: Stochastic Gammma Documentation
 ---
-
-
-# Communication modeling rules and patterns
+# SysML communication modeling using Stochastic Gamma
 
   - DataType port rule: DataType can be used as a port classifier, which is equivalent if the port's classifier is an interface block, which has exactly one flow property. The type of the flow property is the data type and the direction of the flow property is "out". In any other rule, a DataType is used instead of an InterfaceBlock, then this rule shall be applied.
  ![alt text](image-8.png)

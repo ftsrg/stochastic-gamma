@@ -3,9 +3,9 @@ title: SysML allocation modeling
 subtitle: Stochastic Gammma Documentation
 header: Stochastic Gammma Documentation
 ---
+# SysML allocation modeling using Stochastic Gamma
 
-
-# Abstraction Layer Profile
+## Abstraction Layer Profile
 
 This section introduces the modeling elements of the AbstractionLayers profile. The definitions of the stereotypes in the AbstractionLayers profile are the following:
   - ***AbstractionLayer***: A collection of modeling elements, which represent the system from a given point of view
@@ -13,7 +13,7 @@ This section introduces the modeling elements of the AbstractionLayers profile. 
     - Limitation: The current version of Stochastic Gamma supports only two abstraction levels functional and physical.
 
 
-# Allocation rules
+## Allocation rules
 
 This section defines, what kind of allocations are allowed among elements in different abstraction layers.
 
@@ -25,7 +25,7 @@ This section defines, what kind of allocations are allowed among elements in dif
 ![alt text](image-5.png)
 
 
-# Error propagation with allocation rules
+## Error propagation with allocation rules
 
 This section specifies the error propagation rules, yet these rules can be used for other extra-functional aspects. This set of model-transformation rules defines the semantics of the error and threat propagation. 
   - Realized ErrorAspects without allocation: If a block realizes interfaces, then it specifies that the block can perceive the received signals of the interface. The behavior models of the block can refer to these signals in signal events. If no other rule specifies the occurrence of the signals, then the signals may occur nondeterministically.

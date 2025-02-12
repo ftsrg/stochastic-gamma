@@ -4,7 +4,10 @@ subtitle: Stochastic Gammma Documentation
 header: Stochastic Gammma Documentation
 ---
 
-# Core concepts
+# SysML modeling using Stochastic Gamma
+
+
+## Core concepts
 
 
 This section presents the main modeling decisions, we made during the definition of the error metamodel.

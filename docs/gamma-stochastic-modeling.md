@@ -4,15 +4,17 @@ subtitle: Stochastic Gammma Documentation
 header: Stochastic Gammma Documentation
 ---
 
+# Stochastic Gamma Modeling
+
 In this section, Stochastic Gamma Composition Language (SGCL)  is introduced. 
 Gamma Composition Language (GCL) uses high-level engineering modeling languages, hierarchical decomposition, and mixed semantics to facilitate the modeling of complex CPS systems, yet GCL can model only deterministic functional behavior.
 SGCL is based on GCL and extends mixed semantics modeling with stochastic components for extra-functional modeling of dependable cyber-physical systems. The semantics of SGCL is available here: [LINK](http://inf.mit.bme.hu/sites/default/files/gamma/documents/stochastic_gamma_semantics.pdf).
 As a result, engineers can develop the extra-functional model of the CPS systems by extending the functional GCL behavior with extra-functional, stochastic modeling elements. A typical use-case for SGCL is extending the synchronous software model with a stochastic asynchronous environment model.
 Using stochastic components, engineers can directly model unpredictable phenomena within the CPS system or in its environment, such as random hardware failures, communication or process delays, measurement noise, lost communication packages, and user requests.  
 
-# Stochastic Composition Models
+## Stochastic Composition Models
 
-## Asynchronous Composition
+### Asynchronous Composition
 
 Using SGCL, one can use asynchronous composite components, to define structure models where the components can interact instantaneously. Similarly to synchronous composite components, an asynchronous composite component can contain ports, port bindings, asynchronous component instances, and channels.
 In asynchronous composite components if there is an incoming event in the input port of a subcomponent then the event affects the other parts of the component right away. 
@@ -28,7 +30,7 @@ stochastic async Component1 [
 }
 ```
 
-## Synchronous Composition
+### Synchronous Composition
 
 Synchronous composite components are structure definitions, which contain deterministic synchronous component instances, the channels between the subcomponents and port bindings. If a composite component recieves a trigger event, then the component sequentially executes its subcomponents. During execution, the events in the channels are transmitted among the subcomponents. The execution order and the rules of event transmission are defined by the type of the composite component, which can be a synchronous-reactive or cascade.
 
@@ -50,7 +52,7 @@ stochastic cascade Component2 [
 }
 ```
 
-# Elementary Stochastic Components
+## Elementary Stochastic Components
 
 In SGCL, the deterministic and the stochastic behavior models are separated completely.
 I can add stochastic behavior to the deterministic descriptions with elementary stochastic components. The class diagram of the stochastic behavior models is depicted below. 
@@ -60,7 +62,7 @@ I can add stochastic behavior to the deterministic descriptions with elementary 
 Elementary stochastic components are atomic components, where the occurrence of the output events has stochastic behavior. There are five types of elementary stochastic components, such as stochastic event source, stochastic delay, stochastic switch, and stochastic sample. Each type models a different kind of stochastic behavior that may occur in CPS systems. Elementary stochastic components can model that an event occurs randomly, an event is delayed randomly, an event goes out in a randomly selected port, and an event has a random parameter.
 
 
-## Stochastic Rules
+### Stochastic Rules
 
 In elementary stochastic components, one can assign a stochastic model to output events with stochastic rules. A stochastic rule contains a stochastic model and an event filter, which references a set of output events of the elementary stochastic component. A stochastic model can be a distribution or a probability. In stochastic rules, engineers can use arbitrary distributions even multinomial and time-dependent distributions. There are three types of event filters: port event filter, port filter, and component filter. The port event filter references a given event of a given output port. The port filter references all events of a given output port. The component filter reference all output events of all output ports. 
 
@@ -68,7 +70,7 @@ In a stochastic component, an output event can be specified by two different eve
 All the other output events have the stochastic model of the rule with the component filter.
 
 
-## Stochastic Event Source
+### Stochastic Event Source
 
 In SGCL models, stochastic event sources define components that generate output events in a randomly selected time. 
 The time when a stochastic event source activates its outgoing events is determined by distribution. The distribution of the occurrence time is assigned to the output events by stochastic rules. In stochastic event sources, each outgoing event is activated only once per simulation. 
@@ -86,7 +88,7 @@ periodic source EvenSource2 port Port1 : provides Interface1 {
 }
 ```
 
-## Stochastic Delay
+### Stochastic Delay
 
 Stochastic delay components send out all incoming events after a random delay. A stochastic delay component contains only one input and output port, which has the same interface. A stochastic delay component never changes the parameters. The parameters of the input event instances are the same as the parameters of the corresponding output event instances.
 Stochastic delay components activate their output events after a randomly distributed time the corresponding input event occurs. The distribution of the stochastic delay is defined with stochastic rules.  Stochastic delay components can model communication delays, processing delays, user interactions, and repair events.
@@ -98,7 +100,7 @@ delay Delay1 port PortIn : requires Interface1 ->
 }
 ```
 
-## Stochastic switch
+### Stochastic switch
 
 Stochastic switch components send out the incoming events instantaneously into a randomly selected output port. A stochastic switch component has only one input port and multiple (at least two) output ports. All the input and the output ports have to have the same interface. With stochastic rules, one can assign a probability to each outgoing port, and the sum of these probabilities has to be one. If an input event occurs, these probabilities define in which port the event will be sent out. The parameters of the input events are the same as the parameters of the corresponding output event. Stochastic switch components can model packet loss during communication and latent fault of diagnostic mechanisms.
 
@@ -109,7 +111,7 @@ switch Switch1 port PortIn : requires Interface1 ->
         PortOut2.* : 0.4;
 }
 ```
-## Stochastic sample
+### Stochastic sample
 
 Stochastic sample components have only one input and one output ports, which have the same interface. Stochastic sample components send out the input events into the output port instantaneously. The parameters of the output event instances might be different from the corresponding input event instances. I can use stochastic rules to assign a distribution to the first parameter of the output events. Therefore each time the output event is raised, the specified parameter will be a random sample of the corresponding stochastic distribution. With stochastic sample components, engineers can model sensor and diagnostic faults and measurement noise. 
 
