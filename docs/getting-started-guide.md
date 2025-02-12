@@ -25,25 +25,14 @@ header: Stochastic Gammma Documentation
 
 
 1. Make sure you are using the *Stochastic Gamma* perspective. 
-
    ![](images/stoch-gamma-perspective.PNG)
-
 2. Click on the "New" button in the menu bar.
-
    ![](images/click-new-eclipse.PNG)
-
 3. In the *Stochastic Gamma* cathegory choose *Stochastic Gamma Project* and click *Next*.
-
    ![](images/stoch-gamma-choose-wizard.PNG)
-
 4. Name the project and click *Next*.
-
    ![](images/stoch-gamma-name-project.PNG)
-
 5. Choose "*Stochastic Gamma Modeling Project*" and click *Next*.
-
    ![](images/stoch-gamma-choose-project-type.PNG)
-
 6. Click *Finish*.
-
    ![](images/stoch-gamma-finish-wizard.PNG)
