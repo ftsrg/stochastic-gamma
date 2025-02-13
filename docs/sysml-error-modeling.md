@@ -5,6 +5,9 @@ header: Stochastic Gammma Documentation
 ---
 # SysML dependability and performance modeling using Stochastic Gamma
 
+![alt text](image-1.png)
+
+
 ## Profile of Extra-Functional Aspects
 
 This profile contains abstract stereotypes, which define abstract non-deterministic aspects. The model-transformation approaches and tools use only this profile. Stereotypes from other profiles can specialize the nondeterministic stereotypes. All other stereotype-related information is domain-specific and helps only for the engineers to handle and understand the models.
@@ -15,7 +18,7 @@ The definitions of stereotypes are the following:
   - ***ExtraFunctionalAspect***: The collection of threats and behaviors, which are related to a given type of extra-functional aspect.
      - Realization between aspect and classifier: The classifier has all attribute, reception and behavior of the aspect.
      - Signal receptions of the aspect: The list of threat, which belong to the given extra-functional aspect.
-  - Constraint: The signal of the reception must be a threat. 
+     - Constraint: The signal of the reception must be a threat. 
      - Attributes of the aspect: The list of extra-functional attributes, which belong to the given extra-functional aspect.
   - ***ExtraFunctionalAspectBlock***: The collection of threats and behaviors, which are related to a given type of extra-functional aspect.
      - Realization between aspect and block: The block has all flow properties, reception and behavior of the aspect.
