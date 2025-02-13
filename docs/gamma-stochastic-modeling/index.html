@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.3.0, mkdocs-material-8.3.9" name="generator"/>
+<title>Stochastic Gamma modeling - Stochastic Gamma</title>
+<link href="../assets/stylesheets/main.1d29e8d0.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.cbb835fc.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../mkdocs.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>html.glightbox-open { overflow: initial; height: 100%; }</style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body data-md-color-accent="none" data-md-color-primary="none" data-md-color-scheme="" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#stochastic-gamma-modeling">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Stochastic Gamma" class="md-header__button md-logo" data-md-component="logo" href=".." title="Stochastic Gamma">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Stochastic Gamma
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Stochastic Gamma modeling
+            
+          </span>
+</div>
+</div>
+</div>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Stochastic Gamma" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Stochastic Gamma">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+    Stochastic Gamma
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+        Stochastic Gamma Documentation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../getting-started-guide/">
+        Getting started with Stochastic Gamma
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gamma-modeling/">
+        Gamma modeling
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          Stochastic Gamma modeling
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+        Stochastic Gamma modeling
+      </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-composition-models">
+    Stochastic Composition Models
+  </a>
+<nav aria-label="Stochastic Composition Models" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#asynchronous-composition">
+    Asynchronous Composition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#synchronous-composition">
+    Synchronous Composition
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#elementary-stochastic-components">
+    Elementary Stochastic Components
+  </a>
+<nav aria-label="Elementary Stochastic Components" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-rules">
+    Stochastic Rules
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-event-source">
+    Stochastic Event Source
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-delay">
+    Stochastic Delay
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-switch">
+    Stochastic switch
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-sample">
+    Stochastic sample
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../sysml-modeling/">
+        SysML dependability modeling
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../sysml-error-modeling/">
+        SysML extra-functional modeling
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../sysml-communication-modeling/">
+        SysML communication modeling
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../sysml-allocation-modeling/">
+        SysML allocation modeling
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../sysml-variant-modeling/">
+        SysML variant modeling
+      </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-composition-models">
+    Stochastic Composition Models
+  </a>
+<nav aria-label="Stochastic Composition Models" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#asynchronous-composition">
+    Asynchronous Composition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#synchronous-composition">
+    Synchronous Composition
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#elementary-stochastic-components">
+    Elementary Stochastic Components
+  </a>
+<nav aria-label="Elementary Stochastic Components" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-rules">
+    Stochastic Rules
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-event-source">
+    Stochastic Event Source
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-delay">
+    Stochastic Delay
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-switch">
+    Stochastic switch
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stochastic-sample">
+    Stochastic sample
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="stochastic-gamma-modeling">Stochastic Gamma Modeling</h1>
+<p>In this section, Stochastic Gamma Composition Language (SGCL)  is introduced. 
+Gamma Composition Language (GCL) uses high-level engineering modeling languages, hierarchical decomposition, and mixed semantics to facilitate the modeling of complex CPS systems, yet GCL can model only deterministic functional behavior.
+SGCL is based on GCL and extends mixed semantics modeling with stochastic components for extra-functional modeling of dependable cyber-physical systems. The semantics of SGCL is available here: <a href="http://inf.mit.bme.hu/sites/default/files/gamma/documents/stochastic_gamma_semantics.pdf">LINK</a>.
+As a result, engineers can develop the extra-functional model of the CPS systems by extending the functional GCL behavior with extra-functional, stochastic modeling elements. A typical use-case for SGCL is extending the synchronous software model with a stochastic asynchronous environment model.
+Using stochastic components, engineers can directly model unpredictable phenomena within the CPS system or in its environment, such as random hardware failures, communication or process delays, measurement noise, lost communication packages, and user requests.  </p>
+<h2 id="stochastic-composition-models">Stochastic Composition Models</h2>
+<h3 id="asynchronous-composition">Asynchronous Composition</h3>
+<p>Using SGCL, one can use asynchronous composite components, to define structure models where the components can interact instantaneously. Similarly to synchronous composite components, an asynchronous composite component can contain ports, port bindings, asynchronous component instances, and channels.
+In asynchronous composite components if there is an incoming event in the input port of a subcomponent then the event affects the other parts of the component right away. </p>
+<p>Stochastic asynchronous composite components are asynchronous composite components, which can contain elementary stochastic components and the instances of other stochastic asynchronous components. In addition, stochastic asynchronous composite components can contain deterministic asynchronous component instances.<br/>
+One can define a deterministic and a stochastic asynchronous composite component using the <em>async</em> and the <em>stochastic async</em> keywords respectively. In all other aspects, the definition of asynchronous composite components is the same as the definition of the synchronous composite components.</p>
+<div class="highlight"><pre><span></span><code>stochastic async Component1 [
+    //ports
+]{
+    //components, channels and bindings
+}
+</code></pre></div>
+<h3 id="synchronous-composition">Synchronous Composition</h3>
+<p>Synchronous composite components are structure definitions, which contain deterministic synchronous component instances, the channels between the subcomponents and port bindings. If a composite component recieves a trigger event, then the component sequentially executes its subcomponents. During execution, the events in the channels are transmitted among the subcomponents. The execution order and the rules of event transmission are defined by the type of the composite component, which can be a synchronous-reactive or cascade.</p>
+<p>Stochastic synchronous composite components are synchronous composite components, which can contain stochastic subcomponents. Similarly to a deterministic component, a stochastic synchronous component may have synchronous-reactive and cascade behavior. A stochastic synchronous components may contain elementary stochastic components and stochastic synchronous composite component instances beside deterministic synchronous component instances. Using stochastic components, engineers can model the extra-functional properties of the software components, such as communication messages are lost with a given probability or a software component fails seemingly at random times.</p>
+<p>One can use the <em>sync</em>, <em>cascade</em>, <em>stochastic sync</em> and <em>stochastic cascade</em> keywords to define the aforementioned types of composite components. After the keyword, the name of the component shall be specified. The channels, port bindings, and component instances shall be specified within curly brackets. </p>
+<div class="highlight"><pre><span></span><code>stochastic sync Component1 [
+    //ports
+]{
+    //components, channels and bindings
+}
+//...
+stochastic cascade Component2 [
+    //ports
+]{
+    //components, channels and bindings
+}
+</code></pre></div>
+<h2 id="elementary-stochastic-components">Elementary Stochastic Components</h2>
+<p>In SGCL, the deterministic and the stochastic behavior models are separated completely.
+I can add stochastic behavior to the deterministic descriptions with elementary stochastic components. The class diagram of the stochastic behavior models is depicted below. </p>
+<p><a class="glightbox" href="../image.png"><img alt="alt text" src="../image.png"/></a></p>
+<p>Elementary stochastic components are atomic components, where the occurrence of the output events has stochastic behavior. There are five types of elementary stochastic components, such as stochastic event source, stochastic delay, stochastic switch, and stochastic sample. Each type models a different kind of stochastic behavior that may occur in CPS systems. Elementary stochastic components can model that an event occurs randomly, an event is delayed randomly, an event goes out in a randomly selected port, and an event has a random parameter.</p>
+<h3 id="stochastic-rules">Stochastic Rules</h3>
+<p>In elementary stochastic components, one can assign a stochastic model to output events with stochastic rules. A stochastic rule contains a stochastic model and an event filter, which references a set of output events of the elementary stochastic component. A stochastic model can be a distribution or a probability. In stochastic rules, engineers can use arbitrary distributions even multinomial and time-dependent distributions. There are three types of event filters: port event filter, port filter, and component filter. The port event filter references a given event of a given output port. The port filter references all events of a given output port. The component filter reference all output events of all output ports. </p>
+<p>In a stochastic component, an output event can be specified by two different event filters if the type of the event filters is not the same. In this case, the more specific event filter will assign a stochastic model to the output event.  For example, in a stochastic component, there are two stochastic rules: one has a component filter, and one has a port event filter. Then in this component, the stochastic rule with the port event filter specifies assigning a stochastic model to an output event. 
+All the other output events have the stochastic model of the rule with the component filter.</p>
+<h3 id="stochastic-event-source">Stochastic Event Source</h3>
+<p>In SGCL models, stochastic event sources define components that generate output events in a randomly selected time. 
+The time when a stochastic event source activates its outgoing events is determined by distribution. The distribution of the occurrence time is assigned to the output events by stochastic rules. In stochastic event sources, each outgoing event is activated only once per simulation. 
+A stochastic event source contains any number of output ports but no input port. Stochastic event sources can model one-time random events such as random hardware failures.</p>
+<p>There is another type of stochastic event source called stochastic periodic event source. In contrast, stochastic periodic event sources can activate their output events multiple times. The periodicity of the events is defined by a stochastic distribution. As a result, the occurrence of the output events follows a renewable process. Stochastic periodic event sources can model user requests, transient faults, and clock events.</p>
+<div class="highlight"><pre><span></span><code>source EvenSource1 port Port1 : provides Interface1 {
+    Port1.Event1 : Exponential(10.0);
+}
+periodic source EvenSource2 port Port1 : provides Interface1 {
+    Port1.Event1 : Exponential(10.0);
+}
+</code></pre></div>
+<h3 id="stochastic-delay">Stochastic Delay</h3>
+<p>Stochastic delay components send out all incoming events after a random delay. A stochastic delay component contains only one input and output port, which has the same interface. A stochastic delay component never changes the parameters. The parameters of the input event instances are the same as the parameters of the corresponding output event instances.
+Stochastic delay components activate their output events after a randomly distributed time the corresponding input event occurs. The distribution of the stochastic delay is defined with stochastic rules.  Stochastic delay components can model communication delays, processing delays, user interactions, and repair events.</p>
+<div class="highlight"><pre><span></span><code>delay Delay1 port PortIn : requires Interface1 -&gt;
+    port PortOut : provides {
+        PortOut.*: Normal(1.0,0.2);
+}
+</code></pre></div>
+<h3 id="stochastic-switch">Stochastic switch</h3>
+<p>Stochastic switch components send out the incoming events instantaneously into a randomly selected output port. A stochastic switch component has only one input port and multiple (at least two) output ports. All the input and the output ports have to have the same interface. With stochastic rules, one can assign a probability to each outgoing port, and the sum of these probabilities has to be one. If an input event occurs, these probabilities define in which port the event will be sent out. The parameters of the input events are the same as the parameters of the corresponding output event. Stochastic switch components can model packet loss during communication and latent fault of diagnostic mechanisms.</p>
+<div class="highlight"><pre><span></span><code>switch Switch1 port PortIn : requires Interface1 -&gt;
+    port PortOut1 : provides, port PortOut2 : provides, {
+        PortOut1.* : 0.6;
+        PortOut2.* : 0.4;
+}
+</code></pre></div>
+<h3 id="stochastic-sample">Stochastic sample</h3>
+<p>Stochastic sample components have only one input and one output ports, which have the same interface. Stochastic sample components send out the input events into the output port instantaneously. The parameters of the output event instances might be different from the corresponding input event instances. I can use stochastic rules to assign a distribution to the first parameter of the output events. Therefore each time the output event is raised, the specified parameter will be a random sample of the corresponding stochastic distribution. With stochastic sample components, engineers can model sensor and diagnostic faults and measurement noise. </p>
+<div class="highlight"><pre><span></span><code>delay Sample1 port PortIn : requires PInterface1 -&gt;
+    port PortOut : provides {
+        PortOut.Event2::Parameter1 : Uniform(0.0,1.0);
+}
+</code></pre></div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Gamma modeling" class="md-footer__link md-footer__link--prev" href="../gamma-modeling/" rel="prev">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</div>
+<div class="md-footer__title">
+<div class="md-ellipsis">
+<span class="md-footer__direction">
+                Previous
+              </span>
+              Gamma modeling
+            </div>
+</div>
+</a>
+<a aria-label="Next: SysML dependability modeling" class="md-footer__link md-footer__link--next" href="../sysml-modeling/" rel="next">
+<div class="md-footer__title">
+<div class="md-ellipsis">
+<span class="md-footer__direction">
+                Next
+              </span>
+              SysML dependability modeling
+            </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+<script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "width": "10vw", "height": "10vw", "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom"});})</script></body>
+</html>
